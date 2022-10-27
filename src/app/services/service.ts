@@ -4,18 +4,29 @@ import { Observable } from 'rxjs';
 import { AppConfigService } from '../helpers/app-config.service';
 import { Constants } from '../helpers/constants/constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export abstract class Service {
+  baseUrl = '';
   constructor(
     public httpClient: HttpClient,
     protected configService: AppConfigService
-  ) {}
+  ) {
+    if (this.configService.getConfig().api.baseUrl) {
+      this.baseUrl = this.configService.getConfig().api.baseUrl;
+    } else {
+      this.configService.load().then(() => {
+        this.baseUrl = this.configService.getConfig().api.baseUrl;
+      });
+    }
+  }
 
   get(url: string, params?: {}, responseType?: string): Observable<any> {
     switch (responseType) {
       case 'text':
         return this.httpClient.get(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           {
             headers: this.createHeaders().set('skipLoading', 'true') || {},
             params,
@@ -24,7 +35,7 @@ export abstract class Service {
         );
       case 'blob':
         return this.httpClient.get(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           {
             headers: this.createHeaders().set('skipLoading', 'true') || {},
             params,
@@ -33,7 +44,7 @@ export abstract class Service {
         );
       default:
         return this.httpClient.get(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           {
             headers: this.createHeaders().set('skipLoading', 'true') || {},
             params,
@@ -48,10 +59,11 @@ export abstract class Service {
     params?: {},
     responseType?: string
   ): Observable<any> {
+    console.log('post', this.baseUrl + url)
     switch (responseType) {
       case 'text':
         return this.httpClient.post(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -61,7 +73,7 @@ export abstract class Service {
         );
       case 'blob':
         return this.httpClient.post(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -71,7 +83,7 @@ export abstract class Service {
         );
       case 'arraybuffer':
         return this.httpClient.post(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -81,7 +93,7 @@ export abstract class Service {
         );
       default:
         return this.httpClient.post(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -95,7 +107,7 @@ export abstract class Service {
     switch (responseType) {
       case 'text':
         return this.httpClient.put(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -104,7 +116,7 @@ export abstract class Service {
         );
       default:
         return this.httpClient.put(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -117,7 +129,7 @@ export abstract class Service {
     switch (responseType) {
       case 'text':
         return this.httpClient.patch(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -126,7 +138,7 @@ export abstract class Service {
         );
       default:
         return this.httpClient.patch(
-          this.configService.getConfig().api.baseUrl + url,
+          this.baseUrl + url,
           data,
           {
             headers: this.createHeaders() || {},
@@ -139,7 +151,7 @@ export abstract class Service {
     switch (responseType) {
       case 'text':
         return this.httpClient.delete(
-          this.configService.getConfig().api.baseUrl + url + id,
+          this.baseUrl + url + id,
           {
             headers: this.createHeaders() || {},
             responseType: 'text',
@@ -147,7 +159,7 @@ export abstract class Service {
         );
       default:
         return this.httpClient.delete(
-          this.configService.getConfig().api.baseUrl + url + id,
+          this.baseUrl + url + id,
           {
             headers: this.createHeaders() || {},
           }

@@ -37,7 +37,7 @@ import { AppLayoutComponent } from "./app.layout.component";
         RadioButtonModule,
         InputSwitchModule,
         RippleModule,
-        RouterModule
+        RouterModule,
     ],
     exports: [AppLayoutComponent]
 })

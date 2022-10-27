@@ -1,5 +1,18 @@
-export interface AppConfig {
+export class AppConfig {
   api: {
-    baseUrl: string;
+    baseUrl: string
   };
+  slogan: {
+    content: string,
+    author: string
+  };
+  constructor() {
+    this.api = {
+      baseUrl: ''
+    };
+    this.slogan = {
+      content: '',
+      author: ''
+    };
+  }
 }
