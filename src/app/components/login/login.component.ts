@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { AppConfigService } from 'src/app/helpers/app-config.service';
-import { NotificationService } from 'src/app/helpers/notification.service';
+import { Constants } from 'src/app/helpers/constants/constants';
 import { AuthService } from 'src/app/services/auth.service';
 const nonWhiteSpaceRegExp: RegExp = new RegExp("\\S");
 @Component({
@@ -19,8 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(
     public configService: AppConfigService,
     private fb: FormBuilder,
-    private messageService: MessageService,
-    private notification: NotificationService,
+    private route: ActivatedRoute,
+    private router: Router,
     private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
@@ -39,11 +40,13 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           if (res.isValid) {
-            
-          } else {
-            this.notification.error('Đăng nhập thất bại', res.errors[0].errorMessage);
+            localStorage.setItem(Constants.TOKEN, res.jsonData.value);
+            let returnUrl = '/users';
+            if (this.route.snapshot.queryParams['returnUrl']) {
+              returnUrl = this.route.snapshot.queryParams['returnUrl'];
+            }
+            this.router.navigate([returnUrl]);
           }
-          console.log(res);
         }
       });
     } else {

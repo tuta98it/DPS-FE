@@ -12,9 +12,9 @@ import { authReducer } from './reducers/auth.reducer';
     EffectsModule.forRoot([AuthEffects]),
 
     // Signature matches AppState interface
-    StoreModule.forRoot({
-      auth: authReducer,
-    }),
+    // StoreModule.forRoot({
+    //   auth: authReducer,
+    // }),
     
   ]
 })

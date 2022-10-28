@@ -4,7 +4,11 @@ import { AppComponent } from './app.component';
 import { AppLayoutModule } from './components/layout/app.layout.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppConfigService } from './helpers/app-config.service';
-import { AppStateModule } from './helpers/app-state/app-state.module';
+import { CustomHttpInterceptor } from './helpers/interceptors/custom-http.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { NotificationService } from './helpers/notification.service';
 export function configServiceFactory(config: AppConfigService) {
   return () => config.load();
 }
@@ -13,12 +17,16 @@ export function configServiceFactory(config: AppConfigService) {
       AppComponent
     ],
     imports: [
+      AppLayoutModule,
       AppRoutingModule,
-      AppStateModule,
-      AppLayoutModule
+      ToastModule,
+      // AppStateModule,
     ],
     providers: [
       { provide: LocationStrategy, useClass: PathLocationStrategy },
+      { provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true },
+      MessageService,
+      NotificationService
     ],
     bootstrap: [AppComponent]
 })
