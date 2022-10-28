@@ -7,7 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { NotificationService } from 'src/app/helpers/notification.service';
+import { NotificationService } from 'src/app/shared/notification.service';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NotificationService } from 'src/app/helpers/notification.service';
     FormsModule,
     ReactiveFormsModule,
     PasswordModule,
+    RippleModule,
     ToastModule
   ],
   providers: [

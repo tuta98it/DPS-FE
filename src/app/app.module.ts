@@ -3,12 +3,12 @@ import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppLayoutModule } from './components/layout/app.layout.module';
 import { AppRoutingModule } from './app-routing.module';
-import { AppConfigService } from './helpers/app-config.service';
-import { CustomHttpInterceptor } from './helpers/interceptors/custom-http.interceptor';
+import { AppConfigService } from './shared/app-config.service';
+import { CustomHttpInterceptor } from './shared/interceptors/custom-http.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { NotificationService } from './helpers/notification.service';
+import { NotificationService } from './shared/notification.service';
 export function configServiceFactory(config: AppConfigService) {
   return () => config.load();
 }
