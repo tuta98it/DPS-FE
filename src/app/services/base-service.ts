@@ -1,6 +1,10 @@
+import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Service } from "./service";
 
+@Injectable({
+  providedIn: 'root'
+})
 export abstract class BaseService extends Service {
   search(url: string, data: any): Observable<any> {
     return this.post(url, data);

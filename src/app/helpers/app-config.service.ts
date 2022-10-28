@@ -5,9 +5,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { AppConfig } from '../models/app-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppConfigService {
-  private config!: AppConfig;
+  private config = new AppConfig();
   
   constructor(private http: HttpClient) {}
 
@@ -44,6 +46,7 @@ export class AppConfigService {
 
   private setConfig = (data: any): void => {
     this.config.api.baseUrl = 'https://' + data.api.baseUrl;
+    this.config.slogan = data.slogan;
   };
 
   private errorHandler(error: HttpErrorResponse) {

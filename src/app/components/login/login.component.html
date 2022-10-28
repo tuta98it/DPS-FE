@@ -1,32 +1,53 @@
-<div class="surface-0 flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
-    <div class="grid justify-content-center p-2 lg:p-0" style="min-width:80%">
-        <div class="col-12 mt-5 xl:mt-0 text-center">
-            <img class="col-5" src="assets/images/logo.png" alt="logo">               
-        </div>
-        <div class="col-12 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
-            <div class="h-full w-full m-0 py-7 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
-                <div class="text-center mb-5">
-                    <div class="text-900 text-3xl font-medium mb-3">DPS</div>
-                    <span class="text-600 font-medium">Sign in to continue</span>
-                </div>
-
-                <div class="w-full md:w-10 mx-auto">
-                    <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
-                    <input id="email1" type="text" placeholder="Email address" pInputText class="w-full mb-3" style="padding:1rem;">
-
-                    <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
-                    <p-password id="password1" [(ngModel)]="password" placeholder="Password" [toggleMask]="true" styleClass="w-full mb-3"></p-password>
-
-                    <div class="flex align-items-center justify-content-between mb-5">
-                        <div class="flex align-items-center">
-                            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
-                            <label for="rememberme1">Remember me</label>
-                        </div>
-                        <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
-                    </div>
-                    <button pButton pRipple label="Sign In" class="w-full p-3 text-xl"></button>
-                </div>
-            </div>
-        </div>
+<p-toast [showTransformOptions]="'translateX(100%)'" [hideTransformOptions]="'translateX(-100%)'"></p-toast>
+<div class="min-h-screen h-full overflow-hidden">
+  <div>
+    <img class="fixed left-0 h-full w-7" src="assets/images/img-login.jpg" />
+    <img class="fixed left-0 h-full w-full opacity-90" src="assets/images/bg_left.png" />
+  </div>
+  <div>
+    <img class="fixed left-0 h-full w-full" src="assets/images/bg_right.png" />
+  </div>
+  <div class="grid">
+    <div class="col-6 mt-8">
+      <div class="mt-8 m-auto relative z-1 text-center text-white">
+        <img class="h-9rem mt-8" src="assets/images/msc-logo-small.png" />
+        <h1 class="text-6xl mt-5">DPS</h1>
+        <h2 class="font-light mt-6">{{slogan.content}}
+        </h2>
+        <h2 class="font-light mt-5">-- {{slogan.author}} --
+        </h2>
+      </div>
     </div>
+    <div class="col-5 col-offset-1 relative z-1 text-center mt-8 p-8">
+      <img class="h-10rem relative mt-8 pt-6" src="assets/images/logo.png" />
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="col-8 col-offset-2">
+          <div class="mt-6 mb-5">
+            <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username" 
+              class="w-full border-round-3xl border-500 p-3 h-3rem">
+            <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+              *Vui lòng nhập tên đăng nhập
+            </div>
+          </div>
+            <div class="mb-5">
+              <p-password [feedback]="false" [toggleMask]="true" formControlName="password"
+                styleClass="w-full p-password p-component p-inputwrapper p-input-icon-right" placeholder="Mật khẩu"
+                inputStyleClass="border-round-3xl border-500 p-3 h-3rem">
+              </p-password>
+              <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['password'].invalid && 
+                (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+                *Vui lòng nhập mật khẩu
+              </div>
+            </div>
+            <button type="submit" class="w-full border-none border-round-3xl cursor-pointer
+              h-3rem bg-orange-500 text-white active:bg-orange-400 mb-3">
+              Đăng nhập
+            </button>
+            <!-- <div class="forgot-password">
+              <a id="forget-password" class="forget-password">Quên mật khẩu?</a>
+            </div> -->
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
