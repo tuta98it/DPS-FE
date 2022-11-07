@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { AuthService } from 'src/app/services/auth.service';
+import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 const nonWhiteSpaceRegExp: RegExp = new RegExp("\\S");
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private authState: AuthStateService,
     private authService: AuthService
   ) {
     this.loginForm = this.fb.group({
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           if (res.isValid) {
             localStorage.setItem(Constants.TOKEN, res.jsonData.value);
+            this.authState.dispatch(res.jsonData.value);
             let returnUrl = '/users';
             if (this.route.snapshot.queryParams['returnUrl']) {
               returnUrl = this.route.snapshot.queryParams['returnUrl'];

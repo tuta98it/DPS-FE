@@ -20,7 +20,6 @@ export function configServiceFactory(config: AppConfigService) {
       AppLayoutModule,
       AppRoutingModule,
       ToastModule,
-      // AppStateModule,
     ],
     providers: [
       { provide: LocationStrategy, useClass: PathLocationStrategy },
