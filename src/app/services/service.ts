@@ -59,7 +59,6 @@ export abstract class Service {
     params?: {},
     responseType?: string
   ): Observable<any> {
-    console.log('post', this.baseUrl + url)
     switch (responseType) {
       case 'text':
         return this.httpClient.post(

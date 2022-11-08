@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Table } from 'primeng/table';
-import { Item } from 'src/app/models/item';
-import { ItemService } from 'src/app/services/item.service';
+import { UserGroupService } from 'src/app/services/user-group.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-user-groups',
@@ -9,118 +10,144 @@ import { ItemService } from 'src/app/services/item.service';
   styleUrls: ['./user-groups.component.scss']
 })
 export class UserGroupsComponent implements OnInit {
-  itemDialog: boolean = false;
-
-  deleteItemDialog: boolean = false;
-
-  deleteItemsDialog: boolean = false;
-
-  items: Item[] = [];
-
-  item: Item = {};
-
-  selectedItems: Item[] = [];
-
-  submitted: boolean = false;
-
+  isVisibleUserGroupDialog = false;
+  deleteItemDialog = false;
+  userGroups: any = [];
   cols: any[] = [];
-
-  statuses: any[] = [];
-
-  rowsPerPageOptions = [5, 10, 20];
-
-  constructor(private itemService: ItemService) { }
+  selectedUserGroup = {};
+  userGroupDialogHeader = '';
+  isEditUserGroup = false;
+  userGroupForm: FormGroup;
+  deletedItem: any = {};
+  searchData = {
+    skip: 0,
+    take: 20,
+    keyword: ''
+  }
+  total = 0;
+  constructor(
+    private fb: FormBuilder,
+    private notification: NotificationService,
+    private userGroupService: UserGroupService
+  ) {
+    this.userGroupForm = this.fb.group({
+      id: [null],
+      name: [null, [Validators.required]],
+      desc: [null],
+    });
+  }
 
   ngOnInit() {
-    this.itemService.getItems().then((data: any) => this.items = data);
-
+    // this.userGroupService.getUserGroups().then((data: any) => this.userGroups = data);
+    // this.userGroups = this.userGroupService.getUserGroups();
     this.cols = [
-      { field: 'code', header: 'Code' },
-      { field: 'price', header: 'Price' },
-      { field: 'category', header: 'Category' },
-      { field: 'rating', header: 'Reviews' },
-      { field: 'inventoryStatus', header: 'Status' }
+      { field: 'name', header: 'Tên nhóm', width: '30rem' },
+      { field: 'desc', header: 'Mô tả', width: '80rem' }
     ];
+    this.search();
+  }
 
-    this.statuses = [
-      { label: 'INSTOCK', value: 'instock' },
-      { label: 'LOWSTOCK', value: 'lowstock' },
-      { label: 'OUTOFSTOCK', value: 'outofstock' }
-    ];
+  search() {
+    this.userGroupService.search(this.userGroupService.url+ '/Search', this.searchData).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.userGroups = res.jsonData.data;
+          console.log("search", this.userGroups)
+          this.total = res.jsonData.total;
+        }
+      }
+    });
   }
 
   openNew() {
-    this.item = {};
-    this.submitted = false;
-    this.itemDialog = true;
+    this.userGroupForm.patchValue({
+      id: 0,
+      name: '',
+      desc: ''
+    });
+    this.isVisibleUserGroupDialog = true;
+    this.isEditUserGroup = false;
+    this.userGroupDialogHeader = 'Thêm mới group';
   }
 
-  deleteSelectedItems() {
-    this.deleteItemsDialog = true;
+  editItem(item: any) {
+    this.userGroupForm.patchValue({
+      id: item.groupId,
+      name: item.name,
+      desc: item.desc
+    });
+    this.isVisibleUserGroupDialog = true;
+    this.isEditUserGroup = false;
+    this.userGroupDialogHeader = 'Sửa thông tin group';
   }
 
-  editItem(item: Item) {
-    this.item = { ...item };
-    this.itemDialog = true;
-  }
-
-  deleteItem(item: Item) {
+  deleteItem(item: any) {
+    this.deletedItem = item;
     this.deleteItemDialog = true;
-    this.item = { ...item };
   }
 
-  confirmDeleteSelected() {
-    this.deleteItemsDialog = false;
-    this.items = this.items.filter(val => !this.selectedItems.includes(val));
-    // this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
-    this.selectedItems = [];
+  changePage(data: any) {
+    console.log("changePage", data);
   }
 
   confirmDelete() {
-    this.deleteItemDialog = false;
-    this.items = this.items.filter(val => val.id !== this.item.id);
-    // this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
-    this.item = {};
+    // this.deleteItemDialog = false;
+    // this.items = this.items.filter(val => val.id !== this.item.id);
+    // // this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
+    // this.item = {};
   }
 
   hideDialog() {
-    this.itemDialog = false;
-    this.submitted = false;
+    this.isVisibleUserGroupDialog = false;
+  }
+
+  selectUserGroup(userGroup: any) {
+    this.selectedUserGroup = userGroup;
   }
 
   saveItem() {
-    this.submitted = true;
-
-    if (this.item.name?.trim()) {
-      if (this.item.id) {
-        // @ts-ignore
-        this.item.inventoryStatus = this.item.inventoryStatus.value ? this.item.inventoryStatus.value : this.item.inventoryStatus;
-        this.items[this.findIndexById(this.item.id)] = this.item;
-        // this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Updated', life: 3000 });
+    if (this.userGroupForm.valid) {
+      if (!this.isEditUserGroup) {
+        this.createUserGroup();
       } else {
-        this.item.id = this.createId();
-        this.item.code = this.createId();
-        this.item.image = 'item-placeholder.svg';
-        // @ts-ignore
-        this.item.inventoryStatus = this.item.inventoryStatus ? this.item.inventoryStatus.value : 'INSTOCK';
-        this.items.push(this.item);
-        // this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Created', life: 3000 });
+        this.updateUserGroup();
       }
-
-      this.items = [...this.items];
-      this.itemDialog = false;
-      this.item = {};
+    } else {
+      Object.values(this.userGroupForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
     }
+  }
+
+  updateUserGroup() {
+    this.userGroupService.update(this.userGroupService.url, this.userGroupForm.value.id, this.userGroupForm.value).subscribe({
+      next: (res) => {
+        this.notification.success('Cập nhật thành công', '');
+        this.isVisibleUserGroupDialog = false;
+      }
+    });
+  }
+
+  createUserGroup() {
+    this.userGroupService.create(this.userGroupService.url, this.userGroupForm.value).subscribe({
+      next: (res) => {
+        this.notification.success('Thêm mới thành công', '');
+        this.isVisibleUserGroupDialog = false;
+      }
+    });
   }
 
   findIndexById(id: string): number {
     let index = -1;
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.items[i].id === id) {
-        index = i;
-        break;
-      }
-    }
+    // for (let i = 0; i < this.items.length; i++) {
+    //   if (this.items[i].id === id) {
+    //     index = i;
+    //     break;
+    //   }
+    // }
 
     return index;
   }

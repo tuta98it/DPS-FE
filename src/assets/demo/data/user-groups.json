@@ -1,0 +1,106 @@
+{
+	"data": [
+		{
+			"Idx": 1,
+			"groupId": "5cc1178f138d38442816bae9",
+			"name": "Test",
+			"desc": "123"
+		},
+		{
+			"Idx": 2,
+			"groupId": "5cc13b0b8b4340182c3c62b1",
+			"name": "Danh sửa",
+			"desc": "5415"
+		},
+		{
+			"Idx": 3,
+			"groupId": "5cc276d10681251e94360c2d",
+			"name": "Tú",
+			"desc": "Đây là mô tả"
+		},
+		{
+			"Idx": 4,
+			"groupId": "5cd287206fad4e11603b6c0c",
+			"name": "Test form",
+			"desc": "Đây là mô tả"
+		},
+		{
+			"Idx": 5,
+			"groupId": "5cd2a5fea4f7d0455848999d",
+			"name": "thống kê 30/7",
+			"desc": "Em đâu hay biết thu tàn"
+		},
+		{
+			"Idx": 6,
+			"groupId": "5cd2a5fea4f7d04558490000",
+			"name": "A",
+			"desc": "Niềm tin đã mất giọt nước mắt cuốn kí ức em chìm sâu tìm về nơi đâu cô đơn lạc trôi giữa bầu trời"
+		},
+		{
+			"Idx": 7,
+			"groupId": "5d5cb8b280554419786a0e4a",
+			"name": "Long test",
+			"desc": "abc 123456789"
+		},
+		{
+			"Idx": 8,
+			"groupId": "5d6f3f183c4b1a427c5335e5",
+			"name": "Nhóm kĩ thuật viên",
+			"desc": "a"
+		},
+		{
+			"Idx": 9,
+			"groupId": "5d7085c5b1a92313e02c8343",
+			"name": "Nhóm Bác sĩ xem",
+			"desc": "chỉ xem "
+		},
+		{
+			"Idx": 10,
+			"groupId": "5d70aac3189a794044e0c4fc",
+			"name": "Bác sĩ duyệt",
+			"desc": "duyệt báo cáo"
+		},
+		{
+			"Idx": 11,
+			"groupId": "5d70aae5189a794044e0c4fd",
+			"name": "Bác sĩ đọc",
+			"desc": "Đọc báo cáo"
+		},
+		{
+			"Idx": 12,
+			"groupId": "5e61bb98b2c724046c61a049",
+			"name": "Group của Mến",
+			"desc": ""
+		},
+		{
+			"Idx": 13,
+			"groupId": "5e635dd9ae851a11c04d4edd",
+			"name": "Có quyền cấu hình hệ thống",
+			"desc": ""
+		},
+		{
+			"Idx": 14,
+			"groupId": "5e6371876e6e005308382bdc",
+			"name": "Danh Test",
+			"desc": ""
+		},
+		{
+			"Idx": 15,
+			"groupId": "5e6b5b7d7c706a169863b9c2",
+			"name": "Danh Thêm",
+			"desc": ""
+		},
+		{
+			"Idx": 16,
+			"groupId": "5e6b60c6134d3053007f3e52",
+			"name": "Danh nd",
+			"desc": ""
+		},
+		{
+			"Idx": 17,
+			"groupId": "5e71d0ee6ec62a1234396ac2",
+			"name": "r",
+			"desc": ""
+		}
+	]
+}

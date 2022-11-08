@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'm-table',
@@ -8,7 +8,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MTableComponent implements OnInit {
   @Input() items: any[] = [];
   @Input() cols: any[] = [];
-  selectedItems = [];
+  @Input() totalRecords = 0;
+  @Input() dataKey = '';
+  @Input() take = 20;
+  @Output() editItem = new EventEmitter<any>();
+  @Output() deleteItem = new EventEmitter<any>();
+  @Output() selectRow = new EventEmitter<any>();
+  @Output() changePage = new EventEmitter<any>();
+
+  selectedItem = {};
   constructor() { }
 
   ngOnInit(): void {

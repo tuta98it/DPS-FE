@@ -31,7 +31,7 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Xem phân quyền user',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['#']
+                                routerLink: ['/crud']
                             },
                             {
                                 label: 'Danh sách user group',
@@ -41,7 +41,7 @@ export class AppMenuComponent implements OnInit {
                             {
                                 label: 'Xem phân quyền user group',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['#']
+                                routerLink: ['/crud']
                             },
                         ]
                     },

@@ -9,9 +9,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from './shared/notification.service';
-export function configServiceFactory(config: AppConfigService) {
-  return () => config.load();
-}
+
 @NgModule({
     declarations: [
       AppComponent

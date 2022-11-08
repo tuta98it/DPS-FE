@@ -1,32 +1,28 @@
-<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [rows]="10" [paginator]="true"
-  [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand" 
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedItems"
-    styleClass="p-datatable-xs p-datatable-gridlines" selectionMode="multiple" [rowHover]="true" dataKey="id">
+<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="changePage.emit($event)" [paginator]="true" [rows]="take"
+  [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand" [totalRecords]="totalRecords"
+  currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single" [(selection)]="selectedItem"
+  styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true" [dataKey]="dataKey" (onRowSelect)="selectRow.emit(selectedItem)">
   <ng-template pTemplate="header">
     <tr>
       <th style="width: 3rem" class="text-center">
-        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        STT
       </th>
-      <th *ngFor="let col of cols;" pResizableColumn>{{col['header']}}</th>
-      <th></th>
+      <th *ngFor="let col of cols; let i = index" pResizableColumn>{{col['header']}}</th>
+      <th style="width: auto"></th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-item>
-    <tr>
+  <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="item">
       <td class="text-center">
-        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+        {{rowIndex+1}}
       </td>
-      <td style="width:14%; min-width:10rem;" *ngFor="let col of cols;">
+      <td style="min-width:10rem;" [style.width]="col.width" *ngFor="let col of cols;">
         {{item[col['field']]}}
       </td>
       <td>
-        <div class="flex">
-          <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-            (click)="editItem(item)"></button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-            (click)="deleteItem(item)"></button> -->
-          <button pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs"></button>
-          <button pButton pRipple icon="pi pi-trash" class="mr-3 p-button-rounded p-button-warning p-button-xs"></button>
+        <div class="flex mx-1">
+          <button pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="editItem.emit(item)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="deleteItem.emit(item)"></button>
         </div>
       </td>
     </tr>

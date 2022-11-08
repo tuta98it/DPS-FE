@@ -810,7 +810,8 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
 .p-dropdown .p-dropdown-trigger {
   background: transparent;
   color: #6c757d;
-  width: 3rem;
+  width: 2rem;
+  padding-top: 1px;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
@@ -3536,9 +3537,10 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 .p-paginator .p-dropdown {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
-  height: 3rem;
+  height: 2.5rem;
 }
 .p-paginator .p-dropdown .p-dropdown-label {
+  padding: 0.5rem 0 0.5rem 0.5rem;
   padding-right: 0;
 }
 .p-paginator .p-paginator-page-input {

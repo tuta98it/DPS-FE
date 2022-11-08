@@ -1,136 +1,34 @@
 <div class="grid">
-  <div class="col-12">
-    <div class="card">
+  <div class="col-12 pb-0">
+    <div class="card admin-content">
       <div class="my-2 flex justify-content-between flex-wrap">
         <span class="block mt-2 md:mt-0 p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <!-- <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."
-            class="w-full sm:w-auto" /> -->
         </span>
         <div class="flex justify-content-end flex-wrap">
-          <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+          <button pButton pRipple label="Danh sách user" icon="pi pi-users" class="p-button-help mr-2 p-button-sm"></button>
+          <button pButton pRipple label="Thêm mới group" icon="pi pi-plus" class="p-button-success p-button-sm"
             (click)="openNew()"></button>
-          <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
-            (click)="deleteSelectedItems()" [disabled]="!selectedItems || !selectedItems.length"></button>
         </div>
       </div>
-      <!-- <p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [rows]="10"
-        [globalFilterFields]="['name','country.name','representative.name','status']" [rows]="10" [paginator]="true"
-        [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedItems"
-         styleClass="p-datatable-xs" selectionMode="multiple" [rowHover]="true" dataKey="id">
-        <ng-template pTemplate="header">
-          <tr>
-            <th style="width: 3rem">
-              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th pSortableColumn="code">Code <p-sortIcon field="code"></p-sortIcon>
-            </th>
-            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
-            </th>
-            <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon>
-            </th>
-            <th pSortableColumn="category">Category <p-sortIcon field="category"></p-sortIcon>
-            </th>
-            <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon>
-            </th>
-            <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon>
-            </th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-item>
-          <tr>
-            <td>
-              <p-tableCheckbox [value]="item"></p-tableCheckbox>
-            </td>
-            <td style="width:14%; min-width:10rem;">
-              {{item.code || item.id}}
-            </td>
-            <td style="width:14%; min-width:10rem;">
-              
-              {{item.name}}
-            </td>
-            <td style="width:14%; min-width:8rem;">
-              
-              {{item.price | currency:'USD'}}
-            </td>
-            <td style="width:14%; min-width:10rem;">
-              
-              {{item.category}}
-            </td>
-            <td style="width:14%; min-width: 10rem;">
-            </td>
-            <td style="width:14%; min-width: 10rem;">
-              <span
-                [class]="'item-badge status-' + (item.inventoryStatus ? item.inventoryStatus.toLowerCase() : '')">{{item.inventoryStatus}}</span>
-            </td>
-            <td>
-              <div class="flex">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2 p-button-xs"
-                  (click)="editItem(item)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs"
-                  (click)="deleteItem(item)"></button>
-              </div>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table> -->
-      <m-table [cols]="cols" [items]="items"></m-table>
+      <m-table [cols]="cols" [items]="userGroups" (editItem)="editItem($event)" (deleteItem)="deleteItem($event)" [take]="searchData.take"
+        (selectRow)="selectUserGroup($event)" (changePage)="changePage($event)" [totalRecords]="total" [dataKey]="'id'"></m-table>
     </div>
 
-    <p-dialog [(visible)]="itemDialog" [style]="{width: '450px'}" header="Item Details" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="isVisibleUserGroupDialog" [style]="{width: '450px'}" [header]="userGroupDialogHeader" [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
-        <img [src]="'assets/demo/images/product/' + item.image" [alt]="item.image" width="150"
-          class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="item.image">
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" pInputText id="name" [(ngModel)]="item.name" required autofocus
-            [ngClass]="{'ng-invalid ng-dirty' : submitted && !item.name}" />
-          <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.name">Name is required.</small>
-        </div>
-        <div class="field">
-          <label for="description">Description</label>
-          <textarea id="description" pInputTextarea [(ngModel)]="item.description" required rows="3"
-            cols="20"></textarea>
-        </div>
-
-        <div class="field">
-          <label class="mb-3">Category</label>
-          <div class="formgrid grid">
-            <div class="field-radiobutton col-6">
-              <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="item.category">
-              </p-radioButton>
-              <label for="category1">Accessories</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="item.category">
-              </p-radioButton>
-              <label for="category2">Clothing</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="item.category">
-              </p-radioButton>
-              <label for="category3">Electronics</label>
-            </div>
-            <div class="field-radiobutton col-6">
-              <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="item.category"></p-radioButton>
-              <label for="category4">Fitness</label>
+        <form [formGroup]="userGroupForm">
+          <div class="field">
+            <label for="name">Tên group</label>
+            <input type="text" pInputText id="name" formControlName="name" required autofocus/>
+            <div class="text-red-500 text-left" *ngIf="userGroupForm.controls['name'].invalid && 
+              (userGroupForm.controls['name'].dirty || userGroupForm.controls['name'].touched)">*Tên group không được để trống
             </div>
           </div>
-        </div>
-
-        <div class="formgrid grid">
-          <div class="field col">
-            <label for="price">Price</label>
-            <p-inputNumber id="price" [(ngModel)]="item.price" mode="currency" currency="USD" locale="en-US">
-            </p-inputNumber>
+          <div class="field">
+            <label for="description">Mô tả</label>
+            <textarea id="description" pInputText formControlName="desc"  rows="3"></textarea>
           </div>
-          <div class="field col">
-            <label for="quantity">Quantity</label>
-            <p-inputNumber id="quantity" [(ngModel)]="item.quantity"></p-inputNumber>
-          </div>
-        </div>
+        </form>
       </ng-template>
 
       <ng-template pTemplate="footer">
@@ -139,28 +37,15 @@
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deleteItemDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-      <div class="flex align-items-center justify-content-center">
+    <p-dialog [(visible)]="deleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
+      <div class="flex align-items-center justify-content-begin">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="item">Are you sure you want to delete <b>{{item.name}}</b>?</span>
+        <span *ngIf="deletedItem">Xác nhận xóa group <b>{{deletedItem.name}}</b>?</span>
       </div>
       <ng-template pTemplate="footer">
         <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="No"
           (click)="deleteItemDialog = false"></p-button>
         <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="confirmDelete()"></button>
-      </ng-template>
-    </p-dialog>
-
-    <p-dialog [(visible)]="deleteItemsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-      <div class="flex align-items-center justify-content-center">
-        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span>Are you sure you want to delete selected items?</span>
-      </div>
-      <ng-template pTemplate="footer">
-        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-          (click)="deleteItemsDialog = false"></button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
-          (click)="confirmDeleteSelected()"></button>
       </ng-template>
     </p-dialog>
   </div>
