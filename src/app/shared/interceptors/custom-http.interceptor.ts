@@ -18,7 +18,7 @@ export class CustomHttpInterceptor  implements HttpInterceptor {
     private notification: NotificationService,
     public configService: AppConfigService,
   ) {
-    this.loadConfig();
+    this.baseUrl = this.configService.getConfig().api.baseUrl;
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any>  {
@@ -44,15 +44,5 @@ export class CustomHttpInterceptor  implements HttpInterceptor {
         this.notification.error('Có lỗi xảy ra', '');
         return throwError(() => error);
       }));
-  }
-
-  loadConfig() {
-    if (this.configService.getConfig().api.baseUrl) {
-      this.baseUrl = this.configService.getConfig().api.baseUrl;
-    } else {
-      this.configService.load().then(() => {
-        this.baseUrl = this.configService.getConfig().api.baseUrl;
-      });
-    }
   }
 }

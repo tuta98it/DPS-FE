@@ -10,11 +10,12 @@ export class MTableComponent implements OnInit {
   @Input() cols: any[] = [];
   @Input() totalRecords = 0;
   @Input() dataKey = '';
+  @Input() loading = false;
   @Input() take = 20;
-  @Output() editItem = new EventEmitter<any>();
-  @Output() deleteItem = new EventEmitter<any>();
+  @Output() onEditItem = new EventEmitter<any>();
+  @Output() onDeleteItem = new EventEmitter<any>();
   @Output() selectRow = new EventEmitter<any>();
-  @Output() changePage = new EventEmitter<any>();
+  @Output() onPageChange = new EventEmitter<any>();
 
   selectedItem = {};
   constructor() { }

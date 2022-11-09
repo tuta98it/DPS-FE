@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required, Validators.pattern(nonWhiteSpaceRegExp)]],
       password: ['', [Validators.required]],
     });
-    this.loadConfig();
+    this.slogan = this.configService.getConfig().slogan;
   }
   
   ngOnInit(): void {
@@ -57,16 +57,6 @@ export class LoginComponent implements OnInit {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
         }
-      });
-    }
-  }
-
-  loadConfig() {
-    if (this.configService.getConfig().api.baseUrl) {
-      this.slogan = this.configService.getConfig().slogan;
-    } else {
-      this.configService.load().then(() => {
-        this.slogan = this.configService.getConfig().slogan;
       });
     }
   }

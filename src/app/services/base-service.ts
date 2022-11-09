@@ -16,9 +16,9 @@ export abstract class BaseService extends Service {
     return this.post(url, data);
   }
   update(url: string, id: any, data: any): Observable<any> {
-    return this.post(`${url}/${id}`, data);
+    return this.put(`${url}/${id}`, data);
   }
   deleteById(url: string, id: any): Observable<any> {
-    return this.delete(url, id);
+    return this.delete(`${url}/`, id);
   }
 }

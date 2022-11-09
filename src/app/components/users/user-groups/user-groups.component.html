@@ -2,16 +2,22 @@
   <div class="col-12 pb-0">
     <div class="card admin-content">
       <div class="my-2 flex justify-content-between flex-wrap">
-        <span class="block mt-2 md:mt-0 p-input-icon-left">
+        <span class="block p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Tìm kiếm..."
+            class="w-full sm:w-auto p-inputtext-sm" [(ngModel)]="searchData.keyword" (keydown.enter)="search()" />
+          <button pButton pRipple icon="pi pi-search" class="p-button-primary mr-2 ml-2 p-button-sm" (click)="search()"></button>
+          <button pButton pRipple icon="pi pi-times" class="p-button-secondary p-button-sm"
+            (click)="resetSearch()"></button>
         </span>
         <div class="flex justify-content-end flex-wrap">
           <button pButton pRipple label="Danh sách user" icon="pi pi-users" class="p-button-help mr-2 p-button-sm"></button>
           <button pButton pRipple label="Thêm mới group" icon="pi pi-plus" class="p-button-success p-button-sm"
-            (click)="openNew()"></button>
+            (click)="onCreateItem()"></button>
         </div>
       </div>
-      <m-table [cols]="cols" [items]="userGroups" (editItem)="editItem($event)" (deleteItem)="deleteItem($event)" [take]="searchData.take"
-        (selectRow)="selectUserGroup($event)" (changePage)="changePage($event)" [totalRecords]="total" [dataKey]="'id'"></m-table>
+      <m-table [cols]="cols" [items]="userGroups" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" [take]="searchData.take"
+        (selectRow)="selectUserGroup($event)" (onPageChange)="onPageChange($event)" [totalRecords]="total" [dataKey]="'id'" [loading]="loading" ></m-table>
     </div>
 
     <p-dialog [(visible)]="isVisibleUserGroupDialog" [style]="{width: '450px'}" [header]="userGroupDialogHeader" [modal]="true" class="p-fluid">
@@ -32,20 +38,20 @@
       </ng-template>
 
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserGroupDialog=false"></button>
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="deleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
+    <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
       <div class="flex align-items-center justify-content-begin">
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
         <span *ngIf="deletedItem">Xác nhận xóa group <b>{{deletedItem.name}}</b>?</span>
       </div>
       <ng-template pTemplate="footer">
         <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="No"
-          (click)="deleteItemDialog = false"></p-button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="confirmDelete()"></button>
+          (click)="isVisibleDeleteItemDialog=false"></p-button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="deleteUserGroup()"></button>
       </ng-template>
     </p-dialog>
   </div>

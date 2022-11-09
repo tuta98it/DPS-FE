@@ -1,6 +1,6 @@
-<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="changePage.emit($event)" [paginator]="true" [rows]="take"
+<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="onPageChange.emit($event)" [paginator]="true" [rows]="take"
   [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand" [totalRecords]="totalRecords"
-  currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single" [(selection)]="selectedItem"
+  currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single" [(selection)]="selectedItem" [loading]="loading"
   styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true" [dataKey]="dataKey" (onRowSelect)="selectRow.emit(selectedItem)">
   <ng-template pTemplate="header">
     <tr>
@@ -21,8 +21,8 @@
       </td>
       <td>
         <div class="flex mx-1">
-          <button pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="editItem.emit(item)"></button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="deleteItem.emit(item)"></button>
+          <button pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="onEditItem.emit(item)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="onDeleteItem.emit(item)"></button>
         </div>
       </td>
     </tr>

@@ -13,13 +13,7 @@ export abstract class Service {
     public httpClient: HttpClient,
     protected configService: AppConfigService
   ) {
-    if (this.configService.getConfig().api.baseUrl) {
-      this.baseUrl = this.configService.getConfig().api.baseUrl;
-    } else {
-      this.configService.load().then(() => {
-        this.baseUrl = this.configService.getConfig().api.baseUrl;
-      });
-    }
+    this.baseUrl = this.configService.getConfig().api.baseUrl;
   }
 
   get(url: string, params?: {}, responseType?: string): Observable<any> {

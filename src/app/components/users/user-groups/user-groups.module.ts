@@ -10,10 +10,12 @@ import { DialogModule } from 'primeng/dialog';
 import { ItemService } from 'src/app/services/item.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
+import { ListUsersInGroupComponent } from './list-users-in-group/list-users-in-group.component';
 
 @NgModule({
   declarations: [
-    UserGroupsComponent
+    UserGroupsComponent,
+    ListUsersInGroupComponent
   ],
   imports: [
     CommonModule,
