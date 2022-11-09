@@ -39,8 +39,9 @@
                 *Vui lòng nhập mật khẩu
               </div>
             </div>
-            <button pRipple type="button" (click)="login()" class="w-full border-none border-round-3xl cursor-pointer
-              h-3rem bg-orange-500 text-white hover:bg-orange-400 mb-3">
+            <button [disabled]="loading" pRipple type="button" (click)="login()" class="w-full border-none border-round-3xl cursor-pointer
+              h-3rem bg-orange-500 text-white hover:bg-orange-400 mb-3 flex align-items-center justify-content-center">
+              <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
               Đăng nhập
             </button>
             <!-- <div class="forgot-password">

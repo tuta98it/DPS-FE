@@ -22,7 +22,7 @@ interface LayoutState {
 @Injectable({
     providedIn: 'root',
 })
-export class LayoutService {
+export class AdminLayoutService {
 
     config: AppConfig = {
         ripple: false,

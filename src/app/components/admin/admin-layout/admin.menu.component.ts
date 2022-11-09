@@ -1,54 +1,60 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
 
 @Component({
-    selector: 'app-menu',
-    templateUrl: './app.menu.component.html'
+    selector: 'admin-menu',
+    templateUrl: './admin.menu.component.html'
 })
-export class AppMenuComponent implements OnInit {
+export class AdminMenuComponent implements OnInit {
 
     model: any[] = [];
 
-    constructor(public layoutService: LayoutService) { }
+    constructor() { }
 
     ngOnInit() {
         this.model = [
             {
-                label: 'Hệ thống',
+                label: 'Quản lý hệ thống',
                 icon: 'pi pi-fw pi-briefcase',
-                // routerLink: ['/users'],
                 items: [
                     {
                         label: 'Quản lý user',
                         icon: 'pi pi-fw pi-user',
+                        visible: true,
                         items: [
                             {
                                 label: 'Danh sách user',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['/users']
+                                routerLink: ['/admin/users']
                             },
                             {
                                 label: 'Xem phân quyền user',
                                 icon: 'pi pi-fw pi-user',
-                                routerLink: ['/crud']
+                                routerLink: ['/admin/crud']
                             },
+                        ]
+                    },
+                    {
+                        label: 'Quản lý user group',
+                        icon: 'pi pi-fw pi-users',
+                        visible: true,
+                        items: [
                             {
                                 label: 'Danh sách user group',
-                                icon: 'pi pi-fw pi-user',
-                                routerLink: ['/users/user-groups']
+                                icon: 'pi pi-fw pi-users',
+                                routerLink: ['/admin/user-groups']
                             },
                             {
                                 label: 'Xem phân quyền user group',
-                                icon: 'pi pi-fw pi-user',
-                                routerLink: ['/crud']
+                                icon: 'pi pi-fw pi-users',
+                                routerLink: ['/admin/crud']
                             },
                         ]
                     },
                     {
                         label: 'CRUD',
                         icon: 'pi pi-fw pi-briefcase',
-                        routerLink: ['/crud'],
+                        routerLink: ['/admin/crud'],
                     },
                 ]
             },

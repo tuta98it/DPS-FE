@@ -3,12 +3,12 @@ import { NavigationEnd, Router } from '@angular/router';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { MenuService } from './app.menu.service';
-import { LayoutService } from './service/app.layout.service';
+import { AdminMenuService } from './admin.menu.service';
+import { AdminLayoutService } from './service/admin.layout.service';
 
 @Component({
     /* tslint:disable:component-selector */
-    selector: '[app-menuitem]',
+    selector: '[admin-menuitem]',
     /* tslint:enable:component-selector */
     template: `
 		<ng-container>
@@ -31,7 +31,7 @@ import { LayoutService } from './service/app.layout.service';
 
 			<ul *ngIf="item.items && item.visible !== false" [@children]="submenuAnimation">
 				<ng-template ngFor let-child let-i="index" [ngForOf]="item.items">
-					<li app-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
+					<li admin-menuitem [item]="child" [index]="i" [parentKey]="key" [class]="child.badgeClass"></li>
 				</ng-template>
 			</ul>
 		</ng-container>
@@ -52,7 +52,7 @@ import { LayoutService } from './service/app.layout.service';
         ])
     ]
 })
-export class AppMenuitemComponent implements OnInit, OnDestroy {
+export class AdminMenuitemComponent implements OnInit, OnDestroy {
 
     @Input() item: any;
 
@@ -70,7 +70,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
 
     key: string = "";
 
-    constructor(public layoutService: LayoutService, private cd: ChangeDetectorRef, public router: Router, private menuService: MenuService) {
+    constructor(public layoutService: AdminLayoutService, private cd: ChangeDetectorRef, public router: Router, private menuService: AdminMenuService) {
         this.menuSourceSubscription = this.menuService.menuSource$.subscribe(value => {
             Promise.resolve(null).then(() => {
                 if (value.routeEvent) {

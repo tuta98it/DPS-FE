@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     content: '',
     author: ''
   }
+  loading = false;
   constructor(
     public configService: AppConfigService,
     private fb: FormBuilder,
@@ -38,18 +39,21 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.loginForm.valid) {
+      this.loading = true;
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           if (res.isValid) {
             localStorage.setItem(Constants.TOKEN, res.jsonData.value);
             this.authState.dispatch(res.jsonData.value);
-            let returnUrl = '/users';
+            let returnUrl = '';
             if (this.route.snapshot.queryParams['returnUrl']) {
               returnUrl = this.route.snapshot.queryParams['returnUrl'];
             }
             this.router.navigate([returnUrl]);
           }
         }
+      }).add(() => {
+        this.loading = false;
       });
     } else {
       Object.values(this.loginForm.controls).forEach((control) => {

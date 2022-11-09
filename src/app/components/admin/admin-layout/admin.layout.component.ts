@@ -1,15 +1,15 @@
 import { Component, OnDestroy, Renderer2, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { LayoutService } from "./service/app.layout.service";
-import { AppSidebarComponent } from "./app.sidebar.component";
-import { AppTopBarComponent } from './app.topbar.component';
+import { AdminLayoutService } from "./service/admin.layout.service";
+import { AdminSidebarComponent } from "./admin.sidebar.component";
+import { AdminTopBarComponent } from './admin.topbar.component';
 
 @Component({
-    selector: 'app-layout',
-    templateUrl: './app.layout.component.html'
+    selector: 'admin-layout',
+    templateUrl: './admin.layout.component.html'
 })
-export class AppLayoutComponent implements OnDestroy {
+export class AdminLayoutComponent implements OnDestroy {
 
     overlayMenuOpenSubscription: Subscription;
 
@@ -17,11 +17,11 @@ export class AppLayoutComponent implements OnDestroy {
 
     profileMenuOutsideClickListener: any;
 
-    @ViewChild(AppSidebarComponent) appSidebar!: AppSidebarComponent;
+    @ViewChild(AdminSidebarComponent) appSidebar!: AdminSidebarComponent;
 
-    @ViewChild(AppTopBarComponent) appTopbar!: AppTopBarComponent;
+    @ViewChild(AdminTopBarComponent) appTopbar!: AdminTopBarComponent;
 
-    constructor(public layoutService: LayoutService, public renderer: Renderer2, public router: Router) {
+    constructor(public layoutService: AdminLayoutService, public renderer: Renderer2, public router: Router) {
         this.overlayMenuOpenSubscription = this.layoutService.overlayOpen$.subscribe(() => {
             if (!this.menuOutsideClickListener) {
                 this.menuOutsideClickListener = this.renderer.listen('document', 'click', event => {

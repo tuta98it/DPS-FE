@@ -5,7 +5,7 @@ import { MenuChangeEvent } from './api/menuchangeevent';
 @Injectable({
     providedIn: 'root'
 })
-export class MenuService {
+export class AdminMenuService {
 
     private menuSource = new Subject<MenuChangeEvent>();
     private resetSource = new Subject();
