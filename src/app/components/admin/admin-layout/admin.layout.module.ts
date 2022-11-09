@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-// import { BrowserModule } from '@angular/platform-browser';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
@@ -17,7 +15,7 @@ import { AdminSidebarComponent } from "./admin.sidebar.component";
 import { AdminLayoutComponent } from "./admin.layout.component";
 import { AdminLayoutRoutingModule } from './admin-layout-routing.module';
 import { CommonModule } from '@angular/common';
-
+import {TieredMenuModule} from 'primeng/tieredmenu';
 @NgModule({
   declarations: [
     AdminMenuitemComponent,
@@ -27,9 +25,8 @@ import { CommonModule } from '@angular/common';
     AdminLayoutComponent,
   ],
   imports: [
-    // BrowserModule,
-    // BrowserAnimationsModule,
     CommonModule,
+    TieredMenuModule,
     FormsModule,
     HttpClientModule,
     InputTextModule,
