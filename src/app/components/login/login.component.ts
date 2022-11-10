@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           if (res.isValid) {
             localStorage.setItem(Constants.TOKEN, res.jsonData.value);
+            localStorage.setItem(Constants.USER, JSON.stringify(res.jsonData));
             this.authState.dispatch(res.jsonData);
             let returnUrl = '';
             if (this.route.snapshot.queryParams['returnUrl']) {

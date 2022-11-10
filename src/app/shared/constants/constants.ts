@@ -1,5 +1,6 @@
 export class Constants {
   public static readonly TOKEN = 'dps-token';
+  public static readonly USER = 'dps-user';
 }
 
 export class Roles {
