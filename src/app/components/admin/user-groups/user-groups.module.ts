@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserGroupsComponent } from './user-groups.component';
 import { UserGroupsRoutingModule } from './user-groups-routing.module';
-import { TableModule } from 'primeng/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -19,15 +18,14 @@ import { ListUsersInGroupComponent } from './list-users-in-group/list-users-in-g
   ],
   imports: [
     CommonModule,
-    UserGroupsRoutingModule,
-    TableModule,
     ReactiveFormsModule,
     FormsModule,
     ButtonModule,
     InputTextModule,
     RippleModule,
     DialogModule,
-    MTableModule
+    MTableModule,
+    UserGroupsRoutingModule,
   ],
   providers: [
     ItemService

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Table } from 'primeng/table';
 import { UserGroupService } from 'src/app/services/user-group.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 

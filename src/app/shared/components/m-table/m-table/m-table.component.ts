@@ -11,6 +11,7 @@ export class MTableComponent implements OnInit {
   @Input() totalRecords = 0;
   @Input() dataKey = '';
   @Input() loading = false;
+  @Input() isLazyLoad = false; // server-side pagination
   @Input() take = 20;
   @Output() onEditItem = new EventEmitter<any>();
   @Output() onDeleteItem = new EventEmitter<any>();

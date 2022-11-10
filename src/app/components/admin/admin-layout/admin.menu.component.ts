@@ -64,10 +64,22 @@ export class AdminMenuComponent implements OnInit {
             ]
           },
           {
-            label: 'CRUD',
-            icon: 'pi pi-fw pi-briefcase',
-            routerLink: ['/admin/crud'],
+            label: 'Báo cáo - Mẫu in',
+            icon: 'pi pi-fw pi-print',
+            visible: this.currentUser.userTypes?.includes(Roles.MANAGE_TEMPLATE),
+            items: [
+              {
+                label: 'Quản lý mẫu in',
+                icon: 'pi pi-fw pi-print',
+                routerLink: ['/admin/print-templates']
+              }
+            ]
           },
+          // {
+          //   label: 'CRUD',
+          //   icon: 'pi pi-fw pi-briefcase',
+          //   routerLink: ['/admin/crud'],
+          // },
         ]
       },
     ];

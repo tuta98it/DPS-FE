@@ -16,7 +16,7 @@
             (click)="onCreateItem()"></button>
         </div>
       </div>
-      <m-table [cols]="cols" [items]="userGroups" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" [take]="searchData.take"
+      <m-table [isLazyLoad]="true" [cols]="cols" [items]="userGroups" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" [take]="searchData.take"
         (selectRow)="selectUserGroup($event)" (onPageChange)="onPageChange($event)" [totalRecords]="total" [dataKey]="'id'" [loading]="loading" ></m-table>
     </div>
 

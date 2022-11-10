@@ -30,6 +30,15 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						data: { role: Roles.MANGAGE_GROUP },
 					},
 					{
+						path: 'print-templates',
+						loadChildren: () =>
+							import('../print-templates/print-templates.module').then(
+								(m) => m.PrintTemplatesModule
+							),
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_TEMPLATE },
+					},
+					{
 						path: 'crud',
 						loadChildren: () =>
 							import('../crud/crud.module').then(

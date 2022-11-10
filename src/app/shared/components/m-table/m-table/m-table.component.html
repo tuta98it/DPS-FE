@@ -1,4 +1,4 @@
-<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [lazy]="true" (onLazyLoad)="onPageChange.emit($event)" [paginator]="true" [rows]="take"
+<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [lazy]="isLazyLoad" (onLazyLoad)="onPageChange.emit($event)" [paginator]="true" [rows]="take"
   [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand" [totalRecords]="totalRecords"
   currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single" [(selection)]="selectedItem" [loading]="loading"
   styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true" [dataKey]="dataKey" (onRowSelect)="selectRow.emit(selectedItem)">

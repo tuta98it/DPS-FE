@@ -9,6 +9,9 @@ export abstract class BaseService extends Service {
   search(url: string, data: any): Observable<any> {
     return this.post(url, data);
   }
+  getAll(url: string): Observable<any> {
+    return this.get(url);
+  }
   getById(url: string, id: any): Observable<any> {
     return this.get(`${url}/${id}`);
   }
