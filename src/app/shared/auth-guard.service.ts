@@ -1,38 +1,39 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild, CanLoad, Route } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { IAuthModel, INIT_AUTH_MODEL } from '../models/auth-model';
+import { AuthStateService } from './app-state/auth-state.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: AuthService, private router: Router) { }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-    const url: string = state.url;
-    return this.checkLogin(url);
+export class AuthGuard implements CanActivate, OnDestroy {
+  protected _authSubscription: Subscription;
+  currentUser = INIT_AUTH_MODEL;
+  
+  constructor(
+    private router: Router,
+    private notification: NotificationService,
+    private authState: AuthStateService,
+  ) {
+    this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
+      this.currentUser = m;
+    });
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    return this.canActivate(route, state);
+  public ngOnDestroy(): void {
+    this._authSubscription.unsubscribe();
   }
 
-  canLoad(route: Route): boolean {
-
-    const url = `/${route.path}`;
-    return this.checkLogin(url);
-  }
-
-  checkLogin(url: string): boolean {
-
-    if (this.authService.isLoggedIn) {
+  async canActivate(
+      route: ActivatedRouteSnapshot,
+      state: RouterStateSnapshot): Promise<boolean> {
+    if (route.data['role'] && this.currentUser.userTypes?.includes(route.data['role'])) {
       return true;
     }
-
-    this.authService.loginRedirectUrl = url;
-    this.router.navigate(['/login']);
-
+    this.notification.warn('Bạn không có quyền truy cập đường dẫn này', '')
+    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url} });
     return false;
   }
 }

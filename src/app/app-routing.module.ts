@@ -1,5 +1,7 @@
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { AuthGuard } from './shared/auth-guard.service';
+import { Roles } from './shared/constants/constants';
 
 @NgModule({
   imports: [
@@ -11,6 +13,8 @@ import { NgModule } from '@angular/core';
             import(
               './components/admin/admin-layout/admin.layout.module'
             ).then((m) => m.AdminLayoutModule),
+          canActivate: [AuthGuard],
+          data: { role: Roles.ADMIN },
         },
         {
           path: 'login',

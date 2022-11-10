@@ -11,11 +11,13 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 import { AppConfigService } from '../app-config.service';
 import { Constants } from '../constants/constants';
 import { NotificationService } from '../notification.service';
+import { Router } from '@angular/router';
 @Injectable()
 export class CustomHttpInterceptor  implements HttpInterceptor {
   baseUrl = '';
   constructor(
     private notification: NotificationService,
+    private router: Router,
     public configService: AppConfigService,
   ) {
     this.baseUrl = this.configService.getConfig().api.baseUrl;
@@ -41,7 +43,11 @@ export class CustomHttpInterceptor  implements HttpInterceptor {
         return res;
       }),
       catchError((error:HttpErrorResponse) => {
-        this.notification.error('Có lỗi xảy ra', '');
+        if (error.status == 403) {
+          this.router.navigate(['/login']);
+        } else {
+          this.notification.error('Có lỗi xảy ra', '');
+        }
         return throwError(() => error);
       }));
   }

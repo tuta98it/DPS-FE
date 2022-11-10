@@ -39,8 +39,6 @@ export class UserGroupsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.userGroupService.getUserGroups().then((data: any) => this.userGroups = data);
-    // this.userGroups = this.userGroupService.getUserGroups();
     this.cols = [
       { field: 'name', header: 'Tên nhóm', width: '30rem' },
       { field: 'desc', header: 'Mô tả', width: '80rem' }

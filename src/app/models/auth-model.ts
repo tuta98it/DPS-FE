@@ -3,7 +3,6 @@ export interface IAuthModel {
   userName?: string;
   avatar?: string;
   userTypes?: any[];
-  isAuthenticated?: boolean;
   fullName?: string;
 }
 export const INIT_AUTH_MODEL: IAuthModel = {
@@ -11,6 +10,5 @@ export const INIT_AUTH_MODEL: IAuthModel = {
   userName: '',
   avatar: '',
   userTypes: [],
-  isAuthenticated: false,
   fullName: ''
 };
