@@ -15,13 +15,7 @@ export class PrintTemplatesComponent implements OnInit {
   selectedPrintTemplate = {};
   isEditPrintTemplate = false;
   deletedItem: any = {};
-  searchData = {
-    skip: 0,
-    take: 20,
-    keyword: ''
-  }
   loading = false;
-  total = 0;
   constructor(
     private notification: NotificationService,
     private printTemplateService: PrintTemplateService
@@ -44,7 +38,6 @@ export class PrintTemplatesComponent implements OnInit {
       next: (res) => {
         if (res.isValid) {
           this.printTemplates = res.jsonData;
-          this.total = res.jsonData.length;
           console.log('this.printTemplates', this.printTemplates)
         }
       }

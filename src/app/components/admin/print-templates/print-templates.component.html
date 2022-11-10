@@ -9,8 +9,8 @@
             (click)="onCreateItem()"></button>
         </div>
       </div>
-      <m-table [isLazyLoad]="false" [cols]="cols" [items]="printTemplates" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" [take]="searchData.take"
-        (selectRow)="selectPrintTemplate($event)" [totalRecords]="total" [dataKey]="'id'" [loading]="loading" ></m-table>
+      <m-table [isLazyLoad]="false" [cols]="cols" [items]="printTemplates" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)"
+        (selectRow)="selectPrintTemplate($event)" [dataKey]="'id'" [loading]="loading" ></m-table>
     </div>
 
     <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">

@@ -72,7 +72,12 @@ export class AdminMenuComponent implements OnInit {
                 label: 'Quản lý mẫu in',
                 icon: 'pi pi-fw pi-print',
                 routerLink: ['/admin/print-templates']
-              }
+              },
+              {
+                label: 'Quản lý mẫu báo cáo',
+                icon: 'pi pi-fw pi-book',
+                routerLink: ['/admin/report-templates']
+              },
             ]
           },
           // {

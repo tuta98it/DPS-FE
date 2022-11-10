@@ -39,6 +39,15 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						data: { role: Roles.MANAGE_TEMPLATE },
 					},
 					{
+						path: 'report-templates',
+						loadChildren: () =>
+							import('../report-templates/report-templates.module').then(
+								(m) => m.ReportTemplatesModule
+							),
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_TEMPLATE },
+					},
+					{
 						path: 'crud',
 						loadChildren: () =>
 							import('../crud/crud.module').then(

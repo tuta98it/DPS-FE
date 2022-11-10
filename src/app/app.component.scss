@@ -1,4 +1,9 @@
-:host ::ng-deep .admin-content {
-  min-height: calc(100vh - 8rem);
-  margin: 0;
+:host ::ng-deep {
+  .admin-content {
+    min-height: calc(100vh - 8rem);
+    margin: 0;
+  }
+  .w-full > .p-treeselect {
+    width: 100%;
+  } 
 }

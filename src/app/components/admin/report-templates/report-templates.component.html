@@ -1,0 +1,81 @@
+<div class="grid card admin-content">
+  <div class="col-2 text-center">
+    <h5>Danh sách mẫu báo cáo</h5>
+    <span *ngIf="loading">
+      <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
+      Loading...
+    </span>
+    <p-tree *ngIf="!loading" [selectionMode]="'single'" [value]="reportTemplates" [emptyMessage]="'Không có mẫu báo cáo'" (onNodeSelect)="selectTemplate($event)"></p-tree>
+  </div>
+  <div class="col-10">
+    <div class="grid">
+      <div class="col-12 my-2 flex justify-content-between flex-wrap">
+        <span class="block p-input-icon-left">
+        </span>
+        <div class="flex justify-content-end flex-wrap">
+          <button pButton pRipple label="Upload" icon="pi pi-upload" class="p-button-info p-button-sm mr-2"></button>
+          <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help p-button-sm mr-2"></button>
+          <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2"></button>
+          <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-sm mr-2"></button>
+          <button pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save" class="p-button-primary p-button-sm"></button>
+        </div>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        <span class="text-red-500">*</span> Tên:
+      </div>
+      <div class="col-10">
+        <input [(ngModel)]="currentTemplate.templateName" pInputText type="text" placeholder="Tên mẫu báo cáo" class="lg:w-full sm:w-auto p-inputtext-sm" />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Parent:
+      </div>
+      <div class="col-10">
+        <p-treeSelect [options]="reportTemplates" placeholder="Select parent" [showClear]="true" class="w-full"></p-treeSelect>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Mô tả vi thể:
+      </div>
+      <div class="col-10">
+        <p-editor [(ngModel)]="currentTemplate.microbodyDescrible" [style]="{'height':'250px'}"></p-editor>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Chẩn đoán:
+      </div>
+      <div class="col-10">
+        <p-editor [(ngModel)]="currentTemplate.diagnose" [style]="{'height':'250px'}"></p-editor>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Bàn luận:
+      </div>
+      <div class="col-10">
+        <p-editor [(ngModel)]="currentTemplate.discuss" [style]="{'height':'250px'}"></p-editor>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Khuyến nghị:
+      </div>
+      <div class="col-10">
+        <p-editor [(ngModel)]="currentTemplate.recommendation" [style]="{'height':'250px'}"></p-editor>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Hội chẩn:
+      </div>
+      <div class="col-10">
+        <p-editor [(ngModel)]="currentTemplate.consultaion" [style]="{'height':'250px'}"></p-editor>
+      </div>
+    </div>
+  </div>
+</div>
