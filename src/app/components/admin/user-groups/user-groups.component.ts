@@ -56,7 +56,7 @@ export class UserGroupsComponent implements OnInit {
       }
     }).add(() => {
       this.loading = false
-    });;
+    });
   }
 
   onCreateItem() {

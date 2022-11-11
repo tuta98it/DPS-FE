@@ -5,7 +5,7 @@
       <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
       Loading...
     </span>
-    <p-tree *ngIf="!loading" [selectionMode]="'single'" [value]="reportTemplates" [emptyMessage]="'Không có mẫu báo cáo'" (onNodeSelect)="selectTemplate($event)"></p-tree>
+    <p-tree class="text-left" *ngIf="!loading" [selectionMode]="'single'" [value]="reportTemplates" [emptyMessage]="'Không có mẫu báo cáo'" (onNodeSelect)="selectTemplate($event)"></p-tree>
   </div>
   <div class="col-10">
     <div class="grid">
@@ -13,11 +13,12 @@
         <span class="block p-input-icon-left">
         </span>
         <div class="flex justify-content-end flex-wrap">
-          <button pButton pRipple label="Upload" icon="pi pi-upload" class="p-button-info p-button-sm mr-2"></button>
-          <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help p-button-sm mr-2"></button>
-          <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2"></button>
-          <button pButton pRipple label="Xóa" icon="pi pi-trash" class="p-button-danger p-button-sm mr-2"></button>
-          <button pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save" class="p-button-primary p-button-sm"></button>
+          <!-- <button pButton pRipple label="Upload" icon="pi pi-upload" class="p-button-info p-button-sm mr-2"></button>
+          <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help p-button-sm mr-2"></button> -->
+          <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" (click)="resetTemplate()"></button>
+          <button [loading]="deleting" [disabled]="!currentTemplate.templateId" pButton pRipple label="Xóa" icon="pi pi-trash" (click)="isVisibleDeleteItemDialog = true"
+            class="p-button-danger p-button-sm mr-2"></button>
+          <button [loading]="saving" pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save" class="p-button-primary p-button-sm" (click)="onSaveTemplate()"></button>
         </div>
       </div>
     </div>
@@ -26,7 +27,7 @@
         <span class="text-red-500">*</span> Tên:
       </div>
       <div class="col-10">
-        <input [(ngModel)]="currentTemplate.templateName" pInputText type="text" placeholder="Tên mẫu báo cáo" class="lg:w-full sm:w-auto p-inputtext-sm" />
+        <input [(ngModel)]="currentTemplate.templateName" pInputText type="text" placeholder="Tên mẫu báo cáo" class="w-full p-inputtext-sm text-base" />
       </div>
     </div>
     <div class="grid">
@@ -34,7 +35,7 @@
         Parent:
       </div>
       <div class="col-10">
-        <p-treeSelect [options]="reportTemplates" placeholder="Select parent" [showClear]="true" class="w-full"></p-treeSelect>
+        <p-treeSelect [options]="reportTemplates" [(ngModel)]="selectedParent" placeholder="Select parent" [showClear]="true" class="w-full"></p-treeSelect>
       </div>
     </div>
     <div class="grid">
@@ -78,4 +79,15 @@
       </div>
     </div>
   </div>
+  <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-begin">
+      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+      <span>Xác nhận xóa mẫu báo cáo <b>{{currentTemplate.templateName}}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="No"
+        (click)="isVisibleDeleteItemDialog=false"></p-button>
+      <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="deleteReportTemplate()"></button>
+    </ng-template>
+  </p-dialog>
 </div>
