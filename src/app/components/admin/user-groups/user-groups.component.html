@@ -38,8 +38,8 @@
       </ng-template>
 
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserGroupDialog=false"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserGroupDialog=false"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
       </ng-template>
     </p-dialog>
 
@@ -49,9 +49,9 @@
         <span *ngIf="deletedItem">Xác nhận xóa group <b>{{deletedItem.name}}</b>?</span>
       </div>
       <ng-template pTemplate="footer">
-        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="No"
+        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
           (click)="isVisibleDeleteItemDialog=false"></p-button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="deleteUserGroup()"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deleteUserGroup()"></button>
       </ng-template>
     </p-dialog>
   </div>

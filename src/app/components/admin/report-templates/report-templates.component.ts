@@ -56,11 +56,11 @@ export class ReportTemplatesComponent implements OnInit {
             hasChild: resData[i].hasChild,
             parentName: resData[i].parentName,
             parentId: resData[i].parentId,
-            microbodyDescrible: resData[i].microbodyDescrible,
+            microbodyDescribe: resData[i].microbodyDescrible,
             diagnose: resData[i].diagnose,
             discuss: resData[i].discuss,
             recommendation: resData[i].recommendation,
-            consultaion: resData[i].consultaion,
+            consultation: resData[i].consultaion,
           },
           children: [] 
         }

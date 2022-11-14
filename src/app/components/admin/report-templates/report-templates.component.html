@@ -43,7 +43,7 @@
         Mô tả vi thể:
       </div>
       <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.microbodyDescrible" [style]="{'height':'250px'}"></p-editor>
+        <p-editor [(ngModel)]="currentTemplate.microbodyDescribe" [style]="{'height':'250px'}"></p-editor>
       </div>
     </div>
     <div class="grid">
@@ -75,7 +75,7 @@
         Hội chẩn:
       </div>
       <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.consultaion" [style]="{'height':'250px'}"></p-editor>
+        <p-editor [(ngModel)]="currentTemplate.consultation" [style]="{'height':'250px'}"></p-editor>
       </div>
     </div>
   </div>
@@ -85,9 +85,9 @@
       <span>Xác nhận xóa mẫu báo cáo <b>{{currentTemplate.templateName}}</b>?</span>
     </div>
     <ng-template pTemplate="footer">
-      <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="No"
+      <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
         (click)="isVisibleDeleteItemDialog=false"></p-button>
-      <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="deleteReportTemplate()"></button>
+      <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deleteReportTemplate()"></button>
     </ng-template>
   </p-dialog>
 </div>

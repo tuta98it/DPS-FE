@@ -19,9 +19,9 @@
         <span *ngIf="deletedItem">Xác nhận xóa mẫu in <b>{{deletedItem.templateName}}</b>?</span>
       </div>
       <ng-template pTemplate="footer">
-        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="No"
+        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
           (click)="isVisibleDeleteItemDialog=false"></p-button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" label="Yes" (click)="deletePrintTemplate()"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deletePrintTemplate()"></button>
       </ng-template>
     </p-dialog>
   </div>
