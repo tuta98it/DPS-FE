@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { AppConfigService } from '../app-config.service';
-import { Constants } from '../constants/constants';
+import { StorageKeys } from '../constants/constants';
 import { NotificationService } from '../notification.service';
 import { Router } from '@angular/router';
 @Injectable()
@@ -24,7 +24,7 @@ export class CustomHttpInterceptor  implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<any>  {
-    const token = localStorage.getItem(Constants.TOKEN)
+    const token = localStorage.getItem(StorageKeys.TOKEN)
     const isApiUrl = request.url.includes(this.baseUrl);
     if (token && isApiUrl) {
       request = request.clone({

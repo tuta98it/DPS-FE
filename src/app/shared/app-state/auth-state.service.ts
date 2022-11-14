@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
-import { Constants } from '../constants/constants';
+import { StorageKeys } from '../constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class AuthStateService {
   // TODO add a select method to this class that allows selection of a copy of the model
   constructor()
   {
-    let localAuthData = localStorage.getItem(Constants.USER);
+    let localAuthData = localStorage.getItem(StorageKeys.USER);
     if (localAuthData) {
       this.authData   = JSON.parse(localAuthData);
     } else {

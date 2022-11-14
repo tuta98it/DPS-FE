@@ -1,2 +1,38 @@
-Chức năng đang phát triển<br/>
-Chuyển đến trang <a [routerLink]="['/admin']" >quản lý hệ thống</a>.
+<app-header (onSelectLayout)="onSelectLayout($event)"></app-header>
+<div>
+  <app-worklist></app-worklist>
+  <app-viewer></app-viewer>
+</div>
+<p-dialog [(visible)]="isVisibleSelectLayout" [style]="{width: '500px'}" [header]="'Chọn layout'" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="grid">
+      <div class="col-6 layout-option">
+        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="selectedLayout==LAYOUT.DUAL" 
+          (click)="selectedLayout=LAYOUT.DUAL">
+          <tbody>
+            <tr class="h-4rem"><td class="text-center">WORKLIST</td><td class="text-center" rowspan="3">SLIDE VIEWER</td></tr>
+            <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
+            <tr class="h-4rem"><td class="text-center">REPORT</td></tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-1">Chia đôi màn hình</div>
+      </div>
+      <div class="col-6 layout-option">
+        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="selectedLayout==LAYOUT.FULL"
+          (click)="selectedLayout=LAYOUT.FULL">
+          <tbody>
+            <tr class="h-4rem"><td class="text-center">WORKLIST</td></tr>
+            <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
+            <tr class="h-4rem"><td class="text-center">REPORT</td></tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-1">Toàn màn hình</div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleSelectLayout=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveLayout()"></button>
+  </ng-template>
+</p-dialog>

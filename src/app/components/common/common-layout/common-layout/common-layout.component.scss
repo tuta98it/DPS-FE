@@ -1,0 +1,12 @@
+.layout-option {
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  table {
+    &:hover, &.selected {
+      color: white !important;
+      background-color: var(--green-500);
+    }
+  }
+}

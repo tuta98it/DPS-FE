@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfigService } from 'src/app/shared/app-config.service';
-import { Constants } from 'src/app/shared/constants/constants';
+import { StorageKeys } from 'src/app/shared/constants/constants';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 const nonWhiteSpaceRegExp: RegExp = new RegExp("\\S");
@@ -43,8 +43,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
           if (res.isValid) {
-            localStorage.setItem(Constants.TOKEN, res.jsonData.value);
-            localStorage.setItem(Constants.USER, JSON.stringify(res.jsonData));
+            localStorage.setItem(StorageKeys.TOKEN, res.jsonData.value);
+            localStorage.setItem(StorageKeys.USER, JSON.stringify(res.jsonData));
             this.authState.dispatch(res.jsonData);
             let returnUrl = '';
             if (this.route.snapshot.queryParams['returnUrl']) {

@@ -1,7 +1,14 @@
 export class Constants {
+  public static readonly OBJECT_ID_EMPTY = "000000000000000000000000";
+  public static readonly LAYOUT = {
+    FULL: 0,
+    DUAL: 1
+  }
+}
+export class StorageKeys {
   public static readonly TOKEN = 'dps-token';
   public static readonly USER = 'dps-user';
-  public static readonly OBJECT_ID_EMPTY = "000000000000000000000000";
+  public static readonly LAYOUT = 'dps-layout';
 }
 
 export class Roles {
