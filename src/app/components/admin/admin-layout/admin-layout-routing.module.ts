@@ -48,6 +48,13 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						data: { role: Roles.MANAGE_TEMPLATE },
 					},
 					{
+						path: 'mark-types',
+						loadChildren: () =>
+							import('../mark-types/mark-types.module').then(
+								(m) => m.MarkTypesModule
+							),
+					},
+					{
 						path: 'crud',
 						loadChildren: () =>
 							import('../crud/crud.module').then(

@@ -80,6 +80,11 @@ export class AdminMenuComponent implements OnInit {
               },
             ]
           },
+          {
+            label: 'Quản lý phương pháp nhuộm',
+            icon: 'pi pi-fw pi-align-justify',
+            routerLink: ['/admin/mark-types'],
+          },
           // {
           //   label: 'CRUD',
           //   icon: 'pi pi-fw pi-briefcase',
