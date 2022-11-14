@@ -10,7 +10,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-
+import { SplitterModule } from 'primeng/splitter';
 
 @NgModule({
   declarations: [
@@ -22,6 +22,7 @@ import { RippleModule } from 'primeng/ripple';
     TieredMenuModule,
     DialogModule,
     ButtonModule,
+    SplitterModule,
     RippleModule,
     WorklistModule,
     ViewerModule,

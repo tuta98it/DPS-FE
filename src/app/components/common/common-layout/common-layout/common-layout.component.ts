@@ -10,11 +10,12 @@ export class CommonLayoutComponent implements OnInit {
   LAYOUT = Constants.LAYOUT;
   isVisibleSelectLayout = false;
   selectedLayout = Constants.LAYOUT.FULL;
-
+  currentSelectedLayout = Constants.LAYOUT.FULL;
   constructor() {
     let layout = localStorage.getItem(StorageKeys.LAYOUT);
     if (layout !== null) {
       this.selectedLayout = +layout;
+      this.currentSelectedLayout = this.selectedLayout;
     }
   }
 
@@ -22,6 +23,7 @@ export class CommonLayoutComponent implements OnInit {
   }
 
   saveLayout() {
+    this.selectedLayout = this.currentSelectedLayout;
     localStorage.setItem(StorageKeys.LAYOUT, this.selectedLayout.toString());
     this.isVisibleSelectLayout = false;
   }

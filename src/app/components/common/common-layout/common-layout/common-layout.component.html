@@ -1,14 +1,27 @@
 <app-header (onSelectLayout)="onSelectLayout($event)"></app-header>
-<div>
-  <app-worklist></app-worklist>
-  <app-viewer></app-viewer>
+<div class="common-layout-container">
+  <app-worklist *ngIf="selectedLayout==LAYOUT.FULL"></app-worklist>
+  <div class="h-full">
+    <p-splitter *ngIf="selectedLayout==LAYOUT.DUAL" styleClass="h-full" [minSizes]="[30, 30]">
+      <ng-template pTemplate>
+        <div class="col flex align-items-center justify-content-center">
+          <app-worklist></app-worklist>
+        </div>
+      </ng-template>
+      <ng-template pTemplate>
+        <div class="col flex align-items-center justify-content-center">
+          <app-viewer></app-viewer>
+        </div>
+      </ng-template>
+    </p-splitter>
+  </div>
 </div>
 <p-dialog [(visible)]="isVisibleSelectLayout" [style]="{width: '500px'}" [header]="'Chọn layout'" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
     <div class="grid">
       <div class="col-6 layout-option">
-        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="selectedLayout==LAYOUT.DUAL" 
-          (click)="selectedLayout=LAYOUT.DUAL">
+        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="currentSelectedLayout==LAYOUT.DUAL" 
+          (click)="currentSelectedLayout=LAYOUT.DUAL">
           <tbody>
             <tr class="h-4rem"><td class="text-center">WORKLIST</td><td class="text-center" rowspan="3">SLIDE VIEWER</td></tr>
             <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
@@ -18,8 +31,8 @@
         <div class="text-center mt-1">Chia đôi màn hình</div>
       </div>
       <div class="col-6 layout-option">
-        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="selectedLayout==LAYOUT.FULL"
-          (click)="selectedLayout=LAYOUT.FULL">
+        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="currentSelectedLayout==LAYOUT.FULL"
+          (click)="currentSelectedLayout=LAYOUT.FULL">
           <tbody>
             <tr class="h-4rem"><td class="text-center">WORKLIST</td></tr>
             <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>

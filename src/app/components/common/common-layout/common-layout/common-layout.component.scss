@@ -1,3 +1,6 @@
+.common-layout-container {
+  height: calc(100vh - 3rem);
+}
 .layout-option {
   table, th, td {
     border: 1px solid black;
