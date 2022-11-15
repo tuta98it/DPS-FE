@@ -38,7 +38,6 @@ export class PrintTemplatesComponent implements OnInit {
       next: (res) => {
         if (res.isValid) {
           this.printTemplates = res.jsonData;
-          console.log('this.printTemplates', this.printTemplates)
         }
       }
     }).add(() => {

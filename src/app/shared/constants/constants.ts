@@ -4,6 +4,10 @@ export class Constants {
     FULL: 0,
     DUAL: 1
   }
+  public static readonly ACTIONS = {
+    EDIT: 0,
+    DELETE: 1,
+  }
 }
 export class StorageKeys {
   public static readonly TOKEN = 'dps-token';

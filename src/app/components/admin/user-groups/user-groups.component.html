@@ -11,7 +11,8 @@
             (click)="resetSearch()"></button>
         </span>
         <div class="flex justify-content-end flex-wrap">
-          <button pButton pRipple label="Danh sách user" icon="pi pi-users" class="p-button-help mr-2 p-button-sm"></button>
+          <button [disabled]="!selectedUserGroup.id" pButton pRipple label="Danh sách user" icon="pi pi-users" class="p-button-help mr-2 p-button-sm"
+            (click)="isVisibleListUsers=true"></button>
           <button pButton pRipple label="Thêm mới group" icon="pi pi-plus" class="p-button-success p-button-sm"
             (click)="onCreateItem()"></button>
         </div>
@@ -52,6 +53,15 @@
         <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
           (click)="isVisibleDeleteItemDialog=false"></p-button>
         <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deleteUserGroup()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="isVisibleListUsers" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách user trong nhóm'" [modal]="true" class="p-fluid">
+      <ng-template pTemplate="content">
+        <list-users-in-group [groupId]="selectedUserGroup.id"></list-users-in-group>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleListUsers=false"></button>
       </ng-template>
     </p-dialog>
   </div>

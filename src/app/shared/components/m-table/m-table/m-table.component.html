@@ -16,14 +16,21 @@
       <td class="text-center">
         {{rowIndex+1}}
       </td>
-      <td style="min-width:10rem;" [style.width]="col.width" *ngFor="let col of cols;">
+      <td [style.width]="col.width" *ngFor="let col of cols;">
         {{item[col['field']]}}
       </td>
       <td>
         <div class="flex mx-1">
-          <button pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="onEditItem.emit(item)"></button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="onDeleteItem.emit(item)"></button>
+          <button *ngIf="actions.includes(ACTIONS.EDIT)" pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="onEditItem.emit(item)"></button>
+          <button *ngIf="actions.includes(ACTIONS.DELETE)" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="onDeleteItem.emit(item)"></button>
         </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length+2" class="text-center">
+        Không có dữ liệu.
       </td>
     </tr>
   </ng-template>

@@ -57,7 +57,7 @@ export class AdminMenuComponent implements OnInit {
                 routerLink: ['/admin/user-groups']
               },
               {
-                label: 'Xem phân quyền user group',
+                label: 'Phân quyền user group',
                 icon: 'pi pi-fw pi-users',
                 routerLink: ['/admin/crud']
               },

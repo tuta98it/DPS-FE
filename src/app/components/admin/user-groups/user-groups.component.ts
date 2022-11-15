@@ -11,9 +11,10 @@ import { NotificationService } from 'src/app/shared/notification.service';
 export class UserGroupsComponent implements OnInit {
   isVisibleUserGroupDialog = false;
   isVisibleDeleteItemDialog = false;
+  isVisibleListUsers = false;
   userGroups: any = [];
   cols: any[] = [];
-  selectedUserGroup = {};
+  selectedUserGroup: any = {};
   userGroupDialogHeader = '';
   isEditUserGroup = false;
   userGroupForm: FormGroup;
