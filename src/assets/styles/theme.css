@@ -3686,24 +3686,24 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 
 .p-tree {
-  border: 1px solid #dee2e6;
+  /* border: 1px solid #dee2e6; */
   background: #ffffff;
   color: #495057;
-  padding: 1.25rem;
-  border-radius: 6px;
+  /* padding: 1.25rem; */
+  /* border-radius: 6px; */
 }
 .p-tree .p-tree-container .p-treenode {
   padding: 0.143rem;
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content {
-  border-radius: 6px;
+  /* border-radius: 6px; */
   transition: box-shadow 0.2s;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
 }
 .p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler {
   margin-right: 0.5rem;
-  width: 2rem;
-  height: 2rem;
+  width: 0.8rem;
+  height: 0.8rem;
   color: #6c757d;
   border: 0 none;
   background: transparent;
@@ -4248,7 +4248,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-splitter .p-splitter-gutter {
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
-  background: #f8f9fa;
+  background: #c7e5ff;
 }
 .p-splitter .p-splitter-gutter .p-splitter-gutter-handle {
   background: #dee2e6;
