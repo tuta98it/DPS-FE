@@ -86,7 +86,7 @@ export class ListUsersInGroupComponent implements OnInit {
             this.filteredUsers.push({
               userId: u.id,
               userName: u.username,
-              fullName: u.fullName
+              fullName: u.fullname
             });
           })
         }

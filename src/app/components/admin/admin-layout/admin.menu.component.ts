@@ -47,17 +47,17 @@ export class AdminMenuComponent implements OnInit {
             ]
           },
           {
-            label: 'Quản lý user group',
+            label: 'Quản lý group',
             icon: 'pi pi-fw pi-users',
             visible: this.currentUser.userTypes?.includes(Roles.MANGAGE_GROUP),
             items: [
               {
-                label: 'Danh sách user group',
+                label: 'Danh sách group',
                 icon: 'pi pi-fw pi-users',
                 routerLink: ['/admin/user-groups']
               },
               {
-                label: 'Phân quyền user group',
+                label: 'Phân quyền group',
                 icon: 'pi pi-fw pi-users',
                 routerLink: ['/admin/crud']
               },
