@@ -1,1 +1,54 @@
-<p>mark-types works!</p>
+<div class="grid">
+  <div class="col-12 p-0">
+    <div class="card admin-content m-0">
+      <div class="my-2 flex justify-content-between flex-wrap">
+        <span class="block p-input-icon-left">
+        </span>
+        <div class="flex justify-content-end flex-wrap">
+          <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-success p-button-sm"
+            (click)="onCreateItem()"></button>
+        </div>
+      </div>
+      <m-table [isLazyLoad]="false" [cols]="cols" [items]="markTypes" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" 
+        (selectRow)="selectMarkType($event)" [dataKey]="'id'" [loading]="loading" ></m-table>
+    </div>
+
+    <p-dialog [(visible)]="isVisibleMarkTypeDialog" [style]="{width: '450px'}" [header]="markTypeDialogHeader" [modal]="true" class="p-fluid">
+      <ng-template pTemplate="content">
+        <form [formGroup]="markTypeForm">
+          <div class="field">
+            <label for="name"><span class="text-red-500">*</span>Tên phương pháp nhuộm</label>
+            <input type="text" pInputText id="name" formControlName="name" required autofocus/>
+            <div class="text-red-500 text-left" *ngIf="markTypeForm.controls['name'].invalid && 
+              (markTypeForm.controls['name'].dirty || markTypeForm.controls['name'].touched)">*Tên phương pháp nhuộm không được để trống
+            </div>
+          </div>
+          <div class="field">
+            <label for="description"><span class="text-red-500">*</span>Mô tả</label>
+            <textarea id="description" pInputText formControlName="describe"  rows="3"></textarea>
+            <div class="text-red-500 text-left" *ngIf="markTypeForm.controls['describe'].invalid && 
+              (markTypeForm.controls['describe'].dirty || markTypeForm.controls['describe'].touched)">*Mô tả không được để trống
+            </div>
+          </div>
+        </form>
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleMarkTypeDialog=false"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
+      <div class="flex align-items-center justify-content-begin">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="deletedItem">Xác nhận xóa phương pháp nhuộm <b>{{deletedItem.name}}</b>?</span>
+      </div>
+      <ng-template pTemplate="footer">
+        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
+          (click)="isVisibleDeleteItemDialog=false"></p-button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deleteMarkType()"></button>
+      </ng-template>
+    </p-dialog>
+  </div>
+</div>
