@@ -8,6 +8,12 @@ export class Constants {
     EDIT: 0,
     DELETE: 1,
   }
+  public static readonly REQUEST_TYPES = [
+    {label: 'Tế bào học', value: 0},
+    {label: 'Mô bệnh học', value: 1},
+  ];
+  public static readonly GENDERS = ['Nam', 'Nữ'];
+  public static readonly PATIENT_TYPES = ['Nội trú', 'Ngoại trú'];
 }
 export class StorageKeys {
   public static readonly TOKEN = 'dps-token';

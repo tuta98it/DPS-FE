@@ -23,7 +23,7 @@
         <div class="col-8 col-offset-2">
           <div class="mt-6 mb-5">
             <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username" (keydown.enter)="login()"
-              class="w-full border-round-3xl border-500 p-3 h-3rem">
+              class="w-full border-round-3xl border-200 p-3 h-3rem">
             <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
               *Vui lòng nhập tên đăng nhập
             </div>

@@ -1,0 +1,31 @@
+<p-table [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" 
+  [lazy]="true" [styleClass]="'w-full'" [tableStyleClass]="'w-full'" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true"
+  [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" dataKey="caseStudyId"
+  >
+  <ng-template pTemplate="header" let-columns>
+    <tr class="text-blue-900">
+      <th class="block text-center" [style]="{'width':'50px'}" >STT</th>
+      <th *ngFor="let col of columns" [style]="'width:'+col.width">
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr style="height:40px" [pContextMenuRow]="rowData"
+      [ngClass]="{'bg-green-100': rowData['slideCount']>0}">
+      <td class="flex align-items-center justify-content-center" [style]="{'width':'50px'}">{{ rowData['idx'] }}</td>
+      <td *ngFor="let col of columns" [style]="'width:'+col.width" class="flex align-items-center overflow-hidden text-overflow-ellipsis h-full"
+        [title]="rowData[col.field]">
+        {{ rowData[col.field] }}
+      </td>
+    </tr>
+  </ng-template>
+  <!-- <ng-template pTemplate="loadingbody" let-columns="columns">
+    <tr style="height:40px">
+      <td *ngFor="let col of columns">
+        <p-skeleton [ngStyle]="{ width: '100%' }"></p-skeleton>
+      </td>
+    </tr>
+  </ng-template> -->
+</p-table>
+<p-contextMenu #menu styleClass="w-16rem" [model]="actions"></p-contextMenu>

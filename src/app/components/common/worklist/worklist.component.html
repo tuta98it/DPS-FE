@@ -1,1 +1,31 @@
-<p>worklist works!</p>
+<div class="h-full w-full">
+  <p-splitter styleClass="h-full" layout="vertical" [minSizes]="[5, 5, 5]" (onResizeEnd)="onResizeEnd($event)">
+    <ng-template pTemplate>
+      <div class="grid w-full m-0">
+        <div class="col-3">
+          <span class="text-lg font-bold text-green-600">Danh sách ca thăm khám: {{totalCaseStudies}} kết quả</span>
+        </div>
+        <div class="col-9">
+          <div class="flex justify-content-end">
+            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="p-button-success p-button-sm"
+              (click)="onCreateCaseStudy()"></button>
+          </div>
+        </div>
+        <div class="col-12 py-0 px-3 w-full" [style.height]="'calc(100% - 60px)'">
+          <case-study-table class="w-full" (onEditCaseStudy)="onEditCaseStudy($event)" (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" [caseStudies]="caseStudies"></case-study-table>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="col flex align-items-center justify-content-center w-full">
+        Panel 2
+      </div>
+    </ng-template>
+    <ng-template pTemplate>
+      <div class="col flex align-items-center justify-content-center w-full">
+        Panel 3
+      </div>
+    </ng-template>
+  </p-splitter>
+</div>
+<case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader"></case-study-info>

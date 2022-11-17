@@ -1,0 +1,90 @@
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '750px'}" [header]="header" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="case-study-info-container overflow-auto">
+      <div class="grid mx-0 pt-2 mb-0 px-1">
+        <div class="col-9 pl-0 pr-2">
+          <p-autoComplete [(ngModel)]="selectedPatient" [showEmptyMessage]="true" [suggestions]="filteredPatients" 
+            [showClear]="true" (onClear)="selectedPatient={}" [placeholder]="'Nhập tên bệnh nhân'"
+            (completeMethod)="filterPatient($event)" field="fullName" [minLength]="1" inputStyleClass="p-inputtext-sm text-base"></p-autoComplete>
+        </div>
+        <div class="col-3 pr-0 pl-2">
+          <button pButton pRipple label="Thêm bệnh nhân" icon="pi pi-plus" class="p-button-success p-button-sm"
+            (click)="isVisiblePatientInfo=true"></button>
+        </div>
+      </div>
+      <div class="grid mx-1 mt-0 mb-0 border-1 border-round-lg border-300">
+        <div class="col-12 pt-1 pb-2 border-bottom-1 border-300">Thông tin bệnh nhân</div>
+        <div class="col-6 py-1">Họ tên:</div>
+        <div class="col-6 py-1">Mã số:</div>
+        <div class="col-6 py-1">Giới tính:</div>
+        <div class="col-6 py-1">Năm sinh:</div>
+        <div class="col-12 py-1">Địa chỉ:</div>
+      </div>
+      <div class="grid mx-0 mt-0 px-1">
+        <div class="col-6 pl-0 pr-2">
+          <p-calendar [showTime]="true" appendTo="body" placeholder="Thời gian tạo" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+        </div>
+        <div class="col-6 pr-0 pl-2">
+          <input pInputText type="text" placeholder="Mã ca khám" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pl-0 pr-2">
+          <input pInputText type="text" placeholder="Nhập vị trí lấy bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pr-0 pl-2">
+          <p-dropdown [options]="REQUEST_TYPES" placeholder="Loại yêu cầu" optionLabel="label" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-6 pt-0 pl-0 pr-2">
+          <input pInputText type="text" placeholder="Nhập nơi gửi bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pr-0 pl-2">
+          <input pInputText type="text" placeholder="Mã bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pl-0 pr-2">
+          <input pInputText type="text" placeholder="Mã chỉ định" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pr-0 pl-2">
+          <input pInputText type="text" placeholder="Mô tả chỉ định" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-12 pt-0 px-0">
+          <input pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-12 pt-0 px-0">
+          <textarea placeholder="Mô tả đại thể" pInputText  rows="3"></textarea>
+        </div>
+      </div>
+      <div class="flex justify-content-between align-items-center px-1">
+        <span class="text-lg font-medium">Số lam kính đã nhập: 0</span>
+        <button pButton pRipple label="Tải lên lam kính" icon="pi pi-upload" class="w-auto p-button-primary p-button-sm"
+          (click)="onUploadSlide()"></button>
+      </div>
+      <div class="mt-1">
+        <p-table styleClass="p-datatable-xs p-datatable-gridlines">
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="w-3">
+                Marker
+              </th>
+              <th class="w-3">
+                Tên file
+              </th>
+              <th class="w-3">
+                Ngày tạo
+              </th>
+              <th class="w-3">
+                Trạng thái
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="visible=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="visible=false"></button>
+  </ng-template>
+</p-dialog>
+<patient-info [(visible)]="isVisiblePatientInfo" [header]="patientInfoHeader"></patient-info>
+

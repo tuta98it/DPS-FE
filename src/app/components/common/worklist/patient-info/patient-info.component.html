@@ -1,0 +1,51 @@
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="header" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="patient-info-container overflow-auto">
+      <div class="grid mx-0 px-1">
+        <div class="col-6 pl-0 pr-2">
+          <input pInputText type="text" placeholder="Tên bệnh nhân*" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pl-2 pr-0">
+          <input pInputText type="text" placeholder="Mã bệnh nhân*" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pl-0 pr-2">
+          <p-dropdown [options]="GENDERS" placeholder="Giới tính" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-6 pt-0 pl-2 pr-0">
+          <input pInputText type="text" placeholder="Năm sinh*" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-12 pt-0 px-0">
+          <input pInputText type="text" placeholder="CMND/CCCD" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-12 pt-0 px-0">
+          <input pInputText type="text" placeholder="Địa chỉ" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pr-2 pl-0">
+          <input pInputText type="text" placeholder="Bảo hiểm y tế" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-6 pt-0 pl-2 pr-0">
+          <p-calendar placeholder="Ngày hết hạn BHYT" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+        </div>
+        <div class="col-6 pt-0 pl-0 pr-2">
+          <p-dropdown [options]="PATIENT_TYPES" placeholder="Loại bệnh nhân" [showClear]="true"></p-dropdown>
+        </div>
+        <div class="col-6 pt-0 pl-2 pr-0">
+          <input pInputText type="text" placeholder="Nơi gửi bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-4 pt-0 pr-2 pl-0">
+          <input pInputText type="text" placeholder="Khoa" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-4 pt-0 pr-2 pl-2">
+          <input pInputText type="text" placeholder="Phòng" class="w-full p-inputtext-sm text-base" />
+        </div>
+        <div class="col-4 pt-0 pr-0 pl-2">
+          <input pInputText type="text" placeholder="Giường" class="w-full p-inputtext-sm text-base" />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="visible=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="visible=false"></button>
+  </ng-template>
+</p-dialog>

@@ -1,6 +1,7 @@
 <div class="grid mt-0">
   <div class="col-9 pb-0">
-    <p-autoComplete [(ngModel)]="selectedUser" [showEmptyMessage]="true" [suggestions]="filteredUsers" [showClear]="true" (onClear)="selectedUser={}"
+    <p-autoComplete [(ngModel)]="selectedUser" [showEmptyMessage]="true" [suggestions]="filteredUsers" [showClear]="true"
+      (onClear)="selectedUser={}" [placeholder]="'Tìm kiếm user'"
       (completeMethod)="filterUser($event)" field="fullName" [minLength]="1" inputStyleClass="p-inputtext-sm"></p-autoComplete>
   </div>
   <div class="col-3 pb-0">
