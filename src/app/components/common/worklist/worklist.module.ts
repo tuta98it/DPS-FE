@@ -17,13 +17,15 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import {ContextMenuModule} from 'primeng/contextmenu';
+import { SearchCaseStudyComponent } from './search-case-study/search-case-study.component';
 
 @NgModule({
   declarations: [
     WorklistComponent,
     CaseStudyTableComponent,
     CaseStudyInfoComponent,
-    PatientInfoComponent
+    PatientInfoComponent,
+    SearchCaseStudyComponent
   ],
   imports: [
     SplitterModule,

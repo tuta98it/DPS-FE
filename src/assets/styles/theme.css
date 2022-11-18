@@ -75,7 +75,18 @@
 .pi {
   font-size: 1rem;
 }
-
+.font-bold .pi {
+  font-weight: bold;
+}
+.text-lg .pi {
+  font-size: 1.1rem;
+}
+.text-xl .pi {
+  font-size: 1.2rem;
+}
+.text-2xl .pi {
+  font-size: 1.3rem;
+}
 .p-link {
   font-size: 1rem;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -817,7 +828,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
 }
 .p-dropdown .p-dropdown-clear-icon {
   color: #6c757d;
-  right: 3rem;
+  right: 2rem;
 }
 
 .p-dropdown-panel {
@@ -1972,7 +1983,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-button.p-button-sm {
   font-size: 0.875rem;
-  padding: 0.65625rem 1.09375rem;
+  padding: 0.65625rem 0.9375rem;
 }
 .p-button.p-button-sm .p-button-icon {
   font-size: 0.875rem;
@@ -2844,7 +2855,11 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   background-color: #f8f9fa;
 }
 .p-datatable .p-datatable-loading-icon {
-  font-size: 2rem;
+  font-size: 3rem;
+  color: var(--green-500);
+}
+.p-datatable .p-datatable-loading-overlay {
+  background: none;
 }
 .p-datatable.p-datatable-gridlines .p-datatable-header {
   border-width: 1px 1px 0 1px;

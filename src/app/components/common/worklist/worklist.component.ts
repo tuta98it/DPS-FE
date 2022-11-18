@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-worklist',
@@ -7,34 +9,34 @@ import { CaseStudyService } from 'src/app/services/case-study.service';
   styleUrls: ['./worklist.component.scss']
 })
 export class WorklistComponent implements OnInit {
-  searchData = {
-    patientName: '',
-    patientCode: '',
-    requestType: '',
-    from: '',
-    to: '',
-    approveFrom: '',
-    approveTo: '',
-    page: 1,
-    pageSize: 20,
-    status: '',
-    conclusion: '',
-    diagnose: '',
-    specimensCode: '',
-    sort: []
-  };
+  INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
+  searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   caseStudies: any = [];
   totalCaseStudies = 0;
   tableHeight = 300;
   lastMaxStart = -1;
-
+  loading = false;
   isVisibleCaseStudyInfo = false;
   caseStudyInfoHeader = '';
+  
+  isVisibleSearchCaseStudy = false;
 
+  REQUEST_TYPES = Constants.REQUEST_TYPES;
+  REPORT_STATES = Constants.REPORT_STATES;
+  
+  requestTypes:any = {};
+  reportStates:any = {};
 
   constructor(
     private caseStudyService: CaseStudyService
-  ) { }
+  ) {
+    Constants.REQUEST_TYPES.forEach((r: any) => {
+      this.requestTypes[r.value] = r.label;
+    });
+    Constants.REPORT_STATES.forEach((r: any) => {
+      this.reportStates[r.value] = r.label;
+    });
+  }
 
   ngOnInit(): void {
     this.setTableHeight(33.33);
@@ -42,12 +44,26 @@ export class WorklistComponent implements OnInit {
   }
 
   search() {
+    this.loading = true;
     this.caseStudyService.search(this.caseStudyService.url+ '/Search', this.searchData).subscribe({
       next: (res) => {
+        res.d.source.forEach((r: any) => {
+          r.stateLabel = this.reportStates[r.state];
+          r.requestType = this.requestTypes[r.requestType];
+        });
         this.caseStudies = [...this.caseStudies, ...res.d.source];
         this.totalCaseStudies = res.d.itemCount;
       }
+    }).add(() => {
+      this.loading = false;
     });
+  }
+
+  onSearch(data: any) {
+    this.searchData = JSON.parse(JSON.stringify(data));
+    this.searchData.page = 0;
+    this.caseStudies = [];
+    this.lastMaxStart = -1;
   }
 
   onCreateCaseStudy() {
@@ -71,7 +87,7 @@ export class WorklistComponent implements OnInit {
   }
 
   onLazyLoad(event:any) {
-    if (this.lastMaxStart < event.first) {
+    if (this.lastMaxStart < event.first && !this.loading) {
       this.lastMaxStart = event.first;
       this.searchData.page += 1;
       this.search();

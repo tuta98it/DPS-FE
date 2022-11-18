@@ -24,7 +24,7 @@
           <input pInputText type="text" placeholder="Bảo hiểm y tế" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pl-2 pr-0">
-          <p-calendar placeholder="Ngày hết hạn BHYT" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar placeholder="Ngày hết hạn BHYT" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
           <p-dropdown [options]="PATIENT_TYPES" placeholder="Loại bệnh nhân" [showClear]="true"></p-dropdown>

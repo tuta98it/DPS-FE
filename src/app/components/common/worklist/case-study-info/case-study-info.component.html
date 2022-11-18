@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '750px'}" [header]="header" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '700px'}" [header]="header" [modal]="true" class="p-fluid">
   <ng-template pTemplate="content">
     <div class="case-study-info-container overflow-auto">
       <div class="grid mx-0 pt-2 mb-0 px-1">
@@ -22,7 +22,7 @@
       </div>
       <div class="grid mx-0 mt-0 px-1">
         <div class="col-6 pl-0 pr-2">
-          <p-calendar [showTime]="true" appendTo="body" placeholder="Thời gian tạo" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar [showTime]="true" [showIcon]="true" appendTo="body" placeholder="Thời gian tạo" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
         </div>
         <div class="col-6 pr-0 pl-2">
           <input pInputText type="text" placeholder="Mã ca khám" class="w-full p-inputtext-sm text-base" />

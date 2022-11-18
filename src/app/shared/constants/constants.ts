@@ -12,6 +12,13 @@ export class Constants {
     {label: 'Tế bào học', value: 0},
     {label: 'Mô bệnh học', value: 1},
   ];
+  public static readonly REPORT_STATES = [
+    {label: 'Đã chụp', value: 0},
+    {label: 'Đang đọc', value: 1},
+    {label: 'Chờ duyệt', value: 2},
+    {label: 'Đang duyệt', value: 3},
+    {label: 'Đã duyệt', value: 4},
+  ];
   public static readonly GENDERS = ['Nam', 'Nữ'];
   public static readonly PATIENT_TYPES = ['Nội trú', 'Ngoại trú'];
 }

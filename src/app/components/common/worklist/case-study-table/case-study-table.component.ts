@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { LazyLoadEvent, MenuItem } from 'primeng/api';
-import { CaseStudyService } from 'src/app/services/case-study.service';
-
+import { MenuItem } from 'primeng/api';
 @Component({
   selector: 'case-study-table',
   templateUrl: './case-study-table.component.html',
@@ -10,6 +8,8 @@ import { CaseStudyService } from 'src/app/services/case-study.service';
 export class CaseStudyTableComponent implements OnInit {
   @Input() caseStudies: any[] = [];
   @Input() tableHeight = 300;
+  @Input() rows = 0;
+  @Input() loading = false;
   @Output() onLazyLoad = new EventEmitter<any>();
   @Output() onEditCaseStudy = new EventEmitter<any>();
   @Output() onEditPatient = new EventEmitter<any>();
@@ -20,15 +20,15 @@ export class CaseStudyTableComponent implements OnInit {
   constructor() {
     this.cols = [
       // { field: 'idx', header: 'STT', width: '5rem' },
-      { field: 'state', header: 'Trạng thái', width: '5rem' },
-      { field: 'patientsName', header: 'Tên bệnh nhân', width: '10rem' },
+      // { field: 'state', header: 'Trạng thái', width: '8rem' },
+      { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
       { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
       { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
       { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
-      { field: 'requestType', header: 'Loại yêu cầu', width: '5rem' },
-      { field: 'slideCount', header: 'Số lam kính', width: '5rem' },
+      { field: 'requestType', header: 'Loại yêu cầu', width: '10rem' },
+      { field: 'slideCount', header: 'Số lam kính', width: '10rem' },
       { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
-      { field: 'sourceHospital', header: 'Nơi gửi', width: '10rem' },
+      { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
       { field: 'conclusion', header: 'Kết luận', width: '15rem' }
     ];
