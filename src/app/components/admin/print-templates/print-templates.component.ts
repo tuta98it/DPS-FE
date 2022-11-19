@@ -34,7 +34,7 @@ export class PrintTemplatesComponent implements OnInit {
 
   getAll() {
     this.loading = true;
-    this.printTemplateService.getAll(this.printTemplateService.url).subscribe({
+    this.printTemplateService.getAll().subscribe({
       next: (res) => {
         if (res.isValid) {
           this.printTemplates = res.jsonData;
@@ -63,7 +63,7 @@ export class PrintTemplatesComponent implements OnInit {
   }
 
   deletePrintTemplate() {
-    this.printTemplateService.deleteById(this.printTemplateService.url, this.deletedItem.id).subscribe({
+    this.printTemplateService.deleteById(this.deletedItem.id).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Xóa mẫu in thành công', '');

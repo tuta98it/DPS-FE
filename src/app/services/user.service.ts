@@ -5,5 +5,5 @@ import { BaseService } from './base-service';
   providedIn: 'root'
 })
 export class UserService extends BaseService {
-  url = '/User';
+  override url = '/User';
 }

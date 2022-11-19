@@ -78,7 +78,7 @@ export class ListUsersInGroupComponent implements OnInit {
       take: 10,
       keyword: data.query
     }
-    this.userService.search(this.userService.url, payload).subscribe({
+    this.userService.search(payload).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.filteredUsers = [];

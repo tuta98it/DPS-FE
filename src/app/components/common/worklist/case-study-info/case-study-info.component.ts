@@ -45,7 +45,7 @@ export class CaseStudyInfoComponent implements OnInit {
       take: 10,
       keyword: data.query
     }
-    this.patientService.search(this.patientService.url+'/Search', payload).subscribe({
+    this.patientService.search(payload).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.filteredPatients = res.jsonData;

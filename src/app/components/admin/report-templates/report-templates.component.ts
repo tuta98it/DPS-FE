@@ -32,7 +32,7 @@ export class ReportTemplatesComponent implements OnInit {
   getAll() {
     this.loading = true;
     this.reportTemplates = [];
-    this.reportTemplateService.getAll(this.reportTemplateService.url).subscribe({
+    this.reportTemplateService.getAll().subscribe({
       next: (res) => {
         if (res.isValid) {
           this.extractReportTemplates(res.jsonData, this.reportTemplates);
@@ -85,7 +85,7 @@ export class ReportTemplatesComponent implements OnInit {
   createReportTemplate() {
     this.saving = true;
     this.currentTemplate.parentId = this.selectedParent ? this.selectedParent.key : Constants.OBJECT_ID_EMPTY ;
-    this.reportTemplateService.create(this.reportTemplateService.url, this.currentTemplate).subscribe({
+    this.reportTemplateService.create(this.currentTemplate).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Thêm mới thành công', '');
@@ -101,7 +101,7 @@ export class ReportTemplatesComponent implements OnInit {
   updateReportTemplate() {
     this.saving = true;
     this.currentTemplate.parentId = this.selectedParent ? this.selectedParent.key : Constants.OBJECT_ID_EMPTY ;
-    this.reportTemplateService.update(this.reportTemplateService.url, this.currentTemplate.templateId, this.currentTemplate).subscribe({
+    this.reportTemplateService.update(this.currentTemplate.templateId, this.currentTemplate).subscribe({
       next: (res) => {
         if (res.d.isValid) {
           this.notification.success('Cập nhật thành công', '');
@@ -124,7 +124,7 @@ export class ReportTemplatesComponent implements OnInit {
   deleteReportTemplate() {
     this.isVisibleDeleteItemDialog = false;
     this.deleting = true;
-    this.reportTemplateService.deleteById(this.reportTemplateService.url, this.currentTemplate.templateId).subscribe({
+    this.reportTemplateService.deleteById(this.currentTemplate.templateId).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Xóa mẫu báo cáo thành công', '');

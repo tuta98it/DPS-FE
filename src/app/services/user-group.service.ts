@@ -5,7 +5,7 @@ import { BaseService } from './base-service';
   providedIn: 'root'
 })
 export class UserGroupService extends BaseService {
-  url = '/Group';
+  override url = '/Group';
   getUsersInGroup(groupId: string) {
     return this.get(`${this.url}/User/${groupId}`);
   }

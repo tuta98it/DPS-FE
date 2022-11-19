@@ -5,5 +5,5 @@ import { BaseService } from './base-service';
   providedIn: 'root'
 })
 export class ReportTemplateService extends BaseService {
-  url = '/Template';
+  override url = '/Template';
 }

@@ -48,7 +48,7 @@ export class UserGroupsComponent implements OnInit {
 
   search() {
     this.loading = true;
-    this.userGroupService.search(this.userGroupService.url+ '/Search', this.searchData).subscribe({
+    this.userGroupService.search(this.searchData).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.userGroups = res.jsonData.data;
@@ -115,7 +115,7 @@ export class UserGroupsComponent implements OnInit {
   }
 
   updateUserGroup() {
-    this.userGroupService.update(this.userGroupService.url, this.userGroupForm.value.id, this.userGroupForm.value).subscribe({
+    this.userGroupService.update(this.userGroupForm.value.id, this.userGroupForm.value).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Cập nhật thành công', '');
@@ -127,7 +127,7 @@ export class UserGroupsComponent implements OnInit {
   }
 
   createUserGroup() {
-    this.userGroupService.create(this.userGroupService.url, this.userGroupForm.value).subscribe({
+    this.userGroupService.create(this.userGroupForm.value).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Thêm mới thành công', '');
@@ -139,7 +139,7 @@ export class UserGroupsComponent implements OnInit {
   }
 
   deleteUserGroup() {
-    this.userGroupService.deleteById(this.userGroupService.url, this.deletedItem.id).subscribe({
+    this.userGroupService.deleteById(this.deletedItem.id).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Xóa group thành công', '');

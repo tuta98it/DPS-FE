@@ -5,5 +5,5 @@ import { BaseService } from './base-service';
   providedIn: 'root'
 })
 export class MarkTypeService extends BaseService {
-  url = '/MarkType';
+  override url = '/MarkType';
 }

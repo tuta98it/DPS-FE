@@ -49,7 +49,7 @@ export class WorklistComponent implements OnInit {
 
   search() {
     this.loading = true;
-    this.caseStudyService.search(this.caseStudyService.url+ '/Search', this.searchData).subscribe({
+    this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
         res.d.source.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];

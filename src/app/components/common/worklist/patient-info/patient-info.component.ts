@@ -74,7 +74,7 @@ export class PatientInfoComponent implements OnInit {
   }
 
   getPatient() {
-    this.patientService.getById(this.patientService.url, this.patientId).subscribe({
+    this.patientService.getById(this.patientId).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.patientForm.patchValue(res.jsonData);
@@ -101,7 +101,7 @@ export class PatientInfoComponent implements OnInit {
   }
 
   updatePatient() {
-    this.patientService.update(this.patientService.url, this.patientForm.value.id, this.patientForm.value).subscribe({
+    this.patientService.update(this.patientForm.value.id, this.patientForm.value).subscribe({
       next: (res) => {
         this.notification.success('Cập nhật thành công', '');
       }
@@ -111,7 +111,7 @@ export class PatientInfoComponent implements OnInit {
   }
 
   createPatient(isCheckDuplicate=true) {
-    this.patientService.create(this.patientService.url+`/${isCheckDuplicate}`, this.patientForm.value).subscribe({
+    this.patientService.createPatient(isCheckDuplicate, this.patientForm.value).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Thêm mới thành công', '');

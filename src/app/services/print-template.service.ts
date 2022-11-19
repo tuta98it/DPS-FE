@@ -5,5 +5,5 @@ import { BaseService } from './base-service';
   providedIn: 'root'
 })
 export class PrintTemplateService extends BaseService {
-  url = '/PrintTemplate';
+  override url = '/PrintTemplate';
 }

@@ -30,7 +30,7 @@ export class CaseStudyTableComponent implements OnInit {
       { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
       { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
-      { field: 'conclusion', header: 'Kết luận', width: '15rem' }
+      { field: 'conclusion', header: 'Kết luận', width: '20rem' }
     ];
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => {} },

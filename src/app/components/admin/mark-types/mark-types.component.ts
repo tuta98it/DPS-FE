@@ -42,7 +42,7 @@ export class MarkTypesComponent implements OnInit {
 
   getAll() {
     this.loading = true;
-    this.markTypeService.getAll(this.markTypeService.url).subscribe({
+    this.markTypeService.getAll().subscribe({
       next: (res) => {
         if (res.isValid) {
           this.markTypes = res.jsonData;
@@ -104,7 +104,7 @@ export class MarkTypesComponent implements OnInit {
   }
 
   updateMarkType() {
-    this.markTypeService.update(this.markTypeService.url, this.markTypeForm.value.id, this.markTypeForm.value).subscribe({
+    this.markTypeService.update(this.markTypeForm.value.id, this.markTypeForm.value).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Cập nhật thành công', '');
@@ -116,7 +116,7 @@ export class MarkTypesComponent implements OnInit {
   }
 
   createMarkType() {
-    this.markTypeService.create(this.markTypeService.url, this.markTypeForm.value).subscribe({
+    this.markTypeService.create(this.markTypeForm.value).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Thêm mới thành công', '');
@@ -128,7 +128,7 @@ export class MarkTypesComponent implements OnInit {
   }
 
   deleteMarkType() {
-    this.markTypeService.deleteById(this.markTypeService.url, this.deletedItem.id).subscribe({
+    this.markTypeService.deleteById(this.deletedItem.id).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Xóa phương pháp nhuộm thành công', '');

@@ -6,22 +6,23 @@ import { Service } from "./service";
   providedIn: 'root'
 })
 export abstract class BaseService extends Service {
-  search(url: string, data: any): Observable<any> {
-    return this.post(url, data);
+  url: string = '';
+  search(data: any): Observable<any> {
+    return this.post(`/${this.url}/Search`, data);
   }
-  getAll(url: string): Observable<any> {
-    return this.get(url);
+  getAll(): Observable<any> {
+    return this.get(this.url);
   }
-  getById(url: string, id: any): Observable<any> {
-    return this.get(`${url}/${id}`);
+  getById(id: any): Observable<any> {
+    return this.get(`${this.url}/${id}`);
   }
-  create(url: string, data: any): Observable<any> {
-    return this.post(url, data);
+  create(data: any): Observable<any> {
+    return this.post(this.url, data);
   }
-  update(url: string, id: any, data: any): Observable<any> {
-    return this.put(`${url}/${id}`, data);
+  update(id: any, data: any): Observable<any> {
+    return this.put(`${this.url}/${id}`, data);
   }
-  deleteById(url: string, id: any): Observable<any> {
-    return this.delete(`${url}/`, id);
+  deleteById(id: any): Observable<any> {
+    return this.delete(`${this.url}/`, id);
   }
 }

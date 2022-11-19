@@ -5,5 +5,5 @@ import { BaseService } from './base-service';
   providedIn: 'root'
 })
 export class CaseStudyService extends BaseService {
-  url = '/CaseStudy';
+  override url = '/CaseStudy';
 }
