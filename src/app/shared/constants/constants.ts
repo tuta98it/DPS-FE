@@ -1,4 +1,5 @@
 export class Constants {
+  public static readonly FIREBASE_TOKEN = 'fb-token';
   public static readonly OBJECT_ID_EMPTY = "000000000000000000000000";
   public static readonly LAYOUT = {
     FULL: 0,
