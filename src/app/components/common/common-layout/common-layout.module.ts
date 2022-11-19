@@ -11,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { SplitterModule } from 'primeng/splitter';
+import { NotificationModule } from '../../notification/notification.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SplitterModule } from 'primeng/splitter';
     ViewerModule,
     RouterModule,
     CommonLayoutRoutingModule,
+    NotificationModule
   ]
 })
 export class CommonLayoutModule { }
