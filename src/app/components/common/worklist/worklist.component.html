@@ -2,34 +2,38 @@
   <p-splitter styleClass="h-full bg-blue-50" layout="vertical" [minSizes]="[5, 5, 5]" (onResizeEnd)="onResizeEnd($event)">
     <ng-template pTemplate>
       <div class="grid w-full m-0">
-        <div class="col-2 pb-0">
-          <span class="text-lg font-bold text-green-600">Danh sách ca thăm khám: {{totalCaseStudies}} kết quả</span>
+        <div class="col-2 pb-1 flex align-items-center">
+          <span class="xl:text-xl font-bold text-green-600">
+            <ng-container *ngIf="selectedLayout==LAYOUT.FULL">Danh sách ca khám:</ng-container> {{totalCaseStudies}} kết quả
+          </span>
         </div>
-        <div class="col-10 pb-0">
+        <div class="col-10 pb-1">
           <div class="flex justify-content-end">
-            <input pInputText type="text" placeholder=" Tên bệnh nhân" title="Tên bệnh nhân"
-              class="text-base w-10rem p-inputtext-sm mr-2 border-round-3xl" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
-            <input pInputText type="text" placeholder=" Mã bệnh nhân" title="Mã bệnh nhân"
-              class="text-base w-10rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl" [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch(searchData)" />
-            <input pInputText type="text" placeholder=" Mã bệnh phẩm" title="Mã bệnh phẩm"
-              class="text-base w-10rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl" [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch(searchData)" />
-            <p-dropdown [options]="REQUEST_TYPES" [(ngModel)]="searchData.requestType" 
-              placeholder=" Loại yêu cầu" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl sm:hidden xl:flex"></p-dropdown>
+            <input pInputText type="text" placeholder="Tên bệnh nhân" title="Tên bệnh nhân"
+              class="text-base w-14rem p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
+            <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
+              <input pInputText type="text" placeholder="Mã bệnh nhân" title="Mã bệnh nhân"
+                class="text-base w-14rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch(searchData)" />
+              <input pInputText type="text" placeholder="Mã bệnh phẩm" title="Mã bệnh phẩm"
+                class="text-base w-14rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch(searchData)" />
+              <p-dropdown [options]="REQUEST_TYPES" [(ngModel)]="searchData.requestType" 
+                placeholder=" Loại yêu cầu" optionLabel="label" (ngModelChange)="onSearch(searchData)"
+                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl sm:hidden xl:flex w-14rem pl-4"></p-dropdown>
+            </ng-container>
             <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
               placeholder=" Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl"></p-dropdown>
+              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem pl-4"></p-dropdown>
             
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
               (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
             <button pButton pRipple type="button" icon="pi pi-download" title="Xuất báo cáo" class="flex-none text-xl ml-2 bg-blue-400 font-bold p-button-rounded"></button>
-            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 p-button-success p-button p-button-rounded"
+            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 bg-green-500 p-button p-button-rounded"
               (click)="onCreateCaseStudy()"></button>
           </div>
         </div>
-        <div class="col-12 py-0 px-3 w-full flex-auto">
+        <div class="col-12 py-0 px-3 w-full flex-auto mt-3">
           <case-study-table [rows]="totalCaseStudies" [loading]="loading" class="w-full" (onEditCaseStudy)="onEditCaseStudy($event)" (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" [caseStudies]="caseStudies"></case-study-table>
         </div>
       </div>

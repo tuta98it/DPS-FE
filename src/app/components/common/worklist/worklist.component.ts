@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -10,6 +10,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 })
 export class WorklistComponent implements OnInit {
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
+  LAYOUT = Constants.LAYOUT;
   searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   caseStudies: any = [];
   totalCaseStudies = 0;
@@ -27,6 +28,8 @@ export class WorklistComponent implements OnInit {
   requestTypes:any = {};
   reportStates:any = {};
 
+  @Input() selectedLayout = Constants.LAYOUT.FULL;
+  
   constructor(
     private caseStudyService: CaseStudyService
   ) {
@@ -83,7 +86,7 @@ export class WorklistComponent implements OnInit {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
-    this.tableHeight = contentHeight*worklistSizes/100 - 80;
+    this.tableHeight = contentHeight*worklistSizes/100 - 100;
   }
 
   onLazyLoad(event:any) {
