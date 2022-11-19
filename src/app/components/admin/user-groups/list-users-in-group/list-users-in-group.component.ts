@@ -88,7 +88,7 @@ export class ListUsersInGroupComponent implements OnInit {
               userName: u.username,
               fullName: u.fullname
             });
-          })
+          });
         }
       }
     });

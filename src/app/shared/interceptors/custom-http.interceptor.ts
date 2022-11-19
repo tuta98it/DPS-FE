@@ -36,7 +36,7 @@ export class CustomHttpInterceptor  implements HttpInterceptor {
     return next.handle(request).pipe(
       map((res: HttpEvent<any>) => {
         if (res instanceof HttpResponse) {
-          if (res.body.isValid === false) {
+          if (res.body.isValid === false && res.body.errors[0]) {
             this.notification.error('Có lỗi xảy ra', res.body.errors[0].errorMessage);
           }
         }

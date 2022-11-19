@@ -9,18 +9,24 @@ export class Constants {
     DELETE: 1,
   }
   public static readonly REQUEST_TYPES = [
-    {label: 'Tế bào học', value: 0},
-    {label: 'Mô bệnh học', value: 1},
+    {label: 'Tế bào học', value: "0"},
+    {label: 'Mô bệnh học', value: "1"},
+  ];
+  public static readonly GENDERS = [
+    {label: 'Nam', value: "1"},
+    {label: 'Nữ', value: "0"},
+  ];
+  public static readonly PATIENT_TYPES = [
+    {label: 'Nội trú', value: "0"},
+    {label: 'Ngoại trú', value: "1"},
   ];
   public static readonly REPORT_STATES = [
-    {label: 'Đã chụp', value: 0},
-    {label: 'Đang đọc', value: 1},
-    {label: 'Chờ duyệt', value: 2},
-    {label: 'Đang duyệt', value: 3},
-    {label: 'Đã duyệt', value: 4},
+    {label: 'Đã chụp', value: "0"},
+    {label: 'Đang đọc', value: "1"},
+    {label: 'Chờ duyệt', value: "2"},
+    {label: 'Đang duyệt', value: "3"},
+    {label: 'Đã duyệt', value: "4"},
   ];
-  public static readonly GENDERS = ['Nam', 'Nữ'];
-  public static readonly PATIENT_TYPES = ['Nội trú', 'Ngoại trú'];
 }
 export class StorageKeys {
   public static readonly TOKEN = 'dps-token';

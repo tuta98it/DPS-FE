@@ -5,7 +5,7 @@
         <div class="col-9 pl-0 pr-2">
           <p-autoComplete [(ngModel)]="selectedPatient" [showEmptyMessage]="true" [suggestions]="filteredPatients" 
             [showClear]="true" (onClear)="selectedPatient={}" [placeholder]="'Nhập tên bệnh nhân'"
-            (completeMethod)="filterPatient($event)" field="fullName" [minLength]="1" inputStyleClass="p-inputtext-sm text-base"></p-autoComplete>
+            (completeMethod)="filterPatient($event)" field="patientsName" [minLength]="1" inputStyleClass="p-inputtext-sm text-base"></p-autoComplete>
         </div>
         <div class="col-3 pr-0 pl-2">
           <button pButton pRipple label="Thêm bệnh nhân" icon="pi pi-plus" class="bg-green-500 p-button-sm"
@@ -14,11 +14,11 @@
       </div>
       <div class="grid mx-1 mt-0 mb-0 border-1 border-round-lg border-300">
         <div class="col-12 pt-1 pb-2 border-bottom-1 border-300">Thông tin bệnh nhân</div>
-        <div class="col-6 py-1">Họ tên:</div>
-        <div class="col-6 py-1">Mã số:</div>
-        <div class="col-6 py-1">Giới tính:</div>
-        <div class="col-6 py-1">Năm sinh:</div>
-        <div class="col-12 py-1">Địa chỉ:</div>
+        <div class="col-6 py-1">Họ tên: <span class="font-medium">{{selectedPatient.patientsName}}</span></div>
+        <div class="col-6 py-1">Mã bệnh nhân: <span class="font-medium">{{selectedPatient.patientCode}}</span></div>
+        <div class="col-6 py-1">Giới tính: <span class="font-medium">{{genders[selectedPatient.patientsSex]}}</span></div>
+        <div class="col-6 py-1">Năm sinh: <span class="font-medium">{{selectedPatient.yob}}</span></div>
+        <div class="col-12 py-1">Địa chỉ: <span class="font-medium">{{selectedPatient.address}}</span></div>
       </div>
       <div class="grid mx-0 mt-0 px-1">
         <div class="col-6 pl-0 pr-2">
@@ -86,5 +86,5 @@
     <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="visible=false"></button>
   </ng-template>
 </p-dialog>
-<patient-info [(visible)]="isVisiblePatientInfo" [header]="patientInfoHeader"></patient-info>
+<patient-info [(visible)]="isVisiblePatientInfo" [header]="'Thêm mới bệnh nhân'" (onSelectPatient)="onSelectPatient($event)"></patient-info>
 

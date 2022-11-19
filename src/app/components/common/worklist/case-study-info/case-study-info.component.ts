@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { PatientService } from 'src/app/services/patient.service';
 import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
@@ -20,10 +21,16 @@ export class CaseStudyInfoComponent implements OnInit {
   selectedPatient: any = {};
   filteredPatients: any[] = [];
   REQUEST_TYPES = Constants.REQUEST_TYPES;
-  patientInfoHeader = 'Thêm mới bệnh nhân';
   isVisiblePatientInfo = false;
+  genders:any = {};
 
-  constructor() { }
+  constructor(
+    private patientService: PatientService,
+  ) { 
+    Constants.GENDERS.forEach((r: any) => {
+      this.genders[r.value] = r.label;
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -32,7 +39,22 @@ export class CaseStudyInfoComponent implements OnInit {
 
   }
 
-  filterPatient(event: any) {
+  filterPatient(data: any) {
+    let payload = {
+      skip: 0,
+      take: 10,
+      keyword: data.query
+    }
+    this.patientService.search(this.patientService.url+'/Search', payload).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.filteredPatients = res.jsonData;
+        }
+      }
+    });
+  }
 
+  onSelectPatient(patient: any) {
+    this.selectedPatient = patient;
   }
 }

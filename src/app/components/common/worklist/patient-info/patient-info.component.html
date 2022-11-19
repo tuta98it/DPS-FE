@@ -1,51 +1,118 @@
-<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="header" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="header" [modal]="true"
+  class="p-fluid">
   <ng-template pTemplate="content">
     <div class="patient-info-container overflow-auto">
-      <div class="grid mx-0 px-1">
+      <div class="grid mx-0 p-1" [formGroup]="patientForm">
         <div class="col-6 pl-0 pr-2">
-          <input pInputText type="text" placeholder="Tên bệnh nhân*" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="patientsName" pInputText type="text" placeholder="Tên bệnh nhân*"
+            class="w-full p-inputtext-sm text-base" />
+          <div class="text-red-500 text-left" *ngIf="patientForm.controls['patientsName'].invalid && 
+              (patientForm.controls['patientsName'].dirty || patientForm.controls['patientsName'].touched)">
+            *Tên bệnh nhân không được để trống
+          </div>
         </div>
         <div class="col-6 pl-2 pr-0">
-          <input pInputText type="text" placeholder="Mã bệnh nhân*" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="patientCode" pInputText type="text" placeholder="Mã bệnh nhân*"
+            class="w-full p-inputtext-sm text-base" />
+          <div class="text-red-500 text-left" *ngIf="patientForm.controls['patientCode'].invalid && 
+              (patientForm.controls['patientCode'].dirty || patientForm.controls['patientCode'].touched)">
+            *Mã bệnh nhân không được để trống
+          </div>
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
-          <p-dropdown [options]="GENDERS" placeholder="Giới tính" [showClear]="true"></p-dropdown>
+          <p-dropdown formControlName="patientsSex" optionLabel="label" optionValue="value" [options]="GENDERS" placeholder="Giới tính*" [showClear]="true">
+          </p-dropdown>
+          <div class="text-red-500 text-left" *ngIf="patientForm.controls['patientsSex'].invalid && 
+              (patientForm.controls['patientsSex'].dirty || patientForm.controls['patientsSex'].touched)">
+            *Giới tính không được để trống
+          </div>
         </div>
         <div class="col-6 pt-0 pl-2 pr-0">
-          <input pInputText type="text" placeholder="Năm sinh*" class="w-full p-inputtext-sm text-base" />
+          <p-inputNumber formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="true"
+            [min]="1700" [max]="2100">
+          </p-inputNumber>
+          <div class="text-red-500 text-left" *ngIf="patientForm.controls['yob'].invalid && 
+              (patientForm.controls['yob'].dirty || patientForm.controls['yob'].touched)">
+            *Năm sinh không được để trống
+          </div>
         </div>
         <div class="col-12 pt-0 px-0">
-          <input pInputText type="text" placeholder="CMND/CCCD" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="cmnd" pInputText type="text" placeholder="CMND/CCCD"
+            class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-12 pt-0 px-0">
-          <input pInputText type="text" placeholder="Địa chỉ" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="address" pInputText type="text" placeholder="Địa chỉ"
+            class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pr-2 pl-0">
-          <input pInputText type="text" placeholder="Bảo hiểm y tế" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="bhyt" pInputText type="text" placeholder="Bảo hiểm y tế"
+            class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pl-2 pr-0">
-          <p-calendar placeholder="Ngày hết hạn BHYT" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar formControlName="expireDateBHYT" placeholder="Ngày hết hạn BHYT" [showIcon]="true" appendTo="body"
+            [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base">
+          </p-calendar>
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
-          <p-dropdown [options]="PATIENT_TYPES" placeholder="Loại bệnh nhân" [showClear]="true"></p-dropdown>
+          <p-dropdown formControlName="patientType" [options]="PATIENT_TYPES" appendTo="body"
+            placeholder="Loại bệnh nhân*" [showClear]="true" optionLabel="label" optionValue="value"></p-dropdown>
+          <div class="text-red-500 text-left" *ngIf="patientForm.controls['patientType'].invalid && 
+              (patientForm.controls['patientType'].dirty || patientForm.controls['patientType'].touched)">
+            *Loại bệnh nhân không được để trống
+          </div>
         </div>
         <div class="col-6 pt-0 pl-2 pr-0">
           <input pInputText type="text" placeholder="Nơi gửi bệnh phẩm" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-4 pt-0 pr-2 pl-0">
-          <input pInputText type="text" placeholder="Khoa" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="faculty" pInputText type="text" placeholder="Khoa"
+            class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-4 pt-0 pr-2 pl-2">
-          <input pInputText type="text" placeholder="Phòng" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="room" pInputText type="text" placeholder="Phòng"
+            class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-4 pt-0 pr-0 pl-2">
-          <input pInputText type="text" placeholder="Giường" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="sickBed" pInputText type="text" placeholder="Giường"
+            class="w-full p-inputtext-sm text-base" />
         </div>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="visible=false"></button>
-    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="visible=false"></button>
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger"
+      (click)="visible=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="onSave()"></button>
+  </ng-template>
+</p-dialog>
+<p-dialog [(visible)]="visibleDuplicate" [style]="{width: '600px'}" [header]="'Danh sách bệnh nhân trùng lặp'" 
+  [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <p-table [value]="listDuplicate" responsiveLayout="scroll" selectionMode="single" [(selection)]="selectedDuplicate"
+      styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true" [dataKey]="'id'" >
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 3rem" class="text-center">STT</th>
+      <th style="width: 10rem">Tên bệnh nhân</th>
+      <th style="width: 8rem">Mã bệnh nhân</th>
+      <th style="width: 8rem">CMND</th>
+      <th>Lý do trùng</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="item">
+      <td class="text-center">{{rowIndex+1}}</td>
+      <td>{{item['patientsName']}}</td>
+      <td>{{item['patientCode']}}</td>
+      <td>{{item['cmnd']}}</td>
+      <td>{{item['type']}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Vẫn tiếp tục thêm" class="p-button-sm mr-2 p-button-info"
+      (click)="createPatient(false)"></button>
+    <button [disabled]="!selectedDuplicate?.id" pButton pRipple label="Áp dụng" class="p-button-sm" (click)="onUseDuplicate()"></button>
   </ng-template>
 </p-dialog>

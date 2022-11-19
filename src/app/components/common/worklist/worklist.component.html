@@ -17,12 +17,12 @@
               <input pInputText type="text" placeholder="Mã bệnh phẩm" title="Mã bệnh phẩm"
                 class="text-base w-14rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch(searchData)" />
               <p-dropdown [options]="REQUEST_TYPES" [(ngModel)]="searchData.requestType" 
-                placeholder=" Loại yêu cầu" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl sm:hidden xl:flex w-14rem pl-4"></p-dropdown>
+                placeholder="Loại yêu cầu" optionLabel="label" (ngModelChange)="onSearch(searchData)"
+                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl sm:hidden xl:flex w-14rem pl-3"></p-dropdown>
             </ng-container>
             <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
-              placeholder=" Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem pl-4"></p-dropdown>
+              placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
+              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem pl-3"></p-dropdown>
             
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
@@ -34,7 +34,9 @@
           </div>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-3">
-          <case-study-table [rows]="totalCaseStudies" [loading]="loading" class="w-full" (onEditCaseStudy)="onEditCaseStudy($event)" (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" [caseStudies]="caseStudies"></case-study-table>
+          <case-study-table [rows]="totalCaseStudies" [loading]="loading" class="w-full" 
+            (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)"
+            (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" [caseStudies]="caseStudies"></case-study-table>
         </div>
       </div>
     </ng-template>
@@ -52,3 +54,4 @@
 </div>
 <case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader"></case-study-info>
 <search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
+<patient-info [(visible)]="isVisiblePatientInfo" [header]="'Sửa thông tin bệnh nhân'" [patientId]="selectedPatientId"></patient-info>

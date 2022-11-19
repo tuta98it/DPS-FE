@@ -18,7 +18,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { SearchCaseStudyComponent } from './search-case-study/search-case-study.component';
-
+import { InputNumberModule } from 'primeng/inputnumber';
 @NgModule({
   declarations: [
     WorklistComponent,
@@ -37,6 +37,7 @@ import { SearchCaseStudyComponent } from './search-case-study/search-case-study.
     InputTextModule,
     RippleModule,
     DropdownModule,
+    InputNumberModule,
     ContextMenuModule,
     CalendarModule,
     ReactiveFormsModule,

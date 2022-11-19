@@ -21,13 +21,14 @@ export class WorklistComponent implements OnInit {
   caseStudyInfoHeader = '';
   
   isVisibleSearchCaseStudy = false;
+  isVisiblePatientInfo = false;
 
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
   
   requestTypes:any = {};
   reportStates:any = {};
-
+  selectedPatientId = '';
   @Input() selectedLayout = Constants.LAYOUT.FULL;
   
   constructor(
@@ -70,12 +71,18 @@ export class WorklistComponent implements OnInit {
   }
 
   onCreateCaseStudy() {
-    this.caseStudyInfoHeader = 'Thêm ca thăm khám';
+    this.caseStudyInfoHeader = 'Thêm ca khám';
     this.isVisibleCaseStudyInfo = true;
   }
 
   onEditCaseStudy(event: any) {
     console.log('onEditCaseStudy', event);
+  }
+  
+  onEditPatient(event: any) {
+    console.log('onEditPatient', event);
+    this.selectedPatientId = event.patientId;
+    this.isVisiblePatientInfo = true;
   }
 
   onResizeEnd(event: any) {
