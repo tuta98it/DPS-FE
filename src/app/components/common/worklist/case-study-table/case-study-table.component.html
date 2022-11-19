@@ -6,7 +6,8 @@
     <tr class="text-blue-900">
       <th class="flex flex-none bg-white" [style]="{'width':'50px'}">STT</th>
       <th class="flex flex-none bg-white" [style]="{'width':'8rem'}">Trạng thái</th>
-      <th *ngFor="let col of cols" [style]="{'width':col.width}" class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none">
+      <th *ngFor="let col of cols" [style]="{'width':col.width}" pResizableColumn 
+        class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none">
         {{ col.header }}
       </th>
     </tr>

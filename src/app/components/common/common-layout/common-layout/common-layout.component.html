@@ -1,11 +1,11 @@
 <app-header (onSelectLayout)="onSelectLayout($event)"></app-header>
 <div class="common-layout-container">
-  <app-worklist *ngIf="selectedLayout==LAYOUT.FULL"></app-worklist>
+  <app-worklist *ngIf="selectedLayout==LAYOUT.FULL" [selectedLayout]="selectedLayout"></app-worklist>
   <div *ngIf="selectedLayout==LAYOUT.DUAL" class="h-full">
     <p-splitter styleClass="h-full" [minSizes]="[30, 30]" [gutterSize]="6">
       <ng-template pTemplate>
         <div class="h-full w-full">
-          <app-worklist></app-worklist>
+          <app-worklist [selectedLayout]="selectedLayout"></app-worklist>
         </div>
       </ng-template>
       <ng-template pTemplate>
