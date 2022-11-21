@@ -15,9 +15,9 @@ export class AuthStateService {
   {
     let localAuthData = localStorage.getItem(StorageKeys.USER);
     if (localAuthData) {
-      this.authData   = JSON.parse(localAuthData);
+      this.authData = JSON.parse(localAuthData);
     } else {
-      this.authData   = JSON.parse(JSON.stringify(INIT_AUTH_MODEL));
+      this.authData = JSON.parse(JSON.stringify(INIT_AUTH_MODEL));
     }
     this.subject = new BehaviorSubject<IAuthModel>(this.authData);
   }

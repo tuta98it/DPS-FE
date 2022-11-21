@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-viewer',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit {
+  @Input() caseStudyId = '';
 
   constructor() { }
 

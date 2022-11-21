@@ -94,4 +94,8 @@ export class AdminMenuComponent implements OnInit {
       },
     ];
   }
+
+  public ngOnDestroy(): void {
+    this._authSubscription.unsubscribe();
+  }
 }

@@ -1,13 +1,26 @@
 <div class="flex justify-content-between bg-white px-3 align-items-center header-container">
-  <div>Hỗ trợ kĩ thuật: <span class="text-2xl font-semibold text-green-600">0979 175 115</span></div>
-  <div><img class="block" src="assets/images/dps-logo.png"></div>
+  <ng-container *ngIf="!isShowViewer || selectedLayout==LAYOUT.DUAL">
+    <div>Hỗ trợ kĩ thuật: <span class="text-2xl font-semibold text-green-600">0979 175 115</span></div>
+    <div><img class="block" src="assets/images/dps-logo.png"></div>
+  </ng-container>
+  <viewer-tabs *ngIf="isShowViewer && selectedLayout==LAYOUT.FULL"></viewer-tabs>
   <div class="flex">
     <ul class="flex actions align-items-center mr-4">
-      <li class="block hover:surface-200 cursor-pointer" (click)="onSelectLayout.emit()">
-        <i class="fa-solid fa-table-columns text-2xl p-2 text-500"></i>
+      <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
+        <li *ngIf="!isShowViewer" class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" 
+          title="Xem slide" (click)="isShowViewerChange.emit(true)">
+          <i class="fa-solid fa-circle-arrow-right text-2xl text-500"></i>
+        </li>
+        <li *ngIf="isShowViewer" class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" 
+          (click)="isShowViewerChange.emit(false)">
+          <i class="fa-solid fa-circle-arrow-left text-2xl text-500"></i>
+        </li>
+      </ng-container>
+      <li class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" (click)="onSelectLayout.emit()">
+        <i class="fa-solid fa-table-columns text-2xl text-500"></i>
       </li>
-      <li class="block hover:surface-200 cursor-pointer">
-        <i class="fa-solid fa-bell text-2xl p-2 text-500"></i>
+      <li class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer">
+        <i class="fa-solid fa-bell text-2xl text-500"></i>
       </li>
     </ul>
     <div class="account flex align-items-center">
