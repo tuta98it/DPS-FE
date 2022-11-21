@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Table } from 'primeng/table';
 @Component({
   selector: 'case-study-table',
   templateUrl: './case-study-table.component.html',
@@ -13,9 +14,11 @@ export class CaseStudyTableComponent implements OnInit {
   @Output() onLazyLoad = new EventEmitter<any>();
   @Output() onEditCaseStudy = new EventEmitter<any>();
   @Output() onEditPatient = new EventEmitter<any>();
+  @Output() onRefresh = new EventEmitter<any>();
   actions!: MenuItem[];
-  selectedCaseStudy: any;
+  selectedCaseStudy: any = {};
   cols: any[];
+  @ViewChild('caseStudyTable') caseStudyTable!: Table;
 
   constructor() {
     this.cols = [
@@ -34,7 +37,7 @@ export class CaseStudyTableComponent implements OnInit {
     ];
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => {} },
-      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', command: () => {} },
+      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', command: () => this.onRefresh.emit() },
       { label: 'Sửa chi tiết ca khám', icon: 'pi pi-fw pi-file-edit', command: () => this.onEditCaseStudy.emit(this.selectedCaseStudy)},
       { label: 'Tải lên lam kính', icon: 'pi pi-fw pi-upload', command: () => {} },
       { label: 'Sửa thông tin bệnh nhân', icon: 'pi pi-fw pi-user-edit', command: () => this.onEditPatient.emit(this.selectedCaseStudy) },
@@ -46,7 +49,9 @@ export class CaseStudyTableComponent implements OnInit {
   ngOnInit() {
   }
 
-  onScroll(event: any) {
-    
+  resetScrollTop() {
+    this.caseStudyTable.resetScrollTop();
   }
+
+  onRowSelect() {}
 }

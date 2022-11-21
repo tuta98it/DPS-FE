@@ -34,7 +34,7 @@
           </div>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-3">
-          <case-study-table [rows]="totalCaseStudies" [loading]="loading" class="w-full" 
+          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" (onRefresh)="onSearch(searchData)"
             (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)"
             (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" [caseStudies]="caseStudies"></case-study-table>
         </div>

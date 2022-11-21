@@ -1,5 +1,6 @@
-<p-table [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
-  [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll"
+<p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
+  [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
+  selectionMode="single" [(selection)]="selectedCaseStudy" (onRowSelect)="onRowSelect()"
   [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand"
   >
   <ng-template pTemplate="header">
@@ -13,8 +14,10 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
-    <tr style="height:40px" [pContextMenuRow]="rowData"
-      [ngClass]="{'bg-green-100': rowData['slideCount']>0}">
+    <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData"
+      [ngClass]="{'bg-green-100': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
+        'surface-200':rowData['idx']==selectedCaseStudy['idx'],
+        'hover:surface-200 cursor-pointer':true}">
       <td class="flex align-items-center justify-content-center flex-none" [style]="{'width':'50px'}">{{ rowData['idx'] }}</td>
       <td class="flex align-items-center flex-none" [style]="{'width':'8rem'}">
         <span class="flex align-items-center state-color-{{rowData['state']}}">

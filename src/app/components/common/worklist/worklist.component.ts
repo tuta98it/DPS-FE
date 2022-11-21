@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import { CaseStudyTableComponent } from './case-study-table/case-study-table.component';
 
 @Component({
   selector: 'app-worklist',
@@ -30,6 +31,7 @@ export class WorklistComponent implements OnInit {
   reportStates:any = {};
   selectedPatientId = '';
   @Input() selectedLayout = Constants.LAYOUT.FULL;
+  @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
   
   constructor(
     private caseStudyService: CaseStudyService
@@ -66,6 +68,8 @@ export class WorklistComponent implements OnInit {
   onSearch(data: any) {
     this.searchData = JSON.parse(JSON.stringify(data));
     this.searchData.page = 0;
+    this.caseStudyTable.resetScrollTop();
+    
     this.caseStudies = [];
     this.lastMaxStart = -1;
   }
@@ -80,7 +84,6 @@ export class WorklistComponent implements OnInit {
   }
   
   onEditPatient(event: any) {
-    console.log('onEditPatient', event);
     this.selectedPatientId = event.patientId;
     this.isVisiblePatientInfo = true;
   }
