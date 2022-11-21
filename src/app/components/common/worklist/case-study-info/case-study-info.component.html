@@ -2,17 +2,21 @@
   <ng-template pTemplate="content">
     <div class="case-study-info-container overflow-auto">
       <div class="grid mx-0 pt-2 mb-0 px-1">
-        <div class="col-9 pl-0 pr-2">
+        <div class="col-9 pl-0 pr-2 pb-0">
           <p-autoComplete [(ngModel)]="selectedPatient" [showEmptyMessage]="true" [suggestions]="filteredPatients" 
-            [showClear]="true" (onClear)="selectedPatient={}" [placeholder]="'Nhập tên bệnh nhân'"
+            [showClear]="true" (onClear)="onClearPatient" [placeholder]="'Nhập tên bệnh nhân'" (onSelect)="onSelectPatient(selectedPatient)"
             (completeMethod)="filterPatient($event)" field="patientsName" [minLength]="1" inputStyleClass="p-inputtext-sm text-base"></p-autoComplete>
         </div>
-        <div class="col-3 pr-0 pl-2">
+        <div class="col-3 pr-0 pl-2 pb-0">
           <button pButton pRipple label="Thêm bệnh nhân" icon="pi pi-plus" class="bg-green-500 p-button-sm"
             (click)="isVisiblePatientInfo=true"></button>
         </div>
+        <div class="col-12 text-red-500 text-left p-0" *ngIf="caseStudyForm.controls['patientId'].invalid && 
+            (caseStudyForm.controls['patientId'].dirty || caseStudyForm.controls['patientId'].touched)">
+          *Vui lòng chọn bệnh nhân
+        </div>
       </div>
-      <div class="grid mx-1 mt-0 mb-0 border-1 border-round-lg border-300">
+      <div class="grid mx-1 mt-3 mb-0 border-1 border-round-lg border-300">
         <div class="col-12 pt-1 pb-2 border-bottom-1 border-300">Thông tin bệnh nhân</div>
         <div class="col-6 py-1">Họ tên: <span class="font-medium">{{selectedPatient.patientsName}}</span></div>
         <div class="col-6 py-1">Mã bệnh nhân: <span class="font-medium">{{selectedPatient.patientCode}}</span></div>
@@ -20,36 +24,37 @@
         <div class="col-6 py-1">Năm sinh: <span class="font-medium">{{selectedPatient.yob}}</span></div>
         <div class="col-12 py-1">Địa chỉ: <span class="font-medium">{{selectedPatient.address}}</span></div>
       </div>
-      <div class="grid mx-0 mt-0 px-1">
+      <div class="grid mx-0 mt-0 px-1" [formGroup]="caseStudyForm">
         <div class="col-6 pl-0 pr-2">
-          <p-calendar [showTime]="true" [showIcon]="true" appendTo="body" placeholder="Thời gian tạo" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar formControlName="createTime" [showTime]="true" [showIcon]="true" appendTo="body" placeholder="Thời gian tạo"
+           inputStyleClass="w-full p-inputtext-sm text-base" [dateFormat]="'dd/mm/yy'"></p-calendar>
         </div>
         <div class="col-6 pr-0 pl-2">
-          <input pInputText type="text" placeholder="Mã ca khám" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="visitCode" pInputText type="text" placeholder="Mã ca khám" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
-          <input pInputText type="text" placeholder="Nhập vị trí lấy bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="bodyPart" pInputText type="text" placeholder="Nhập vị trí lấy bệnh phẩm" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pr-0 pl-2">
-          <p-dropdown [options]="REQUEST_TYPES" placeholder="Loại yêu cầu" optionLabel="label" [showClear]="true"></p-dropdown>
+          <p-dropdown formControlName="requestType" [options]="REQUEST_TYPES" placeholder="Loại yêu cầu" optionLabel="label" optionValue="value" [showClear]="true"></p-dropdown>
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
-          <input pInputText type="text" placeholder="Nhập nơi gửi bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="sourceHospital" pInputText type="text" placeholder="Nhập nơi gửi bệnh phẩm" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pr-0 pl-2">
-          <input pInputText type="text" placeholder="Mã bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="specimensCode" pInputText type="text" placeholder="Mã bệnh phẩm" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
-          <input pInputText type="text" placeholder="Mã chỉ định" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="modalityCode" pInputText type="text" placeholder="Mã chỉ định" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pr-0 pl-2">
-          <input pInputText type="text" placeholder="Mô tả chỉ định" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="modalityName" pInputText type="text" placeholder="Mô tả chỉ định" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-12 pt-0 px-0">
-          <input pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full p-inputtext-sm text-base" />
+          <input formControlName="clinicalDiagnosis" pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-12 pt-0 px-0">
-          <textarea placeholder="Mô tả đại thể" pInputText  rows="3"></textarea>
+          <textarea formControlName="description" placeholder="Mô tả đại thể" pInputText  rows="3"></textarea>
         </div>
       </div>
       <div class="flex justify-content-between align-items-center px-1">
@@ -83,7 +88,7 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="visible=false"></button>
-    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="visible=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="onSave()"></button>
   </ng-template>
 </p-dialog>
 <patient-info [(visible)]="isVisiblePatientInfo" [header]="'Thêm mới bệnh nhân'" (onSelectPatient)="onSelectPatient($event)"></patient-info>

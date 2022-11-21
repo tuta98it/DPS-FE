@@ -1,6 +1,9 @@
-<app-header (onSelectLayout)="onSelectLayout($event)"></app-header>
+<app-header [(isShowViewer)]="isShowViewer" [selectedLayout]="selectedLayout" (onSelectLayout)="onSelectLayout($event)"></app-header>
 <div class="common-layout-container">
-  <app-worklist *ngIf="selectedLayout==LAYOUT.FULL" [selectedLayout]="selectedLayout"></app-worklist>
+  <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
+    <app-worklist *ngIf="!isShowViewer" [selectedLayout]="selectedLayout"></app-worklist>
+    <app-viewer *ngIf="isShowViewer" [caseStudyId]="currentCaseId"></app-viewer>
+  </ng-container>
   <div *ngIf="selectedLayout==LAYOUT.DUAL" class="h-full">
     <p-splitter styleClass="h-full" [minSizes]="[30, 30]" [gutterSize]="6">
       <ng-template pTemplate>

@@ -14,10 +14,14 @@ export class WorklistComponent implements OnInit {
   LAYOUT = Constants.LAYOUT;
   searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   caseStudies: any = [];
+  relatedCaseStudies: any = [];
   totalCaseStudies = 0;
+  totalRelated = 0;
   tableHeight = 300;
+  relatedTableHeight = 300;
   lastMaxStart = -1;
   loading = false;
+  loadingRelated = false;
   isVisibleCaseStudyInfo = false;
   caseStudyInfoHeader = '';
   
@@ -30,6 +34,8 @@ export class WorklistComponent implements OnInit {
   requestTypes:any = {};
   reportStates:any = {};
   selectedPatientId = '';
+  updatedCaseStudy: any = {};
+  selectedCaseStudy: any = {};
   @Input() selectedLayout = Constants.LAYOUT.FULL;
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
   
@@ -45,7 +51,7 @@ export class WorklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setTableHeight(33.33);
+    this.setTableHeight(33.33, 33.33);
     this.search();
   }
 
@@ -55,13 +61,27 @@ export class WorklistComponent implements OnInit {
       next: (res) => {
         res.d.source.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
-          r.requestType = this.requestTypes[r.requestType];
+          r.requestTypeLabel = this.requestTypes[r.requestType];
         });
         this.caseStudies = [...this.caseStudies, ...res.d.source];
-        this.totalCaseStudies = res.d.itemCount;
+        this.totalRelated = res.d.itemCount;
       }
     }).add(() => {
       this.loading = false;
+    });
+  }
+
+  getCaseStudyOfPatient() {
+    this.loadingRelated = true;
+    this.caseStudyService.getCaseStudyOfPatient(this.selectedCaseStudy.patientId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.relatedCaseStudies = res.jsonData;
+          this.totalRelated = res.jsonData.length;
+        }
+      }
+    }).add(() => {
+      this.loadingRelated = false;
     });
   }
 
@@ -69,18 +89,28 @@ export class WorklistComponent implements OnInit {
     this.searchData = JSON.parse(JSON.stringify(data));
     this.searchData.page = 0;
     this.caseStudyTable.resetScrollTop();
-    
+    this.caseStudyTable.selectedCaseStudy = {};
+    this.selectedCaseStudy = {};
+    this.relatedCaseStudies = [];
     this.caseStudies = [];
     this.lastMaxStart = -1;
   }
 
+  onSelectCaseStudy(data: any) {
+    this.selectedCaseStudy = data;
+    this.getCaseStudyOfPatient();
+  }
+
   onCreateCaseStudy() {
     this.caseStudyInfoHeader = 'Thêm ca khám';
+    this.updatedCaseStudy = {};
     this.isVisibleCaseStudyInfo = true;
   }
 
-  onEditCaseStudy(event: any) {
-    console.log('onEditCaseStudy', event);
+  onEditCaseStudy(data: any) {
+    this.caseStudyInfoHeader = 'Sửa thông tin ca khám';
+    this.updatedCaseStudy = data;
+    this.isVisibleCaseStudyInfo = true;
   }
   
   onEditPatient(event: any) {
@@ -89,14 +119,15 @@ export class WorklistComponent implements OnInit {
   }
 
   onResizeEnd(event: any) {
-    this.setTableHeight(event.sizes[0]);
+    this.setTableHeight(event.sizes[0], event.sizes[1]);
   }
 
-  setTableHeight(worklistSizes: number) {
+  setTableHeight(worklistSize: number, relatedListSize: number) {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
-    this.tableHeight = contentHeight*worklistSizes/100 - 100;
+    this.tableHeight = contentHeight*worklistSize/100 - 100;
+    this.relatedTableHeight = contentHeight*relatedListSize/100 - 80;
   }
 
   onLazyLoad(event:any) {

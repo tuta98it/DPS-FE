@@ -1,6 +1,6 @@
 <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
   [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
-  selectionMode="single" [(selection)]="selectedCaseStudy" (onRowSelect)="onRowSelect()"
+  selectionMode="single" [(selection)]="selectedCaseStudy" (onRowSelect)="onRowSelect.emit(selectedCaseStudy)"
   [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand"
   >
   <ng-template pTemplate="header">
@@ -15,6 +15,7 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
     <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData"
+      (dblclick)="openViewer(rowData)"
       [ngClass]="{'bg-green-100': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
         'surface-200':rowData['idx']==selectedCaseStudy['idx'],
         'hover:surface-200 cursor-pointer':true}">

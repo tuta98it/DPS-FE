@@ -6,4 +6,10 @@ import { BaseService } from './base-service';
 })
 export class CaseStudyService extends BaseService {
   override url = '/CaseStudy';
+  addTemporaryCaseStudy() {
+    return this.post(`${this.url}/AddTemporaryCaseStudy`, '');
+  }
+  getCaseStudyOfPatient(patientId: string) {
+    return this.get(`${this.url}/Patient/${patientId}`);
+  }
 }

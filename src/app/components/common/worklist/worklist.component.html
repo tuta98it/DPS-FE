@@ -35,14 +35,29 @@
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-3">
           <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" (onRefresh)="onSearch(searchData)"
-            (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)"
-            (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" [caseStudies]="caseStudies"></case-study-table>
+            (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)" (onSaveCaseStudy)="onSearch(searchData)"
+            (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" (onRowSelect)="onSelectCaseStudy($event)" [caseStudies]="caseStudies"></case-study-table>
         </div>
       </div>
     </ng-template>
     <ng-template pTemplate>
-      <div class="col flex align-items-center justify-content-center w-full">
-        Panel 2
+      <div class="grid w-full m-0 flex-none">
+        <div class="col-12 pb-0 flex align-items-center">
+          <span class="xl:text-xl font-bold text-green-600">
+            Danh sách ca khám liên quan của bệnh nhân
+          </span>
+          <i class="fa-solid fa-expand text-2xl block flex-none ml-auto"></i>
+        </div>
+        <!-- <div class="col-1 pb-1">
+          <div class="flex justify-content-end align-items-center">
+            <i class="fa-solid fa-expand text-2xl"></i>
+          </div>
+        </div> -->
+        <div class="col-12 py-0 px-3 w-full flex-auto mt-3" [style.height]="tableHeight">
+          <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true"
+            (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)" [tableHeight]="relatedTableHeight" 
+            [caseStudies]="relatedCaseStudies"></case-study-table>
+        </div>
       </div>
     </ng-template>
     <ng-template pTemplate>
@@ -52,6 +67,7 @@
     </ng-template>
   </p-splitter>
 </div>
-<case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader"></case-study-info>
+<case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader"
+  [caseStudy]="relatedCaseStudies" (onSaveCaseStudy)="onSearch(searchData)"></case-study-info>
 <search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
 <patient-info [(visible)]="isVisiblePatientInfo" [header]="'Sửa thông tin bệnh nhân'" [patientId]="selectedPatientId"></patient-info>
