@@ -1,0 +1,49 @@
+<div class="grid">
+  <div class="col-12 p-0">
+    <div class="card admin-content m-0">
+      <div class="my-2">
+        <span class="block p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Tìm kiếm..." class="w-full sm:w-auto p-inputtext-sm"
+            [(ngModel)]="searchData.keyword" (keydown.enter)="search()" />
+          <button pButton pRipple icon="pi pi-search" class="p-button-primary mr-2 ml-2 p-button-sm"
+            (click)="search()"></button>
+          <button pButton pRipple icon="pi pi-times" class="p-button-secondary p-button-sm"
+            (click)="resetSearch()"></button>
+        </span>
+      </div>
+      <p-table [value]="groups" responsiveLayout="scroll" [lazy]="true"
+        (onLazyLoad)="onPageChange($event)" [paginator]="true" [rows]="searchData.take" [rowsPerPageOptions]="[10,20,30]"
+        [showCurrentPageReport]="true" [totalRecords]="total" [tableStyle]="{'width': roles.length*5+42+'rem'}"
+        currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" [loading]="loading" 
+        styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th [style.width]="'3rem'" class="text-center">STT</th>
+            <th [style.width]="'15rem'">GroupId</th>
+            <th [style.width]="'12rem'">Tên nhóm</th>
+            <th *ngFor="let role of roles; let i = index" [style.width]="'5rem'">{{role}}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="item">
+            <td [style.width]="'3rem'" class="text-center">{{rowIndex+1}}</td>
+            <td [style.width]="'15rem'">{{item['id']}}</td>
+            <td [style.width]="'12rem'">{{item['name']}}</td>
+            <td *ngFor="let role of roles; let i = index" class="text-center" [style.width]="'5rem'">
+              <!-- <i *ngIf="item.roles.includes(role)" class="pi pi-check text-xl text-green-500 font-bold"></i> -->
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="4" class="text-center">
+              Không có dữ liệu.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+  </div>
+</div>

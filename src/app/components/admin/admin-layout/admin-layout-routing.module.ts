@@ -21,10 +21,28 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						data: { role: Roles.MANGAGE_USER },
 					},
 					{
+						path: 'user-roles',
+						loadChildren: () =>
+							import('../user-roles/user-roles.module').then(
+								(m) => m.UserRolesModule
+							),
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANGAGE_USER },
+					},
+					{
 						path: 'user-groups',
 						loadChildren: () =>
 							import('../user-groups/user-groups.module').then(
 								(m) => m.UserGroupsModule
+							),
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANGAGE_GROUP },
+					},
+					{
+						path: 'group-roles',
+						loadChildren: () =>
+							import('../group-roles/group-roles.module').then(
+								(m) => m.GroupRolesModule
 							),
 						canActivate: [AuthGuard],
 						data: { role: Roles.MANGAGE_GROUP },

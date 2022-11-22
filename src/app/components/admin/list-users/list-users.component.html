@@ -1,1 +1,65 @@
-<p>list-users works!</p>
+<div class="grid">
+  <div class="col-12 p-0">
+    <div class="card admin-content m-0">
+      <div class="my-2 flex justify-content-between flex-wrap">
+        <span class="block p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" placeholder="Tìm kiếm theo tên hoặc tài khoản" class="inline-block lg:w-17rem sm:w-auto p-inputtext-sm"
+            [(ngModel)]="searchData.keyword" (keydown.enter)="search()" />
+          <button pButton pRipple icon="pi pi-search" class="p-button-primary mr-2 ml-2 p-button-sm"
+            (click)="search()"></button>
+          <button pButton pRipple icon="pi pi-times" class="p-button-secondary p-button-sm"
+            (click)="resetSearch()"></button>
+        </span>
+        <div class="flex justify-content-end flex-wrap">
+          <button [disabled]="true" pButton pRipple label="Danh sách group" icon="pi pi-users"
+            class="p-button-help mr-2 p-button-sm"></button>
+          <button pButton pRipple label="Thêm thành viên" icon="pi pi-plus"
+            class="mr-2 p-button-success p-button-sm"></button>
+          <button pButton pRipple label="Tạo tài khoản" icon="pi pi-plus" class="p-button-success p-button-sm"></button>
+        </div>
+      </div>
+      <p-table [value]="users" [columns]="cols" responsiveLayout="scroll" [lazy]="true"
+        (onLazyLoad)="onPageChange($event)" [paginator]="true" [rows]="searchData.take" [rowsPerPageOptions]="[10,20,30]"
+        [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand" [totalRecords]="total"
+        currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single"
+        [(selection)]="selectedUser" [loading]="loading" styleClass="p-datatable-xs p-datatable-gridlines"
+        [rowHover]="true" [dataKey]="'id'">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem" class="text-center">
+              STT
+            </th>
+            <th *ngFor="let col of cols; let i = index" pResizableColumn>{{col['header']}}</th>
+            <th style="width: 5rem" class="text-center">Enable</th>
+            <th style="width: 3rem"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="item">
+            <td class="text-center" style="width: 3rem">
+              {{rowIndex+1}}
+            </td>
+            <td [style.width]="col.width" *ngFor="let col of cols;">
+              {{item[col['field']]}}
+            </td>
+            <td class="text-center" [style.width]="'5rem'">
+              <p-inputSwitch [(ngModel)]="item.enable" style="position:relative;top:2px"></p-inputSwitch>
+            </td>
+            <td [style.width]="'3rem'" class="text-center">
+              <button pButton pRipple icon="pi pi-pencil"
+                class="p-button-rounded p-button-success p-button-xs"></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" let-columns>
+          <tr>
+            <td [attr.colspan]="columns.length+3" class="text-center">
+              Không có dữ liệu.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

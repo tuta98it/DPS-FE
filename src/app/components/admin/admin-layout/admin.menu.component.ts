@@ -42,7 +42,7 @@ export class AdminMenuComponent implements OnInit {
               {
                 label: 'Xem phân quyền user',
                 icon: 'pi pi-fw pi-user',
-                routerLink: ['/admin/crud']
+                routerLink: ['/admin/user-roles']
               },
             ]
           },
@@ -59,7 +59,7 @@ export class AdminMenuComponent implements OnInit {
               {
                 label: 'Phân quyền group',
                 icon: 'pi pi-fw pi-users',
-                routerLink: ['/admin/crud']
+                routerLink: ['/admin/group-roles']
               },
             ]
           },
