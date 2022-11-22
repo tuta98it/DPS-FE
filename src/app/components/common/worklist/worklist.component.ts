@@ -64,7 +64,7 @@ export class WorklistComponent implements OnInit {
           r.requestTypeLabel = this.requestTypes[r.requestType];
         });
         this.caseStudies = [...this.caseStudies, ...res.d.source];
-        this.totalRelated = res.d.itemCount;
+        this.totalCaseStudies = res.d.itemCount;
       }
     }).add(() => {
       this.loading = false;
