@@ -1,5 +1,5 @@
 export interface IViewerTab {
-  caseStudyId?: string;
+  caseStudyId: string;
   patientsName?: string;
   createdTime?: string;
 }

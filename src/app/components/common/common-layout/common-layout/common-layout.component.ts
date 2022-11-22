@@ -39,6 +39,9 @@ export class CommonLayoutComponent implements OnInit {
 
     this._currentCaseSubscription = this.viewerState.subscribeCurrentCase( (id: string) => {
       this.currentCaseId = id;
+      if (id) {
+        this.isShowViewer = true;
+      }
     });
   }
 

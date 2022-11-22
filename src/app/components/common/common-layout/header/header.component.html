@@ -3,7 +3,7 @@
     <div>Hỗ trợ kĩ thuật: <span class="text-2xl font-semibold text-green-600">0979 175 115</span></div>
     <div><img class="block" src="assets/images/dps-logo.png"></div>
   </ng-container>
-  <viewer-tabs *ngIf="isShowViewer && selectedLayout==LAYOUT.FULL"></viewer-tabs>
+  <viewer-tabs *ngIf="isShowViewer && selectedLayout==LAYOUT.FULL" class="h-full flex-none" style="width: 60%"></viewer-tabs>
   <div class="flex">
     <ul class="flex actions align-items-center mr-4">
       <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
