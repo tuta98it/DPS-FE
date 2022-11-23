@@ -23,7 +23,7 @@ export const INIT_SEARCH_CASE_STUDY : SearchCaseStudy = {
   approveFrom: '',
   approveTo: '',
   page: 1,
-  pageSize: 20,
+  pageSize: 50,
   status: '',
   conclusion: '',
   diagnose: '',

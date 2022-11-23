@@ -1,6 +1,6 @@
 <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
   [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
-  selectionMode="single" [(selection)]="selectedCaseStudy" (onRowSelect)="onRowSelect.emit(selectedCaseStudy)"
+  selectionMode="single" (onRowSelect)="onRowSelect($event)"
   [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand"
   >
   <ng-template pTemplate="header">
@@ -32,5 +32,12 @@
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="loadingbody" let-columns="columns">
+    <tr style="height:40px">
+        <td [attr.colspan]="cols.length+2" class="text-center">
+          <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
+        </td>
+    </tr>
+</ng-template>
 </p-table>
 <p-contextMenu #menu styleClass="w-16rem" [model]="actions"></p-contextMenu>

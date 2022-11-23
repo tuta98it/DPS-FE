@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { INIT_CASE_STUDY } from 'src/app/models/case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -16,11 +17,8 @@ export class CaseStudyInfoComponent implements OnInit {
     this._visible = value;
     this.visibleChange.emit(value);
     if (!value) {
-      this.caseStudyForm.reset();
-    } else {
-      Object.values(this.caseStudyForm.controls).forEach((control) => {
-        control.markAsUntouched();
-      });
+      this.caseStudyForm.reset(INIT_CASE_STUDY);
+      this.selectedPatient = {};
     }
   }
   get visible() {
@@ -29,36 +27,24 @@ export class CaseStudyInfoComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<any>();
   @Output() onSaveCaseStudy = new EventEmitter<any>();
 
-  _caseStudy: any = {};
-  @Input() set caseStudy(data: any) {
-    this._caseStudy = data;
-    if (!data.caseStudyId) {
+  _caseStudyId = new String('');
+  @Input() set caseStudyId(data: String) {
+    this._caseStudyId = data;
+    if (data == '') {
       this.addTemporaryCaseStudy();
     } else {
-      console.log('caseStudy', data);
-      this.caseStudyForm.patchValue({
-        id: data.caseStudyId,
-        patientId: data.patientId,
-        bodyPart: data.bodyPart,
-        clinicalDiagnosis: data.clinicalDiagnosis,
-        requestType: data.requestType,
-        description: data.description,
-        sourceHospital: data.sourceHospital,
-        specimensCode: data.specimensCode,
-        visitCode: data.visitCode,
-        createTime: data.createTime,
-        modalityCode: data.modalityCode,
-        modalityName: data.modalityName,
-        expireDateBHYT: data.expireDateBHYT
-      });
+      this.getCaseStudy();
+      this.getPatient();
     }
   }
-  get caseStudy() {
-    return this._caseStudy;
+  get caseStudyId() {
+    return this._caseStudyId;
   }
 
+  @Input() patientId = '';
   @Input() header = '';
   selectedPatient: any = {};
+  updatedCaseStudy: any = {};
   filteredPatients: any[] = [];
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   isVisiblePatientInfo = false;
@@ -75,23 +61,23 @@ export class CaseStudyInfoComponent implements OnInit {
       this.genders[r.value] = r.label;
     });
     this.caseStudyForm = this.fb.group({
-      id: [null],
-      patientId: [null, [Validators.required]],
-      bodyPart: [null],
-      clinicalDiagnosis: [null],
-      requestType: [null],
-      description: [null],
-      sourceHospital: [null],
-      specimensCode: [null],
-      visitCode: [null],
-      createTime: [null],
-      modalityCode: [null],
-      modalityName: [null],
-      expireDateBHYT: [null]
+      id: [''],
+      patientId: ['', [Validators.required]],
+      bodyPart: [''],
+      clinicalDiagnosis: [''],
+      requestType: [''],
+      description: [''],
+      sourceHospital: [''],
+      specimensCode: [''],
+      visitCode: [''],
+      createTime: [''],
+      modalityCode: [''],
+      modalityName: ['']
     });
   }
 
   ngOnInit(): void {
+    
   }
 
   onUploadSlide() {
@@ -108,7 +94,7 @@ export class CaseStudyInfoComponent implements OnInit {
 
   onSave() {
     if (this.caseStudyForm.valid) {
-      if (!this.caseStudy?.caseStudyId) {
+      if (!this.caseStudyId) {
         this.createCaseStudy();
       } else {
         this.updateCaseStudy();
@@ -124,11 +110,14 @@ export class CaseStudyInfoComponent implements OnInit {
   }
 
   updateCaseStudy() {
-    this.caseStudyService.update(this.caseStudyForm.value.id, this.caseStudyForm.value).subscribe({
+    let payload = {...this.updatedCaseStudy, ...this.caseStudyForm.value, status: 0, specimensDates: null}
+    this.caseStudyService.updateCaseStudy(payload).subscribe({
       next: (res) => {
-        this.notification.success('Cập nhật thành công', '');
-        this.onSaveCaseStudy.emit();
-        this.visible = false;
+        if (res.isValid) {
+          this.notification.success('Cập nhật thành công', '');
+          this.onSaveCaseStudy.emit();
+          this.visible = false;
+        }
       }
     });
   }
@@ -137,8 +126,43 @@ export class CaseStudyInfoComponent implements OnInit {
     this.caseStudyService.create(this.caseStudyForm.value).subscribe({
       next: (res) => {
         if (res.isValid) {
+          this.onSaveCaseStudy.emit();
           this.notification.success('Thêm mới thành công', '');
           this.visible = false;
+        }
+      }
+    });
+  }
+
+  getCaseStudy() {
+    this.caseStudyService.getById(this.caseStudyId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.updatedCaseStudy = res.jsonData;
+          this.caseStudyForm.patchValue({
+            id: res.jsonData.id,
+            patientId: res.jsonData.patientId,
+            bodyPart: res.jsonData.bodyPart,
+            clinicalDiagnosis: res.jsonData.clinicalDiagnosis,
+            requestType: res.jsonData.requestType,
+            description: res.jsonData.description,
+            sourceHospital: res.jsonData.sourceHospital,
+            specimensCode: res.jsonData.specimensCode,
+            visitCode: res.jsonData.visitCode,
+            createTime: new Date(res.jsonData.createdTime),
+            modalityCode: res.jsonData.modalityCode,
+            modalityName: res.jsonData.modalityName
+          });
+        }
+      }
+    });
+  }
+
+  getPatient() {
+    this.patientService.getById(this.patientId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.selectedPatient = res.jsonData;
         }
       }
     });

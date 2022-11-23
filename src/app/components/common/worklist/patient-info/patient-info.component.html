@@ -58,7 +58,7 @@
             placeholder="Loại bệnh nhân*" [showClear]="true" optionLabel="label" optionValue="value"></p-dropdown>
           <div class="text-red-500 text-left" *ngIf="patientForm.controls['patientType'].invalid && 
               (patientForm.controls['patientType'].dirty || patientForm.controls['patientType'].touched)">
-            *Loại bệnh nhân không được để trống
+            *Vui lòng chọn loại bệnh nhân
           </div>
         </div>
         <div class="col-6 pt-0 pl-2 pr-0">

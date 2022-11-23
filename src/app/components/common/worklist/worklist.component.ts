@@ -33,8 +33,8 @@ export class WorklistComponent implements OnInit {
   
   requestTypes:any = {};
   reportStates:any = {};
-  selectedPatientId = '';
-  updatedCaseStudy: any = {};
+  selectedPatientId = new String('');
+  updatedCaseStudyId = new String('');
   selectedCaseStudy: any = {};
   @Input() selectedLayout = Constants.LAYOUT.FULL;
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
@@ -87,13 +87,14 @@ export class WorklistComponent implements OnInit {
 
   onSearch(data: any) {
     this.searchData = JSON.parse(JSON.stringify(data));
-    this.searchData.page = 0;
-    this.caseStudyTable.resetScrollTop();
+    this.searchData.page = 1;
     this.caseStudyTable.selectedCaseStudy = {};
     this.selectedCaseStudy = {};
     this.relatedCaseStudies = [];
     this.caseStudies = [];
+    this.caseStudyTable.resetScrollTop();
     this.lastMaxStart = -1;
+    this.search();
   }
 
   onSelectCaseStudy(data: any) {
@@ -103,18 +104,20 @@ export class WorklistComponent implements OnInit {
 
   onCreateCaseStudy() {
     this.caseStudyInfoHeader = 'Thêm ca khám';
-    this.updatedCaseStudy = {};
+    this.updatedCaseStudyId = '';
+    this.selectedPatientId = '';
     this.isVisibleCaseStudyInfo = true;
   }
 
   onEditCaseStudy(data: any) {
     this.caseStudyInfoHeader = 'Sửa thông tin ca khám';
-    this.updatedCaseStudy = data;
+    this.updatedCaseStudyId = new String(data.caseStudyId);
+    this.selectedPatientId = data.patientId;
     this.isVisibleCaseStudyInfo = true;
   }
   
   onEditPatient(event: any) {
-    this.selectedPatientId = event.patientId;
+    this.selectedPatientId = new String(event.patientId);
     this.isVisiblePatientInfo = true;
   }
 

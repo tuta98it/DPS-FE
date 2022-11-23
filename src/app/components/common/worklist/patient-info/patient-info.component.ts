@@ -27,10 +27,10 @@ export class PatientInfoComponent implements OnInit {
   get visible() {
     return this._visible;
   }
-  _patientId = '';
-  @Input() set patientId(value: string) {
+  _patientId = new String('');
+  @Input() set patientId(value: String) {
     this._patientId = value;
-    if (value) {
+    if (value != '') {
       this.getPatient();
     }
   }
@@ -63,7 +63,7 @@ export class PatientInfoComponent implements OnInit {
       faculty: [null],
       room: [null],
       sickBed: [null],
-      patientType: [null],
+      patientType: [null, [Validators.required]],
       bhyt: [null],
       validDateBHYT: [null],
       expireDateBHYT: [null]

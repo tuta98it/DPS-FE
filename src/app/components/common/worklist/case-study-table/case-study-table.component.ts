@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { IViewerTab } from 'src/app/models/viewer-tab';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 @Component({
   selector: 'case-study-table',
@@ -17,12 +18,12 @@ export class CaseStudyTableComponent implements OnInit {
   @Output() onEditCaseStudy = new EventEmitter<any>();
   @Output() onEditPatient = new EventEmitter<any>();
   @Output() onRefresh = new EventEmitter<any>();
-  @Output() onRowSelect = new EventEmitter<any>();
+  @Output() onSelectCaseStudy = new EventEmitter<any>();
   actions!: MenuItem[];
   selectedCaseStudy: any = {};
   cols: any[];
   @ViewChild('caseStudyTable') caseStudyTable!: Table;
-
+  clickTimer: any;
   constructor(
     private viewerState: ViewerStateService,
   ) {
@@ -40,23 +41,28 @@ export class CaseStudyTableComponent implements OnInit {
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
       { field: 'conclusion', header: 'Kết luận', width: '20rem' }
     ];
+  }
+
+  ngOnInit() {
     this.actions = [
-      { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => {} },
-      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', command: () => this.onRefresh.emit()
-      },
+      { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => this.openViewer(this.selectedCaseStudy) },
+      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', command: () => this.onRefresh.emit(),
+        visible: !this.isRelatedList},
       { label: 'Sửa chi tiết ca khám', icon: 'pi pi-fw pi-file-edit', command: () => this.onEditCaseStudy.emit(this.selectedCaseStudy)},
       { label: 'Tải lên lam kính', icon: 'pi pi-fw pi-upload', command: () => {} },
       { label: 'Sửa thông tin bệnh nhân', icon: 'pi pi-fw pi-user-edit', command: () => this.onEditPatient.emit(this.selectedCaseStudy) },
       { label: 'Share ca khám', icon: 'pi pi-fw pi-share-alt', command: () => {} },
       { label: 'Xóa ca khám', icon: 'pi pi-fw pi-trash', command: () => {} },
     ];
-    console.log('this.isRelatedList', this.isRelatedList)
-    // if (this.isRelatedList) {
-    //   this.actions.splice(1, 1);
-    // }
   }
 
-  ngOnInit() {
+  onRowSelect(event: any) {
+    if (event.originalEvent.detail == 1) {
+      this.clickTimer = setTimeout(() => {
+        this.selectedCaseStudy = event.data;
+        this.onSelectCaseStudy.emit(event.data);
+      }, 300)
+    }
   }
 
   resetScrollTop() {
@@ -64,6 +70,16 @@ export class CaseStudyTableComponent implements OnInit {
   }
 
   openViewer(caseStudy: any) {
-    this.viewerState.dispatchCurrentCase(caseStudy.caseStudyId);
+    this.selectedCaseStudy = caseStudy;
+    this.onSelectCaseStudy.emit(caseStudy);
+    clearTimeout(this.clickTimer);
+    console.log('openViewer', caseStudy);
+
+    let newTab: IViewerTab = {
+      caseStudyId: caseStudy.caseStudyId,
+      patientsName: caseStudy.patientsName,
+      createdTime: caseStudy.createdTime
+    }
+    this.viewerState.openTab(newTab);
   }
 }

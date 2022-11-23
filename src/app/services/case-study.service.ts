@@ -12,4 +12,7 @@ export class CaseStudyService extends BaseService {
   getCaseStudyOfPatient(patientId: string) {
     return this.get(`${this.url}/Patient/${patientId}`);
   }
+  updateCaseStudy(data: any) {
+    return this.put(`${this.url}`, data);
+  }
 }
