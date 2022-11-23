@@ -1,7 +1,9 @@
-<div *ngIf="!caseStudyId" class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
-  <i class="fa-solid fa-microscope text-8xl"></i>
-  Bạn hãy chọn một lam kính
-</div>
-<div class="w-full h-full relative" *ngIf="caseStudyId">
-  <iframe id='0' style='border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;' src='https://dpstest2.pmr.vn/dps-viewer?domain=http://dpstest.pmr.vn&slide=63529f473c248e0930065269'></iframe>
+<div #viewerContainer class="w-full h-full">
+  <div *ngIf="currentTabs.length==0" class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
+    <i class="fa-solid fa-microscope text-8xl"></i>
+    Bạn hãy chọn một lam kính
+  </div>
+  <!-- <div [ngClass]="{'hidden': currentCaseId==tab.caseStudyId, 'w-full h-full relative':true}" *ngFor="let tab of currentTabs" >
+    <iframe id='0' style='border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;' src='https://dpstest2.pmr.vn/dps-viewer?domain=http://dpstest.pmr.vn&slide=63529f473c248e0930065269'></iframe>
+  </div> -->
 </div>
