@@ -17,4 +17,7 @@ export class UserGroupService extends BaseService {
     let payload = { userId, groupId };
     return this.post(`${this.url}/AddUser`, payload);
   }
+  updateGroupRoles(groupId: string, roleIds: string[]) {
+    return this.post(`${this.url}/Role/${groupId}`, { roleIds });
+  }
 }

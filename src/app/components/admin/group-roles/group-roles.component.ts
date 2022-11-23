@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoleService } from 'src/app/services/role.service';
 import { UserGroupService } from 'src/app/services/user-group.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
   selector: 'app-group-roles',
@@ -20,6 +21,7 @@ export class GroupRolesComponent implements OnInit {
 
   constructor(
     private groupService: UserGroupService,
+    private notification: NotificationService,
     private roleService: RoleService
   ) { }
 
@@ -32,13 +34,12 @@ export class GroupRolesComponent implements OnInit {
       this.roleService.getAll().subscribe({
         next: (res) => {
           if (res.isValid) {
-            this.roles = res.jsonData.map((r: any) => r.name);
+            this.roles = res.jsonData;
             resolve(true);
           }
         }
       });
-    })
-    
+    });
   }
 
   search() {
@@ -47,11 +48,33 @@ export class GroupRolesComponent implements OnInit {
       next: (res) => {
         if (res.isValid) {
           this.groups = res.jsonData.data;
+          this.groups.forEach((g:any) => {
+            g.checkedRoles = [];
+            this.roles.forEach((r:any) => {
+              g.checkedRoles.push(g.roles.includes(r.name));
+            });
+          });
           this.total = res.jsonData.total;
         }
       }
     }).add(() => {
       this.loading = false
+    });
+  }
+
+  updateGroupRoles(group: any) {
+    let roleIds = [];
+    for (let i=0; i<this.roles.length; ++i) {
+      if (group.checkedRoles[i]) {
+        roleIds.push(this.roles[i].id);
+      }
+    }
+    this.groupService.updateGroupRoles(group.id, roleIds).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Cập nhật thành công');
+        }
+      }
     });
   }
 
