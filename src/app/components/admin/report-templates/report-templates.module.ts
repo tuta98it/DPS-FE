@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { DialogModule } from 'primeng/dialog';
     CommonModule,
     EditorModule,
     TreeModule,
+    ConfirmDialogModule,
     FormsModule,
     DialogModule,
     RippleModule,

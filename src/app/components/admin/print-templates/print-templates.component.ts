@@ -14,6 +14,7 @@ export class PrintTemplatesComponent implements OnInit {
   cols: any[] = [];
   selectedPrintTemplate = {};
   isEditPrintTemplate = false;
+  textConfirmDelete = '';
   deletedItem: any = {};
   loading = false;
   constructor(
@@ -54,6 +55,7 @@ export class PrintTemplatesComponent implements OnInit {
   }
 
   onDeleteItem(item: any) {
+    this.textConfirmDelete = `Xác nhận xóa mẫu in <b>${item.templateName}</b>?`
     this.deletedItem = item;
     this.isVisibleDeleteItemDialog = true;
   }

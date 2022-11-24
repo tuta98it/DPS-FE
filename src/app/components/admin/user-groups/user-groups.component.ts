@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 export class UserGroupsComponent implements OnInit {
   isVisibleUserGroupDialog = false;
   isVisibleDeleteItemDialog = false;
+  textConfirmDelete = '';
   isVisibleListUsers = false;
   userGroups: any = [];
   cols: any[] = [];
@@ -83,6 +84,7 @@ export class UserGroupsComponent implements OnInit {
   }
 
   onDeleteItem(item: any) {
+    this.textConfirmDelete = `Xác nhận xóa group <b>${item.name}</b>?`
     this.deletedItem = item;
     this.isVisibleDeleteItemDialog = true;
   }

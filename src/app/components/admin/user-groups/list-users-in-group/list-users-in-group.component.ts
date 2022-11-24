@@ -15,11 +15,12 @@ export class ListUsersInGroupComponent implements OnInit {
   cols: any[] = [];
   users: any = [];
   isVisibleDeleteItemDialog = false;
+  textConfirmDelete = '';
   deletedItem: any = {};
   loading = false;
   @Input() groupId = '';
   selectedUser = INIT_AUTH_MODEL;
-  filteredUsers: IAuthModel[] = [];
+  filteredUsers: any[] = [];
   constructor(
     private userGroupService: UserGroupService,
     private userService: UserService,
@@ -48,6 +49,7 @@ export class ListUsersInGroupComponent implements OnInit {
     });
   }
   onDeleteItem(item: any) {
+    this.textConfirmDelete = `Xác nhận xóa user <b>${item.fullname}</b> khỏi nhóm?`
     this.deletedItem = item;
     this.isVisibleDeleteItemDialog = true;
   }
@@ -86,7 +88,8 @@ export class ListUsersInGroupComponent implements OnInit {
             this.filteredUsers.push({
               userId: u.id,
               userName: u.username,
-              fullName: u.fullname
+              fullName: u.fullname,
+              label: u.fullname + ' - ' + u.username
             });
           });
         }

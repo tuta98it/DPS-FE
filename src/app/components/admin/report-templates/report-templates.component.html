@@ -16,7 +16,7 @@
           <!-- <button pButton pRipple label="Upload" icon="pi pi-upload" class="p-button-info p-button-sm mr-2"></button>
           <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help p-button-sm mr-2"></button> -->
           <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" (click)="resetTemplate()"></button>
-          <button [loading]="deleting" [disabled]="!currentTemplate.templateId" pButton pRipple label="Xóa" icon="pi pi-trash" (click)="isVisibleDeleteItemDialog = true"
+          <button [loading]="deleting" [disabled]="!currentTemplate.templateId" pButton pRipple label="Xóa" icon="pi pi-trash" (click)="onDeleteItem()"
             class="p-button-danger p-button-sm mr-2"></button>
           <button [loading]="saving" pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save" class="p-button-primary p-button-sm" (click)="onSaveTemplate()"></button>
         </div>
@@ -79,15 +79,6 @@
       </div>
     </div>
   </div>
-  <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
-    <div class="flex align-items-center justify-content-begin">
-      <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-      <span>Xác nhận xóa mẫu báo cáo <b>{{currentTemplate.templateName}}</b>?</span>
-    </div>
-    <ng-template pTemplate="footer">
-      <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
-        (click)="isVisibleDeleteItemDialog=false"></p-button>
-      <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deleteReportTemplate()"></button>
-    </ng-template>
-  </p-dialog>
 </div>
+
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="deleteReportTemplate()"></confirm-dialog>

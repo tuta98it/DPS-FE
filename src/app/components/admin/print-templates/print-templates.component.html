@@ -12,17 +12,7 @@
       <m-table [isLazyLoad]="false" [cols]="cols" [items]="printTemplates" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)"
         (selectRow)="selectPrintTemplate($event)" [dataKey]="'id'" [loading]="loading" ></m-table>
     </div>
-
-    <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
-      <div class="flex align-items-center justify-content-begin">
-        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="deletedItem">Xác nhận xóa mẫu in <b>{{deletedItem.templateName}}</b>?</span>
-      </div>
-      <ng-template pTemplate="footer">
-        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
-          (click)="isVisibleDeleteItemDialog=false"></p-button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deletePrintTemplate()"></button>
-      </ng-template>
-    </p-dialog>
   </div>
 </div>
+
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="deletePrintTemplate()"></confirm-dialog>

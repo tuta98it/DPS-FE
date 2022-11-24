@@ -20,6 +20,8 @@ export class ReportTemplatesComponent implements OnInit {
   currentTemplate = JSON.parse(JSON.stringify(INIT_REPORT_TEMPLATE));
   selectedParent: TreeNode | null = null;
   isVisibleDeleteItemDialog = false;
+  textConfirmDelete = '';
+
   constructor(
     private reportTemplateService: ReportTemplateService,
     private notification: NotificationService
@@ -135,6 +137,11 @@ export class ReportTemplatesComponent implements OnInit {
     }).add(() => {
       this.deleting = false
     });
+  }
+
+  onDeleteItem() {
+    this.textConfirmDelete = `Xác nhận xóa mẫu báo cáo <b>${this.currentTemplate.templateName}</b>?`
+    this.isVisibleDeleteItemDialog = true;
   }
 
   resetTemplate() {

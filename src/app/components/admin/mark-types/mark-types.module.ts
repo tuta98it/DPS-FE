@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 
 
 
@@ -22,6 +23,7 @@ import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
     ReactiveFormsModule,
     FormsModule,
     ButtonModule,
+    ConfirmDialogModule,
     InputTextModule,
     CommonModule,
     MarkTypesRoutingModule

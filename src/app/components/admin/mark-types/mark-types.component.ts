@@ -18,6 +18,7 @@ export class MarkTypesComponent implements OnInit {
   isEditMarkType = false;
   markTypeForm: FormGroup;
   deletedItem: any = {};
+  textConfirmDelete = '';
   loading = false;
   constructor(
     private fb: FormBuilder,
@@ -79,6 +80,7 @@ export class MarkTypesComponent implements OnInit {
 
   onDeleteItem(item: any) {
     this.deletedItem = item;
+    this.textConfirmDelete = `Xác nhận xóa phương pháp nhuộm <b>${item.name}</b>?`
     this.isVisibleDeleteItemDialog = true;
   }
 

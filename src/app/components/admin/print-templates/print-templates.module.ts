@@ -7,6 +7,7 @@ import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     RippleModule,
     ButtonModule,
     ReactiveFormsModule,
+    ConfirmDialogModule,
     FormsModule,
     MTableModule,
     DialogModule,

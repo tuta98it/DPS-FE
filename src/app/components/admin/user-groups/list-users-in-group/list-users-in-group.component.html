@@ -1,8 +1,8 @@
 <div class="grid mt-0">
   <div class="col-9 pb-0">
     <p-autoComplete [(ngModel)]="selectedUser" [showEmptyMessage]="true" [suggestions]="filteredUsers" [showClear]="true"
-      (onClear)="selectedUser={}" [placeholder]="'Tìm kiếm user'"
-      (completeMethod)="filterUser($event)" field="fullName" [minLength]="1" inputStyleClass="p-inputtext-sm"></p-autoComplete>
+      (onClear)="selectedUser={}" [placeholder]="'Tìm kiếm user'" appendTo="body"
+      (completeMethod)="filterUser($event)" field="label" [minLength]="1" inputStyleClass="p-inputtext-sm"></p-autoComplete>
   </div>
   <div class="col-3 pb-0">
     <button [disabled]="!selectedUser.userId" pButton pRipple icon="pi pi-plus" class="p-button-sm" label="Thêm user" (click)="addUser()"></button>
@@ -12,14 +12,4 @@
       [dataKey]="'id'" [loading]="loading" [actions]="[ACTIONS.DELETE]"></m-table>
   </div>
 </div>
-<p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
-  <div class="flex align-items-center justify-content-begin">
-    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-    <span *ngIf="deletedItem">Xác nhận xóa user <b>{{deletedItem.fullname}}</b> khỏi nhóm?</span>
-  </div>
-  <ng-template pTemplate="footer">
-    <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
-      (click)="isVisibleDeleteItemDialog=false"></p-button>
-    <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="removeUser()"></button>
-  </ng-template>
-</p-dialog>
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="removeUser()"></confirm-dialog>

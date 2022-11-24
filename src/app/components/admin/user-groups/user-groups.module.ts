@@ -11,6 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 import { ListUsersInGroupComponent } from './list-users-in-group/list-users-in-group.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     ButtonModule,
     InputTextModule,
     RippleModule,
+    ConfirmDialogModule,
     DialogModule,
     MTableModule,
     AutoCompleteModule,

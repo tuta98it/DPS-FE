@@ -38,17 +38,7 @@
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
       </ng-template>
     </p-dialog>
-
-    <p-dialog [(visible)]="isVisibleDeleteItemDialog" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
-      <div class="flex align-items-center justify-content-begin">
-        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-        <span *ngIf="deletedItem">Xác nhận xóa phương pháp nhuộm <b>{{deletedItem.name}}</b>?</span>
-      </div>
-      <ng-template pTemplate="footer">
-        <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
-          (click)="isVisibleDeleteItemDialog=false"></p-button>
-        <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="Xóa" (click)="deleteMarkType()"></button>
-      </ng-template>
-    </p-dialog>
   </div>
 </div>
+
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="deleteMarkType()"></confirm-dialog>
