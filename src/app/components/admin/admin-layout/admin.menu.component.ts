@@ -83,6 +83,7 @@ export class AdminMenuComponent implements OnInit {
           {
             label: 'Quản lý phương pháp nhuộm',
             icon: 'pi pi-fw pi-align-justify',
+            visible: this.currentUser.userTypes?.includes(Roles.MANAGE_MARKTYPE),
             routerLink: ['/admin/mark-types'],
           },
           // {
