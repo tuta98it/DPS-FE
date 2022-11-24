@@ -34,9 +34,9 @@
           </div>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-3">
-          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" (onRefresh)="onSearch(searchData)"
-            (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)" (onSaveCaseStudy)="onSearch(searchData)"
-            (onLazyLoad)="onLazyLoad($event)" [tableHeight]="tableHeight" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies"></case-study-table>
+          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
+            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
+            (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
     </ng-template>
@@ -49,9 +49,8 @@
           <!-- <i class="fa-solid fa-expand text-2xl block flex-none ml-auto cursor-pointer"></i> -->
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-3" [style.height]="tableHeight">
-          <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true"
-            (onEditCaseStudy)="onEditCaseStudy($event)" (onEditPatient)="onEditPatient($event)" [tableHeight]="relatedTableHeight" 
-            [caseStudies]="relatedCaseStudies"></case-study-table>
+          <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
+            [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
     </ng-template>
@@ -66,3 +65,5 @@
   [caseStudyId]="updatedCaseStudyId" (onSaveCaseStudy)="onSearch(searchData)"></case-study-info>
 <search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
 <patient-info [(visible)]="isVisiblePatientInfo" [header]="'Sửa thông tin bệnh nhân'" [patientId]="selectedPatientId"></patient-info>
+<upload-slide [(visible)]="isVisibleUploadSlide" [header]="uploadSlideHeader"></upload-slide>
+<confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>

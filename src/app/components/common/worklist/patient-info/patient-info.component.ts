@@ -27,7 +27,8 @@ export class PatientInfoComponent implements OnInit {
   get visible() {
     return this._visible;
   }
-  _patientId = new String('');
+  @Output() visibleChange = new EventEmitter<any>();
+  _patientId = new String(''); // use String type to trigger setter on the same value
   @Input() set patientId(value: String) {
     this._patientId = value;
     if (value != '') {
@@ -37,7 +38,6 @@ export class PatientInfoComponent implements OnInit {
   get patientId() {
     return this._patientId;
   }
-  @Output() visibleChange = new EventEmitter<any>();
   @Input() header = '';
   @Output() onSelectPatient = new EventEmitter<any>();
   patientForm: FormGroup;

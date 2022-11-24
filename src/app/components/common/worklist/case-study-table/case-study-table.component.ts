@@ -3,6 +3,7 @@ import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { IViewerTab } from 'src/app/models/viewer-tab';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
+import { Constants } from 'src/app/shared/constants/constants';
 @Component({
   selector: 'case-study-table',
   templateUrl: './case-study-table.component.html',
@@ -15,9 +16,9 @@ export class CaseStudyTableComponent implements OnInit {
   @Input() loading = false;
   @Input() isRelatedList = false;
   @Output() onLazyLoad = new EventEmitter<any>();
-  @Output() onEditCaseStudy = new EventEmitter<any>();
-  @Output() onEditPatient = new EventEmitter<any>();
-  @Output() onRefresh = new EventEmitter<any>();
+
+  @Output() onAction = new EventEmitter<any>();
+
   @Output() onSelectCaseStudy = new EventEmitter<any>();
   actions!: MenuItem[];
   selectedCaseStudy: any = {};
@@ -46,13 +47,31 @@ export class CaseStudyTableComponent implements OnInit {
   ngOnInit() {
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => this.openViewer(this.selectedCaseStudy) },
-      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', command: () => this.onRefresh.emit(),
-        visible: !this.isRelatedList},
-      { label: 'Sửa chi tiết ca khám', icon: 'pi pi-fw pi-file-edit', command: () => this.onEditCaseStudy.emit(this.selectedCaseStudy)},
-      { label: 'Tải lên lam kính', icon: 'pi pi-fw pi-upload', command: () => {} },
-      { label: 'Sửa thông tin bệnh nhân', icon: 'pi pi-fw pi-user-edit', command: () => this.onEditPatient.emit(this.selectedCaseStudy) },
-      { label: 'Share ca khám', icon: 'pi pi-fw pi-share-alt', command: () => {} },
-      { label: 'Xóa ca khám', icon: 'pi pi-fw pi-trash', command: () => {} },
+      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', 
+        command: () => this.onAction.emit(
+          { action: Constants.CASE_STUDY_ACTIONS.REFRESH }
+        ),
+        visible: !this.isRelatedList },
+      { label: 'Sửa chi tiết ca khám', icon: 'pi pi-fw pi-file-edit', 
+        command: () => this.onAction.emit(
+          { action: Constants.CASE_STUDY_ACTIONS.EDIT, data: this.selectedCaseStudy }
+        ) },
+      { label: 'Tải lên lam kính', icon: 'pi pi-fw pi-upload', 
+        command: () => this.onAction.emit(
+          { action: Constants.CASE_STUDY_ACTIONS.UPLOAD_SLIDE, data: this.selectedCaseStudy }
+        ) },
+      { label: 'Sửa thông tin bệnh nhân', icon: 'pi pi-fw pi-user-edit', 
+        command: () => this.onAction.emit(
+          { action: Constants.CASE_STUDY_ACTIONS.EDIT_PATIENT, data: this.selectedCaseStudy }
+        ) },
+      { label: 'Share ca khám', icon: 'pi pi-fw pi-share-alt', 
+        command: () => this.onAction.emit(
+          { action: Constants.CASE_STUDY_ACTIONS.SHARE, data: this.selectedCaseStudy }
+        ) },
+      { label: 'Xóa ca khám', icon: 'pi pi-fw pi-trash', 
+        command: () => this.onAction.emit(
+          { action: Constants.CASE_STUDY_ACTIONS.DELETE, data: this.selectedCaseStudy }
+        ) },
     ];
   }
 

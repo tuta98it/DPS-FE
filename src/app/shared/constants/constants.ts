@@ -9,6 +9,15 @@ export class Constants {
     EDIT: 0,
     DELETE: 1,
   }
+  public static readonly CASE_STUDY_ACTIONS = {
+    OPEN_SLIDE: 0,
+    REFRESH: 1,
+    EDIT: 2,
+    UPLOAD_SLIDE: 3,
+    EDIT_PATIENT: 4,
+    SHARE: 5,
+    DELETE: 6,
+  }
   public static readonly REQUEST_TYPES = [
     {label: 'Tế bào học', value: "0"},
     {label: 'Mô bệnh học', value: "1"},

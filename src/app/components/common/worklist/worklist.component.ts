@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from './case-study-table/case-study-table.component';
 
 @Component({
@@ -24,9 +25,14 @@ export class WorklistComponent implements OnInit {
   loadingRelated = false;
   isVisibleCaseStudyInfo = false;
   caseStudyInfoHeader = '';
+  uploadSlideHeader = '';
   
   isVisibleSearchCaseStudy = false;
   isVisiblePatientInfo = false;
+  isVisibleUploadSlide = false;
+  isVisibleDeleteCase = false;
+  textConfirmDeleteCase = '';
+  deletedCaseStudyId = '';
 
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
@@ -40,7 +46,8 @@ export class WorklistComponent implements OnInit {
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
   
   constructor(
-    private caseStudyService: CaseStudyService
+    private caseStudyService: CaseStudyService,
+    private notification: NotificationService,
   ) {
     Constants.REQUEST_TYPES.forEach((r: any) => {
       this.requestTypes[r.value] = r.label;
@@ -102,6 +109,28 @@ export class WorklistComponent implements OnInit {
     this.getCaseStudyOfPatient();
   }
 
+  onCaseStudyAction(event: any) {
+    if (event.action == Constants.CASE_STUDY_ACTIONS.REFRESH) {
+      this.onSearch(this.searchData);
+    } else if (event.action == Constants.CASE_STUDY_ACTIONS.EDIT) {
+      this.onEditCaseStudy(event.data);
+    } else if (event.action == Constants.CASE_STUDY_ACTIONS.UPLOAD_SLIDE) {
+      this.onUploadSlide(event.data);
+    } else if (event.action == Constants.CASE_STUDY_ACTIONS.EDIT_PATIENT) {
+      this.onEditPatient(event.data);
+    } else if (event.action == Constants.CASE_STUDY_ACTIONS.SHARE) {
+      this.onShareCaseStudy(event.data);
+    } else if (event.action == Constants.CASE_STUDY_ACTIONS.DELETE) {
+      this.onDeleteCaseStudy(event.data);
+    }
+  }
+
+  onUploadSlide(data: any) {
+    // this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
+    // this.isVisibleUploadSlide = true;
+    this.notification.warn('Chức năng đang phát triển');
+  }
+
   onCreateCaseStudy() {
     this.caseStudyInfoHeader = 'Thêm ca khám';
     this.updatedCaseStudyId = '';
@@ -119,6 +148,29 @@ export class WorklistComponent implements OnInit {
   onEditPatient(event: any) {
     this.selectedPatientId = new String(event.patientId);
     this.isVisiblePatientInfo = true;
+  }
+
+  onDeleteCaseStudy(data: any) {
+    this.deletedCaseStudyId = data.caseStudyId;
+    this.textConfirmDeleteCase = `Xác nhận xóa ca khám của bệnh nhân <b>${data.patientsName}</b>?`;
+    this.isVisibleDeleteCase = true;
+  }
+
+  deleteCaseStudy() {
+    this.caseStudyService.deleteById(this.deletedCaseStudyId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Xóa ca khám thành công');
+          this.onSearch(this.searchData);
+        }
+      }
+    }).add(() => {
+      this.isVisibleDeleteCase = false;
+    });
+  }
+
+  onShareCaseStudy(data: any) {
+    this.notification.warn('Chức năng đang phát triển');
   }
 
   onResizeEnd(event: any) {

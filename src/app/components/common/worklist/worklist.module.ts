@@ -19,13 +19,16 @@ import { DropdownModule } from 'primeng/dropdown';
 import {ContextMenuModule} from 'primeng/contextmenu';
 import { SearchCaseStudyComponent } from './search-case-study/search-case-study.component';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { UploadSlideComponent } from './upload-slide/upload-slide.component';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 @NgModule({
   declarations: [
     WorklistComponent,
     CaseStudyTableComponent,
     CaseStudyInfoComponent,
     PatientInfoComponent,
-    SearchCaseStudyComponent
+    SearchCaseStudyComponent,
+    UploadSlideComponent
   ],
   imports: [
     SplitterModule,
@@ -43,6 +46,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ReactiveFormsModule,
     FormsModule,
     TooltipModule,
+    ConfirmDialogModule,
     CommonModule
   ],
   exports: [
