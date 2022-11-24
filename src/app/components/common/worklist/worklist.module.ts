@@ -21,6 +21,7 @@ import { SearchCaseStudyComponent } from './search-case-study/search-case-study.
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UploadSlideComponent } from './upload-slide/upload-slide.component';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
+import { ReportModule } from '../report/report.module';
 @NgModule({
   declarations: [
     WorklistComponent,
@@ -45,6 +46,7 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
     CalendarModule,
     ReactiveFormsModule,
     FormsModule,
+    ReportModule,
     TooltipModule,
     ConfirmDialogModule,
     CommonModule
