@@ -1,6 +1,12 @@
-<div *ngIf="!caseStudyId" class="w-full h-full flex flex-column justify-content-center align-items-center surface-100">
+<div *ngIf="!caseStudy?.caseStudyId" class="w-full h-full flex flex-column justify-content-center align-items-center surface-100">
   <i class="pi pi-file-edit text-4xl"></i>
   <span class="mt-2">
     Báo cáo của ca bệnh
   </span> 
+</div>
+<div *ngIf="caseStudy?.caseStudyId" class="w-full h-full">
+  <div class="flex justify-content-between">
+    <div class="font-bold"></div>
+  </div>
+  <report-editor></report-editor>
 </div>

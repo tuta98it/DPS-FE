@@ -4,6 +4,8 @@ import { ReportPanelComponent } from './report-panel/report-panel.component';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
 import { ReportActionsComponent } from './report-actions/report-actions.component';
+import { NgsContenteditableModule } from '@ng-stack/contenteditable';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +17,10 @@ import { ReportActionsComponent } from './report-actions/report-actions.componen
     ReportActionsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    NgsContenteditableModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     ReportPanelComponent,

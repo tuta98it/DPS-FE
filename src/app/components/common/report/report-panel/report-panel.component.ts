@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./report-panel.component.scss']
 })
 export class ReportPanelComponent implements OnInit {
-  @Input() caseStudyId = '';
+  @Input() caseStudy: any = {};
 
   constructor() { }
 

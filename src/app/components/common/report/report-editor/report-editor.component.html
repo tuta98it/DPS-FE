@@ -1,1 +1,11 @@
-<p>report-editor works!</p>
+<div class="p-2 w-full h-full overflow-auto block bg-white">
+  <div>
+    <div><span class="inline-block w-6rem">Trạng thái</span>: <span class="font-semibold">Đang đọc</span></div>
+    <div><span class="inline-block w-6rem">Bác sĩ đọc</span>: <span class="font-semibold">Nguyễn Văn Hiệp</span></div>
+    <div><span class="inline-block w-6rem">Bác sĩ duyệt</span>: <span class="font-semibold">Nguyễn Văn Hiệp</span></div>
+  </div>
+  <div *ngFor="let field of fields" class="mt-1">
+    <div class="font-semibold text-lg">[{{field.label}}]</div>
+    <p style="min-height: 5rem;" editable="true" [(ngModel)]="field.value" ></p>
+  </div>
+</div>
