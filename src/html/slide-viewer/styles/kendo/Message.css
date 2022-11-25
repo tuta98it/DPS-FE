@@ -1,0 +1,101 @@
+﻿/*********************************************************************************/
+/*                           BEGINNING OF MESSAGING                              */
+/*********************************************************************************/
+.Message
+{
+	color: #c52241;
+	font-weight: nomal;
+	font-size: 12px;
+}
+.MessageBox
+{
+    margin:10px 0 0px;
+    text-align:center;
+}
+.msg
+{
+	width:100%;
+	margin:10px 0 !important;	
+}
+.msg-popup
+{
+	width:100%;
+	margin:0 0 1% 0 !important;	
+}
+.main_wrapper .msg
+{
+	width:100%;
+	margin:1.5% 0 !important;	
+}
+
+.messageInformational, .messageError, .messageWarning, .messageDebug, .messageConfirmation
+{	
+	margin-bottom:10px;
+}
+
+.messageError
+{
+	background: url("/Styles/images/icn_alert_error.png") no-repeat scroll 13px 5px #F3D9D9;
+	border: 1px solid #D20009;
+	border-radius: 5px;
+	color: #7B040F;
+	display: block;
+	font-size: 14px;
+	margin: 15px 0;
+	padding: 6px 0;
+	text-indent: 40px;
+}
+
+.messageWarning
+{
+	background: url("/Styles/images/icn_alert_warning.png") no-repeat scroll 13px 5px #F5F3BA;
+	border: 1px solid #C7A20D;
+	border-radius: 5px 5px 5px 5px;
+	color: #796616;
+	display: block;
+	font-size: 14px;
+	margin: 15px 0;
+	padding: 6px 0;
+	text-indent: 40px;
+}
+
+.messageInformational
+{
+	background: url("/Styles/images/icn_alert_info.png") no-repeat scroll 13px 5px #B5E5EF;
+	border: 1px solid #77BACE;
+	border-radius: 5px 5px 5px 5px;
+	color: #082B33;
+	display: block;
+	font-size: 14px;
+	margin: 15px 0;
+	padding: 6px 0;
+	text-indent: 40px;
+}
+.mesageSuccess
+{
+	background: url("/Styles/images/icn_alert_success.png") no-repeat scroll 13px 5px #E2F6C5;
+	border: 1px solid #79C20D;
+	border-radius: 5px 5px 5px 5px;
+	color: #32510F;
+	display: block;
+	font-size: 14px;
+	margin: 15px 0;
+	padding: 6px 0;
+	text-indent: 40px;
+}
+.messageWarning ul
+{
+	margin-top: 5px;
+	margin-bottom: 0;
+}
+
+#divPageTitle
+{
+	width: 100%;
+	height: 23px;
+	text-align: center;
+	margin: 0px auto;
+	color: #B94003;
+	font-size: 16px;
+	font-weight: bold;
+}

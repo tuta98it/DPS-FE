@@ -28,11 +28,15 @@ export class UploadSlideComponent implements OnInit {
   }
   @Output() visibleChange = new EventEmitter<any>();
   @Input() header = '';
+  @Input() caseStudyId = '';
 
   uploadForm: FormGroup;
   markTypes: any[] = [];
   fileName: any = null;
   file: any = null;
+  lastChunkCount = 0;
+  totalChunk = 0;
+
   @ViewChild("uploadSlideContainer") uploadSlideContainer!: ElementRef;
 
   constructor(
@@ -86,21 +90,36 @@ export class UploadSlideComponent implements OnInit {
   }
 
 //   uploadFiles() {
-//     var blob = file;
-//     var SIZE = blob.size;
-//     FILE_SIZE = blob.size;
+//     const BYTES_PER_CHUNK = 1024 * 1024 * 1024; // sample chunk sizes. 1Gb
+//     let SIZE = this.file.size;
 //     //upload content
-//     var start = 0;
-//     var end = BYTES_PER_CHUNK;
-//     completed = 0;
-//     count = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
-//     // cập nhật id file đó cho _currentUploading File
-//     _currentUploadingFile = fileName.slice(0, 16);
-
+//     let start = 0;
+//     let end = BYTES_PER_CHUNK;
+//     this.lastChunkCount = 0;
+//     this.totalChunk = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
+   
 //     //upload đệ quy
-//     uploadOne(blob, start, end, caseId, fileName);
-//     //hiển thị file đó trong tiến trình
-//     shiftQueueElm(_pendingUploadList);
+//     uploadOne(start, end);
+//   }
+
+//   uploadOne(start: number, end: number) {
+//     let chunk = this.file.slice(start, end);
+//     let _xhr = new XMLHttpRequest();
+//     let $this = this;
+//     _xhr.onload = function () {
+//         $this.lastChunkCount = $this.lastChunkCount + 1;
+//         start = end;
+//         end = start + BYTES_PER_CHUNK;
+//         console.log("x:", $this.lastChunkCount);
+//         if ($this.lastChunkCount < count) {
+//             uploadOne(blob, start, end, caseId, fileName);
+//         } else if ($this.lastChunkCount == count) {
+//             uploadComplete(blob, caseId, fileName);
+//         }
+//     };
+//     _xhr.upload.addEventListener('progress', onProgress, false);
+//     _xhr.open("POST", `/Upload/MultiUpload/${fileName}/${this.lastChunkCount}`, true);
+//     _xhr.send(chunk);
 // }
 
   getMarkTypes() {
@@ -118,7 +137,8 @@ export class UploadSlideComponent implements OnInit {
   onUpload(event: any) {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');
     if (inputUpload.files.length > 0) {
-      this.fileName = inputUpload.files[0].name;
+      this.file = inputUpload.files[0];
+      this.fileName = this.file.name;
     }
     console.log('onUpload', event, inputUpload.files);
   }

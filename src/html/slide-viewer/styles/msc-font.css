@@ -1,0 +1,166 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: "mesoco-pacs";
+  src:url("fonts/mesoco-pacs.eot");
+  src:url("fonts/mesoco-pacs.eot?#iefix") format("embedded-opentype"),
+    url("fonts/mesoco-pacs.woff") format("woff"),
+    url("fonts/mesoco-pacs.ttf") format("truetype"),
+    url("fonts/mesoco-pacs.svg#mesoco-pacs") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "mesoco-pacs" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="msc-"]:before,
+[class*=" msc-"]:before {
+  font-family: "mesoco-pacs" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.msc-arrows-alt:before {
+  content: "\61";
+}
+.msc-add:before {
+  content: "\62";
+}
+.msc-cursor:before {
+  content: "\63";
+}
+.msc-notification:before {
+  content: "\64";
+}
+.msc-telegram:before {
+  content: "\65";
+}
+.msc-verified:before {
+  content: "\66";
+}
+.msc-vaccine:before {
+  content: "\67";
+}
+.msc-paper:before {
+  content: "\68";
+}
+.msc-picture:before {
+  content: "\69";
+}
+.msc-printing-tool-copy:before {
+  content: "\6a";
+}
+.msc-files:before {
+  content: "\6b";
+}
+.msc-eye:before {
+  content: "\6c";
+}
+.msc-edit:before {
+  content: "\6d";
+}
+.msc-add-1:before {
+  content: "\6e";
+}
+.msc-add-square-button:before {
+  content: "\6f";
+}
+.msc-arrow-left:before {
+  content: "\70";
+}
+.msc-fillter-gird:before {
+  content: "\71";
+}
+.msc-puzzle:before {
+  content: "\72";
+}
+.msc-reset-arrows:before {
+  content: "\73";
+}
+.msc-history-clock-button:before {
+  content: "\74";
+}
+.msc-check-log:before {
+  content: "\75";
+}
+.msc-clicker:before {
+  content: "\76";
+}
+.msc-hourglass:before {
+  content: "\77";
+}
+.msc-right-arrow:before {
+  content: "\78";
+}
+.msc-save:before {
+  content: "\79";
+}
+.msc-information4-01:before {
+  content: "\7a";
+}
+.msc-clock:before {
+  content: "\41";
+}
+.msc-clock-1:before {
+  content: "\42";
+}
+.msc-information5-01:before {
+  content: "\43";
+}
+.msc-save-file-option:before {
+  content: "\44";
+}
+.msc-screem:before {
+  content: "\45";
+}
+.msc-list:before {
+  content: "\46";
+}
+.msc-comments:before {
+  content: "\47";
+}
+.msc-compare:before {
+  content: "\48";
+}
+.msc-login-square-arrow-button-outline:before {
+  content: "\49";
+}
+.msc-selection:before {
+  content: "\4a";
+}
+.msc-share:before {
+  content: "\4b";
+}
+.msc-maximize:before {
+  content: "\4c";
+}
+.msc-contract:before {
+  content: "\4d";
+}
+.msc-copy-content:before {
+  content: "\4e";
+}
+.msc-medical-history:before {
+  content: "\4f";
+}
+.msc-statistics:before {
+  content: "\50";
+}

@@ -63,5 +63,5 @@
   [caseStudyId]="updatedCaseStudyId" (onSaveCaseStudy)="onSearch(searchData)"></case-study-info>
 <search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
 <patient-info [(visible)]="isVisiblePatientInfo" [header]="'Sửa thông tin bệnh nhân'" [patientId]="selectedPatientId"></patient-info>
-<upload-slide [(visible)]="isVisibleUploadSlide" [header]="uploadSlideHeader"></upload-slide>
+<upload-slide [(visible)]="isVisibleUploadSlide" [header]="uploadSlideHeader" [caseStudyId]="selectedCaseStudy.caseStudyId"></upload-slide>
 <confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>

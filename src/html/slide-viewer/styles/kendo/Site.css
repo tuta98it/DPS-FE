@@ -1,0 +1,432 @@
+﻿.main-grid {
+    background: #FFF;
+}
+
+.main-grid {
+    border: solid 1px #CCC;
+    table-layout: fixed;
+}
+
+    .main-grid td {
+        border: solid 1px #DDD !important;
+    }
+
+.grid-header {
+}
+
+    .grid-header td {
+        font-weight: bold;
+    }
+/*Grid Excel*/
+.htBorder {
+    background: none repeat scroll 0 0 #000000;
+    font-size: 0;
+    height: 2px;
+    position: absolute;
+    width: 2px;
+}
+
+    .htBorder.current {
+        background: none repeat scroll 0 0 #5292F7;
+        height: 2px;
+        width: 2px;
+    }
+
+    .htBorder.selection {
+        background: none repeat scroll 0 0 #89AFF9;
+        height: 1px;
+        width: 1px;
+    }
+
+#excelInputHolder {
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1px;
+}
+
+textarea.excelInput {
+    border: 2px solid #5292F7;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.4);
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    line-height: 1.3em;
+    margin: 0;
+    outline-width: 0;
+    padding: 0;
+    resize: none;
+    line-height: 25px;
+    border-radius: 0px;
+}
+
+.div-btn {
+    overflow: hidden;
+    display: block;
+    padding: 0 12px 0 10px;
+}
+
+.grid-filter {
+    margin-bottom: 5px;
+}
+
+.btn-button {
+    background-color: #00A5F0;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4) inset, 0 1px #FFFFFF;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 30px;
+    min-width: 45px;
+    padding: 2px 10px;
+    text-align: center;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s linear 0s;
+}
+
+.btn-assigntime {
+    background: url(images/time.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-add {
+    background: url(images/add.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-save {
+    background: url(images/save.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-delete {
+    background: url(images/delete.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-edit {
+    background: url(images/edit.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-acc {
+    background: url(images/acc.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-send {
+    background: url(images/send.png) no-repeat 0 0 transparent !important;
+}
+
+.btn-list {
+    background: url(images/list.png) no-repeat 0 0 transparent !important;
+}
+
+.ico-button {
+}
+
+.ui-dialog .ui-widget-header {
+    background: none repeat scroll 0 0 #0088CC;
+    border: 1px solid #AAAAAA;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.hndle .ico-button {
+    background-position: 0 0 !important;
+}
+
+#generate-account tr {
+    line-height: 20px;
+}
+
+#generate-account td input[type="radio"] {
+    float: left;
+    margin-right: 5px;
+}
+
+#generate-account td label {
+    float: left;
+    display: inline;
+    padding-left: 5px;
+}
+
+#generate-account td {
+    padding-left: 5px;
+}
+
+.input-text input {
+    width: 100px;
+}
+
+#pasType {
+    line-height: 15px;
+    text-indent: 6px;
+}
+
+    #pasType p {
+        line-height: 15px;
+        margin-bottom: 10px;
+    }
+
+.form-lagre input[type=text], .form-lagre textarea {
+    width: 300px;
+}
+
+.alert {
+    padding: 8px 35px 8px 12px;
+    margin-bottom: 20px;
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+    .alert,
+    .alert h4 {
+        color: #c09853;
+    }
+
+        .alert h4 {
+            margin: 0;
+        }
+
+        .alert .close {
+            position: relative;
+            top: -2px;
+            right: -21px;
+            line-height: 20px;
+            float: right;
+            text-decoration: none;
+        }
+
+.alert-success {
+    color: #fff;
+    background-color: #8EBC00;
+    border-color: #d6e9c6;
+}
+
+    .alert-success h4 {
+        color: #468847;
+    }
+
+.alert-danger,
+.alert-error {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+    .alert-danger h4,
+    .alert-error h4 {
+        color: #b94a48;
+    }
+
+.alert-info {
+    color: #3a87ad;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+    .alert-info h4 {
+        color: #3a87ad;
+    }
+
+.alert-block {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+    .alert-block > p,
+    .alert-block > ul {
+        margin-bottom: 0;
+    }
+
+    .alert-block p + p {
+        margin-top: 5px;
+    }
+
+#dialog-department .item {
+    line-height: 35px;
+    min-height: 35px;
+}
+
+strong {
+    color: #000;
+}
+
+.ath-img {
+    float: left;
+    padding-top: 1px;
+    margin-right: 5px;
+}
+
+#ulFiles li {
+    border-bottom: solid 1px #CCC;
+    padding: 3px 10px;
+    margin: 0;
+}
+
+    #ulFiles li:last-child {
+        border: none;
+    }
+
+    #ulFiles li a {
+        text-decoration: none;
+        color: #08C;
+        cursor: pointer;
+    }
+
+.table-view {
+    border: solid 1px #CCC;
+}
+
+    .table-view tr.hd td {
+        background: #EEE;
+        font-weight: bold;
+        height: 22px;
+        border-bottom: solid 1px #CCC;
+    }
+
+    .table-view td {
+        padding: 2px 3px;
+    }
+
+    .table-view tr.item td {
+        border-bottom: solid 1px #CCC;
+        line-height: 22px;
+    }
+
+    .table-view tr.item:last-child td {
+        border: none;
+    }
+
+.radio-list input[type="radio"] {
+    margin: 0 10px 0 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.left {
+    float: left;
+}
+
+.div-sub label {
+    width: 60px;
+    float: left;
+    display: block;
+    line-height: 25px;
+    margin-left: 10px;
+}
+
+.edit-form .k-dropzone {
+    padding-left: 0;
+}
+
+.edit-form select {
+    width: 137px;
+    outline: none;
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+.edit-form .txt-long {
+    width: 346px;
+}
+
+.edit-form .txt-normal {
+    width: 200px;
+}
+
+#ulFiles {
+    border: solid 1px #CCC;
+    margin: 0;
+}
+
+.clr {
+    clear: both;
+}
+
+#login-status h5 {
+    color: #FFF;
+    float: right;
+}
+
+#login-status a {
+    color: #EEE;
+}
+
+.popup-body {
+    display: block;
+    overflow: hidden;
+}
+
+.popup-footer {
+    display: block;
+    overflow: hidden;
+    bottom: 0;
+}
+
+.dialog-edit {
+    position: relative;
+}
+
+.error-message {
+    color: Red;
+}
+
+#col1, #col2 {
+    width: 43%;
+    display: block;
+}
+#col1 {
+    margin-left: 20px;
+}
+
+.left, .right {
+    float: left;
+}
+
+.left {
+    margin-right: 10px;
+}
+
+hr {
+    clear: both;
+    display: block;
+    padding: 5px 0;
+}
+
+#dialogCustomColumn input {
+    margin-right: 3px;
+}
+.po-prepare td,.po-shipped td,.po-complete td {
+    color:#FFF !important;
+}
+.k-alt {
+    background:#f4eeff !important;
+}
+.po-prepare 
+{
+    background:#6bbe3e !important;
+}
+.po-shipped 
+{
+    background:#5292F7 !important;
+}
+.po-complete 
+{
+    background:#f29c03 !important;
+}
+.po-cancel 
+{
+    background:#DDD !important;
+}
+body {
+    /*font-size:12px !important;*/
+}
+a.color-fff {
+    color:#DDD;
+    text-decoration:none;
+}
+a.color-fff:hover {
+    color:#FFF;
+}

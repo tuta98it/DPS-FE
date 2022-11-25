@@ -42,6 +42,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
+              "src/html",
               "src/manifest.json",
               "src/firebase-messaging-sw.js"
             ],

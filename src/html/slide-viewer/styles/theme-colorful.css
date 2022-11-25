@@ -1,0 +1,120 @@
+﻿:root {
+    --main-color: rgb(0, 105, 62);
+    --secondary-color: rgb(18, 49, 43);
+    --darker-15: #003720;
+    --border-color: rgba(0,90,40, 1);
+    /*Màu mới*/
+    --bg-1: #ecf1f7;
+    --bg-2: #ebeff5;
+    --bg-icon-hover: #eee;
+    --border-1: #b5b4b4;
+    --primary-color: #03a842;
+    --text-blue: #213e83;
+    --text-phone: #00903a;
+    /*--text-color:;*/
+    --icon-color: #989697;
+    --icon-color-has-noti: #61b885;
+    --text-main-color: rgb(68, 68, 68);
+    --border-button-color: #dfe3e9;
+    /*màu icon ở trong button, và khi hover thì màu này thành màu button */
+    --text-button-color: white;
+    --icon-button-color: white;
+    --bg-button-color: #5eb684;
+    --bg-button-color-hover: #5eb684;
+    --icon-button-color-hover: white;
+    --text-button-color-hover: white;
+    /*màu bg của button delete */
+    --button-bg-delete: #ff4e4e;
+    /*màu text title ở mỗi phần của worklist */
+    --text-div-title: #00923d;
+    --text-div-title-note: #ed1c24;
+    --text-div-title-2: #343436;
+    --border-k-select: #ccc;
+    --border-input: #e8e8e8;
+    /* btn success */
+    --border-btn-success: #1f872d;
+    --bg-btn-success: linear-gradient(180deg, #1e9d09, #1e940b);
+    /* btn danger */
+    --border-btn-danger: #d0121a;
+    --bg-btn-danger: linear-gradient(180deg, #f14b51, #d31a21);
+    /* btn teal */
+    --btn-teal-color: white;
+    --btn-teal-bg: #3db39e;
+    --btn-teal-border: #e8e8e8;
+    /**/
+    --text-window-title: white;
+    --bg-window-title: #304579;
+    --icon-k-window-action: #df253a;
+    /*k-select*/
+    --bg-k-select-hover: #f1f4f8;
+    --text-k-select-hover: #2ea2f8;
+    /*
+
+    */
+    --border-input-error: #ed1c24;
+    /* grid */
+    --text-grid-header: #203d83;
+    --text-grid-content: #595959;
+    --grid-border: #dee2e5;
+    /* split bar */
+    --k-splitbar: #c7e5ff;
+    --k-splitbar-resizing: #4c4d4e;
+    --k-splitbar-focus: #c7e5ff;
+    /* report */
+    --bg-rp-select: linear-gradient(180deg, #f2f6f9, #e2e6eb);
+    --border-rp-select: #ced0dc;
+    --text-rp-select: #676767;
+    --text-rp-btn: #354052;
+    --bg-rp-btn-disabled: #e9edf1;
+    /* additional button */
+    --btn-success-simple-color: white;
+    --btn-success-simple-bg: #03a842;
+    --btn-success-simple-border: #dfe2e9;
+    /* additional button */
+    --btn-info-simple-color: white;
+    --btn-info-simple-bg: #5bc0de;
+    --btn-info-simple-border: #4591a8;
+    /* discard */
+    --btn-discard-color: white;
+    --btn-discard-bg: linear-gradient(180deg, #fe5252, #c83636);
+    --btn-discard-border: #ced1da;
+    /* read */
+    --btn-read-color: white;
+    --btn-read-bg: linear-gradient(180deg, #959794, #717372);
+    --btn-read-border: #ced1da;
+    /* approve */
+    --btn-approve-color: white;
+    --btn-approve-bg: linear-gradient(180deg, #1ecd40, #15922e);
+    --btn-approve-border: #ced1da;
+    /* unapprove */
+    --btn-unapprove-color: #354052;
+    --btn-unapprove-bg: linear-gradient(180deg, #f1f5f8, #e4e7ee);
+    --btn-unapprove-border: #d3d7e0;
+    /* print */
+    --btn-print-color: #354052;
+    --btn-print-bg: linear-gradient(180deg, #cbcbcb, #b3b4b8);
+    --btn-print-border: #ced1da;
+    /* create */
+    --btn-create-color: white;
+    --btn-create-bg: linear-gradient(180deg, #51bde1, #3397b7);
+    --btn-create-border: #48c6ee;
+    /* report tab */
+    --border-rp-tab: #dee2e5;
+    --text-rp-tab: #8e9295;
+    --bg-rp-tab: #f7f8fc;
+    --border-rp-tab-selected: #dee2e5;
+    --border-rp-content: #dfe3e6;
+    /*print template background*/
+    --bg-print-template: #506494;
+    --bg-print-template-inner: #f4f6f9;
+    --text-print-template-title: #3d8f30;
+    --bg-btn-print: #c0c8d8;
+    --bg-btn-print-cancel: linear-gradient(180deg, #e75157, #c23e43);
+    --text-btn-print-cancel: #eef0f5;
+    /*slide viewer*/
+    --bg-slider-tool: white;
+    --bg-openseadragon: #e9e8e8;
+    --border-tool-box: #262e3d;
+    --border-tool-bar: #a39e9e;
+    --text-panel-title: #294487;
+}
