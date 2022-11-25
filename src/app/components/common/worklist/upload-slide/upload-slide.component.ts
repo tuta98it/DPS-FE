@@ -89,6 +89,7 @@ export class UploadSlideComponent implements OnInit {
     this.uploadService.preUpload(this.newFileName).subscribe({
       next: (res) => {
         if (res.d.isValid) {
+          this.newFileName = res.d.jsonData;
           this.uploadFile();
         }
       }
@@ -138,7 +139,7 @@ export class UploadSlideComponent implements OnInit {
   uploadComplete() {
     let formData = new FormData();
     
-    formData.append('fileName', this.fileName);
+    formData.append('fileName', this.newFileName);
     formData.append('originFileName', this.fileName);
     formData.append('fileSize', this.file.size); // in byte
     formData.append('completed', 'true');
