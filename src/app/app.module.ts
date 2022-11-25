@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CustomHttpInterceptor } from './shared/interceptors/custom-http.interceptor';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from './shared/notification.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,12 +12,13 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { FirebaseService } from './services/firebase.service';
+import { NotificationModule } from './shared/components/notification/notification.module';
 @NgModule({
     declarations: [
       AppComponent
     ],
     imports: [
-      ToastModule,
+      NotificationModule,
       CommonModule,
       HttpClientModule,
       BrowserModule,

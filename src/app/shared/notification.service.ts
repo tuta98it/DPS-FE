@@ -8,13 +8,16 @@ export class NotificationService {
   constructor(
     private messageService: MessageService
   ) {}
-  success(summary: string, detail: string = '') {
-    this.messageService.add({severity: 'success', summary: summary, detail: detail});
+  success(summary: string, detail: string = '', key='default') {
+    this.messageService.add({severity: 'success', summary: summary, detail: detail, key: key,});
   }
-  warn(summary: string, detail: string = '') {
-    this.messageService.add({severity: 'warn', summary: summary, detail: detail});
+  warn(summary: string, detail: string = '', key='default') {
+    this.messageService.add({severity: 'warn', summary: summary, detail: detail, key: key,});
   }
-  error(summary: string, detail: string = '') {
-    this.messageService.add({severity: 'error', summary: summary, detail: detail});
+  error(summary: string, detail: string = '', key='default') {
+    this.messageService.add({severity: 'error', summary: summary, detail: detail, key: key,});
+  }
+  add(type: string, summary: string, detail: string = '', key='default', sticky=false) {
+    this.messageService.add({key: key, severity: type, summary: summary, detail: detail, sticky: sticky});
   }
 }

@@ -2,7 +2,7 @@
 <div class="common-layout-container">
   <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
     <app-worklist [ngClass]="{'hidden' : isShowViewer}" [selectedLayout]="selectedLayout"></app-worklist>
-    <app-viewer [ngClass]="{'hidden' : !isShowViewer}" [caseStudyId]="currentCaseId"></app-viewer>
+    <app-viewer [ngClass]="{'hidden' : !isShowViewer}"></app-viewer>
   </ng-container>
   <div *ngIf="selectedLayout==LAYOUT.DUAL" class="h-full">
     <p-splitter styleClass="h-full" [minSizes]="[30, 30]" [gutterSize]="6">
@@ -17,7 +17,7 @@
             <viewer-tabs [selectedLayout]="selectedLayout"></viewer-tabs>
           </div>
           <div class="flex-auto">
-            <app-viewer [caseStudyId]="currentCaseId"></app-viewer>
+            <app-viewer></app-viewer>
           </div>
         </div>
       </ng-template>
@@ -58,4 +58,4 @@
   </ng-template>
 </p-dialog>
 
-<app-notification #notification></app-notification>
+<app-notification [position]="'bottom-right'" [key]="'c'"></app-notification>

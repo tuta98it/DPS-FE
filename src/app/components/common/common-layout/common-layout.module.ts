@@ -11,7 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { SplitterModule } from 'primeng/splitter';
-import { NotificationModule } from '../../notification/notification.module';
+import { NotificationModule } from '../../../shared/components/notification/notification.module';
 
 @NgModule({
   declarations: [
