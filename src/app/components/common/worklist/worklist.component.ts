@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -10,7 +10,7 @@ import { CaseStudyTableComponent } from './case-study-table/case-study-table.com
   templateUrl: './worklist.component.html',
   styleUrls: ['./worklist.component.scss']
 })
-export class WorklistComponent implements OnInit {
+export class WorklistComponent implements OnInit, AfterViewInit {
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   LAYOUT = Constants.LAYOUT;
   searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
@@ -45,7 +45,10 @@ export class WorklistComponent implements OnInit {
   selectedCaseStudy: any = {};
   @Input() selectedLayout = Constants.LAYOUT.FULL;
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
-  
+  isShowRelated = true;
+  panelSizes = [100/3, 100/3, 100/3];
+  reportPanelHeight = 0;
+  isSmallScreen = true;
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
@@ -56,13 +59,18 @@ export class WorklistComponent implements OnInit {
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
     });
+    this.isSmallScreen = window.innerWidth < 1600;
   }
 
   ngOnInit(): void {
     this.setTableHeight(33.33, 33.33);
     this.search();
   }
-
+  ngAfterViewInit() {
+    this.toggleRelated();
+    this.toggleRelated();
+    // setTimeout(() => this.toggleRelated(), 500);
+  }
   search() {
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
@@ -176,6 +184,7 @@ export class WorklistComponent implements OnInit {
 
   onResizeEnd(event: any) {
     this.setTableHeight(event.sizes[0], event.sizes[1]);
+    this.panelSizes = event.sizes;
   }
 
   setTableHeight(worklistSize: number, relatedListSize: number) {
@@ -184,6 +193,7 @@ export class WorklistComponent implements OnInit {
     let contentHeight = window.innerHeight - headerHeight*fontSize;
     this.tableHeight = contentHeight*worklistSize/100 - 100;
     this.relatedTableHeight = contentHeight*relatedListSize/100 - 80;
+    this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 50;
   }
 
   onLazyLoad(event:any) {
@@ -191,6 +201,17 @@ export class WorklistComponent implements OnInit {
       this.lastMaxStart = event.first;
       this.searchData.page += 1;
       this.search();
+    }
+  }
+
+  toggleRelated() {
+    this.isShowRelated = !this.isShowRelated;
+    if (this.isShowRelated) {
+      this.panelSizes = [this.panelSizes[0], 20, 80-this.panelSizes[0]];
+      this.setTableHeight(this.panelSizes[0], 20);
+    } else {
+      this.panelSizes = [this.panelSizes[0], 5, 95-this.panelSizes[0]];
+      this.setTableHeight(this.panelSizes[0], 5);
     }
   }
 }

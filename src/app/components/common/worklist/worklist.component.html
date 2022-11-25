@@ -1,17 +1,17 @@
 <div class="h-full w-full">
-  <p-splitter styleClass="h-full bg-blue-50" layout="vertical" [minSizes]="[5, 5, 5]" (onResizeEnd)="onResizeEnd($event)">
+  <p-splitter styleClass="h-full bg-blue-50" layout="vertical" [panelSizes]="panelSizes" [minSizes]="[5, 5, 5]" (onResizeEnd)="onResizeEnd($event)">
     <ng-template pTemplate>
       <div class="grid w-full m-0">
-        <div class="col-2 pb-1 flex align-items-center">
-          <span class="xl:text-xl font-bold text-green-600">
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">
+          <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
             <ng-container *ngIf="selectedLayout==LAYOUT.FULL">Danh sách ca khám:</ng-container> {{totalCaseStudies}} kết quả
           </span>
         </div>
-        <div class="col-10 pb-1">
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-10': !isSmallScreen, 'pb-1': true}">
           <div class="flex justify-content-end">
             <input pInputText type="text" placeholder="Tên bệnh nhân" title="Tên bệnh nhân"
               class="text-base w-14rem p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
-            <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
+            <ng-container *ngIf="!isSmallScreen && selectedLayout==LAYOUT.FULL">
               <input pInputText type="text" placeholder="Mã bệnh nhân" title="Mã bệnh nhân"
                 class="text-base w-14rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch(searchData)" />
               <input pInputText type="text" placeholder="Mã bệnh phẩm" title="Mã bệnh phẩm"
@@ -43,19 +43,21 @@
     <ng-template pTemplate>
       <div class="grid w-full m-0 flex-none">
         <div class="col-12 py-0 flex align-items-center">
-          <span class="xl:text-xl font-bold text-green-600">
+          <span class="sm:text-lg xl:text-xl font-bold text-green-600">
             Ca khám liên quan của bệnh nhân {{selectedCaseStudy.patientsName}}
           </span>
-          <!-- <i class="fa-solid fa-expand text-2xl block flex-none ml-auto cursor-pointer"></i> -->
+          <i class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer" (click)="toggleRelated()" ></i>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-0" [style.height]="tableHeight">
-          <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
+          <case-study-table *ngIf="isShowRelated" [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
             [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
     </ng-template>
     <ng-template pTemplate>
-      <report-panel class="w-full"></report-panel>
+      <div class="grid w-full m-0 flex-none">
+        <report-panel class="w-full" [style.height]="reportPanelHeight+'px'" [caseStudy]="selectedCaseStudy"></report-panel>
+      </div>
     </ng-template>
   </p-splitter>
 </div>
