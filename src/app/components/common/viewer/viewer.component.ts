@@ -62,7 +62,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const newIFrame = this.renderer.createElement('iframe');
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
-    this.renderer.setAttribute(newIFrame, 'src', 'https://dpstest2.pmr.vn/dps-viewer?domain=http://dpstest.pmr.vn&slide=63529f473c248e0930065269');
+    this.renderer.setAttribute(newIFrame, 'src', 'https://dpstest2.pmr.vn/dps-viewer/dpsviewer.html?domain=https://dpstest2-dz.pmr.vn&slide=632ed314cb3e711d388a472d');
 
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);

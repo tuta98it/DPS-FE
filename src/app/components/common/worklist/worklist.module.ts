@@ -22,6 +22,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { UploadSlideComponent } from './upload-slide/upload-slide.component';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 import { ReportModule } from '../report/report.module';
+import { FileUploadModule } from 'primeng/fileupload';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     WorklistComponent,
@@ -49,6 +52,8 @@ import { ReportModule } from '../report/report.module';
     ReportModule,
     TooltipModule,
     ConfirmDialogModule,
+    FileUploadModule,
+    HttpClientModule,
     CommonModule
   ],
   exports: [

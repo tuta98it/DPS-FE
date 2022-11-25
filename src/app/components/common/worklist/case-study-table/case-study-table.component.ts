@@ -89,8 +89,8 @@ export class CaseStudyTableComponent implements OnInit {
   }
 
   openViewer(caseStudy: any) {
-    this.selectedCaseStudy = caseStudy;
-    this.onSelectCaseStudy.emit(caseStudy);
+    // this.selectedCaseStudy = caseStudy;
+    // this.onSelectCaseStudy.emit(caseStudy);
     clearTimeout(this.clickTimer);
     console.log('openViewer', caseStudy);
 

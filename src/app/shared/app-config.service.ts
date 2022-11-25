@@ -46,6 +46,7 @@ export class AppConfigService {
 
   private setConfig = (data: any): void => {
     this.config.api.baseUrl = 'https://' + data.api.baseUrl;
+    this.config.deepzoom.baseUrl = 'https://' + data.deepzoom.baseUrl;
     this.config.slogan = data.slogan;
   };
 

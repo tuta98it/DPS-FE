@@ -30,6 +30,11 @@ export class Constants {
     {label: 'Nội trú', value: "0"},
     {label: 'Ngoại trú', value: "1"},
   ];
+  public static readonly MACHINE_TYPES = [
+    {label: 'Máy khác', value: "0"},
+    {label: 'Motic', value: "1"},
+    {label: 'Ảnh chụp từ camera', value: "2"},
+  ];
   public static readonly REPORT_STATES = [
     {label: 'Đã chụp', value: "0"},
     {label: 'Đang đọc', value: "1"},

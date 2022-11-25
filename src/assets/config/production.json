@@ -2,6 +2,9 @@
   "api": {
     "baseUrl": "dpstest2-be.pmr.vn/api"
   },
+  "deepzoom": {
+    "baseUrl": "dpstest2-dz.pmr.vn"
+  },
   "slogan": {
     "content": "Chính sức khỏe mới là sự giàu có thực sự, không phải vàng bạc",
     "author": "Mahathma"

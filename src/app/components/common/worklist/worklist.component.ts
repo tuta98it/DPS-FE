@@ -126,9 +126,9 @@ export class WorklistComponent implements OnInit {
   }
 
   onUploadSlide(data: any) {
-    // this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
-    // this.isVisibleUploadSlide = true;
-    this.notification.warn('Chức năng đang phát triển');
+    this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
+    this.isVisibleUploadSlide = true;
+    // this.notification.warn('Chức năng đang phát triển');
   }
 
   onCreateCaseStudy() {
