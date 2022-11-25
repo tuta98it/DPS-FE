@@ -38,7 +38,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   changeCaseStudy(id: string) {
-    console.log('changeCaseStudy', id)
     if (!id) {
       this.removeViewers();
     }
@@ -62,7 +61,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const newIFrame = this.renderer.createElement('iframe');
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
-    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-dz.pmr.vn&slide=632ed314cb3e711d388a472d');
+    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-dz.pmr.vn&slide=63809c0a36105750a6a972ef');
 
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);
@@ -70,6 +69,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   removeViewers() {
+    this.renderedCases = [];
     let viewers = this.viewerContainer.nativeElement.querySelectorAll('.msc-viewer-container');
     viewers.forEach((v:any) => {
       this.renderer.removeChild(this.viewerContainer.nativeElement, v);
@@ -83,6 +83,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
         this.renderer.addClass(v, 'hidden');
       } else {
         this.renderer.removeChild(this.viewerContainer.nativeElement, v);
+        // console.log('remove', v)
+        // let removedId = this.renderedCases.indexOf(v.id);
+        // if (removedId > -1) { 
+        //   this.renderedCases.splice(removedId, 1);
+        // }
       }
     });
     let currentViewer = this.viewerContainer.nativeElement.querySelector('#'+'case'+id);
