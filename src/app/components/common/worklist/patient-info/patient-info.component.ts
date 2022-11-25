@@ -85,7 +85,7 @@ export class PatientInfoComponent implements OnInit {
 
   onSave() {
     if (this.patientForm.valid) {
-      if (!this.patientId) {
+      if (this.patientId == '') {
         this.createPatient();
       } else {
         this.updatePatient();
