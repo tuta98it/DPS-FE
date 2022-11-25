@@ -9,7 +9,7 @@ import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.servic
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  @Input() caseStudyId = '';
+  // @Input() caseStudyId = '';
   protected _currentTabsSubscription: Subscription;
   currentTabs:IViewerTab[] = [];
   currentCaseId = '';

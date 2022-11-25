@@ -24,6 +24,7 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
 import { ReportModule } from '../report/report.module';
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpClientModule } from '@angular/common/http';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     SplitterModule,
+    ProgressBarModule,
     TableModule,
     SkeletonModule,
     DialogModule,

@@ -41,6 +41,7 @@ export class WorklistComponent implements OnInit {
   reportStates:any = {};
   selectedPatientId = new String('');
   updatedCaseStudyId = new String('');
+  uploadedCaseStudyId = new String('');
   selectedCaseStudy: any = {};
   @Input() selectedLayout = Constants.LAYOUT.FULL;
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
@@ -127,8 +128,8 @@ export class WorklistComponent implements OnInit {
 
   onUploadSlide(data: any) {
     this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
+    this.uploadedCaseStudyId = new String(data.caseStudyId);
     this.isVisibleUploadSlide = true;
-    // this.notification.warn('Chức năng đang phát triển');
   }
 
   onCreateCaseStudy() {

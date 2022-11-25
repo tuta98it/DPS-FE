@@ -31,8 +31,8 @@ export class Constants {
     {label: 'Ngoại trú', value: "1"},
   ];
   public static readonly MACHINE_TYPES = [
-    {label: 'Máy khác', value: "0"},
     {label: 'Motic', value: "1"},
+    {label: 'Máy khác', value: "0"},
     {label: 'Ảnh chụp từ camera', value: "2"},
   ];
   public static readonly REPORT_STATES = [

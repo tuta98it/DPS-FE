@@ -4,6 +4,7 @@ import { MarkTypeService } from 'src/app/services/mark-type.service';
 import { SlideUploadService } from 'src/app/services/slide-upload.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
+const BYTES_PER_CHUNK = 10 * 1024 * 1024; // sample chunk sizes. 10MB
 
 @Component({
   selector: 'upload-slide',
@@ -18,6 +19,9 @@ export class UploadSlideComponent implements OnInit {
     this._visible = value;
     this.visibleChange.emit(value);
     if (value) {
+      Object.values(this.uploadForm.controls).forEach((control) => {
+        control.markAsUntouched();
+      });
       this.uploadForm.controls['createTime'].setValue(new Date());
     } else {
       this.uploadForm.reset();
@@ -28,14 +32,16 @@ export class UploadSlideComponent implements OnInit {
   }
   @Output() visibleChange = new EventEmitter<any>();
   @Input() header = '';
-  @Input() caseStudyId = '';
+  @Input() caseStudyId = new String('');
 
   uploadForm: FormGroup;
   markTypes: any[] = [];
-  fileName: any = null;
+  fileName = '';
+  newFileName = '';
   file: any = null;
-  lastChunkCount = 0;
+  chunkCount = 0;
   totalChunk = 0;
+  uploadProgress = 0;
 
   @ViewChild("uploadSlideContainer") uploadSlideContainer!: ElementRef;
 
@@ -79,48 +85,89 @@ export class UploadSlideComponent implements OnInit {
       ext = ext.toLocaleLowerCase();
     }
 
-    let newFileName = new Date().getTime() * 1000 + ext;
-    this.uploadService.preUpload(newFileName).subscribe({
+    this.newFileName = new Date().getTime() * 1000 + ext;
+    this.uploadService.preUpload(this.newFileName).subscribe({
       next: (res) => {
-        if (res.isValid) {
-          
+        if (res.d.isValid) {
+          this.uploadFile();
         }
       }
     });
   }
 
-//   uploadFiles() {
-//     const BYTES_PER_CHUNK = 1024 * 1024 * 1024; // sample chunk sizes. 1Gb
-//     let SIZE = this.file.size;
-//     //upload content
-//     let start = 0;
-//     let end = BYTES_PER_CHUNK;
-//     this.lastChunkCount = 0;
-//     this.totalChunk = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
+  uploadFile() {
+    let SIZE = this.file.size;
+    let start = 0;
+    let end = BYTES_PER_CHUNK;
+    this.chunkCount = 0;
+    this.totalChunk = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
    
-//     //upload đệ quy
-//     uploadOne(start, end);
-//   }
+    // recursive upload
+    this.uploadOne(start, end);
+  }
 
-//   uploadOne(start: number, end: number) {
-//     let chunk = this.file.slice(start, end);
-//     let _xhr = new XMLHttpRequest();
-//     let $this = this;
-//     _xhr.onload = function () {
-//         $this.lastChunkCount = $this.lastChunkCount + 1;
-//         start = end;
-//         end = start + BYTES_PER_CHUNK;
-//         console.log("x:", $this.lastChunkCount);
-//         if ($this.lastChunkCount < count) {
-//             uploadOne(blob, start, end, caseId, fileName);
-//         } else if ($this.lastChunkCount == count) {
-//             uploadComplete(blob, caseId, fileName);
-//         }
-//     };
-//     _xhr.upload.addEventListener('progress', onProgress, false);
-//     _xhr.open("POST", `/Upload/MultiUpload/${fileName}/${this.lastChunkCount}`, true);
-//     _xhr.send(chunk);
-// }
+  uploadOne(start: number, end: number) {
+    let chunk = this.file.slice(start, end);
+    console.log("uploadOne", start, end, chunk);
+    let _xhr = new XMLHttpRequest();
+    let $this = this;
+    _xhr.onload = function () {
+        $this.chunkCount = $this.chunkCount + 1;
+        start = end;
+        end = start + BYTES_PER_CHUNK;
+        console.log("uploadOne chunkCount", $this.chunkCount);
+        if ($this.chunkCount < $this.totalChunk) {
+          $this.uploadOne(start, end);
+        } else if ($this.chunkCount == $this.totalChunk) {
+          $this.uploadComplete();
+        }
+    };
+    function onProgress(e: any) {
+      if (e.lengthComputable) {
+        let _loadedAll = $this.chunkCount * BYTES_PER_CHUNK;
+        let percentComplete = ((_loadedAll + e.loaded) / $this.file.size) * 100;
+        
+        $this.uploadProgress = Math.round(percentComplete);
+      }
+    };
+    _xhr.upload.addEventListener('progress', onProgress, false);
+    _xhr.open("POST", `${this.uploadService.baseUrl}/Upload/MultiUpload/${this.newFileName}/${this.chunkCount}`, true);
+    _xhr.send(chunk);
+  }
+
+  uploadComplete() {
+    let formData = new FormData();
+    
+    formData.append('fileName', this.fileName);
+    formData.append('originFileName', this.fileName);
+    formData.append('fileSize', this.file.size); // in byte
+    formData.append('completed', 'true');
+    formData.append('caseStudyId', this.caseStudyId.toString());
+    formData.append('markerType', this.uploadForm.value.markerType);
+    formData.append('isMotic', this.uploadForm.value.isMotic)
+    formData.append('createTime', this.uploadForm.value.createTime)
+
+    let $this = this;
+    let xhr2 = new XMLHttpRequest();
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState == XMLHttpRequest.DONE) {
+            let res = JSON.parse(xhr2.responseText);
+            console.log('uploadComplete', res)
+            if (res.d.isValid) {
+              $this.notification.success('Đã tải lên. Đang đợi server xử lí', '');
+              $this.visible = false;
+            }
+            else {
+              $this.notification.error('Không thể tải lên', res.d.errors[0].errorMessage);
+            }
+            // -- TODO -- bỏ file khỏi danh sách hiển thị đang tải lên
+            // -- TODO
+            // -- TODO -- cho nó vào danh sách hiển thị đang chờ xử lí
+        }
+    };
+    xhr2.open("POST", `${this.uploadService.baseUrl}/Upload/UploadComplete`, true); //combine the chunks together
+    xhr2.send(formData);
+  }
 
   getMarkTypes() {
     this.markTypeService.getAll().subscribe({
@@ -130,9 +177,7 @@ export class UploadSlideComponent implements OnInit {
         }
       }
     });
-  }
-
-  
+  } 
 
   onUpload(event: any) {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');
