@@ -81,16 +81,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
   setCurrentViewer(id: string) {
     let viewers = this.viewerContainer.nativeElement.querySelectorAll('.msc-viewer-container');
     viewers.forEach((v:any) => {
-      if (this.currentTabs.findIndex(t => t.caseStudyId == id) > -1) {
+      if (this.currentTabs.findIndex(t => t.caseStudyId == v.id.substring(4)) > -1) {
         this.renderer.addClass(v, 'hidden');
-        // console.log('hidden', id, this.currentTabs)
       } else {
         this.renderer.removeChild(this.viewerContainer.nativeElement, v);
-        console.log('remove', v)
-        // let removedId = this.renderedCases.indexOf(v.id);
-        // if (removedId > -1) { 
-        //   this.renderedCases.splice(removedId, 1);
-        // }
+        let removedId = this.renderedCases.indexOf(v.id.substring(4));
+        if (removedId > -1) { 
+          this.renderedCases.splice(removedId, 1);
+        }
       }
     });
     let currentViewer = this.viewerContainer.nativeElement.querySelector('#'+'case'+id);
