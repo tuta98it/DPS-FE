@@ -115,7 +115,7 @@ export class PatientInfoComponent implements OnInit {
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Thêm mới thành công', '');
-          this.onSelectPatient.emit(this.patientForm.value);
+          this.onSelectPatient.emit({...this.patientForm.value, id: res.jsonData.id});
           this.visible = false;
         } else if (Array.isArray(res.jsonData)) {
           this.listDuplicate = [];
