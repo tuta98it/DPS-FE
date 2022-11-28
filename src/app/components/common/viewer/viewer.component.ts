@@ -38,14 +38,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
   }
 
   changeCaseStudy(id: string) {
-    if (!id) {
-      this.removeViewers();
-    }
-    else if (!this.renderedCases.includes(id)) {
-      this.addNewViewer(id);
-      this.renderedCases.push(id);
-    } else {
-      this.setCurrentViewer(id);
+    if (this.viewerContainer) {
+      if (!id) {
+        this.removeViewers();
+      }
+      else if (!this.renderedCases.includes(id)) {
+        this.addNewViewer(id);
+        this.renderedCases.push(id);
+      } else {
+        this.setCurrentViewer(id);
+      }
     }
   }
 
@@ -81,9 +83,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     viewers.forEach((v:any) => {
       if (this.currentTabs.findIndex(t => t.caseStudyId == id) > -1) {
         this.renderer.addClass(v, 'hidden');
+        // console.log('hidden', id, this.currentTabs)
       } else {
         this.renderer.removeChild(this.viewerContainer.nativeElement, v);
-        // console.log('remove', v)
+        console.log('remove', v)
         // let removedId = this.renderedCases.indexOf(v.id);
         // if (removedId > -1) { 
         //   this.renderedCases.splice(removedId, 1);
