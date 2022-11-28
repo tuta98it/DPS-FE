@@ -43,7 +43,8 @@
                 mscdps.showSlide('openseadragonWindow');
             }
             $(document).ready(function () {
-                showMainSlide();
+                // showMainSlide();
+                mscdps.init('openseadragonWindow');
             });
         </script>
     </head>
@@ -255,7 +256,7 @@
                 </div>
                 -->
             </div>
-    
+
             <!-- Khung slide viewer -->
             <div id="slide-viewer">
                 <!--
@@ -334,7 +335,7 @@
                     </div>
                     <div class="float-button-container" onclick="mscdps.openReport()">
                         <div class="h-icon-btn float-button red">
-                            <img src="/styles/images/report.svg" />
+                            <img src="./styles/images/report.svg" />
                         </div>
                         <div class="outline-1">
     
@@ -396,7 +397,7 @@
                 <div id="key-image">
     
                     <div class="panel-title">Slide</div>
-                    <div id="slides">
+                    <div id="slides-box">
     
     
                     </div>
@@ -406,11 +407,14 @@
                         <!--<div class="pull-right" title="Mở key-image slider"  style="cursor: pointer; margin-right: 10px"><i class="fas fa-eye"></i></div>-->
                     </div>
     
-                    <div id="images" class="clinical-no-need"></div>
+                    <div id="images-box" class="clinical-no-need"></div>
     
                 </div>
             </div>
-    
+
+            <div id="slide-viewer-loading">
+                <img src="styles/images/gear-4.1s-65px.svg" />
+            </div>
     
             <!--
                 Cửa sổ nhập chú thích cho annotation
@@ -516,38 +520,38 @@
                 <div class="windows-content">
                     <div class="flex-row">
                         <div style="padding-right: 20px; padding-top: 10px;">
-                            <img id="{{SlideDetail.data.Id}}" src="/api/Slide/GetThumbnailLabel/{{SlideDetail.data.Id}}" style="cursor: pointer; width: 200px;" data-label-path="{{SlideDetail.data.LabelPath}}" onclick="openModalImage(this)"/>
+                            <!-- <img id="{{SlideDetail.data.Id}}" src="/api/Slide/GetThumbnailLabel/{{SlideDetail.data.Id}}" style="cursor: pointer; width: 200px;" data-label-path="{{SlideDetail.data.LabelPath}}" onclick="openModalImage(this)"/> -->
                         </div>
                         <div class="slide-properties">
                             <div>
-                                Tên file: <b>{{SlideDetail.data.FileName}}</b>
+                                Tên file: <b></b>
                             </div>
                             <div>
-                                Người tải: <b>{{SlideDetail.data.Uploader}}</b>
+                                Người tải: <b></b>
                             </div>
                             <div>
-                                Ngày tải: <b>{{SlideDetail.data.ModifiedDate | date:'yyyy-MM-dd HH:mm:ss'}}</b>
+                                Ngày tải: <b>yyyy-MM-dd HH:mm:ss</b>
                             </div>
                             <div>
-                                Bệnh nhân: <b>{{SlideDetail.data.Patient}}</b>
+                                Bệnh nhân: <b></b>
                             </div>
                             <div>
-                                Thiết bị: <b>{{SlideDetail.data.Vendor}}</b>
+                                Thiết bị: <b></b>
                             </div>
                             <div>
-                                Kích thước: <b>{{SlideDetail.data.FileSize / 1024 / 1024 | number:2}} MB</b>
+                                Kích thước: <b> MB</b>
                             </div>
                             <div>
-                                Độ phân giải: <b>{{SlideDetail.data.Width}}px × {{SlideDetail.data.Height}}px</b>
+                                Độ phân giải: <b>px × px</b>
                             </div>
                             <div>
-                                Kích thước:  <b>{{SlideDetail.data.FileType != "jpg/png" ? (SlideDetail.data.RealWidth | number:1) +"mm × "+ (SlideDetail.data.RealHeight | number:1) + "mm" : "Không có thông tin"}}</b>
+                                Kích thước:  <b>mm × mm / Không có thông tin"</b>
                             </div>
                             <div>
-                                Loại ảnh: <b>{{SlideDetail.data.FileType}}</b>
+                                Loại ảnh: <b>FileType</b>
                             </div>
                             <div>
-                                Max Magnification: <b>{{SlideDetail.data.MaxMagnification != "0" ? SlideDetail.data.MaxMagnification + "x" : "Không có thông tin" }}</b>
+                                Max Magnification: <b>SlideDetail.data.MaxMagnification/Không có thông tin</b>
                             </div>
                         </div>
                     </div>

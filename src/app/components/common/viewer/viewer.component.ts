@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, ViewChild }
 import { Subscription } from 'rxjs';
 import { IViewerTab } from 'src/app/models/viewer-tab';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
+import { CaseStudyService } from 'src/app/services/case-study.service';
 
 @Component({
   selector: 'app-viewer',
@@ -18,7 +19,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   renderedCases:string[] = [];
   constructor(
     private viewerState: ViewerStateService,
-    private renderer:Renderer2
+    private renderer: Renderer2,
+    private caseStudyService: CaseStudyService
   ) { 
     this._currentTabsSubscription = this.viewerState.subscribeCurrentTabs( (tabs: IViewerTab[]) => {
       this.currentTabs = tabs;
@@ -27,6 +29,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.currentCaseId = id;
       this.changeCaseStudy(id);
     });
+
+    //bind functions for DPSViewer.html
+    (<any>window).getListSlides= this.getListSlides.bind(this);
+    (<any>window).getListKeyImages= this.getListKeyImages.bind(this);
   }
 
   ngOnInit(): void {
@@ -63,7 +69,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const newIFrame = this.renderer.createElement('iframe');
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
-    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-dz.pmr.vn&slide=63809c0a36105750a6a972ef');
+    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-be.pmr.vn&domainSlide=https://dpstest2-dz.pmr.vn&study=' + id);
 
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);
@@ -95,5 +101,32 @@ export class ViewerComponent implements OnInit, OnDestroy {
     if (currentViewer) {
       this.renderer.removeClass(currentViewer, 'hidden');
     }
+  }
+
+  /////////////////////////////////////////////////////////
+  // functions for iframe dpsviewer.html
+  ////////////////////////////////////////////////////////
+  getListSlides(studyId: string, callback: any) {
+    console.log('parent getListSlides, studyId: ' + studyId);
+    this.caseStudyService.getListSlideOfCaseStudy(studyId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    })
+  }
+
+  getListKeyImages(slideId: string, callback: any) {
+    console.log('parent getListKeyImages, slideId: ' + slideId);
+    this.caseStudyService.getListKeyImageOfSlide(slideId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    })
   }
 }
