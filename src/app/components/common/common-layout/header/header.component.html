@@ -16,7 +16,7 @@
           <i class="fa-solid fa-circle-arrow-left text-2xl text-500"></i>
         </li>
       </ng-container>
-      <li class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" (click)="onSelectLayout.emit()">
+      <li *ngIf="layoutConfig==LAYOUT_CONFIG.DEFAULT" class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" (click)="onSelectLayout.emit()">
         <i class="fa-solid fa-table-columns text-2xl text-500"></i>
       </li>
       <li class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer">

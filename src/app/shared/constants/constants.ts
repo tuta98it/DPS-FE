@@ -5,6 +5,10 @@ export class Constants {
     FULL: 0,
     DUAL: 1
   }
+  public static readonly LAYOUT_CONFIG = {
+    VT: "VT",
+    DEFAULT: "default"
+  }
   public static readonly ACTIONS = {
     EDIT: 0,
     DELETE: 1,

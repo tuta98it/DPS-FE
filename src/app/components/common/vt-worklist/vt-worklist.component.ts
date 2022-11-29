@@ -1,77 +1,66 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
-import { CaseStudyTableComponent } from './case-study-table/case-study-table.component';
+import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
 
 @Component({
-  selector: 'app-worklist',
-  templateUrl: './worklist.component.html',
-  styleUrls: ['./worklist.component.scss']
+  selector: 'vt-worklist',
+  templateUrl: './vt-worklist.component.html',
+  styleUrls: ['./vt-worklist.component.scss']
 })
-export class WorklistComponent implements OnInit, AfterViewInit {
-  INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
-  LAYOUT = Constants.LAYOUT;
-  searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+export class VTWorklistComponent implements OnInit {
   caseStudies: any = [];
-  relatedCaseStudies: any = [];
   totalCaseStudies = 0;
-  totalRelated = 0;
-  tableHeight = 300;
-  relatedTableHeight = 300;
-  lastMaxStart = -1;
   loading = false;
-  loadingRelated = false;
-  isVisibleCaseStudyInfo = false;
-  caseStudyInfoHeader = '';
-  uploadSlideHeader = '';
-  
-  isVisibleSearchCaseStudy = false;
-  isVisiblePatientInfo = false;
-  isVisibleUploadSlide = false;
-  isVisibleDeleteCase = false;
-  textConfirmDeleteCase = '';
-  deletedCaseStudyId = '';
+  tableHeight = 300;
+  lastMaxStart = -1;
+  searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
 
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
-  
   requestTypes:any = {};
   reportStates:any = {};
-  selectedPatientId = new String('');
-  updatedCaseStudyId = new String('');
-  uploadedCaseStudyId = new String('');
+
   selectedCaseStudy: any = {};
-  @Input() selectedLayout = Constants.LAYOUT.FULL;
+
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
-  isShowRelated = true;
-  panelSizes = [100/3, 100/3, 100/3];
-  reportPanelHeight = 0;
-  isSmallScreen = true;
+
+  uploadSlideHeader = '';
+  uploadedCaseStudyId = new String('');
+  isVisibleUploadSlide = false;
+  
+  caseStudyInfoHeader = '';
+  updatedCaseStudyId = new String('');
+  isVisibleCaseStudyInfo = false;
+  
+  selectedPatientId = new String('');
+  isVisiblePatientInfo = false;
+
+  deletedCaseStudyId = '';
+  textConfirmDeleteCase = '';
+  isVisibleDeleteCase = false;
+
+
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
-  ) {
+  ) { 
     Constants.REQUEST_TYPES.forEach((r: any) => {
       this.requestTypes[r.value] = r.label;
     });
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
     });
-    this.isSmallScreen = window.innerWidth < 1600;
   }
 
   ngOnInit(): void {
-    this.setTableHeight(33.33, 33.33);
-    this.search();
+    this.setTableHeight(30);
   }
-  ngAfterViewInit() {
-    this.toggleRelated();
-    this.toggleRelated();
-    // setTimeout(() => this.toggleRelated(), 500);
-  }
+
   search() {
+    // AnhHT: maybe better if search in CaseStudyTableComponent
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
@@ -87,18 +76,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getCaseStudyOfPatient() {
-    this.loadingRelated = true;
-    this.caseStudyService.getCaseStudyOfPatient(this.selectedCaseStudy.patientId).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          this.relatedCaseStudies = res.jsonData;
-          this.totalRelated = res.jsonData.length;
-        }
-      }
-    }).add(() => {
-      this.loadingRelated = false;
-    });
+  onSelectCaseStudy(data: any) {
+    this.selectedCaseStudy = data;
   }
 
   onSearch(data: any) {
@@ -106,16 +85,22 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.searchData.page = 1;
     this.caseStudyTable.selectedCaseStudy = {};
     this.selectedCaseStudy = {};
-    this.relatedCaseStudies = [];
     this.caseStudies = [];
     this.caseStudyTable.resetScrollTop();
     this.lastMaxStart = -1;
     this.search();
   }
 
-  onSelectCaseStudy(data: any) {
-    this.selectedCaseStudy = data;
-    this.getCaseStudyOfPatient();
+  dragEnd(event: any) {
+    console.log('onResizeEnd', event);
+    this.setTableHeight(event.sizes[1]);
+  }
+
+  setTableHeight(worklistSize: number) {
+    let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
+    const headerHeight = 3.5;
+    let contentHeight = window.innerHeight - headerHeight*fontSize;
+    this.tableHeight = contentHeight*worklistSize/100 - 20;
   }
 
   onCaseStudyAction(event: any) {
@@ -138,13 +123,6 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
     this.uploadedCaseStudyId = new String(data.caseStudyId);
     this.isVisibleUploadSlide = true;
-  }
-
-  onCreateCaseStudy() {
-    this.caseStudyInfoHeader = 'Thêm ca khám';
-    this.updatedCaseStudyId = '';
-    this.selectedPatientId = '';
-    this.isVisibleCaseStudyInfo = true;
   }
 
   onEditCaseStudy(data: any) {
@@ -182,36 +160,11 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.notification.warn('Chức năng đang phát triển');
   }
 
-  onResizeEnd(event: any) {
-    this.setTableHeight(event.sizes[0], event.sizes[1]);
-    this.panelSizes = event.sizes;
-  }
-
-  setTableHeight(worklistSize: number, relatedListSize: number) {
-    let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
-    const headerHeight = 3.5;
-    let contentHeight = window.innerHeight - headerHeight*fontSize;
-    this.tableHeight = contentHeight*worklistSize/100 - 80;
-    this.relatedTableHeight = contentHeight*relatedListSize/100 - 60;
-    this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 50;
-  }
-
   onLazyLoad(event:any) {
     if (this.lastMaxStart < event.first && !this.loading) {
       this.lastMaxStart = event.first;
       this.searchData.page += 1;
       this.search();
-    }
-  }
-
-  toggleRelated() {
-    this.isShowRelated = !this.isShowRelated;
-    if (this.isShowRelated) {
-      this.panelSizes = [this.panelSizes[0], 20, 80-this.panelSizes[0]];
-      this.setTableHeight(this.panelSizes[0], 20);
-    } else {
-      this.panelSizes = [this.panelSizes[0], 5, 95-this.panelSizes[0]];
-      this.setTableHeight(this.panelSizes[0], 5);
     }
   }
 }

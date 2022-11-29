@@ -5,6 +5,7 @@ export class AppConfig {
   deepzoom: {
     baseUrl: string
   };
+  layout: string;
   slogan: {
     content: string,
     author: string
@@ -16,6 +17,7 @@ export class AppConfig {
     this.deepzoom = {
       baseUrl: ''
     };
+    this.layout = '';
     this.slogan = {
       content: '',
       author: ''
