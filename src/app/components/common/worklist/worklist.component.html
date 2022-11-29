@@ -3,7 +3,7 @@
     <ng-template pTemplate>
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">
-          <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
+          <span class="block sm:text-lg xl:text-xl font-bold text-primary-color pt-2">
             <ng-container *ngIf="selectedLayout==LAYOUT.FULL">Danh sách ca khám:</ng-container> {{totalCaseStudies}} kết quả
           </span>
         </div>
@@ -28,8 +28,8 @@
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
               (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
-            <button pButton pRipple type="button" icon="pi pi-download" title="Xuất báo cáo" class="flex-none text-xl ml-2 bg-blue-400 font-bold p-button-rounded"></button>
-            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 bg-green-500 p-button p-button-rounded"
+            <button pButton pRipple type="button" icon="pi pi-download" title="Xuất báo cáo" class="flex-none text-xl ml-2 font-bold p-button-rounded p-buton-primary"></button>
+            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 p-button p-button-rounded"
               (click)="onCreateCaseStudy()"></button>
           </div>
         </div>
@@ -43,7 +43,7 @@
     <ng-template pTemplate>
       <div class="grid w-full m-0 flex-none">
         <div class="col-12 py-0 flex align-items-center">
-          <span class="sm:text-lg xl:text-xl font-bold text-green-600">
+          <span class="sm:text-lg xl:text-xl font-bold text-primary-color">
             Ca khám liên quan của bệnh nhân {{selectedCaseStudy.patientsName}}
           </span>
           <i class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer" (click)="toggleRelated()" ></i>
