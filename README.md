@@ -8,7 +8,11 @@ FE Angular project for DPS product.
 - Angular 14
 - UI components: PrimeNG 14 \
   https://www.primefaces.org/primeng-v14/setup \
-  <u>*Note*</u>: Import các module của PrimeNG và các thư viện khác vào module cần sử dụng của DPS-FE, thay vì sử dụng shared module.
+  Project DPS-FE sử dụng các UI components của PrimeNG.
+  *Example*:  
+  Trong file `src/app/components/admin/list-users/list-users.module.ts` đã import một số module như: `FormsModule`, `ButtonModule`, `InputTextModule`,... 
+  Khi cần sử dụng các module khác cho các component thuộc `ListUsersModule`, lập trình viên tìm kiếm <a href="https://www.primefaces.org/primeng-v14/setup">document của PrimeNG</a>, sau đó import tương tự các module đã dùng.
+  *Note*: Import các module của PrimeNG và các thư viện khác vào module cần sử dụng của DPS-FE, thay vì sử dụng shared module.
 - CSS classes: PrimeFlex 3 \
   https://www.primefaces.org/primeflex/ \
   <u>*Example*</u>:
