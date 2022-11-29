@@ -191,8 +191,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
-    this.tableHeight = contentHeight*worklistSize/100 - 100;
-    this.relatedTableHeight = contentHeight*relatedListSize/100 - 80;
+    this.tableHeight = contentHeight*worklistSize/100 - 80;
+    this.relatedTableHeight = contentHeight*relatedListSize/100 - 60;
     this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 50;
   }
 

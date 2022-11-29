@@ -25,6 +25,7 @@ import { ReportModule } from '../report/report.module';
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
   declarations: [
@@ -54,12 +55,14 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ReportModule,
     TooltipModule,
     ConfirmDialogModule,
+    AngularSplitModule,
     FileUploadModule,
     HttpClientModule,
     CommonModule
   ],
   exports: [
-    WorklistComponent
+    WorklistComponent,
+    CaseStudyTableComponent,
   ]
 })
 export class WorklistModule { }

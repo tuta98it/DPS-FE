@@ -1,6 +1,6 @@
 <div class="h-full w-full">
-  <p-splitter styleClass="h-full bg-blue-50" layout="vertical" [panelSizes]="panelSizes" [minSizes]="[5, 5, 5]" (onResizeEnd)="onResizeEnd($event)">
-    <ng-template pTemplate>
+  <as-split class="h-full bg-blue-50" direction="vertical" (dragEnd)="onResizeEnd($event)">
+    <as-split-area [size]="panelSizes[0]" [minSize]="5">
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">
           <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
@@ -39,10 +39,10 @@
             (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
-    </ng-template>
-    <ng-template pTemplate>
+    </as-split-area>
+    <as-split-area [size]="panelSizes[1]" [minSize]="5">
       <div class="grid w-full m-0 flex-none">
-        <div class="col-12 py-0 flex align-items-center">
+        <div class="col-12 py-3 flex align-items-center">
           <span class="sm:text-lg xl:text-xl font-bold text-green-600">
             Ca khám liên quan của bệnh nhân {{selectedCaseStudy.patientsName}}
           </span>
@@ -53,13 +53,13 @@
             [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
-    </ng-template>
-    <ng-template pTemplate>
+    </as-split-area>
+    <as-split-area [size]="panelSizes[2]" [minSize]="5">
       <div class="grid w-full m-0 flex-none">
         <report-panel class="w-full" [style.height]="reportPanelHeight+'px'" [caseStudy]="selectedCaseStudy"></report-panel>
       </div>
-    </ng-template>
-  </p-splitter>
+    </as-split-area>
+  </as-split>
 </div>
 <case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader" [patientId]="selectedPatientId.toString()"
   [caseStudyId]="updatedCaseStudyId" (onSaveCaseStudy)="onSearch(searchData)"></case-study-info>
