@@ -294,12 +294,8 @@ body {
     color: var(--text-panel-title);
     font-weight: bold;
     font-size: 16px;
-    /* margin-top: 12px; */
-    /* padding-top: 10px; */
-    margin-left: 15px;
-    /* padding-top: 20px; */
     cursor: pointer;
-    margin-top: 15px;
+    margin: 15px;
 }
 
 #tool-box img.selected {
@@ -446,12 +442,12 @@ canvas:focus,
 }
 
 #slides-box {
-    margin-top: 15px;
-    padding: 10px 8px;
+    margin-top: 16px;
+    padding: 8px;
 }
 
 #images-box {
-    margin-top: 25px;
+    margin-top: 16px;
 }
 
 #images-box > div {
@@ -461,9 +457,9 @@ canvas:focus,
 }
 
 #slides-box .image-container {
-    margin-bottom: 25px;
+    margin-bottom: 16px;
     text-align: center;
-    width: 33.33%;
+    width: 33%;
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -530,6 +526,12 @@ canvas:focus,
     display: block;
     font-size: 12px;
     margin-top: 5px;
+}
+
+#slides-box .image-container .slide-title {
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 8px;
 }
 
 .jpeg-type {

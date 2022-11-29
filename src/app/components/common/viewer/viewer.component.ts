@@ -31,7 +31,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
 
     //bind functions for DPSViewer.html
-    (<any>window).getListSlides= this.getListSlides.bind(this);
+    (<any>window).getStudyInfo= this.getStudyInfo.bind(this);
     (<any>window).getListKeyImages= this.getListKeyImages.bind(this);
   }
 
@@ -106,9 +106,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   /////////////////////////////////////////////////////////
   // functions for iframe dpsviewer.html
   ////////////////////////////////////////////////////////
-  getListSlides(studyId: string, callback: any) {
-    console.log('parent getListSlides, studyId: ' + studyId);
-    this.caseStudyService.getListSlideOfCaseStudy(studyId).subscribe({
+  getStudyInfo(studyId: string, callback: any) {
+    console.log('parent getStudyInfo, studyId: ' + studyId);
+    this.caseStudyService.getCaseStudyInfo(studyId).subscribe({
       next: (res) => {
         if (res.isValid) {
           if(callback != undefined)
