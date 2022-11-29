@@ -12,6 +12,8 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { SplitterModule } from 'primeng/splitter';
 import { NotificationModule } from '../../../shared/components/notification/notification.module';
+import { VTWorklistModule } from '../vt-worklist/vt-worklist.module';
+import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
   declarations: [
@@ -22,10 +24,12 @@ import { NotificationModule } from '../../../shared/components/notification/noti
     CommonModule,
     TieredMenuModule,
     DialogModule,
+    AngularSplitModule,
     ButtonModule,
     SplitterModule,
     RippleModule,
     WorklistModule,
+    VTWorklistModule,
     ViewerModule,
     RouterModule,
     CommonLayoutRoutingModule,

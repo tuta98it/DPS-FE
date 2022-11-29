@@ -1,0 +1,16 @@
+<div class="h-full w-full">
+  <as-split direction="vertical" (dragEnd)="dragEnd($event)">
+    <as-split-area [size]="70">
+      <p>Area 1</p>
+    </as-split-area>
+    <as-split-area [size]="30" [minSize]="30">
+      <div class="grid w-full m-0">
+        <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
+          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
+            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
+            (onAction)="onCaseStudyAction($event)"></case-study-table>
+        </div>
+      </div>
+    </as-split-area>
+  </as-split>
+</div>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { AppConfigService } from 'src/app/shared/app-config.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 import { Constants, StorageKeys } from 'src/app/shared/constants/constants';
 
@@ -13,6 +14,8 @@ import { Constants, StorageKeys } from 'src/app/shared/constants/constants';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   LAYOUT = Constants.LAYOUT
+  LAYOUT_CONFIG = Constants.LAYOUT_CONFIG;
+  layoutConfig = '';
   profileMenuItems!: MenuItem[];
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
@@ -24,6 +27,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    public configService: AppConfigService,
     private authState: AuthStateService,
   ) {
     this.profileMenuItems = [
@@ -36,6 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
       this.currentUser = m;
     });
+    this.layoutConfig = this.configService.getConfig().layout;
   }
 
   ngOnInit(): void {

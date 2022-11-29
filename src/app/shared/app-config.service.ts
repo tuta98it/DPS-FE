@@ -34,10 +34,12 @@ export class AppConfigService {
       };
       this.http.get(`../../assets/config/${environment.env}.json`, options).subscribe({
         next: (data: any) => {
+          console.log('data', data)
           this.setConfig(data);
           resolve(true);
         },
         error: (error) => {
+          console.log('error', error)
           this.errorHandler(error)
         }
       });
@@ -47,6 +49,7 @@ export class AppConfigService {
   private setConfig = (data: any): void => {
     this.config.api.baseUrl = 'https://' + data.api.baseUrl;
     this.config.deepzoom.baseUrl = 'https://' + data.deepzoom.baseUrl;
+    this.config.layout = data.layout;
     this.config.slogan = data.slogan;
   };
 
