@@ -48,7 +48,7 @@
           </span>
           <i class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer" (click)="toggleRelated()" ></i>
         </div>
-        <div class="col-12 py-0 px-3 w-full flex-auto mt-0" [style.height]="tableHeight">
+        <div class="col-12 py-0 px-3 w-full flex-auto mt-0">
           <case-study-table *ngIf="isShowRelated" [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
             [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
