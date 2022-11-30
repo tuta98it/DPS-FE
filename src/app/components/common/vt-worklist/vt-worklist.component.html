@@ -1,7 +1,26 @@
 <div class="vt-worklist-container h-full w-full">
   <as-split direction="vertical" (dragEnd)="dragEnd($event)">
-    <as-split-area [size]="70">
-      <p>Area 1</p>
+    <as-split-area [size]="30">
+      <div class="grid w-full m-0">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4 py-0">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold">
+                Lịch sử kết quả
+              </span>
+            </div>
+            <div class="col-12 py-0 px-3 w-full flex-auto mt-0" [style.height]="tableHeight">
+              <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
+                [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </as-split-area>
+    <as-split-area [size]="40">
+      <p>Area 2</p>
     </as-split-area>
     <as-split-area [size]="30" [minSize]="30">
       <div class="grid w-full m-0">

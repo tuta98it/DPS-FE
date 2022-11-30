@@ -14,7 +14,7 @@ export class VTWorklistComponent implements OnInit {
   caseStudies: any = [];
   totalCaseStudies = 0;
   loading = false;
-  tableHeight = 300;
+  tableHeight = 200;
   lastMaxStart = -1;
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
@@ -43,6 +43,11 @@ export class VTWorklistComponent implements OnInit {
   deletedCaseStudyId = '';
   textConfirmDeleteCase = '';
   isVisibleDeleteCase = false;
+  
+  totalRelated = 0;
+  loadingRelated = false;
+  relatedTableHeight = 200;
+  relatedCaseStudies: any = [];
 
   isSmallScreen = true;
 
@@ -60,7 +65,7 @@ export class VTWorklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setTableHeight(30);
+    this.setTableHeight(30, 30);
   }
 
   search() {
@@ -82,17 +87,36 @@ export class VTWorklistComponent implements OnInit {
 
   onSelectCaseStudy(data: any) {
     this.selectedCaseStudy = data;
+    this.getCaseStudyOfPatient();
+  }
+
+  getCaseStudyOfPatient() {
+    this.loadingRelated = true;
+    this.caseStudyService.getCaseStudyOfPatient(this.selectedCaseStudy.patientId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          res.jsonData.forEach((r: any) => {
+            r.stateLabel = this.reportStates[r.state];
+            r.requestTypeLabel = this.requestTypes[r.requestType];
+          });
+          this.relatedCaseStudies = res.jsonData;
+          this.totalRelated = res.jsonData.length;
+        }
+      }
+    }).add(() => {
+      this.loadingRelated = false;
+    });
   }
 
   onSearch(data: any) {
     this.searchData = JSON.parse(JSON.stringify(data));
-
     this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
     this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
     this.searchData.page = 1;
     this.caseStudyTable.selectedCaseStudy = {};
     this.selectedCaseStudy = {};
     this.caseStudies = [];
+    this.relatedCaseStudies = [];
     this.caseStudyTable.resetScrollTop();
     this.lastMaxStart = -1;
     this.search();
@@ -100,14 +124,15 @@ export class VTWorklistComponent implements OnInit {
 
   dragEnd(event: any) {
     console.log('onResizeEnd', event);
-    this.setTableHeight(event.sizes[1]);
+    this.setTableHeight(event.sizes[2], event.sizes[0]);
   }
 
-  setTableHeight(worklistSize: number) {
+  setTableHeight(worklistSize: number, relatedListSize: number) {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
     this.tableHeight = contentHeight*worklistSize/100 - 70;
+    this.relatedTableHeight = contentHeight*relatedListSize/100 - 50;
   }
 
   onCaseStudyAction(event: any) {

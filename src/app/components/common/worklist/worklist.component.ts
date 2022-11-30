@@ -92,6 +92,10 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.caseStudyService.getCaseStudyOfPatient(this.selectedCaseStudy.patientId).subscribe({
       next: (res) => {
         if (res.isValid) {
+          res.jsonData.forEach((r: any) => {
+            r.stateLabel = this.reportStates[r.state];
+            r.requestTypeLabel = this.requestTypes[r.requestType];
+          });
           this.relatedCaseStudies = res.jsonData;
           this.totalRelated = res.jsonData.length;
         }
