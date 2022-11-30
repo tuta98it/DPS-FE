@@ -75,11 +75,11 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
-        res.d.source.forEach((r: any) => {
+        res.jsonData.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
           r.requestTypeLabel = this.requestTypes[r.requestType];
         });
-        this.caseStudies = [...this.caseStudies, ...res.d.source];
+        this.caseStudies = [...this.caseStudies, ...res.jsonData];
         this.totalCaseStudies = res.d.itemCount;
       }
     }).add(() => {
