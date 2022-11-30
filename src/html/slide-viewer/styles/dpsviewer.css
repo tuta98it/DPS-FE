@@ -446,16 +446,6 @@ canvas:focus,
     padding: 8px;
 }
 
-#images-box {
-    margin-top: 16px;
-}
-
-#images-box > div {
-    text-align: center;
-    width: 100%;
-    display: flex;
-}
-
 #slides-box .image-container {
     margin-bottom: 16px;
     text-align: center;
@@ -465,14 +455,6 @@ canvas:focus,
     cursor: pointer;
     justify-content: space-between;
     padding: 0px 6px;
-}
-
-#images-box > div {
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    margin-bottom: 20px;
 }
 
 #slides-box .image-container > div > div.slide-thumbnail {
@@ -539,9 +521,22 @@ canvas:focus,
     color: darkcyan;
     line-height: 55px;
 }
-/*#images-box {
-                    padding: 10px 10px 10px 0;
-                }*/
+
+#images-box {
+    margin-top: 16px;
+}
+
+#images-box > div {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
 #images-box .selected::before {
     width: 100%;
     height: 100%;
@@ -551,18 +546,13 @@ canvas:focus,
     content: ' ';
 }
 
-#images-box .image-container {
-    /* width: calc(33.33% - 8px); */
-    /* padding: 4px; */
+#images-box .keyimage-thumbnail {
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     background-position: center;
     background-size: cover;
-    /* border-radius: 3px; */
-    /* background-color: #222; */
-    /* border: 1px solid #111; */
     position: relative;
     cursor: pointer;
     width: 75px;
@@ -584,20 +574,20 @@ canvas:focus,
         font-size: 14px;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-top: 5px;
         user-drag: none;
         user-select: none;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         color: #333333;
+        font-weight: bold;
     }
 
-    .keyimage-description {
+    .keyimage-desc {
         text-align: left;
-        font-size: 14px;
+        font-size: 13px;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin-top: 5px;
+        margin-top: 4px;
         user-drag: none;
         user-select: none;
         display: -webkit-box;
@@ -605,7 +595,7 @@ canvas:focus,
         color: #636363;
     }
 
-#images-box .image-container img {
+#images-box .keyimage-thumbnail img {
     max-width: 100%;
     max-height: 100%;
     z-index: 1;
@@ -1123,4 +1113,11 @@ canvas:focus,
     display: flex;
     height: 32px;
     width: 100%;
+}
+
+.slide-properties div {
+    margin-top: 6px;
+}
+.slide-properties div span {
+    margin-left: 8px;
 }
