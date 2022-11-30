@@ -31,10 +31,10 @@ export class CaseStudyTableComponent implements OnInit {
     this.cols = [
       // { field: 'idx', header: 'STT', width: '5rem' },
       // { field: 'state', header: 'Trạng thái', width: '8rem' },
+      { field: 'createdTime', header: 'Ngày lấy mẫu', width: '12rem' },
       { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
       { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
       { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
-      { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
       { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
       { field: 'slideCount', header: 'Số lam kính', width: '10rem' },
       { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
