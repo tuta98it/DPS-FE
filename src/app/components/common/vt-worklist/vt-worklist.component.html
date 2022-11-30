@@ -1,10 +1,30 @@
-<div class="h-full w-full">
+<div class="vt-worklist-container h-full w-full">
   <as-split direction="vertical" (dragEnd)="dragEnd($event)">
     <as-split-area [size]="70">
       <p>Area 1</p>
     </as-split-area>
     <as-split-area [size]="30" [minSize]="30">
       <div class="grid w-full m-0">
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-3': !isSmallScreen, 'pb-1': true}">
+          <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
+            <ng-container>Danh sách kết quả giải phẫu bệnh:</ng-container> {{totalCaseStudies}} kết quả
+          </span>
+        </div>
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-9': !isSmallScreen, 'pb-1': true}">
+          <div class="flex justify-content-end">
+            <p-calendar placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
+              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
+            <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
+              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
+            <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
+                placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
+                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
+            <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-top mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
+              (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
+            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-top flex-none text-2xl p-button-danger font-bold p-button-rounded"
+              (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
+          </div>
+        </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
           <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
             (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
@@ -14,3 +34,4 @@
     </as-split-area>
   </as-split>
 </div>
+<search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>

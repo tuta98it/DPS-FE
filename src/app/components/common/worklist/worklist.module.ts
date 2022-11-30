@@ -63,6 +63,8 @@ import { AngularSplitModule } from 'angular-split';
   exports: [
     WorklistComponent,
     CaseStudyTableComponent,
+    UploadSlideComponent,
+    SearchCaseStudyComponent,
   ]
 })
 export class WorklistModule { }

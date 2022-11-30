@@ -16,7 +16,9 @@ export class VTWorklistComponent implements OnInit {
   loading = false;
   tableHeight = 300;
   lastMaxStart = -1;
+  INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  isVisibleSearchCaseStudy = false;
 
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
@@ -42,6 +44,7 @@ export class VTWorklistComponent implements OnInit {
   textConfirmDeleteCase = '';
   isVisibleDeleteCase = false;
 
+  isSmallScreen = true;
 
   constructor(
     private caseStudyService: CaseStudyService,
@@ -53,6 +56,7 @@ export class VTWorklistComponent implements OnInit {
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
     });
+    this.isSmallScreen = window.innerWidth < 1600;
   }
 
   ngOnInit(): void {
@@ -82,6 +86,9 @@ export class VTWorklistComponent implements OnInit {
 
   onSearch(data: any) {
     this.searchData = JSON.parse(JSON.stringify(data));
+
+    this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
+    this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
     this.searchData.page = 1;
     this.caseStudyTable.selectedCaseStudy = {};
     this.selectedCaseStudy = {};
@@ -100,7 +107,7 @@ export class VTWorklistComponent implements OnInit {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
-    this.tableHeight = contentHeight*worklistSize/100 - 20;
+    this.tableHeight = contentHeight*worklistSize/100 - 70;
   }
 
   onCaseStudyAction(event: any) {
