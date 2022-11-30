@@ -66,8 +66,9 @@
             <div class="col-3 py-1 pr-0 flex align-items-center">
               <div>Loại bệnh phẩm</div>
             </div>
-            <div class="col-4 py-1 pr-0">
-              <p-dropdown optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" placeholder="Loại bệnh phẩm*" [showClear]="true">
+            <div class="col-4 py-1 px-0">
+              <p-dropdown optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" 
+                [styleClass]="'w-10rem'" placeholder="&nbsp;" [showClear]="true">
               </p-dropdown>
             </div>
             <div class="col-2 py-1 pr-0 flex align-items-center">
@@ -79,8 +80,8 @@
             <div class="col-3 py-1 pr-0 flex align-items-center">
               <div>Số lượng mẫu</div>
             </div>
-            <div class="col-4 py-1 pr-0">
-              <input pInputText type="text" placeholder="Số lượng mẫu" class="py-1 px-2" />
+            <div class="col-4 py-1 px-0">
+              <input pInputText type="text" placeholder="Số lượng mẫu" class="py-1 px-2 w-8rem" />
             </div>
             <div class="col-2 py-1 pr-0 flex align-items-center">
               <div>Ngày lấy mẫu</div>
@@ -92,7 +93,7 @@
             <div class="col-3 py-1 pr-0 flex align-items-center">
               <div>Ngày nhận mẫu</div>
             </div>
-            <div class="col-4 py-1 pr-0">
+            <div class="col-4 py-1 px-0">
               <p-calendar placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true"
               [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="py-1 px-2"></p-calendar>
             </div>
