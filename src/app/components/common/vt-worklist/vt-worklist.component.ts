@@ -1,7 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
+import { KeyImageService } from 'src/app/services/key-image.service';
+import { PatientService } from 'src/app/services/patient.service';
+import { ReportService } from 'src/app/services/report.service';
+import { AppConfigService } from 'src/app/shared/app-config.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
 
@@ -54,8 +60,21 @@ export class VTWorklistComponent implements OnInit {
 
   GENDERS = Constants.GENDERS;
 
+  patientForm!: FormGroup;
+  caseStudyForm!: FormGroup;
+  reportForm!: FormGroup;
+
+  keyImages: any[] = [];
+  FILE_URL = '';
+  visibleKeyImages = false;
+
   constructor(
+    private fb: FormBuilder,
+    private patientService: PatientService,
     private caseStudyService: CaseStudyService,
+    private reportService: ReportService,
+    private keyImageService: KeyImageService,
+    public configService: AppConfigService,
     private notification: NotificationService,
   ) { 
     Constants.REQUEST_TYPES.forEach((r: any) => {
@@ -65,10 +84,46 @@ export class VTWorklistComponent implements OnInit {
       this.reportStates[r.value] = r.label;
     });
     this.isSmallScreen = window.innerWidth < 1600;
+    this.initForm();
+    this.FILE_URL = this.configService.getConfig().api.fileUrl; 
   }
 
   ngOnInit(): void {
     this.setTableHeight(this.INIT_WORKLIST_SIZE);
+    this.search();
+  }
+
+  initForm() {
+    this.patientForm = this.fb.group({
+      id: [null],
+      patientCode: [null, [Validators.required]],
+      patientsName: [null, [Validators.required]],
+      patientsSex: [null, [Validators.required]],
+      yob: [null, [Validators.required]],
+      email: [null],
+      address: [null]
+    });
+    this.caseStudyForm = this.fb.group({
+      id: [''],
+      patientId: ['', [Validators.required]],
+      bodyPart: [''],
+      clinicalDiagnosis: [''],
+      requestType: [''],
+      description: [''],
+      sourceHospital: [''],
+      specimensCode: [''],
+      visitCode: [''],
+      createTime: [null],
+      modalityCode: [''],
+      modalityName: ['']
+    });
+    this.reportForm = this.fb.group({
+      id: [''],
+      caseStudyId: [''],
+      microbodyDescribe: [''],
+      consultation: [''],
+      diagnose: [''],
+    });
   }
 
   search() {
@@ -91,6 +146,53 @@ export class VTWorklistComponent implements OnInit {
   onSelectCaseStudy(data: any) {
     this.selectedCaseStudy = data;
     this.getCaseStudyOfPatient();
+    this.getPatient();
+    this.getCaseStudy();
+    this.getCaseStudyReports();
+    this.getKeyImages();
+  }
+
+  getCaseStudy() {
+    this.caseStudyService.getById(this.selectedCaseStudy.caseStudyId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.caseStudyForm.patchValue({
+            ...res.jsonData,
+            createTime: new Date(res.jsonData.createdTime),
+          });
+        }
+      }
+    });
+  }
+
+  getCaseStudyReports() {
+    this.reportService.getCaseStudyReports(this.selectedCaseStudy.caseStudyId).subscribe({
+      next: (res) => {
+        if (res.isValid && res.jsonData.length > 0) {
+          this.reportForm.patchValue({
+            id: res.jsonData[0].id,
+            caseStudyId: res.jsonData[0].caseStudyId,
+            microbodyDescribe: Utils.extractContent(res.jsonData[0].microbodyDescribe),
+            consultation: Utils.extractContent(res.jsonData[0].consultation),
+            diagnose: Utils.extractContent(res.jsonData[0].diagnose), 
+          });
+        }
+      }
+    });
+  }
+
+  getKeyImages() {
+    this.keyImageService.getCaseStudyKeyImages(this.selectedCaseStudy.caseStudyId).subscribe({
+      next: (res) => {
+        console.log('getKeyImages', res)
+        if (res.isValid) {
+          res.jsonData.forEach((i:any) => {
+            i.src = `${this.FILE_URL}/${i.imagePath}`;
+          });
+          this.keyImages = res.jsonData;
+        }
+      }
+    });
   }
 
   getCaseStudyOfPatient() {
@@ -126,7 +228,6 @@ export class VTWorklistComponent implements OnInit {
   }
 
   dragEnd(event: any) {
-    console.log('onResizeEnd', event);
     this.setTableHeight(event.sizes[1]);
   }
 
@@ -200,5 +301,15 @@ export class VTWorklistComponent implements OnInit {
       this.searchData.page += 1;
       this.search();
     }
+  }
+  
+  getPatient() {
+    this.patientService.getById(this.selectedCaseStudy.patientId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.patientForm.patchValue(res.jsonData);
+        }
+      }
+    });
   }
 }

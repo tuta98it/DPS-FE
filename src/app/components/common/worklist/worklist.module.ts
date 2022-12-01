@@ -16,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import {ContextMenuModule} from 'primeng/contextmenu';
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { SearchCaseStudyComponent } from './search-case-study/search-case-study.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UploadSlideComponent } from './upload-slide/upload-slide.component';

@@ -1,5 +1,7 @@
 export default class Utils {
-  static doSomething(val: string) { 
-    return val; 
+  static extractContent(html: string) {
+    return new DOMParser()
+      .parseFromString(html, "text/html")
+      .documentElement.textContent;
   }
 }

@@ -1,6 +1,7 @@
 export class AppConfig {
   api: {
-    baseUrl: string
+    baseUrl: string,
+    fileUrl: string,
   };
   deepzoom: {
     baseUrl: string
@@ -12,7 +13,8 @@ export class AppConfig {
   };
   constructor() {
     this.api = {
-      baseUrl: ''
+      baseUrl: '',
+      fileUrl: '',
     };
     this.deepzoom = {
       baseUrl: ''

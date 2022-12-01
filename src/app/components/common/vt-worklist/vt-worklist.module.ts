@@ -4,10 +4,13 @@ import { VTWorklistComponent } from './vt-worklist.component';
 import { AngularSplitModule } from 'angular-split';
 import { WorklistModule } from '../worklist/worklist.module';
 import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { GalleriaModule } from 'primeng/galleria';
+import { DialogModule } from 'primeng/dialog';
+import { KeyImagesModule } from '../key-images/key-images.module';
 
 
 @NgModule({
@@ -17,11 +20,15 @@ import { InputNumberModule } from 'primeng/inputnumber';
   imports: [
     AngularSplitModule,
     WorklistModule,
+    ReactiveFormsModule,
     FormsModule,
     InputTextModule,
     CalendarModule,
+    GalleriaModule,
     DropdownModule,
+    DialogModule,
     InputNumberModule,
+    KeyImagesModule,
     CommonModule,
   ],
   exports: [

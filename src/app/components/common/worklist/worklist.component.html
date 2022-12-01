@@ -23,7 +23,6 @@
             <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
               placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
               optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem pl-3"></p-dropdown>
-            
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
