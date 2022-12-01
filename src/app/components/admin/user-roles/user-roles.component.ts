@@ -11,7 +11,7 @@ import { Roles } from 'src/app/shared/constants/constants';
 export class UserRolesComponent implements OnInit {
   searchData = {
     skip: 0,
-    take: 20,
+    take: 40,
     keyword: ''
   }
   loading = false;
@@ -39,7 +39,6 @@ export class UserRolesComponent implements OnInit {
         }
       });
     })
-    
   }
 
   search() {
@@ -59,7 +58,7 @@ export class UserRolesComponent implements OnInit {
   resetSearch() {
     this.searchData = {
       skip: 0,
-      take: 20,
+      take: 40,
       keyword: ''
     };
     this.search();

@@ -3,6 +3,10 @@ import { Subscription } from 'rxjs';
 import { IViewerTab } from 'src/app/models/viewer-tab';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { CaseStudyService } from 'src/app/services/case-study.service';
+import { AnnotationService } from 'src/app/services/annotation.service';
+import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { AppConfigService } from 'src/app/shared/app-config.service';
+import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 
 @Component({
   selector: 'app-viewer',
@@ -17,10 +21,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
   protected _currentCaseSubscription: Subscription;
   @ViewChild("viewerContainer") viewerContainer!: ElementRef;
   renderedCases:string[] = [];
+
+  protected _authSubscription: Subscription;
+  currentUser = INIT_AUTH_MODEL;
+
   constructor(
     private viewerState: ViewerStateService,
+    private authState: AuthStateService,
     private renderer: Renderer2,
-    private caseStudyService: CaseStudyService
+    private caseStudyService: CaseStudyService,
+    private annotationService: AnnotationService
   ) { 
     this._currentTabsSubscription = this.viewerState.subscribeCurrentTabs( (tabs: IViewerTab[]) => {
       this.currentTabs = tabs;
@@ -29,10 +39,17 @@ export class ViewerComponent implements OnInit, OnDestroy {
       this.currentCaseId = id;
       this.changeCaseStudy(id);
     });
+    this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
+      this.currentUser = m;
+      console.log(m);
+    });
 
     //bind functions for DPSViewer.html
     (<any>window).getStudyInfo= this.getStudyInfo.bind(this);
     (<any>window).getListKeyImages= this.getListKeyImages.bind(this);
+    (<any>window).deleteKeyImage= this.deleteKeyImage.bind(this);
+    (<any>window).getListAnnotations= this.getListAnnotations.bind(this);
+    (<any>window).saveListAnnotations= this.saveListAnnotations.bind(this);
   }
 
   ngOnInit(): void {
@@ -69,7 +86,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     const newIFrame = this.renderer.createElement('iframe');
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
-    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-be.pmr.vn&domainSlide=https://dpstest2-dz.pmr.vn&study=' + id);
+    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-be.pmr.vn&domainSlide=https://dpstest2-dz.pmr.vn&study=' + id + '&userId=' + this.currentUser.userId + '&username=' + this.currentUser.userName);
 
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);
@@ -121,6 +138,42 @@ export class ViewerComponent implements OnInit, OnDestroy {
   getListKeyImages(slideId: string, callback: any) {
     console.log('parent getListKeyImages, slideId: ' + slideId);
     this.caseStudyService.getListKeyImageOfSlide(slideId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    })
+  }
+
+  deleteKeyImage(keyImageId: string, callback: any) {
+    console.log('parent deleteKeyImage, keyImageId: ' + keyImageId);
+    this.caseStudyService.deleteKeyImage(keyImageId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    })
+  }
+
+  getListAnnotations(slideId: string, callback: any) {
+    console.log('parent getListAnnotations, slideId: ' + slideId);
+    this.annotationService.getListAnnotationOfSlide(slideId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    })
+  }
+
+  saveListAnnotations(data: any, callback: any) {
+    // console.log('parent getListAnnotations, slideId: ' + slideId);
+    this.annotationService.saveAnnotationsBySlide(data).subscribe({
       next: (res) => {
         if (res.isValid) {
           if(callback != undefined)

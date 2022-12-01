@@ -7,6 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { TableModule } from 'primeng/table';
     
   ],
   imports: [
+    MTableModule,
     TableModule,
     InputTextModule,
     RippleModule,

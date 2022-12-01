@@ -1,6 +1,11 @@
 export class Constants {
   public static readonly FIREBASE_TOKEN = 'fb-token';
   public static readonly OBJECT_ID_EMPTY = "000000000000000000000000";
+    
+  public static readonly TABLE_PARAM = {
+    PAGE_SIZE: 40,
+  }
+
   public static readonly LAYOUT = {
     FULL: 0,
     DUAL: 1

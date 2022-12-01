@@ -12,8 +12,8 @@
             (click)="resetSearch()"></button>
         </span>
       </div>
-      <p-table [value]="userRoles" responsiveLayout="scroll" [lazy]="true"
-        (onLazyLoad)="onPageChange($event)" [paginator]="true" [rows]="searchData.take" [rowsPerPageOptions]="[10,20,30]"
+      <!-- <p-table [value]="userRoles" responsiveLayout="scroll" [lazy]="true"
+        (onLazyLoad)="onPageChange($event)" [paginator]="true" [rows]="searchData.take" [rowsPerPageOptions]="[40,50,60]"
         [showCurrentPageReport]="true" [totalRecords]="total" [tableStyle]="{'width': roles.length*5+42+'rem'}"
         currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" [loading]="loading" 
         styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true">
@@ -44,8 +44,25 @@
             </td>
           </tr>
         </ng-template>
-      </p-table>
+      </p-table> -->
+      <m-table [isLazyLoad]="false" [items]="userRoles" [dataKey]="'id'" [loading]="loading" [customBodyTemplate]="customBodyTemplate" 
+      [customHeaderTemplate]="customHeaderTemplate" [tableStyleClass]="'p-datatable-sm'" [calcHeight]="215">
+        <!-- <div>test</div> -->
+      </m-table>
+      <ng-template #customHeaderTemplate>
+        <th [style.minWidth]="'15rem'">UserId</th>
+        <th [style.minWidth]="'12rem'">Tài khoản</th>
+        <th [style.minWidth]="'12rem'">Họ và tên</th>
+        <th *ngFor="let role of roles; let i = index" [style.minWidth]="'5rem'">{{role}}</th>
+      </ng-template>
+      <ng-template #customBodyTemplate let-rowData>
+          <td [style.minWidth]="'15rem'">{{rowData['id']}}</td>
+          <td [style.minWidth]="'12rem'">{{rowData['username']}}</td>
+          <td [style.minWidth]="'12rem'">{{rowData['fullname']}}</td>
+          <td *ngFor="let role of roles; let i = index" class="text-center" [style.minWidth]="'5rem'">
+            <i *ngIf="rowData.roles.includes(role)" class="pi pi-check text-xl text-green-500 font-bold"></i>
+          </td>
+      </ng-template>
     </div>
-
   </div>
 </div>

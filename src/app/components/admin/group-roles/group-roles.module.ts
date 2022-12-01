@@ -7,6 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 
 
 
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
     GroupRolesComponent
   ],
   imports: [
+    MTableModule,
     TableModule,
     InputTextModule,
     RippleModule,
