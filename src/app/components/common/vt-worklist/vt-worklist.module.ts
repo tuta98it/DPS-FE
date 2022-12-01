@@ -6,6 +6,8 @@ import { WorklistModule } from '../worklist/worklist.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 
 @NgModule({
@@ -16,8 +18,10 @@ import { CalendarModule } from 'primeng/calendar';
     AngularSplitModule,
     WorklistModule,
     FormsModule,
+    InputTextModule,
     CalendarModule,
     DropdownModule,
+    InputNumberModule,
     CommonModule,
   ],
   exports: [

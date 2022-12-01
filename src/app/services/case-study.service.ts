@@ -27,4 +27,7 @@ export class CaseStudyService extends BaseService {
   getListKeyImageOfSlide(slideId: string) {
     return this.get(`${this.listKeyImageUrl}/${slideId}`);
   }
+  deleteKeyImage(keyImageId: string) {
+    return this.delete(`/KeyImage/`, keyImageId);
+  }
 }

@@ -50,6 +50,9 @@ export class VTWorklistComponent implements OnInit {
   relatedCaseStudies: any = [];
 
   isSmallScreen = true;
+  INIT_WORKLIST_SIZE = 30;
+
+  GENDERS = Constants.GENDERS;
 
   constructor(
     private caseStudyService: CaseStudyService,
@@ -65,7 +68,7 @@ export class VTWorklistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setTableHeight(30, 30);
+    this.setTableHeight(this.INIT_WORKLIST_SIZE);
   }
 
   search() {
@@ -73,12 +76,12 @@ export class VTWorklistComponent implements OnInit {
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
-        res.d.source.forEach((r: any) => {
+        res.jsonData.data.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
           r.requestTypeLabel = this.requestTypes[r.requestType];
         });
-        this.caseStudies = [...this.caseStudies, ...res.d.source];
-        this.totalCaseStudies = res.d.itemCount;
+        this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
+        this.totalCaseStudies = res.jsonData.total;
       }
     }).add(() => {
       this.loading = false;
@@ -124,15 +127,14 @@ export class VTWorklistComponent implements OnInit {
 
   dragEnd(event: any) {
     console.log('onResizeEnd', event);
-    this.setTableHeight(event.sizes[2], event.sizes[0]);
+    this.setTableHeight(event.sizes[1]);
   }
 
-  setTableHeight(worklistSize: number, relatedListSize: number) {
+  setTableHeight(worklistSize: number) {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
     this.tableHeight = contentHeight*worklistSize/100 - 70;
-    this.relatedTableHeight = contentHeight*relatedListSize/100 - 50;
   }
 
   onCaseStudyAction(event: any) {
