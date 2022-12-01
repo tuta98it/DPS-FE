@@ -535,6 +535,7 @@ canvas:focus,
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     margin-bottom: 20px;
+    position: relative;
 }
 
 #images-box .selected::before {
@@ -559,6 +560,7 @@ canvas:focus,
     height: 75px;
     min-width: 75px;
     max-width: 75px;
+    background-color: #cccccc;
 }
 
 .keyimage-detail {
@@ -594,6 +596,21 @@ canvas:focus,
         -webkit-box-orient: vertical;
         color: #636363;
     }
+
+.keyimage-btn {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    color: #333333;
+    border: solid 1px #cccccc;
+    border-radius: 4px;
+}
+.keyimage-btn:hover {
+    background-color: #dddddd;
+}
 
 #images-box .keyimage-thumbnail img {
     max-width: 100%;
