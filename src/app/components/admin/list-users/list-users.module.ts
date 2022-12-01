@@ -9,6 +9,7 @@ import { RippleModule } from 'primeng/ripple';
 import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
   imports: [
     InputSwitchModule,
     TableModule,
+    MTableModule,
     FormsModule,
     ButtonModule,
     InputTextModule,

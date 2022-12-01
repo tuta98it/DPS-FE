@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoleService } from 'src/app/services/role.service';
 import { UserGroupService } from 'src/app/services/user-group.service';
+import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
 export class GroupRolesComponent implements OnInit {
   searchData = {
     skip: 0,
-    take: 20,
+    take: Constants.TABLE_PARAM.PAGE_SIZE,
     keyword: ''
   }
   loading = false;
@@ -81,7 +82,7 @@ export class GroupRolesComponent implements OnInit {
   resetSearch() {
     this.searchData = {
       skip: 0,
-      take: 20,
+      take: Constants.TABLE_PARAM.PAGE_SIZE,
       keyword: ''
     };
     this.search();
