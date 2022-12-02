@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserGroupService } from 'src/app/services/user-group.service';
+import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class UserGroupsComponent implements OnInit {
   deletedItem: any = {};
   searchData = {
     skip: 0,
-    take: 20,
+    take: Constants.TABLE_PARAM.PAGE_SIZE,
     keyword: ''
   }
   loading = false;
@@ -42,7 +43,7 @@ export class UserGroupsComponent implements OnInit {
   ngOnInit() {
     this.cols = [
       { field: 'name', header: 'Tên nhóm', width: '30rem' },
-      { field: 'desc', header: 'Mô tả', width: '80rem' }
+      { field: 'desc', header: 'Mô tả', width: '69rem' }
     ];
     this.search();
   }
@@ -155,7 +156,7 @@ export class UserGroupsComponent implements OnInit {
   resetSearch() {
     this.searchData = {
       skip: 0,
-      take: 20,
+      take: Constants.TABLE_PARAM.PAGE_SIZE,
       keyword: ''
     };
     this.search();

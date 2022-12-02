@@ -28,4 +28,10 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(149, 149, 149, 1);
   }
+
+  .as-split-gutter {
+    border-color: #c7e5ff !important;
+    background-color: #c7e5ff !important;
+    flex-basis: 6px !important;
+  }
 }

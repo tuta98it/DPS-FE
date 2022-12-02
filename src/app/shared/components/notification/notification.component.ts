@@ -18,16 +18,4 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     this.primengConfig.ripple = true;
   }
-
-  showConfirm(message: any) {
-    console.log(message);
-    let data = message.data;
-    this.messageService.add({
-      key: 'c',
-      sticky: true,
-      severity: 'info',
-      summary: data.title,
-      detail: data.message,
-    });
-  }
 }

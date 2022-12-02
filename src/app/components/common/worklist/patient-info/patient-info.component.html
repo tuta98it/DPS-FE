@@ -29,7 +29,7 @@
         </div>
         <div class="col-6 pt-0 pl-2 pr-0">
           <p-inputNumber formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="true"
-            [min]="1700" [max]="2100">
+            [min]="1900" [max]="2100">
           </p-inputNumber>
           <div class="text-red-500 text-left" *ngIf="patientForm.controls['yob'].invalid && 
               (patientForm.controls['yob'].dirty || patientForm.controls['yob'].touched)">

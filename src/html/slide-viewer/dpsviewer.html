@@ -71,7 +71,7 @@
                     </svg>
                 </div>
     
-                <div class="tool-btn one-at-a-time clinical-no-need" title="Tạo key image" id="tool_createKeyImage" active="mscdps.enableKeyImage()" deactive="mscdps.toolSelect()">
+                <div class="tool-btn one-at-a-time clinical-no-need" title="Tạo key image" id="tool_createKeyImage" active="mscdps.enableKeyImage()" deactive="mscdps.disableKeyImage()">
                     <!--<img src="~/mages/tool-bar-icon/selection-square.svg" />-->
                     <svg xmlns="http://www.w3.org/2000/svg" width="22.677" height="22.678" viewBox="0 0 22.677 22.678">
                         <g transform="translate(-0.008)">
@@ -403,7 +403,7 @@
                     </div>
                     <hr class="clinical-no-need" />
                     <div class="clinical-no-need">
-                        <div class="panel-title" onclick="parent.openKeyImageSlider()">Key images</div>
+                        <div class="panel-title">Key images <span id="lblKeyImageCount"></span></div>
                         <!--<div class="pull-right" title="Mở key-image slider"  style="cursor: pointer; margin-right: 10px"><i class="fas fa-eye"></i></div>-->
                     </div>
     

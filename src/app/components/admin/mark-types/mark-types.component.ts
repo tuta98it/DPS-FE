@@ -34,8 +34,8 @@ export class MarkTypesComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'id', header: 'Id', width: '30rem' },
-      { field: 'name', header: 'Tên phương pháp nhuộm', width: '30rem' },
+      { field: 'id', header: 'Id', width: '16rem' },
+      { field: 'name', header: 'Tên phương pháp nhuộm', width: '32rem' },
       { field: 'describe', header: 'Mô tả', width: '50rem' }
     ];
     this.getAll();

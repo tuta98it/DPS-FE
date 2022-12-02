@@ -1,21 +1,25 @@
 export class AppConfig {
   api: {
-    baseUrl: string
+    baseUrl: string,
+    fileUrl: string,
   };
   deepzoom: {
     baseUrl: string
   };
+  layout: string;
   slogan: {
     content: string,
     author: string
   };
   constructor() {
     this.api = {
-      baseUrl: ''
+      baseUrl: '',
+      fileUrl: '',
     };
     this.deepzoom = {
       baseUrl: ''
     };
+    this.layout = '';
     this.slogan = {
       content: '',
       author: ''

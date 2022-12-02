@@ -75,12 +75,12 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
-        res.d.source.forEach((r: any) => {
+        res.jsonData.data.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
           r.requestTypeLabel = this.requestTypes[r.requestType];
         });
-        this.caseStudies = [...this.caseStudies, ...res.d.source];
-        this.totalCaseStudies = res.d.itemCount;
+        this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
+        this.totalCaseStudies = res.jsonData.total;
       }
     }).add(() => {
       this.loading = false;
@@ -92,6 +92,10 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.caseStudyService.getCaseStudyOfPatient(this.selectedCaseStudy.patientId).subscribe({
       next: (res) => {
         if (res.isValid) {
+          res.jsonData.forEach((r: any) => {
+            r.stateLabel = this.reportStates[r.state];
+            r.requestTypeLabel = this.requestTypes[r.requestType];
+          });
           this.relatedCaseStudies = res.jsonData;
           this.totalRelated = res.jsonData.length;
         }
@@ -191,8 +195,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     let fontSize = parseInt(getComputedStyle(document.documentElement).fontSize);
     const headerHeight = 3.5;
     let contentHeight = window.innerHeight - headerHeight*fontSize;
-    this.tableHeight = contentHeight*worklistSize/100 - 100;
-    this.relatedTableHeight = contentHeight*relatedListSize/100 - 80;
+    this.tableHeight = contentHeight*worklistSize/100 - 80;
+    this.relatedTableHeight = contentHeight*relatedListSize/100 - 60;
     this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 50;
   }
 

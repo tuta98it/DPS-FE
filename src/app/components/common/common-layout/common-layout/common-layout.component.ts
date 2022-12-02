@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { AppConfigService } from 'src/app/shared/app-config.service';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { Constants, StorageKeys } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -12,6 +13,8 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class CommonLayoutComponent implements OnInit, OnDestroy {
   LAYOUT = Constants.LAYOUT;
+  LAYOUT_CONFIG = Constants.LAYOUT_CONFIG;
+  layoutConfig = '';
   isVisibleSelectLayout = false;
   selectedLayout = Constants.LAYOUT.FULL;
   currentSelectedLayout = Constants.LAYOUT.FULL;
@@ -21,9 +24,11 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private firebaseService: FirebaseService,
     private notification: NotificationService,
+    public configService: AppConfigService,
     private viewerState: ViewerStateService,
 
   ) {
+    this.layoutConfig = this.configService.getConfig().layout;
     let layout = localStorage.getItem(StorageKeys.LAYOUT);
     if (layout !== null) {
       this.selectedLayout = +layout;
@@ -40,7 +45,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
     this.firebaseService.receiveMessage();
     this.firebaseService.currentMessage.subscribe((message: any) => {
       if (message) {
-        this.notification.add('info', message.data.title, message.data.message, 'c', true);
+        this.notification.firebase(message.data.title, message.data.message);
       }
     });
   }

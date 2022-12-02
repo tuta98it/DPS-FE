@@ -1,37 +1,40 @@
-<p-table #dt [value]="items" [columns]="cols" responsiveLayout="scroll" [lazy]="isLazyLoad" (onLazyLoad)="onPageChange.emit($event)" [paginator]="true" [rows]="take"
-  [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" [resizableColumns]="true" columnResizeMode="expand" [totalRecords]="totalRecords"
+<p-table #dt [value]="items" responsiveLayout="scroll" [lazy]="isLazyLoad" (onLazyLoad)="onPageChange.emit($event)" [paginator]="true" [rows]="take"
+  [rowsPerPageOptions]="[40,60,80]" [showCurrentPageReport]="true" [totalRecords]="totalRecords"
   currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single" [(selection)]="selectedItem" [loading]="loading"
-  styleClass="p-datatable-xs p-datatable-gridlines" [rowHover]="true" [dataKey]="dataKey" (onRowSelect)="selectRow.emit(selectedItem)">
+  [styleClass]="tableStyleClass + ' p-datatable-gridlines m-table'" [rowHover]="true" [dataKey]="dataKey" (onRowSelect)="selectRow.emit(selectedItem)"
+  [scrollable]="true" [scrollHeight]="'calc(100vh - ' + calcHeight + 'px)'" >
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 3rem" class="text-center">
-        STT
-      </th>
-      <th *ngFor="let col of cols; let i = index" pResizableColumn>{{col['header']}}</th>
-      <th style="width: auto"></th>
+      <th style="min-width: 3rem" class="text-center">STT</th>
+      <ng-template #defaultHeaderTemplate>
+        <th *ngFor="let col of cols; let i = index" [style.minWidth]="col['width'] || '12rem'">{{col['header']}}</th>
+        <th [style.minWidth]="'8rem'"></th>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="customHeaderTemplate ? customHeaderTemplate : defaultHeaderTemplate;"></ng-container>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
-    <tr [pSelectableRow]="item">
-      <td class="text-center" style="width: 3rem">
+  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="rowData">
+      <td class="text-center" style="min-width: 3rem">
         {{rowIndex+1}}
       </td>
-      <td [style.width]="col.width" *ngFor="let col of cols;">
-        {{item[col['field']]}}
-      </td>
-      <td>
-        <div class="flex mx-1">
-          <button *ngIf="actions.includes(ACTIONS.EDIT)" pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="onEditItem.emit(item)"></button>
-          <button *ngIf="actions.includes(ACTIONS.DELETE)" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="onDeleteItem.emit(item)"></button>
-        </div>
-      </td>
+      <ng-template #defaultTemplate>
+        <td [style.minWidth]="col.width || '12rem'" *ngFor="let col of cols;">
+          {{rowData[col['field']]}}
+        </td>
+        <td [style.minWidth]="'8rem'" pFrozenColumn alignFrozen="right">
+          <div class="flex mx-1">
+            <button *ngIf="actions.includes(ACTIONS.EDIT)" pButton pRipple icon="pi pi-pencil" class="ml-auto p-button-rounded p-button-success mr-2 p-button-xs" (click)="onEditItem.emit(rowData)"></button>
+            <button *ngIf="actions.includes(ACTIONS.DELETE)" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="onDeleteItem.emit(rowData)"></button>
+          </div>
+        </td>
+      </ng-template>
+      <ng-container *ngTemplateOutlet="customBodyTemplate ? customBodyTemplate : defaultTemplate; context: {$implicit: rowData}" ></ng-container>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>
-    <tr>
-      <td [attr.colspan]="columns.length+2" class="text-center">
-        Không có dữ liệu.
-      </td>
-    </tr>
+    <div class="w-full text-center p-2">
+      Không có dữ liệu.
+    </div>
   </ng-template>
 </p-table>

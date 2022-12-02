@@ -1,9 +1,9 @@
 <div class="h-full w-full">
-  <p-splitter styleClass="h-full bg-blue-50" layout="vertical" [panelSizes]="panelSizes" [minSizes]="[5, 5, 5]" (onResizeEnd)="onResizeEnd($event)">
-    <ng-template pTemplate>
+  <as-split class="h-full bg-blue-50" direction="vertical" (dragEnd)="onResizeEnd($event)">
+    <as-split-area [size]="panelSizes[0]" [minSize]="5">
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">
-          <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
+          <span class="block sm:text-lg xl:text-xl font-bold text-primary-color pt-2">
             <ng-container *ngIf="selectedLayout==LAYOUT.FULL">Danh sách ca khám:</ng-container> {{totalCaseStudies}} kết quả
           </span>
         </div>
@@ -23,13 +23,12 @@
             <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
               placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
               optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem pl-3"></p-dropdown>
-            
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
               (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
-            <button pButton pRipple type="button" icon="pi pi-download" title="Xuất báo cáo" class="flex-none text-xl ml-2 bg-blue-400 font-bold p-button-rounded"></button>
-            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 bg-green-500 p-button p-button-rounded"
+            <button pButton pRipple type="button" icon="pi pi-download" title="Xuất báo cáo" class="flex-none text-xl ml-2 font-bold p-button-rounded p-buton-primary"></button>
+            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 p-button p-button-rounded"
               (click)="onCreateCaseStudy()"></button>
           </div>
         </div>
@@ -39,27 +38,27 @@
             (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
-    </ng-template>
-    <ng-template pTemplate>
+    </as-split-area>
+    <as-split-area [size]="panelSizes[1]" [minSize]="5">
       <div class="grid w-full m-0 flex-none">
-        <div class="col-12 py-0 flex align-items-center">
-          <span class="sm:text-lg xl:text-xl font-bold text-green-600">
+        <div class="col-12 py-3 flex align-items-center">
+          <span class="sm:text-lg xl:text-xl font-bold text-primary-color">
             Ca khám liên quan của bệnh nhân {{selectedCaseStudy.patientsName}}
           </span>
           <i class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer" (click)="toggleRelated()" ></i>
         </div>
-        <div class="col-12 py-0 px-3 w-full flex-auto mt-0" [style.height]="tableHeight">
+        <div class="col-12 py-0 px-3 w-full flex-auto mt-0">
           <case-study-table *ngIf="isShowRelated" [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
             [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
-    </ng-template>
-    <ng-template pTemplate>
+    </as-split-area>
+    <as-split-area [size]="panelSizes[2]" [minSize]="5">
       <div class="grid w-full m-0 flex-none">
         <report-panel class="w-full" [style.height]="reportPanelHeight+'px'" [caseStudy]="selectedCaseStudy"></report-panel>
       </div>
-    </ng-template>
-  </p-splitter>
+    </as-split-area>
+  </as-split>
 </div>
 <case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader" [patientId]="selectedPatientId.toString()"
   [caseStudyId]="updatedCaseStudyId" (onSaveCaseStudy)="onSearch(searchData)"></case-study-info>

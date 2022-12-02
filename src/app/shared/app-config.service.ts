@@ -38,6 +38,7 @@ export class AppConfigService {
           resolve(true);
         },
         error: (error) => {
+          console.log('error', error)
           this.errorHandler(error)
         }
       });
@@ -46,7 +47,9 @@ export class AppConfigService {
 
   private setConfig = (data: any): void => {
     this.config.api.baseUrl = 'https://' + data.api.baseUrl;
+    this.config.api.fileUrl = 'https://' + data.api.fileUrl;
     this.config.deepzoom.baseUrl = 'https://' + data.deepzoom.baseUrl;
+    this.config.layout = data.layout;
     this.config.slogan = data.slogan;
   };
 

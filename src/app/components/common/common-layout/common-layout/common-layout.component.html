@@ -1,61 +1,68 @@
 <app-header [(isShowViewer)]="isShowViewer" [selectedLayout]="selectedLayout" (onSelectLayout)="onSelectLayout($event)"></app-header>
-<div class="common-layout-container">
-  <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
-    <app-worklist [ngClass]="{'hidden' : isShowViewer}" [selectedLayout]="selectedLayout"></app-worklist>
+<ng-container *ngIf="layoutConfig==LAYOUT_CONFIG.DEFAULT">
+  <div class="common-layout-container">
+    <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
+      <app-worklist [ngClass]="{'hidden' : isShowViewer}" [selectedLayout]="selectedLayout"></app-worklist>
+      <app-viewer [ngClass]="{'hidden' : !isShowViewer}"></app-viewer>
+    </ng-container>
+    <div *ngIf="selectedLayout==LAYOUT.DUAL" class="h-full">
+      <p-splitter styleClass="h-full" [minSizes]="[30, 30]" [gutterSize]="6">
+        <ng-template pTemplate>
+          <div class="h-full w-full">
+            <app-worklist [selectedLayout]="selectedLayout"></app-worklist>
+          </div>
+        </ng-template>
+        <ng-template pTemplate>
+          <div class="h-full w-full flex flex-column">
+            <div class="h-3rem">
+              <viewer-tabs [selectedLayout]="selectedLayout"></viewer-tabs>
+            </div>
+            <div class="flex-auto">
+              <app-viewer></app-viewer>
+            </div>
+          </div>
+        </ng-template>
+      </p-splitter>
+    </div>
+  </div>
+  <p-dialog [(visible)]="isVisibleSelectLayout" [style]="{width: '500px'}" [header]="'Chọn layout'" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="grid">
+        <div class="col-6 layout-option">
+          <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="currentSelectedLayout==LAYOUT.DUAL" 
+            (click)="currentSelectedLayout=LAYOUT.DUAL">
+            <tbody>
+              <tr class="h-4rem"><td class="text-center">WORKLIST</td><td class="text-center" rowspan="3">SLIDE VIEWER</td></tr>
+              <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
+              <tr class="h-4rem"><td class="text-center">REPORT</td></tr>
+            </tbody>
+          </table>
+          <div class="text-center mt-1">Chia đôi màn hình</div>
+        </div>
+        <div class="col-6 layout-option">
+          <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="currentSelectedLayout==LAYOUT.FULL"
+            (click)="currentSelectedLayout=LAYOUT.FULL">
+            <tbody>
+              <tr class="h-4rem"><td class="text-center">WORKLIST</td></tr>
+              <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
+              <tr class="h-4rem"><td class="text-center">REPORT</td></tr>
+            </tbody>
+          </table>
+          <div class="text-center mt-1">Toàn màn hình</div>
+        </div>
+      </div>
+    </ng-template>
+  
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleSelectLayout=false"></button>
+      <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveLayout()"></button>
+    </ng-template>
+  </p-dialog>
+</ng-container>
+<div *ngIf="layoutConfig==LAYOUT_CONFIG.VT" class="common-layout-container">
+  <div class="h-full w-full">
+    <vt-worklist [ngClass]="{'hidden' : isShowViewer}"></vt-worklist>
     <app-viewer [ngClass]="{'hidden' : !isShowViewer}"></app-viewer>
-  </ng-container>
-  <div *ngIf="selectedLayout==LAYOUT.DUAL" class="h-full">
-    <p-splitter styleClass="h-full" [minSizes]="[30, 30]" [gutterSize]="6">
-      <ng-template pTemplate>
-        <div class="h-full w-full">
-          <app-worklist [selectedLayout]="selectedLayout"></app-worklist>
-        </div>
-      </ng-template>
-      <ng-template pTemplate>
-        <div class="h-full w-full flex flex-column">
-          <div class="h-3rem">
-            <viewer-tabs [selectedLayout]="selectedLayout"></viewer-tabs>
-          </div>
-          <div class="flex-auto">
-            <app-viewer></app-viewer>
-          </div>
-        </div>
-      </ng-template>
-    </p-splitter>
   </div>
 </div>
-<p-dialog [(visible)]="isVisibleSelectLayout" [style]="{width: '500px'}" [header]="'Chọn layout'" [modal]="true" class="p-fluid">
-  <ng-template pTemplate="content">
-    <div class="grid">
-      <div class="col-6 layout-option">
-        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="currentSelectedLayout==LAYOUT.DUAL" 
-          (click)="currentSelectedLayout=LAYOUT.DUAL">
-          <tbody>
-            <tr class="h-4rem"><td class="text-center">WORKLIST</td><td class="text-center" rowspan="3">SLIDE VIEWER</td></tr>
-            <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
-            <tr class="h-4rem"><td class="text-center">REPORT</td></tr>
-          </tbody>
-        </table>
-        <div class="text-center mt-1">Chia đôi màn hình</div>
-      </div>
-      <div class="col-6 layout-option">
-        <table class="cursor-pointer text-black-alpha-90 w-full" [class.selected]="currentSelectedLayout==LAYOUT.FULL"
-          (click)="currentSelectedLayout=LAYOUT.FULL">
-          <tbody>
-            <tr class="h-4rem"><td class="text-center">WORKLIST</td></tr>
-            <tr class="h-4rem"><td class="text-center">RELATED STUDY</td></tr>
-            <tr class="h-4rem"><td class="text-center">REPORT</td></tr>
-          </tbody>
-        </table>
-        <div class="text-center mt-1">Toàn màn hình</div>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleSelectLayout=false"></button>
-    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveLayout()"></button>
-  </ng-template>
-</p-dialog>
-
 <app-notification [position]="'bottom-right'" [key]="'c'"></app-notification>

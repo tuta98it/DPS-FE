@@ -16,7 +16,7 @@
   <ng-template pTemplate="body" let-rowData>
     <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData"
       (dblclick)="openViewer(rowData)"
-      [ngClass]="{'bg-green-100': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
+      [ngClass]="{'bg-grid': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
         'surface-200':rowData['idx']==selectedCaseStudy['idx'],
         'hover:surface-200 cursor-pointer':true}">
       <td class="flex align-items-center justify-content-center flex-none" [style]="{'width':'50px'}">{{ rowData['idx'] }}</td>
@@ -38,6 +38,13 @@
           <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
         </td>
     </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage" let-columns>
+  <tr>
+    <td [attr.colspan]="cols.length+2" class="justify-content-center">
+      Không có dữ liệu.
+    </td>
+  </tr>
 </ng-template>
 </p-table>
 <p-contextMenu #menu styleClass="w-16rem" [model]="actions"></p-contextMenu>

@@ -140,18 +140,8 @@ export class CaseStudyInfoComponent implements OnInit {
         if (res.isValid) {
           this.updatedCaseStudy = res.jsonData;
           this.caseStudyForm.patchValue({
-            id: res.jsonData.id,
-            patientId: res.jsonData.patientId,
-            bodyPart: res.jsonData.bodyPart,
-            clinicalDiagnosis: res.jsonData.clinicalDiagnosis,
-            requestType: res.jsonData.requestType,
-            description: res.jsonData.description,
-            sourceHospital: res.jsonData.sourceHospital,
-            specimensCode: res.jsonData.specimensCode,
-            visitCode: res.jsonData.visitCode,
+            ...res.jsonData,
             createTime: new Date(res.jsonData.createdTime),
-            modalityCode: res.jsonData.modalityCode,
-            modalityName: res.jsonData.modalityName
           });
         }
       }

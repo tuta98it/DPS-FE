@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-list-users',
@@ -9,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ListUsersComponent implements OnInit {
   searchData = {
     skip: 0,
-    take: 20,
+    take: Constants.TABLE_PARAM.PAGE_SIZE,
     keyword: ''
   }
   loading = false;
@@ -51,13 +52,14 @@ export class ListUsersComponent implements OnInit {
   resetSearch() {
     this.searchData = {
       skip: 0,
-      take: 20,
+      take: Constants.TABLE_PARAM.PAGE_SIZE,
       keyword: ''
     };
     this.search();
   }
   
   onPageChange(data: any) {
+    console.log('onPageChange', data);
     this.searchData.skip = data.first;
     this.searchData.take = data.rows;
     this.search();

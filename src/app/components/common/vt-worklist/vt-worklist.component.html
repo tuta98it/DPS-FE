@@ -1,0 +1,261 @@
+<div class="vt-worklist-container h-full w-full">
+  <as-split direction="vertical" (dragEnd)="dragEnd($event)">
+    <as-split-area [size]="100-INIT_WORKLIST_SIZE">
+      <div class="worklist-form grid w-full m-0">
+        <div class="col-4 p-0" [formGroup]="patientForm">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold underline">
+                1. Thông tin hành chính
+              </span>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Tên bệnh nhân<span class="text-red-500">*</span></div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input formControlName="patientsName" pInputText type="text" placeholder="Tên bệnh nhân*" class="w-full py-2 px-2" />
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Mã bệnh nhân<span class="text-red-500">*</span></div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input formControlName="patientCode" pInputText type="text" placeholder="Mã bệnh nhân*" class="w-full py-2 px-2" />
+            </div>
+            <div class="col-2 py-1 pr-0 flex align-items-center">
+              <div>Giới tính<span class="text-red-500">*</span></div>
+            </div>
+            <div class="col-4 py-1 pr-0">
+              <p-dropdown formControlName="patientsSex" optionLabel="label" optionValue="value"
+                [styleClass]="'w-full'" [options]="GENDERS" placeholder="Giới tính*" [showClear]="true">
+              </p-dropdown>
+            </div>
+            <div class="col-2 py-1 pr-0 flex align-items-center">
+              <div>Năm sinh<span class="text-red-500">*</span></div>
+            </div>
+            <div class="col-4 py-1 pr-0">
+              <p-inputNumber formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="false" class="w-full" 
+                [styleClass]="'w-full'" [inputStyleClass]="'flex-none w-full py-2 px-2'" [min]="1900" [max]="2100">
+            </p-inputNumber>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Địa chỉ</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input formControlName="address" pInputText type="text" placeholder="Địa chỉ" class="w-full py-2 px-2" />
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Email</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input formControlName="email" pInputText type="text" placeholder="Email" class="w-full py-2 px-2" />
+            </div>
+          </div>
+        </div>
+        <div class="col-4 p-0" [formGroup]="caseStudyForm">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold underline">
+                2. Thông tin bệnh phẩm
+              </span>
+            </div>
+            <div class="col-2 py-1 pr-0 flex align-items-center">
+              <div>Mã chỉ định</div>
+            </div>
+            <div class="sm:col-3 xl:col-4 py-1 pr-0">
+              <input formControlName="modalityCode" pInputText type="text" placeholder="Mã chỉ định" class="w-full py-2 px-2" />
+            </div>
+            <div class="sm:col-3 xl:col-2 py-1 pr-0 flex align-items-center">
+              <div>Loại bệnh phẩm</div>
+            </div>
+            <div class="col-4 py-1 px-0">
+              <p-dropdown formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" 
+                [styleClass]="'w-full'" placeholder="&nbsp;" [showClear]="true">
+              </p-dropdown>
+            </div>
+            <div class="col-2 py-1 pr-0 flex align-items-center">
+              <div>Vị trí lấy</div>
+            </div>
+            <div class="sm:col-3 xl:col-4 py-1 pr-0">
+              <input formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy" class="w-full py-2 px-2" />
+            </div>
+            <div class="sm:col-3 xl:col-2 py-1 pr-0 flex align-items-center">
+              <div>Số lượng mẫu</div>
+            </div>
+            <div class="col-4 py-1 px-0">
+              <input pInputText type="text" placeholder="Số lượng mẫu" class= "py-2 px-2 w-full" />
+            </div>
+            <div class="col-2 py-1 pr-0 flex align-items-center">
+              <div>Ngày lấy mẫu</div>
+            </div>
+            <div class="col-4 py-1 pr-0">
+              <p-calendar formControlName="createTime" placeholder="Ngày lấy mẫu" [showButtonBar]="true" [showClear]="true"
+                styleClass="w-full" [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
+            </div>
+            <div class="col-2 py-1 pr-0 flex align-items-center">
+              <div>Ngày nhận</div>
+            </div>
+            <div class="col-4 py-1 px-0">
+              <p-calendar placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
+                [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Nơi gửi mẫu</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input formControlName="sourceHospital" pInputText type="text" placeholder="Nơi gửi mẫu" class="w-full py-2 px-2" />
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Bác sĩ chỉ định</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input pInputText type="text" placeholder="Bác sĩ chỉ định" class="w-full py-2 px-2" />
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Chẩn đoán lâm sàng</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input formControlName="clinicalDiagnosis" pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full py-2 px-2" />
+            </div>
+          </div>
+        </div>
+        <div class="col-4 py-0">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold">
+                *Lịch sử kết quả
+              </span>
+            </div>
+            <div class="col-12 py-0 px-3 mt-0">
+              <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
+                [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 p-0" [formGroup]="caseStudyForm">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold underline">
+                3. Thông tin xử lý mẫu
+              </span>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Nhân viên xử lý</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <input pInputText type="text" placeholder="Nhân viên xử lý" class="w-full py-2 px-2" />
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Mô tả đại thể</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <textarea formControlName="description" pInputText rows="5" class="w-full py-2 px-2"></textarea>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Số lam kính</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <p-inputNumber placeholder="Số lam kính" [useGrouping]="false" [showButtons]="false" [inputStyleClass]="'flex-none w-8 py-2 px-2'"
+                [min]="0">
+              </p-inputNumber>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 p-0" [formGroup]="reportForm">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold underline">
+                4. Thông tin kết quả
+              </span>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Code</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <p-dropdown optionLabel="label" optionValue="value" placeholder="Code" [showClear]="true">
+              </p-dropdown>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Mô tả vi thể</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <textarea formControlName="microbodyDescribe" pInputText rows="2" class="w-full py-2 px-2"></textarea>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Hội chẩn</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <textarea formControlName="consultation" pInputText rows="2" class="w-full py-2 px-2"></textarea>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Kết luận</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <textarea formControlName="diagnose" pInputText rows="2" class="w-full py-2 px-2"></textarea>
+            </div>
+            <div class="col-4 py-1 pr-0 flex align-items-center">
+              <div>Bác sĩ đọc kết quả</div>
+            </div>
+            <div class="col-8 py-1 pr-0">
+              <p-dropdown optionLabel="label" optionValue="value" placeholder="Bác sĩ đọc kết quả" [showClear]="true">
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 py-0">
+          <div class="grid w-full m-0 flex-none">
+            <div class="col-12 pt-3 pb-1 flex align-items-center">
+              <span class="font-bold">
+                *Kết quả hình ảnh
+              </span>
+            </div>
+            <div class="col-12 py-1 mt-0 flex justify-content-between">
+              <button pButton pRipple label="View ảnh scan lam" icon="fa-solid fa-microscope" class="flex-none p-button p-button-sm"></button>
+              <button pButton pRipple type="button" icon="pi pi-images" class="btn-top flex-none text-2xl font-medium"
+                [disabled]="keyImages.length==0" (click)="visibleKeyImages=true" title="Xóa lọc"></button>
+            </div>
+            <div class="col-12 py-1 mt-0">
+              <div class="col-12 py-2 px-1 border-400 border-1 xl:h-16rem sm:h-10rem overflow-auto">
+                <div *ngFor="let img of keyImages" [title]="img.note"
+                  class="inline-block py-1 px-2 cursor-pointer">
+                  <img [src]="img.src" class="w-7rem h-7rem">
+                  <div class="w-7rem overflow-hidden text-overflow-ellipsis">{{img.title ? img.title : '&nbsp;'}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </as-split-area>
+    <as-split-area [size]="INIT_WORKLIST_SIZE" [minSize]="INIT_WORKLIST_SIZE">
+      <div class="grid w-full m-0">
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-3': !isSmallScreen, 'pb-1': true}">
+          <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
+            <ng-container>Danh sách kết quả giải phẫu bệnh:</ng-container> {{totalCaseStudies}} kết quả
+          </span>
+        </div>
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-9': !isSmallScreen, 'pb-1': true}">
+          <div class="flex justify-content-end">
+            <p-calendar placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
+              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
+            <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
+              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
+            <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
+                placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
+                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
+            <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-top mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
+              (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
+            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-top flex-none text-2xl p-button-danger font-bold p-button-rounded"
+              (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
+          </div>
+        </div>
+        <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
+          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
+            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
+            (onAction)="onCaseStudyAction($event)"></case-study-table>
+        </div>
+      </div>
+    </as-split-area>
+  </as-split>
+</div>
+<search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
+<key-images [(visible)]="visibleKeyImages" [images]="keyImages"></key-images>

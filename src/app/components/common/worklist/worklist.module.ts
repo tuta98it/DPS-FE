@@ -16,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DropdownModule } from 'primeng/dropdown';
-import {ContextMenuModule} from 'primeng/contextmenu';
+import { ContextMenuModule } from 'primeng/contextmenu';
 import { SearchCaseStudyComponent } from './search-case-study/search-case-study.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { UploadSlideComponent } from './upload-slide/upload-slide.component';
@@ -25,6 +25,7 @@ import { ReportModule } from '../report/report.module';
 import { FileUploadModule } from 'primeng/fileupload';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { AngularSplitModule } from 'angular-split';
 
 @NgModule({
   declarations: [
@@ -54,12 +55,16 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ReportModule,
     TooltipModule,
     ConfirmDialogModule,
+    AngularSplitModule,
     FileUploadModule,
     HttpClientModule,
     CommonModule
   ],
   exports: [
-    WorklistComponent
+    WorklistComponent,
+    CaseStudyTableComponent,
+    UploadSlideComponent,
+    SearchCaseStudyComponent,
   ]
 })
 export class WorklistModule { }

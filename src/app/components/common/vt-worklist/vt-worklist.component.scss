@@ -1,0 +1,17 @@
+:host ::ng-deep .vt-worklist-container {
+  .btn-top {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+  .worklist-form {
+    .p-dropdown-label {
+      padding: 0.5rem 1rem 0.5rem 0.5rem;
+    }
+    .p-dropdown-clear-icon {
+      right: 1.7rem;
+    }
+    .p-calendar-clear-icon {
+      right: 1rem;
+    }
+  }
+}
