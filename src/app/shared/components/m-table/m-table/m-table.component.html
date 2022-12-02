@@ -2,7 +2,7 @@
   [rowsPerPageOptions]="[40,60,80]" [showCurrentPageReport]="true" [totalRecords]="totalRecords"
   currentPageReportTemplate="{first} đến {last} trong tổng số {totalRecords}" selectionMode="single" [(selection)]="selectedItem" [loading]="loading"
   [styleClass]="tableStyleClass + ' p-datatable-gridlines m-table'" [rowHover]="true" [dataKey]="dataKey" (onRowSelect)="selectRow.emit(selectedItem)"
-  [scrollable]="true" [scrollHeight]="'calc(100vh - ' + calcHeight + 'px)'" >
+  [scrollable]="true" [scrollHeight]="'calc(100vh - ' + calcHeight + 'px)'">
   <ng-template pTemplate="header">
     <tr>
       <th style="min-width: 3rem" class="text-center">STT</th>

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { AuthService } from 'src/app/services/auth.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 import { StorageKeys } from 'src/app/shared/constants/constants';
 import { AdminLayoutService } from "./service/admin.layout.service";
@@ -27,6 +28,7 @@ export class AdminTopBarComponent {
     public layoutService: AdminLayoutService,
     private router: Router,
     private authState: AuthStateService,
+    private authService: AuthService
   ) {
     this.profileMenuItems = [
       {
@@ -49,10 +51,12 @@ export class AdminTopBarComponent {
   }
   
   signOut() {
-    localStorage.removeItem(StorageKeys.TOKEN);
-    localStorage.removeItem(StorageKeys.USER);
-    this.authState.dispatch(null);
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe((data) => {
+      localStorage.removeItem(StorageKeys.TOKEN);
+      localStorage.removeItem(StorageKeys.USER);
+      this.authState.dispatch(null);
+      this.router.navigate(['/login']);
+    })
   }
 
   public ngOnDestroy(): void {

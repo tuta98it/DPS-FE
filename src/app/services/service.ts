@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConfigService } from '../shared/app-config.service';
-import { StorageKeys } from '../shared/constants/constants';
+import { Constants, StorageKeys } from '../shared/constants/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,8 @@ export abstract class Service {
     url: string,
     data: any,
     params?: {},
-    responseType?: string
+    responseType?: string,
+    headers?: {},
   ): Observable<any> {
     switch (responseType) {
       case 'text':
@@ -59,7 +60,7 @@ export abstract class Service {
           this.baseUrl + url,
           data,
           {
-            headers: this.createHeaders() || {},
+            headers: this.createHeaders(headers) || {},
             responseType: 'text',
             params,
           }
@@ -89,7 +90,7 @@ export abstract class Service {
           this.baseUrl + url,
           data,
           {
-            headers: this.createHeaders() || {},
+            headers: this.createHeaders(headers) || {},
             params,
           }
         );
@@ -160,8 +161,17 @@ export abstract class Service {
     }
   }
 
-  public createHeaders(): HttpHeaders {
-    return new HttpHeaders().set('Authorization', 'Bearer ' + this.getToken());
+  public createHeaders(headers?: any): HttpHeaders {
+    // Why "authorization": see CustomLogoutSuccessHandler on server
+    let requestHeader = new HttpHeaders();
+    if (headers) {
+      for (const [key, value] of Object.entries(headers)) {
+        requestHeader = requestHeader.set(key, value as string);
+      }
+    }
+    requestHeader = requestHeader.set('Authorization', 'Bearer ' + this.getToken());
+    return requestHeader;
+    // return new HttpHeaders().set('Authorization', 'Bearer ' + this.getToken());
   }
   private getToken(): string {
     return localStorage.getItem(StorageKeys.TOKEN) ?? '';

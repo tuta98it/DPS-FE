@@ -16,15 +16,11 @@ export class FirebaseService {
   }
 
   requestPermission() {
-    const curToken = localStorage.getItem(Constants.FIREBASE_TOKEN);
     this.firebaseMessaging.requestToken.subscribe(
       (token: any) => {
-        console.log(token);
-        if (token !== curToken) {
-          this.firebaseTokenService.save({ keyword: token }).subscribe((res) => {
-            localStorage.setItem(Constants.FIREBASE_TOKEN, token);
-          });
-        }
+        this.firebaseTokenService.save({ keyword: token }).subscribe((res) => {
+          localStorage.setItem(Constants.FIREBASE_TOKEN, token);
+        });
       },
       (err) => {
         console.error('Unable to get permission to notify.', err);
