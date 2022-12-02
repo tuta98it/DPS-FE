@@ -14,11 +14,18 @@ import { SplitterModule } from 'primeng/splitter';
 import { NotificationModule } from '../../../shared/components/notification/notification.module';
 import { VTWorklistModule } from '../vt-worklist/vt-worklist.module';
 import { AngularSplitModule } from 'angular-split';
+import { NotificationPanelComponent } from './notification-panel/notification-panel.component';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ClickStopPropagationDirective } from 'src/app/shared/directives/click-stop-propagation.directive';
+import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
 
 @NgModule({
   declarations: [
     CommonLayoutComponent,
-    HeaderComponent
+    HeaderComponent,
+    NotificationPanelComponent,
+    ClickStopPropagationDirective,
+    ClickOutsideDirective
   ],
   imports: [
     CommonModule,
@@ -28,6 +35,7 @@ import { AngularSplitModule } from 'angular-split';
     ButtonModule,
     SplitterModule,
     RippleModule,
+    OverlayPanelModule,
     WorklistModule,
     VTWorklistModule,
     ViewerModule,

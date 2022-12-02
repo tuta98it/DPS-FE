@@ -1,0 +1,14 @@
+<div clickOutside (clickOutside)="onClickOutside($event)" [ngClass]="{'hidden': !visible}" class="notification-panel-container absolute top-100 bg-white z-5">
+  <div class="uploading">
+    <div class="title py-1 text-center text-white">Đang tải lên</div>
+    <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+  </div>
+  <div class="processing">
+    <div class="title py-1 text-center text-white">Đang xử lý</div>
+    <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+  </div>
+  <div class="completed">
+    <div class="title py-1 text-center text-white">Đã xử lý xong</div>
+    <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+  </div>
+</div>

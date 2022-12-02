@@ -7,20 +7,22 @@
   <div class="flex">
     <ul class="flex actions align-items-center mr-4">
       <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
-        <li *ngIf="!isShowViewer" class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" 
+        <li *ngIf="!isShowViewer" class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer" 
           title="Xem slide" (click)="isShowViewerChange.emit(true)">
           <i class="fa-solid fa-circle-arrow-right text-2xl text-500"></i>
         </li>
-        <li *ngIf="isShowViewer" class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" 
+        <li *ngIf="isShowViewer" class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer" 
           (click)="isShowViewerChange.emit(false)">
           <i class="fa-solid fa-circle-arrow-left text-2xl text-500"></i>
         </li>
       </ng-container>
-      <li *ngIf="layoutConfig==LAYOUT_CONFIG.DEFAULT" class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer" (click)="onSelectLayout.emit()">
+      <li *ngIf="layoutConfig==LAYOUT_CONFIG.DEFAULT" class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer" (click)="onSelectLayout.emit()">
         <i class="fa-solid fa-table-columns text-2xl text-500"></i>
       </li>
-      <li class="i-action flex align-items-center justify-content-center block hover:surface-200 cursor-pointer">
-        <i class="fa-solid fa-bell text-2xl text-500"></i>
+      <li class="i-action relative flex align-items-center justify-content-center hover:surface-200 cursor-pointer"
+        (click)="visibleNotificationPanel=!visibleNotificationPanel">
+        <i class="fa-solid fa-bell text-2xl text-500" ></i>
+        <notification-panel clickStopPropagation [(visible)]="visibleNotificationPanel" [isClickOutside]="!visibleNotificationPanel"></notification-panel>
       </li>
     </ul>
     <div class="account flex align-items-center">

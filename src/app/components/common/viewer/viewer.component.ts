@@ -43,7 +43,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
       this.currentUser = m;
-      console.log(m);
     });
 
     //bind functions for DPSViewer.html
@@ -60,6 +59,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this._currentTabsSubscription.unsubscribe();
     this._currentCaseSubscription.unsubscribe();
+    this._authSubscription.unsubscribe();
   }
 
   changeCaseStudy(id: string) {

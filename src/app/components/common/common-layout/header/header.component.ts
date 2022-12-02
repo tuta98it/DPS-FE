@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   
   @Input() isShowViewer = false;
   @Output() isShowViewerChange = new EventEmitter<any>();
+  visibleNotificationPanel = false;
 
   constructor(
     private router: Router,
