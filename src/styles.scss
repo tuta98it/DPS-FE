@@ -15,6 +15,6 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 
-// .m-table.p-datatable-scrollable th.p-frozen-column{
-//     left: auto !important;
-// }
+.b-r-25{
+    border-radius: 2.5rem !important;
+}
