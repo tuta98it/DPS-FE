@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { AuthService } from 'src/app/services/auth.service';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 import { Constants, StorageKeys } from 'src/app/shared/constants/constants';
@@ -29,6 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     public configService: AppConfigService,
     private authState: AuthStateService,
+    private authService: AuthService
   ) {
     this.profileMenuItems = [
       {
@@ -51,9 +53,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   signOut() {
-    localStorage.removeItem(StorageKeys.TOKEN);
-    localStorage.removeItem(StorageKeys.USER);
-    this.authState.dispatch(null);
-    this.router.navigate(['/login']);
+    this.authService.logout().subscribe((data) => {
+      localStorage.removeItem(StorageKeys.TOKEN);
+      localStorage.removeItem(StorageKeys.USER);
+      this.authState.dispatch(null);
+      this.router.navigate(['/login']);
+    })
   }
 }
