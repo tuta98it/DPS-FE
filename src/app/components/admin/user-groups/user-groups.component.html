@@ -27,7 +27,7 @@
           <div class="field">
             <label for="name">Tên group</label>
             <input type="text" pInputText id="name" formControlName="name" required autofocus/>
-            <div class="text-red-500 text-left" *ngIf="userGroupForm.controls['name'].invalid && 
+            <div class="m-error" *ngIf="userGroupForm.controls['name'].invalid && 
               (userGroupForm.controls['name'].dirty || userGroupForm.controls['name'].touched)">*Tên group không được để trống
             </div>
           </div>

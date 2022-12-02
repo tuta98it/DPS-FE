@@ -15,6 +15,19 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 
-.b-r-25{
+.b-r-25 {
     border-radius: 2.5rem !important;
+}
+
+.field{
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.m-error {
+    position: absolute;
+    bottom: -1.5rem;
+    min-height: 18px;
+    font-size: 0.875rem;
+    color: var(--red-600);
 }
