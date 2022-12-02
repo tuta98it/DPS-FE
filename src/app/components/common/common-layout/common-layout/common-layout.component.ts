@@ -20,6 +20,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
   currentSelectedLayout = Constants.LAYOUT.FULL;
   isShowViewer = false;
   protected _currentCaseSubscription: Subscription;
+  protected _notificationSub: Subscription;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -43,7 +44,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
     });
     this.firebaseService.requestPermission();
     this.firebaseService.receiveMessage();
-    this.firebaseService.currentMessage.subscribe((message: any) => {
+    this._notificationSub = this.firebaseService.currentMessage.subscribe((message: any) => {
       if (message) {
         this.notification.firebase(message.data.title, message.data.message);
       }
@@ -54,6 +55,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this._currentCaseSubscription.unsubscribe();
+    this._notificationSub.unsubscribe();
   }
 
   saveLayout() {
