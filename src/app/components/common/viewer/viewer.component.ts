@@ -25,6 +25,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
 
+  isLoading = false;
+
   constructor(
     private viewerState: ViewerStateService,
     private authState: AuthStateService,
@@ -84,6 +86,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.renderer.addClass(newContainer, 'hidden');
 
     const newIFrame = this.renderer.createElement('iframe');
+    this.renderer.listen(newIFrame, 'load', () => {
+      this.isLoading = false;
+    });
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
     this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-be.pmr.vn&domainSlide=https://dpstest2-dz.pmr.vn&study=' + id + '&userId=' + this.currentUser.userId + '&username=' + this.currentUser.userName);
@@ -91,6 +96,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);
     this.setCurrentViewer(id);
+    this.isLoading = true;
   }
 
   removeViewers() {

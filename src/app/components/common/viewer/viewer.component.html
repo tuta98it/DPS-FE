@@ -5,6 +5,12 @@
       Hãy mở một lam kính
     </span> 
   </div>
+  <div *ngIf="isLoading" class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
+    <i class="pi pi-spin pi-spinner text-8xl"></i>
+    <span class="mt-2 text-xl">
+      Loading...
+    </span> 
+  </div>
   <!-- <div [ngClass]="{'hidden': currentCaseId==tab.caseStudyId, 'w-full h-full relative':true}" *ngFor="let tab of currentTabs" >
     <iframe id='0' style='border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;' src='https://dpstest2.pmr.vn/dps-viewer?domain=http://dpstest.pmr.vn&slide=63529f473c248e0930065269'></iframe>
   </div> -->
