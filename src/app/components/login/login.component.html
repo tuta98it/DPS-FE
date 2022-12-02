@@ -9,44 +9,46 @@
   <div class="grid">
     <div class="col-6 mt-8">
       <div class="mt-8 m-auto relative z-1 text-center text-white">
-        <img class="h-9rem mt-8" src="assets/images/msc-logo-small.png" />
-        <h1 class="text-6xl mt-5">DPS</h1>
-        <h2 class="font-light mt-6">{{slogan.content}}
+        <img class="h-9rem mt-8" src="assets/images/unnamed.png"
+          style="margin-left: 51px; margin-bottom: -16px; height: 13rem !important;" />
+        <h1 class="text-6xl mt-5" style="margin-left: 46px;">DPS</h1>
+        <h2 class="font-light mt-6" style="margin-left: 61px; font-size: 17px;">{{slogan.content}}
         </h2>
-        <h2 class="font-light mt-5">-- {{slogan.author}} --
+        <h2 class="font-light mt-5" style="margin-left: 51px; font-size: 21px;">-- {{slogan.author}} --
         </h2>
       </div>
     </div>
     <div class="col-5 col-offset-1 relative z-1 text-center mt-8 p-8">
-      <img class="h-10rem relative mt-8 pt-6" src="assets/images/logo.png" />
+      <img class="relative mt-8 pt-6" src="assets/images/logo-PMRDPS.png"
+        style="height: 143px; width: 346px; margin-left: -13px;margin-bottom: -3px" />
       <form [formGroup]="loginForm">
         <div class="col-8 col-offset-2">
           <div class="mt-6 mb-5">
-            <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username" (keydown.enter)="login()"
-              class="w-full border-round-3xl border-200 p-3 h-3rem">
-            <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+            <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username"
+              (keydown.enter)="login()" class="w-full border-round-3xl border-500 p-3 h-4rem b-r-25">
+            <div class="text-red-500 text-left ml-2"
+              *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
               *Vui lòng nhập tên đăng nhập
             </div>
           </div>
-            <div class="mb-5">
-              <p-password [feedback]="false" [toggleMask]="true" formControlName="password" inputId="password" (keydown.enter)="login()"
-                styleClass="w-full p-password p-component p-inputwrapper p-input-icon-right" placeholder="Mật khẩu"
-                inputStyleClass="border-round-3xl border-500 p-3 h-3rem">
-                <input type="text" id="password">
-              </p-password>
-              <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['password'].invalid && 
+
+
+          <div class="mb-5">
+            <p-password [feedback]="false" [toggleMask]="true" formControlName="password" inputId="password"
+              (keydown.enter)="login()" styleClass="w-full p-password p-component p-inputwrapper p-input-icon-right"
+              placeholder="Mật khẩu" inputStyleClass=" border-500 p-3 h-4rem b-r-25">
+            </p-password>
+            <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['password'].invalid && 
                 (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-                *Vui lòng nhập mật khẩu
-              </div>
+              *Vui lòng nhập mật khẩu
             </div>
-            <button [disabled]="loading" pRipple type="button" (click)="login()" class="w-full border-none border-round-3xl cursor-pointer
-              h-3rem bg-orange-500 text-white hover:bg-orange-400 mb-3 flex align-items-center justify-content-center">
-              <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
-              Đăng nhập
-            </button>
-            <!-- <div class="forgot-password">
-              <a id="forget-password" class="forget-password">Quên mật khẩu?</a>
-            </div> -->
+          </div>
+          <button [disabled]="loading" pRipple type="button" (click)="login()"
+            class="w-full border-none border-round-3xl cursor-pointer
+              h-4rem bg-orange-500 text-white hover:bg-orange-400 mb-3 flex align-items-center justify-content-center b-r-25 ">
+            <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem;"></i>
+            Đăng nhập
+          </button>
         </div>
       </form>
     </div>
