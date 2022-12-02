@@ -45,7 +45,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
     this.firebaseService.receiveMessage();
     this.firebaseService.currentMessage.subscribe((message: any) => {
       if (message) {
-        this.notification.add('info', message.data.title, message.data.message, 'c', true);
+        this.notification.firebase(message.data.title, message.data.message);
       }
     });
   }
