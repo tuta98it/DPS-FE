@@ -3,25 +3,23 @@
   <ng-template pTemplate="content">
     <div class="patient-info-container overflow-auto">
       <div class="grid mx-0 p-1" [formGroup]="uploadForm">
-        <div class="col-12 px-0">
+        <div class="field col-12 px-0 pb-0">
           <p-calendar formControlName="createTime" [showTime]="true" [showIcon]="true" appendTo="body" placeholder="Thời gian tạo*"
             inputStyleClass="w-full p-inputtext-sm text-base" [dateFormat]="'dd/mm/yy'"></p-calendar>
         </div>
-        <div class="col-12 px-0 pt-0">
+        <div class="field col-12 p-0">
           <p-dropdown formControlName="markerType" optionLabel="name" optionValue="id" appendTo="body"
             [options]="markTypes" placeholder="Phương pháp nhuộm*" [showClear]="true">
           </p-dropdown>
-          <div class="text-red-500 text-left" *ngIf="uploadForm.controls['markerType'].invalid && 
-              (uploadForm.controls['markerType'].dirty || uploadForm.controls['markerType'].touched)">
+          <div class="m-error" *ngIf="uploadForm.controls['markerType'].invalid && uploadForm.controls['markerType'].dirty">
             *Phương pháp nhuộm không được để trống
           </div>
         </div>
-        <div class="col-12 px-0 pt-0">
+        <div class="field col-12 p-0">
           <p-dropdown formControlName="isMotic" optionLabel="label" optionValue="value" appendTo="body"
             [options]="MACHINE_TYPES" placeholder="Loại máy*" [showClear]="true">
           </p-dropdown>
-          <div class="text-red-500 text-left" *ngIf="uploadForm.controls['isMotic'].invalid && 
-              (uploadForm.controls['isMotic'].dirty || uploadForm.controls['isMotic'].touched)">
+          <div class="m-error" *ngIf="uploadForm.controls['isMotic'].invalid && uploadForm.controls['isMotic'].dirty">
             *Vui lòng chọn loại máy
           </div>
         </div>

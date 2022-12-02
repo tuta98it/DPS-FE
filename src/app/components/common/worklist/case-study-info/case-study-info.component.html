@@ -11,8 +11,7 @@
           <button pButton pRipple label="Thêm bệnh nhân" icon="pi pi-plus" class="bg-green-500 p-button-sm"
             (click)="isVisiblePatientInfo=true"></button>
         </div>
-        <div class="col-12 text-red-500 text-left p-0" *ngIf="caseStudyForm.controls['patientId'].invalid && 
-            (caseStudyForm.controls['patientId'].dirty || caseStudyForm.controls['patientId'].touched)">
+        <div class="col-12 text-red-500 text-left p-0" *ngIf="caseStudyForm.controls['patientId'].invalid && caseStudyForm.controls['patientId'].dirty">
           *Vui lòng chọn bệnh nhân
         </div>
       </div>

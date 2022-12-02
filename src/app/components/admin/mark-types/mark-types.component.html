@@ -19,15 +19,13 @@
           <div class="field">
             <label for="name"><span class="text-red-500">*</span>Tên phương pháp nhuộm</label>
             <input type="text" pInputText id="name" formControlName="name" required autofocus/>
-            <div class="text-red-500 text-left" *ngIf="markTypeForm.controls['name'].invalid && 
-              (markTypeForm.controls['name'].dirty || markTypeForm.controls['name'].touched)">*Tên phương pháp nhuộm không được để trống
+            <div class="m-error" *ngIf="markTypeForm.controls['name'].invalid && markTypeForm.controls['name'].dirty">*Tên phương pháp nhuộm không được để trống
             </div>
           </div>
           <div class="field">
             <label for="description"><span class="text-red-500">*</span>Mô tả</label>
             <textarea id="description" pInputText formControlName="describe"  rows="3"></textarea>
-            <div class="text-red-500 text-left" *ngIf="markTypeForm.controls['describe'].invalid && 
-              (markTypeForm.controls['describe'].dirty || markTypeForm.controls['describe'].touched)">*Mô tả không được để trống
+            <div class="m-error" *ngIf="markTypeForm.controls['describe'].invalid && markTypeForm.controls['describe'].dirty">*Mô tả không được để trống
             </div>
           </div>
         </form>

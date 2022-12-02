@@ -19,12 +19,10 @@ export class UploadSlideComponent implements OnInit {
     this._visible = value;
     this.visibleChange.emit(value);
     if (value) {
-      Object.values(this.uploadForm.controls).forEach((control) => {
-        control.markAsUntouched();
-      });
       this.uploadForm.controls['createTime'].setValue(new Date());
     } else {
       this.uploadForm.reset();
+      this.uploadForm.markAsPristine();
     }
   }
   get visible() {

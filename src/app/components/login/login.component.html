@@ -23,23 +23,22 @@
         style="height: 143px; width: 346px; margin-left: -13px;margin-bottom: -3px" />
       <form [formGroup]="loginForm">
         <div class="col-8 col-offset-2">
-          <div class="mt-6 mb-5">
+          <div class="mt-6 field">
             <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username"
               (keydown.enter)="login()" class="w-full border-round-3xl border-500 p-3 h-4rem b-r-25">
-            <div class="text-red-500 text-left ml-2"
-              *ngIf="loginForm.controls['username'].invalid && (loginForm.controls['username'].dirty || loginForm.controls['username'].touched)">
+            <div class="m-error"
+              *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].dirty">
               *Vui lòng nhập tên đăng nhập
             </div>
           </div>
 
 
-          <div class="mb-5">
+          <div class="field">
             <p-password [feedback]="false" [toggleMask]="true" formControlName="password" inputId="password"
               (keydown.enter)="login()" styleClass="w-full p-password p-component p-inputwrapper p-input-icon-right"
               placeholder="Mật khẩu" inputStyleClass=" border-500 p-3 h-4rem b-r-25">
             </p-password>
-            <div class="text-red-500 text-left ml-2" *ngIf="loginForm.controls['password'].invalid && 
-                (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+            <div class="m-error" *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].dirty">
               *Vui lòng nhập mật khẩu
             </div>
           </div>

@@ -9,7 +9,16 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./mark-types.component.scss']
 })
 export class MarkTypesComponent implements OnInit {
-  isVisibleMarkTypeDialog = false;
+  _isVisibleMarkTypeDialog = false;
+  set isVisibleMarkTypeDialog(value: boolean) {
+    this._isVisibleMarkTypeDialog = value;
+    if (!value) {
+      this.markTypeForm.markAsPristine();
+    }
+  }
+  get isVisibleMarkTypeDialog() {
+    return this._isVisibleMarkTypeDialog;
+  }
   isVisibleDeleteItemDialog = false;
   markTypes: any = [];
   cols: any[] = [];

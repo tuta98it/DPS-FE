@@ -59,6 +59,4 @@ export class ViewerStateService {
       this.dispatchCurrentCase('');
     }
   }
-
-
 }

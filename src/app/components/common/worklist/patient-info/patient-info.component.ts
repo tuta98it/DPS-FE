@@ -18,10 +18,7 @@ export class PatientInfoComponent implements OnInit {
     this.visibleChange.emit(value);
     if (!value) {
       this.patientForm.reset();
-    } else {
-      Object.values(this.patientForm.controls).forEach((control) => {
-        control.markAsUntouched();
-      });
+      this.patientForm.markAsPristine();
     }
   }
   get visible() {

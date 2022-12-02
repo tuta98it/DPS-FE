@@ -10,7 +10,16 @@ import { NotificationService } from 'src/app/shared/notification.service';
   styleUrls: ['./user-groups.component.scss']
 })
 export class UserGroupsComponent implements OnInit {
-  isVisibleUserGroupDialog = false;
+  _isVisibleUserGroupDialog = false;
+  set isVisibleUserGroupDialog(value: boolean) {
+    this._isVisibleUserGroupDialog = value;
+    if (!value) {
+      this.userGroupForm.markAsPristine();
+    }
+  }
+  get isVisibleUserGroupDialog() {
+    return this._isVisibleUserGroupDialog;
+  }
   isVisibleDeleteItemDialog = false;
   textConfirmDelete = '';
   isVisibleListUsers = false;
