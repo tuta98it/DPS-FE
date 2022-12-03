@@ -18,6 +18,7 @@ import { NotificationPanelComponent } from './notification-panel/notification-pa
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ClickStopPropagationDirective } from 'src/app/shared/directives/click-stop-propagation.directive';
 import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.d
     ButtonModule,
     SplitterModule,
     RippleModule,
+    ProgressBarModule,
     OverlayPanelModule,
     WorklistModule,
     VTWorklistModule,

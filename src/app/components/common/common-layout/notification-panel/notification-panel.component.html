@@ -1,14 +1,59 @@
-<div clickOutside (clickOutside)="onClickOutside($event)" [ngClass]="{'hidden': !visible}" class="notification-panel-container absolute top-100 bg-white z-5">
+<div clickOutside (clickOutside)="onClickOutside($event)" [ngClass]="{'hidden': !visible}" class="cursor-auto notification-panel-container absolute top-100 bg-white z-5">
   <div class="uploading">
     <div class="title py-1 text-center text-white">Đang tải lên</div>
     <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+    <div *ngFor="let notification of uploadingList" class="px-3 py-1 relative">
+      <div class="font-medium pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
+        <i class="fa-solid fa-user pr-2"></i>{{notification.patientName}}
+      </div>
+      <div class="font-italic pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
+        <i class="fa-solid fa-file pr-2"></i>File: {{notification.fileName}}
+      </div>
+      <div class="font-italic pb-1"><i class="fa-regular fa-file pr-2"></i>Size: {{notification.fileSizeStr}}</div>
+      <p-progressBar [value]="notification.uploadProgress"></p-progressBar>
+    </div>
   </div>
   <div class="processing">
     <div class="title py-1 text-center text-white">Đang xử lý</div>
-    <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+    <div [ngClass]="{'hidden': processingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+    <div *ngFor="let notification of processingList" class="px-3 py-1 relative">
+      <div class="font-medium pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
+        <i class="fa-solid fa-user pr-2"></i>{{notification.patientName}}
+      </div>
+      <div class="font-italic pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
+        <i class="fa-solid fa-file pr-2"></i>File: {{notification.fileName}}
+      </div>
+      <div class="font-italic pb-1"><i class="fa-regular fa-file pr-2"></i>Size: {{notification.fileSizeStr}}</div>
+      <div class="font-italic">
+        <span class=" pr-2"><i class="pi pi-spin pi-spinner font-bold text-primary"></i></span>
+        Đang xử lý
+      </div>
+    </div>
   </div>
   <div class="completed">
     <div class="title py-1 text-center text-white">Đã xử lý xong</div>
-    <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+    <div class="flex justify-content-end">
+      <span title="Đánh dấu đã đọc tất cả" (click)="markAsReadAll()"
+        class="underline px-2 py-1 text-xs text-color-secondary cursor-pointer">Đánh dấu đã đọc tất cả</span>
+    </div>
+    <div [ngClass]="{'hidden': completedList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
+    <div *ngFor="let notification of completedList" class="px-3 py-1 relative">
+      <div class="font-medium pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
+        <i class="fa-solid fa-user pr-2"></i>{{notification.patientName}}
+      </div>
+      <div class="font-italic pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
+        <i class="fa-solid fa-file pr-2"></i>File: {{notification.fileName}}
+      </div>
+      <div class="font-italic pb-1"><i class="fa-regular fa-file pr-2"></i>Size: {{notification.fileSizeStr}}</div>
+      <div *ngIf="notification.state==UPLOAD_STATUS.COMPLETED" class="text-green-500">
+        <i class="fa-solid fa-circle-check relative" style="left: -1px"></i>
+        <span>Thành công - {{notification.modifiedDate | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+      </div>
+      <div *ngIf="notification.state==UPLOAD_STATUS.ERROR" class="text-red-500">
+        <i class="fa-solid fa-circle-xmark relative" style="left: -1px"></i>
+        <span>Thất bại - {{notification.modifiedDate | date:'dd/MM/yyyy hh:mm:ss'}}</span>
+      </div>
+      <i class="pi pi-times font-bold p-2 absolute top-0 right-0 cursor-pointer" (click)="markAsRead(notification.id)" ></i>
+    </div>
   </div>
 </div>

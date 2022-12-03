@@ -25,7 +25,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   loadingRelated = false;
   isVisibleCaseStudyInfo = false;
   caseStudyInfoHeader = '';
-  uploadSlideHeader = '';
+
+  uploadPatientName = '';
   
   isVisibleSearchCaseStudy = false;
   isVisiblePatientInfo = false;
@@ -139,7 +140,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   }
 
   onUploadSlide(data: any) {
-    this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
+    this.uploadPatientName = data.patientsName;
     this.uploadedCaseStudyId = new String(data.caseStudyId);
     this.isVisibleUploadSlide = true;
   }

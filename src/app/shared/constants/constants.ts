@@ -27,6 +27,12 @@ export class Constants {
     SHARE: 5,
     DELETE: 6,
   }
+  public static readonly UPLOAD_STATUS = {
+    UPLOADING: 1,
+    PROCESSING: 2,
+    COMPLETED: 3,
+    ERROR: 69
+  }
   public static readonly REQUEST_TYPES = [
     {label: 'Tế bào học', value: "0"},
     {label: 'Mô bệnh học', value: "1"},

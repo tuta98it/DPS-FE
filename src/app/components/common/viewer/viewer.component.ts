@@ -14,7 +14,6 @@ import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
   styleUrls: ['./viewer.component.scss']
 })
 export class ViewerComponent implements OnInit, OnDestroy {
-  // @Input() caseStudyId = '';
   protected _currentTabsSubscription: Subscription;
   currentTabs:IViewerTab[] = [];
   currentCaseId = '';

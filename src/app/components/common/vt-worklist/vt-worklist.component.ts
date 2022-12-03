@@ -35,7 +35,7 @@ export class VTWorklistComponent implements OnInit {
 
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
 
-  uploadSlideHeader = '';
+  uploadPatientName = '';
   uploadedCaseStudyId = new String('');
   isVisibleUploadSlide = false;
   
@@ -255,7 +255,7 @@ export class VTWorklistComponent implements OnInit {
   }
 
   onUploadSlide(data: any) {
-    this.uploadSlideHeader = `Thêm lam kính - Bệnh nhân ${data.patientsName}`;
+    this.uploadPatientName = data.patientsName;
     this.uploadedCaseStudyId = new String(data.caseStudyId);
     this.isVisibleUploadSlide = true;
   }
