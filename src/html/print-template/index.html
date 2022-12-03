@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>MSC Form Viewer</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <script>
+            var sListOTs = `[
+                {
+                    "id": "6130a795a74deb94eaf7143c",
+                    "dataType": 1,
+                    "category": 0,
+                    "name": "Định lượng AFP-L3",
+                    "description": "Alpha-1-Fetoprotein.L3/Alpha-1-Fetoprotein.total",
+                    "otCode": "42332-7",
+                    "unit": "%",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "61309b72a74deb94eaf7142d",
+                    "dataType": 1,
+                    "category": 0,
+                    "name": "Định lượng AFP (Alpha Fetoproteine) [Máu]",
+                    "description": "Alpha-1-Fetoprotein [Mass/volume] in Serum or Plasma",
+                    "otCode": "1834-1",
+                    "unit": "ng/mL",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "619c94b5fe7d27f43b1fe25b",
+                    "dataType": 1,
+                    "category": 0,
+                    "name": "CA 19-9 (cancer marker)",
+                    "description": "",
+                    "otCode": "CA19-9",
+                    "unit": "U/mL",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "63356a628504560a7e89d892",
+                    "dataType": 1,
+                    "category": 0,
+                    "name": "CA 125 (cancer marker)",
+                    "description": "carcinama antigen",
+                    "otCode": "UGAN_CA_125",
+                    "unit": "IU/ml",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "619c9421fe7d27f43b1fe258",
+                    "dataType": 1,
+                    "category": 0,
+                    "name": "CEA (cancer marker)",
+                    "description": "Carcinoembryonic antigen",
+                    "otCode": "CEA-marker",
+                    "unit": "ng/ml",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "6130a75aa74deb94eaf7143a",
+                    "dataType": 1,
+                    "category": 0,
+                    "name": "Định lượng PIVKA-2",
+                    "description": "",
+                    "otCode": "PIVKA-2",
+                    "unit": "mAU/mL",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "636ca5387b7221f4c2917cba",
+                    "dataType": 4,
+                    "category": 99,
+                    "name": "Bơm dịch ổ bụng",
+                    "description": "",
+                    "otCode": "UGAN_bomdich_obung",
+                    "unit": "",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "636ca5a77b7221f4c2917cbe",
+                    "dataType": 1,
+                    "category": 99,
+                    "name": "Thể tích bơm dịch ổ bụng",
+                    "description": "",
+                    "otCode": "UGAN_BomDichOBung_thetich",
+                    "unit": "ml",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "636ca5cc7b7221f4c2917cbf",
+                    "dataType": 4,
+                    "category": 99,
+                    "name": "Bơm dịch màng phổi",
+                    "description": "",
+                    "otCode": "UGAN_Bomdich_Mangphoi",
+                    "unit": "",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                },
+                {
+                    "id": "636ca5f47b7221f4c2917cc0",
+                    "dataType": 1,
+                    "category": 99,
+                    "name": "Thể tích bơm dịch màng phổi",
+                    "description": "",
+                    "otCode": "UGAN_BomDichMangPhoi_thetich",
+                    "unit": "ml",
+                    "minValue": 0.0,
+                    "maxValue": 0.0,
+                    "creatorId": null,
+                    "dataSource": null,
+                    "codeSystem": null
+                }
+            ]`;
+
+            var sCommonInfos = `[
+                {
+                    "defaultField": "patientName",
+                    "name": "Tên bệnh nhân",
+                    "description": "Họ tên bệnh nhân"
+                },
+                {
+                    "defaultField": "patientSexText",
+                    "name": "Giới tính bệnh nhân",
+                    "description": "Giới tính bệnh nhân"
+                },
+                {
+                    "defaultField": "yob",
+                    "name": "Năm sinh bệnh nhân",
+                    "description": "Năm sinh bệnh nhân"
+                },
+                {
+                    "defaultField": "address",
+                    "name": "Địa chỉ bệnh nhân",
+                    "description": "Địa chỉ bệnh nhân"
+                },
+                {
+                    "defaultField": "visitDateString",
+                    "name": "Ngày khám",
+                    "description": "Ngày khám"
+                }
+            ]`;
+
+            let sFormInfo = `
+            {
+                "id": "612f11de9870f6c46a61af7e",
+                "groupId": "000000000000000000000000",
+                "isDeleted": false,
+                "htmlDesign": null,
+                "name": "Phiếu thu thập thông tin sau can thiệp u gan",
+                "description": null,
+                "ros": "5f9247b53408859d4e27ec84",
+                "pages": [{
+                    "id": "1630474681716",
+                    "height": 1585.5
+                }],
+                "canvasImages": [],
+                "formulas": [],
+                "commonInfos": [
+                    {
+                        "id": "5ea8f1bffdef873328b2a34f",
+                        "idx": "1",
+                        "name": "TenBenhNhan",
+                        "title": "Tên bệnh nhân",
+                        "viewId": "1667293894167",
+                        "description": "Họ tên bệnh nhân",
+                        "defaultField": "patientName",
+                        "left": 134.00003,
+                        "top": 118.0,
+                        "width": 277.0,
+                        "height": 27.0,
+                        "pageId": "1630472483472",
+                        "pageIndex": 0,
+                        "formatStyle": {
+                            "align": "textalign-left",
+                            "bgColor": "#ffffff",
+                            "color": "#000000",
+                            "display": "block",
+                            "font": "-apple-system, Roboto, Arial",
+                            "fontSize": 14,
+                            "isBold": false,
+                            "isItalic": false,
+                            "isUnderline": false
+                        },
+                        "yIndex": 0,
+                        "source": null,
+                        "referId": null,
+                        "dataType": null
+                    }
+                ],
+                "labels": [{
+                        "value": "Hà Nội, ngày  tháng    năm",
+                        "viewId": "1630474801207",
+                        "left": 10,
+                        "top": 12,
+                        "width": 200.0,
+                        "height": 30.0,
+                        "pageId": "1630474681716",
+                        "pageIndex": 0,
+                        "formatStyle": {
+                            "align": "textalign-right",
+                            "bgColor": "#ffffff",
+                            "color": "#000000",
+                            "display": "block",
+                            "font": "Roboto, Arial",
+                            "fontSize": 14,
+                            "isBold": false,
+                            "isItalic": true,
+                            "isUnderline": true
+                        },
+                        "yIndex": 0
+                    },
+                    {
+                        "value": "Hello World!",
+                        "viewId": "1630474801208",
+                        "left": 50,
+                        "top": 42,
+                        "width": 200.0,
+                        "height": 30.0,
+                        "pageId": "1630474681716",
+                        "pageIndex": 0,
+                        "formatStyle": {
+                            "text-align": "left",
+                            "background-color": "#ffffff",
+                            "color": "#000000",
+                            "display": "block",
+                            "font-family": "-apple-system, Roboto, Arial",
+                            "font-size": "14px",
+                            "font-weight": "bold"
+                        },
+                        "yIndex": 0
+                    },
+                    {
+                        "value": "Phiếu điều trị u gan",
+                        "viewId": "1630474801209",
+                        "left": 150,
+                        "top": 142,
+                        "width": 250.0,
+                        "height": 40.0,
+                        "pageId": "1630474681716",
+                        "pageIndex": 0,
+                        "formatStyle": {
+                            "text-align": "left",
+                            "background-color": "#ffffff",
+                            "color": "#000000",
+                            "display": "block",
+                            "font-family": "Arial, Roboto",
+                            "font-size": "18px",
+                            "font-weight": "bold",
+                            "font-style": "italic",
+                            "text-decoration": "underline"
+                        },
+                        "yIndex": 0
+                    }
+                ],
+                "formElms": [
+                    {
+                        "id": "636cd4ec7b7221f4c2918402",
+                        "formId": "612f09def650b73409eab3e1",
+                        "code": null,
+                        "observationType": {
+                            "id": "61309b72a74deb94eaf7142d",
+                            "dataType": 1,
+                            "category": 0,
+                            "name": "Định lượng AFP (Alpha Fetoproteine) [Máu]",
+                            "description": "Alpha-1-Fetoprotein [Mass/volume] in Serum or Plasma",
+                            "otCode": "1834-1",
+                            "unit": "ng/mL",
+                            "minValue": 0.0,
+                            "maxValue": 0.0,
+                            "creatorId": null,
+                            "dataSource": null,
+                            "codeSystem": null
+                        },
+                        "viewId": "1668071834906",
+                        "viewType": "input",
+                        "editType": 1,
+                        "value": null,
+                        "valueString": null,
+                        "valueBoolean": null,
+                        "valueInteger": null,
+                        "valueTime": null,
+                        "valueDateTime": null,
+                        "valueSelections": null,
+                        "formatStyle": {
+                            "align": "textalign-left",
+                            "bgColor": "#ffffff",
+                            "color": "#000000",
+                            "display": "block",
+                            "font": "Roboto",
+                            "fontSize": 14,
+                            "isBold": false,
+                            "isItalic": false,
+                            "isUnderline": false
+                        },
+                        "maxNumberValue": null,
+                        "minNumberValue": null,
+                        "left": 80.98749,
+                        "top": 283.0,
+                        "width": 83.0,
+                        "height": 25.0,
+                        "pageId": "1630472483472",
+                        "pageIndex": 0,
+                        "yIndex": 0,
+                        "isRequired": false
+                    }
+                ]
+            }
+            `;
+
+            function getListOTs(callback) {
+                setTimeout(function() {
+                    callback(JSON.parse(sListOTs));
+                }, 500);
+            }
+
+            function getListCommonInfos(callback) {
+                setTimeout(function() {
+                    callback(JSON.parse(sCommonInfos));
+                }, 500);
+            }
+
+            function getFormData(formId, callback) {
+                setTimeout(function() {
+                    callback(JSON.parse(sFormInfo));
+                }, 500);
+            }
+
+            function saveForm(formData, callback) {
+                setTimeout(function() {
+                    callback({
+                        isValid: true
+                    });
+                }, 500);
+            }
+            
+        </script>
+    </head>
+    <body>
+        <iframe id='0' style='border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;' src='form-viewer.html?formId=6384205eee468210e310ad91&userId=leht&username=leht&domain=https://dpstest2-be.pmr.vn'></iframe>
+    </body>
+</html>

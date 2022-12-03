@@ -8,10 +8,12 @@ import { ButtonModule } from 'primeng/button';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
+import { PrintTemplateDetailComponent } from './print-template-detail/print-template-detail.component';
 
 @NgModule({
   declarations: [
-    PrintTemplatesComponent
+    PrintTemplatesComponent,
+    PrintTemplateDetailComponent
   ],
   imports: [
     CommonModule,

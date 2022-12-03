@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>MSC Form Viewer</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 
+        <link type="text/css" href="themes/kendo/styles/kendo.common.min.css" rel="stylesheet" />
+        <link type="text/css" href="themes/kendo/styles/kendo.black.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="themes/kendo/styles/jquery-ui.css" /> -->
+
+        <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="styles/jquery-confirm.css" />
+        <link rel="stylesheet" type="text/css" href="styles/mscform.css" />
+
+        <script src="scripts/jquery.min.js" type="text/javascript"></script>
+        <script src="scripts/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="scripts/jquery-resizable.js" type="text/javascript"></script>
+        <script src="scripts/jquery-confirm.js" type="text/javascript"></script>
+        <script src="build/mscform.min.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                console.log('document ready');
+                mscform.initFormEditing('main-form');
+            });
+            
+            function showDialog() {
+                $('#preview-bg').css({display:'flex'});
+                $('#preview-bg').on('click', function(ev) {
+                    hideDialog();
+                });
+                $('#preview-content').on('click', function(ev) {
+                    ev.stopPropagation();
+                });
+            }
+            function hideDialog() {
+                $('#preview-bg').css({display:'none'});
+                $('#preview-bg').off('click');
+                $('#preview-content').off('click');
+            }
+            function previewCurrent() {
+                showDialog();
+                mscform.showFormViewing('preview-content');
+            }
+            function printingCurrent() {
+                showDialog();
+                mscform.showFormPrinting('preview-content');
+            }
+        </script>
+    </head>
+    <body>
+        <div class="leftCol">
+            <div id="main-form">
+
+            </div>
+        </div>
+        <div class="rightCol">
+            <div style="padding: 4px 0 6px;">
+                <span style="font-weight: bold;">Form info</span>
+            </div>
+            <div class="row">
+                <span>Tên form:</span>
+            </div>
+            <div class="row">
+                <input type="text" id="txtFormTitle" style="width:95%;" />
+            </div>
+            <div class="row">
+                <div class="col-half">
+                    <span>Độ ưu tiên:</span>
+                </div>
+                <div class="col-half">
+                    <input type="number" id="txtPriority" style="width:80px;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-btn" onclick="mscform.saveForm();">Lưu form</div>
+            </div>
+            <div>
+                <a onclick="previewCurrent();">Preview form</a>
+            </div>
+            <div>
+                <a onclick="printingCurrent();">Print form</a>
+            </div>
+            <div class="separator"></div>
+            <div style="padding: 4px 0 6px;">
+                <span style="font-weight: bold;">Add new element</span>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.addNewLabel();">Label</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.addNewImage();">Image</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.addNewCommonInfo();">Common Info</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.addNewImageData();">Image common info</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.addNewTextbox();">Input textbox</a>
+            </div>
+            <div class="separator"></div>
+            <div class="col-half">
+                <a onclick="mscform.alignLeft();">Align left</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.alignRight();">Align right</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.alignTop();">Align top</a>
+            </div>
+            <div class="col-half">
+                <a onclick="mscform.alignBottom();">Align bottom</a>
+            </div>
+            <div class="separator"></div>
+            <div style="padding: 4px 0 6px;">
+                <span style="font-weight: bold;">Element styles</span>
+            </div>
+            <div>
+                <a onclick="mscform.styleLeft();">Left</a>&nbsp;&nbsp;
+                <a onclick="mscform.styleCenter();">Center</a>&nbsp;&nbsp;
+                <a onclick="mscform.styleRight();">Right</a>
+            </div>
+            <div>
+                <a onclick="mscform.styleBold();">Bold</a>&nbsp;&nbsp;
+                <a onclick="mscform.styleNotBold();">Not bold</a>
+            </div>
+            <div>
+                <a onclick="mscform.styleItalic();">Italic</a>&nbsp;&nbsp;
+                <a onclick="mscform.styleNotItalic();">Not italic</a>
+            </div>
+            <div>
+                <a onclick="mscform.styleUnderline();">Underline</a>&nbsp;&nbsp;
+                <a onclick="mscform.styleNotUnderline();">Not underline</a>
+            </div>
+            <div>
+                <a onclick="mscform.styleUppercase();">Uppercase</a>&nbsp;&nbsp;
+                <a onclick="mscform.styleNotUppercase();">Not uppercase</a>
+            </div>
+            <div style="height: 8px;"></div>
+            <div class="row">
+                <div class="col-half">
+                    <span>Font size:</span>
+                </div>
+                <div class="col-half">
+                    <input type="number" id="txtFontSize" style="width:50px;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-half">
+                    <span>Font family:</span>
+                </div>
+                <div class="col-half">
+                    <input type="text" id="txtFontFamily" style="width:100%;" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-half">
+                    <span>Padding:</span>
+                </div>
+                <div class="col-half">
+                    <input type="text" id="txtPaddingVert" style="width:40px;" />&nbsp;x&nbsp;
+                    <input type="text" id="txtPaddingHorz" style="width:40px;" />
+                </div>
+            </div>
+            <div id="divElementData" style="display: none;">
+                <div class="separator"></div>
+                <div style="padding: 4px 0 6px;">
+                    <span style="font-weight: bold;">Element data</span>
+                </div>
+                <div>
+                    Observation Type:<br/>
+                    <select id="selectOTs" style="width:160px;"></select>
+                </div>
+                <div>
+                    Common Info:<br/>
+                    <select id="selectCommonInfos" style="width:160px;"></select>
+                </div>
+            </div>
+            <div id="divImageOption" style="display: none;">
+                <div class="separator"></div>
+                <div style="padding: 4px 0 6px;">
+                    <span style="font-weight: bold;">Image option</span>
+                </div>
+                <div>
+                    Size option:<br/>
+                    <select id="selectImageOptions" style="width:160px;"></select>
+                </div>
+                <div>
+                    Image URL:<br/>
+                    <input type="text" id="txtImageUrl" style="width:160px;" />
+                </div>
+                <div>
+                    Upload image:<br/>
+                    <input type="file" id="fileImage" name="file" title="Choose file" />
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <div id="preview-bg">
+            <div id="preview-content"></div>
+        </div>
+    </body>
+</html>
