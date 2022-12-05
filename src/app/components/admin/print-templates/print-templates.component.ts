@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrintTemplateService } from 'src/app/services/print-template.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
@@ -17,8 +18,11 @@ export class PrintTemplatesComponent implements OnInit {
   textConfirmDelete = '';
   deletedItem: any = {};
   loading = false;
+  total = 0;
+
   constructor(
     private notification: NotificationService,
+    private router: Router,
     private printTemplateService: PrintTemplateService
   ) {
   
@@ -35,10 +39,11 @@ export class PrintTemplatesComponent implements OnInit {
 
   getAll() {
     this.loading = true;
-    this.printTemplateService.getAll().subscribe({
+    this.printTemplateService.searchForms('', 1, 50).subscribe({
       next: (res) => {
         if (res.isValid) {
-          this.printTemplates = res.jsonData;
+          this.printTemplates = res.jsonData.data;
+          this.total = res.jsonData.total;
         }
       }
     }).add(() => {
@@ -47,11 +52,11 @@ export class PrintTemplatesComponent implements OnInit {
   }
 
   onCreateItem() {
-    
+    this.router.navigate(['/admin/print-templates/detail']);
   }
 
   onEditItem(item: any) {
-    
+    this.router.navigate(['/admin/print-templates/detail/' + item.id]);
   }
 
   onDeleteItem(item: any) {

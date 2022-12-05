@@ -24,6 +24,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
 
+  baseUrl = '';
+  baseUrlDz = '';
+
   isLoading = false;
 
   constructor(
@@ -31,7 +34,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     private authState: AuthStateService,
     private renderer: Renderer2,
     private caseStudyService: CaseStudyService,
-    private annotationService: AnnotationService
+    private annotationService: AnnotationService,
+    protected configService: AppConfigService
   ) { 
     this._currentTabsSubscription = this.viewerState.subscribeCurrentTabs( (tabs: IViewerTab[]) => {
       this.currentTabs = tabs;
@@ -43,6 +47,16 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
       this.currentUser = m;
     });
+
+    this.baseUrl = this.configService.getConfig().api.baseUrl;
+    var j = this.baseUrl.indexOf('/api');
+    if(j > 0)
+      this.baseUrl = this.baseUrl.substring(0, j);
+
+    this.baseUrlDz = this.configService.getConfig().deepzoom.baseUrl;
+    j = this.baseUrlDz.indexOf('/api');
+    if(j > 0)
+      this.baseUrlDz = this.baseUrlDz.substring(0, j);
 
     //bind functions for DPSViewer.html
     (<any>window).getStudyInfo= this.getStudyInfo.bind(this);
@@ -90,7 +104,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
-    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=https://dpstest2-be.pmr.vn&domainSlide=https://dpstest2-dz.pmr.vn&study=' + id + '&userId=' + this.currentUser.userId + '&username=' + this.currentUser.userName);
+    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=' + this.baseUrl + '&domainSlide=' + this.baseUrlDz + '&study=' + id + '&userId=' + this.currentUser.userId + '&username=' + this.currentUser.userName);
 
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);
@@ -137,7 +151,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
             callback(res.jsonData);
         }
       }
-    })
+    });
   }
 
   getListKeyImages(slideId: string, callback: any) {
@@ -149,7 +163,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
             callback(res.jsonData);
         }
       }
-    })
+    });
   }
 
   deleteKeyImage(keyImageId: string, callback: any) {
@@ -161,7 +175,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
             callback(res.jsonData);
         }
       }
-    })
+    });
   }
 
   getListAnnotations(slideId: string, callback: any) {
@@ -173,7 +187,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
             callback(res.jsonData);
         }
       }
-    })
+    });
   }
 
   saveListAnnotations(data: any, callback: any) {
@@ -185,6 +199,6 @@ export class ViewerComponent implements OnInit, OnDestroy {
             callback(res.jsonData);
         }
       }
-    })
+    });
   }
 }
