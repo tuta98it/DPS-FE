@@ -30,8 +30,13 @@ export class Constants {
   public static readonly UPLOAD_STATUS = {
     UPLOADING: 1,
     PROCESSING: 2,
-    COMPLETED: 3,
+    COMPLETED: 4,
     ERROR: 69
+  }
+  public static readonly UPLOAD_PROCESS_TYPE = {
+    PROCESS_DONE: 'ProcessDone',
+    PROCESS_ERROR: 'ProcessError',
+    SERVICE_ERROR: 'ServiceError'
   }
   public static readonly REQUEST_TYPES = [
     {label: 'Tế bào học', value: "0"},

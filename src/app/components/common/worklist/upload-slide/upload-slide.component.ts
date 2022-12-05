@@ -26,7 +26,7 @@ export class UploadSlideComponent implements OnInit {
     if (value) {
       this.uploadForm.controls['createTime'].setValue(new Date());
     } else {
-      this.uploadForm.reset();
+      // this.uploadForm.reset();
       this.uploadForm.markAsPristine();
     }
   }
@@ -191,7 +191,7 @@ export class UploadSlideComponent implements OnInit {
             if (res.d.isValid) {
               $this.notification.success('Đã tải lên. Đang đợi server xử lí', '');
               $this.visible = false;
-              $this.notificationState.updateProcessing($this.uploadId);
+              $this.notificationState.updateState($this.uploadId, Constants.UPLOAD_STATUS.PROCESSING);
             }
             else {
               $this.notification.error('Không thể tải lên', res.d.errors[0].errorMessage);

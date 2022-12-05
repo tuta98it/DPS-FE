@@ -4,6 +4,7 @@ import { ISlideNotification } from 'src/app/models/slide-notification';
 import { SlideService } from 'src/app/services/slide.service';
 import { NotificationStateService } from 'src/app/shared/app-state/notification-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import Utils from 'src/app/shared/helpers/utils';
 
 @Component({
   selector: 'notification-panel',
@@ -31,6 +32,7 @@ export class NotificationPanelComponent implements OnInit {
   notifications:ISlideNotification[] = [];
 
   UPLOAD_STATUS = Constants.UPLOAD_STATUS;
+  loading = false;
 
   constructor(
     private notificationState: NotificationStateService,
@@ -40,9 +42,28 @@ export class NotificationPanelComponent implements OnInit {
       this.notifications = notifications;
       this.groupNotifications();
     });
+    this.getSlideNotifications();
   }
 
   ngOnInit(): void {
+  }
+
+  getSlideNotifications() {
+    this.loading = true;
+    this.slideService.getSlideByUploader().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          console.log(res.jsonData);
+          res.jsonData.forEach((n:any) => {
+            n.fileSizeStr = Utils.humanFileSize(n.fileSize);
+            n.modifiedDate = new Date(n.modifiedDate);
+          });
+          this.notificationState.dispatchNotifications(res.jsonData);
+        }
+      }
+    }).add(() => {
+      this.loading = false;
+    });
   }
 
   markAsReadAll() {

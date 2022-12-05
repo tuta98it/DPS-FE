@@ -20,6 +20,7 @@ export class NotificationStateService {
   public dispatchNotifications(notifications: ISlideNotification[]): void {
     // const dispatchedModel: ISlideNotification[] = JSON.parse(JSON.stringify(notifications));
     // this.notificationsSubject.next(dispatchedModel);
+    this.notifications = notifications;
     this.notificationsSubject.next(notifications);
   }
 
@@ -32,17 +33,20 @@ export class NotificationStateService {
     this.dispatchNotifications(this.notifications);
   }
 
-  public updateProcessing(id: string) {
+  public updateState(id: string, state: number) {
     this.notifications.forEach(n => {
       if (n.id == id) {
-        n.state = Constants.UPLOAD_STATUS.PROCESSING;
+        n.state = state;
+        if (state == Constants.UPLOAD_STATUS.COMPLETED || state == Constants.UPLOAD_STATUS.ERROR) {
+          n.modifiedDate = new Date();
+        }
       }
     });
     this.dispatchNotifications(this.notifications);
   }
 
   public addNotification(newNotification: ISlideNotification) {
-    this.notifications.push(newNotification);
+    this.notifications.unshift(newNotification);
     this.dispatchNotifications(this.notifications);
   }
 
