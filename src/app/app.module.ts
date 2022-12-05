@@ -3,7 +3,7 @@ import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/c
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CustomHttpInterceptor } from './shared/interceptors/custom-http.interceptor';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { NotificationService } from './shared/notification.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +13,14 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 import { FirebaseService } from './services/firebase.service';
 import { NotificationModule } from './shared/components/notification/notification.module';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+
 @NgModule({
     declarations: [
       AppComponent
@@ -25,7 +33,14 @@ import { NotificationModule } from './shared/components/notification/notificatio
       BrowserAnimationsModule,
       AppRoutingModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
-      AngularFireMessagingModule
+      AngularFireMessagingModule,
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+        }
+      })
     ],
     providers: [
       FirebaseService,
