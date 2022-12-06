@@ -2,14 +2,12 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { INIT_UPLOAD_SLIDE_DATA } from 'src/app/models/upload-slide-data';
 import { MarkTypeService } from 'src/app/services/mark-type.service';
 import { SlideUploadService } from 'src/app/services/slide-upload.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
-import { NotificationStateService } from 'src/app/shared/app-state/notification-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
-import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
-const BYTES_PER_CHUNK = 10 * 1024 * 1024; // sample chunk sizes. 10MB
 
 @Component({
   selector: 'upload-slide',
@@ -26,8 +24,7 @@ export class UploadSlideComponent implements OnInit {
     if (value) {
       this.uploadForm.controls['createTime'].setValue(new Date());
     } else {
-      // this.uploadForm.reset();
-      this.uploadForm.markAsPristine();
+      this.resetUploadForm();
     }
   }
   get visible() {
@@ -49,19 +46,7 @@ export class UploadSlideComponent implements OnInit {
   uploadForm: FormGroup;
   markTypes: any[] = [];
   fileName = '';
-  newFileName = '';
   file: any = null;
-  chunkCount = 0;
-  totalChunk = 0;
-  uploadId = '';
-  _uploadProgress = 0;
-  set uploadProgress(value: number) {
-    this._uploadProgress = value;
-    this.notificationState.updateProgress(this.uploadId, value);
-  }
-  get uploadProgress() {
-    return this._uploadProgress;
-  }
   @ViewChild("uploadSlideContainer") uploadSlideContainer!: ElementRef;
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
@@ -70,7 +55,6 @@ export class UploadSlideComponent implements OnInit {
     private fb: FormBuilder,
     private notification: NotificationService,
     private uploadService: SlideUploadService,
-    private notificationState: NotificationStateService,
     private authState: AuthStateService,
     private markTypeService: MarkTypeService,
   ) { 
@@ -94,6 +78,7 @@ export class UploadSlideComponent implements OnInit {
       if (!this.fileName) {
         this.notification.error('Vui lòng chọn file');
       } else {
+        this.notification.success('Đang tải file lên hệ thống');
         this.preUpload();
       }
     } else {
@@ -111,96 +96,40 @@ export class UploadSlideComponent implements OnInit {
     if (ext != '') {
       ext = ext.toLocaleLowerCase();
     }
-    this.uploadId = new Date().getTime() * 1000 + '';
-    this.newFileName = this.uploadId + ext;
-    this.uploadService.preUpload(this.newFileName).subscribe({
+    let uploadId = new Date().getTime() * 1000 + '';
+    this.uploadService.preUpload(uploadId + ext).subscribe({
       next: (res) => {
         if (res.d.isValid) {
-          this.newFileName = res.d.jsonData;
-          this.uploadFile();
+          this.upload(uploadId, res.d.jsonData);
         }
       }
+    }).add(() => {
+      this.visible = false;
     });
   }
 
-  uploadFile() {
-    let SIZE = this.file.size;
-    let start = 0;
-    let end = BYTES_PER_CHUNK;
-    this.chunkCount = 0;
-    this.totalChunk = SIZE % BYTES_PER_CHUNK == 0 ? SIZE / BYTES_PER_CHUNK : Math.floor(SIZE / BYTES_PER_CHUNK) + 1;
-    this.notificationState.addNotification({
-      id: this.uploadId,
-      patientName: this.patientName,
-      fileName: this.fileName,
-      fileSize: SIZE,
-      fileSizeStr: Utils.humanFileSize(SIZE),
-      uploadProgress: 0,
-      state: Constants.UPLOAD_STATUS.UPLOADING
-    });
-    // recursive upload
-    this.uploadOne(start, end);
+  upload(uploadId:string, newFileName: string) {
+    let uploadSlideData = INIT_UPLOAD_SLIDE_DATA;
+    uploadSlideData.uploadId = uploadId;
+    uploadSlideData.fileName = this.fileName;
+    uploadSlideData.newFileName = newFileName;
+    uploadSlideData.patientName = this.patientName;
+    uploadSlideData.caseStudyId = this.caseStudyId.toString();
+    uploadSlideData.markerType = this.uploadForm.value.markerType;
+    uploadSlideData.isMotic = this.uploadForm.value.isMotic;
+    uploadSlideData.createTime = this.uploadForm.value.createTime;
+    uploadSlideData.userId = this.currentUser.userId!;
+    uploadSlideData.userName = this.currentUser.userName!;
+    this.uploadService.upload(this.file, uploadSlideData);
+    this.resetUploadForm();
   }
 
-  uploadOne(start: number, end: number) {
-    let chunk = this.file.slice(start, end);
-    let _xhr = new XMLHttpRequest();
-    let $this = this;
-    _xhr.onload = function () {
-      $this.chunkCount = $this.chunkCount + 1;
-      start = end;
-      end = start + BYTES_PER_CHUNK;
-      if ($this.chunkCount < $this.totalChunk) {
-        $this.uploadOne(start, end);
-      } else if ($this.chunkCount == $this.totalChunk) {
-        $this.uploadComplete();
-      }
-    };
-    function onProgress(e: any) {
-      if (e.lengthComputable) {
-        let _loadedAll = $this.chunkCount * BYTES_PER_CHUNK;
-        let percentComplete = ((_loadedAll + e.loaded) / $this.file.size) * 100;
-        
-        $this.uploadProgress = Math.round(percentComplete);
-      }
-    };
-    _xhr.upload.addEventListener('progress', onProgress, false);
-    _xhr.open("POST", `${this.uploadService.baseUrl}/Upload/MultiUpload/${this.newFileName}/${this.chunkCount}`, true);
-    _xhr.send(chunk);
-  }
-
-  uploadComplete() {
-    let formData = new FormData();
-    
-    formData.append('fileName', this.newFileName);
-    formData.append('originFileName', this.fileName);
-    formData.append('fileSize', this.file.size); // in byte
-    formData.append('completed', 'true');
-    formData.append('caseStudyId', this.caseStudyId.toString());
-    formData.append('markerType', this.uploadForm.value.markerType);
-    formData.append('isMotic', this.uploadForm.value.isMotic)
-    formData.append('createTime', this.uploadForm.value.createTime);
-    formData.append('userId', this.currentUser.userId!);
-    formData.append('username', this.currentUser.userName!);
-
-    let $this = this;
-    let xhr2 = new XMLHttpRequest();
-    xhr2.onreadystatechange = function () {
-        if (xhr2.readyState == XMLHttpRequest.DONE) {
-            let res = JSON.parse(xhr2.responseText);
-            if (res.d.isValid) {
-              $this.notification.success('Đã tải lên. Đang đợi server xử lí', '');
-              $this.visible = false;
-              $this.notificationState.updateState($this.uploadId, Constants.UPLOAD_STATUS.PROCESSING);
-            }
-            else {
-              $this.notification.error('Không thể tải lên', res.d.errors[0].errorMessage);
-              $this.notificationState.removeNotification($this.uploadId);
-            }
-        }
-    };
-    xhr2.open("POST", `${this.uploadService.baseUrl}/Upload/UploadComplete`, true); //combine the chunks together
-    xhr2.send(formData);
+  resetUploadForm() {
+    this.uploadForm.reset();
+    this.uploadForm.controls['createTime'].setValue(new Date());
+    this.uploadForm.markAsPristine();
+    this.file = null;
+    this.fileName = '';
   }
 
   getMarkTypes() {
@@ -217,7 +146,9 @@ export class UploadSlideComponent implements OnInit {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');
     if (inputUpload.files.length > 0) {
       this.file = inputUpload.files[0];
+      console.log('onUpload', this.file)
       this.fileName = this.file.name;
     }
+    // inputUpload.value = null;
   }
 }

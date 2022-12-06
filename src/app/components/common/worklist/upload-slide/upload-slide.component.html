@@ -23,9 +23,9 @@
             *Vui lòng chọn loại máy
           </div>
         </div>
-        <div class="col-12 px-0 pt-0" *ngIf="uploadProgress">
+        <!-- <div class="col-12 px-0 pt-0" *ngIf="uploadProgress">
           <p-progressBar [value]="uploadProgress"></p-progressBar>
-        </div>
+        </div> -->
         <div class="col-9 px-0 pt-0">
           <input pInputText readonly="true" type="text" class="w-full text-base" [value]="fileName" placeholder="*Chưa chọn file">
         </div>
@@ -39,9 +39,11 @@
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-sm p-button-danger"
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-sm p-button-danger"
       (click)="visible=false"></button>
-    <button pButton pRipple label="Ẩn" icon="pi pi-chevron-circle-down" class="p-button-sm p-button-info" (click)="visible=false"></button>
+    <!-- <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-sm p-button-danger"
+      (click)="visible=false"></button>
+    <button pButton pRipple label="Ẩn" icon="pi pi-chevron-circle-down" class="p-button-sm p-button-info" (click)="visible=false"></button> -->
     <button pButton pRipple label="Tải lên" icon="pi pi-upload" class="p-button-sm p-button-success" (click)="onSave()"></button>
   </ng-template>
 </p-dialog>

@@ -38,7 +38,7 @@
       </ng-template>
 
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserGroupDialog=false"></button>
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600 " (click)="isVisibleUserGroupDialog=false"></button>
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
       </ng-template>
     </p-dialog>
@@ -48,7 +48,7 @@
         <list-users-in-group [groupId]="selectedUserGroup.id"></list-users-in-group>
       </ng-template>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleListUsers=false"></button>
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleListUsers=false"></button>
       </ng-template>
     </p-dialog>
   </div>

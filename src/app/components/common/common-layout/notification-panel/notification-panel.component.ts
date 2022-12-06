@@ -53,7 +53,6 @@ export class NotificationPanelComponent implements OnInit {
     this.slideService.getSlideByUploader().subscribe({
       next: (res) => {
         if (res.isValid) {
-          console.log(res.jsonData);
           res.jsonData.forEach((n:any) => {
             n.fileSizeStr = Utils.humanFileSize(n.fileSize);
             n.modifiedDate = new Date(n.modifiedDate);

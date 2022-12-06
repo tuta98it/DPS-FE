@@ -86,8 +86,18 @@ export class PrintTemplateDetailComponent implements OnInit {
     this.printTemplateService.getListCommonInfos().subscribe({
       next: (res) => {
         if (res.isValid) {
-          if(callback != undefined)
+          if(callback != undefined) {
+            //add type string: 0, image: 1
+            res.jsonData.forEach((obj: any) => {
+              if(obj.defaultField != undefined && obj.defaultField.indexOf('Image') > -1)
+                obj.type = 1;
+              else
+                obj.type = 0;
+            });
+
             callback(res.jsonData);
+          }
+            
         }
       }
     });

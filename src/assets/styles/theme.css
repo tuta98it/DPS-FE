@@ -1170,7 +1170,7 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
 .p-inputtext:enabled:focus {
   outline: 0 none;
   outline-offset: 0;
-  box-shadow: 0 0 0 0.2rem #7fc393;
+  box-shadow: 0 0 0 0.1rem #7fc393;
   border-color: #00923d;
 }
 .p-inputtext.ng-dirty.ng-invalid {
