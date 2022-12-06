@@ -8,9 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ReportPanelComponent implements OnInit {
   @Input() caseStudy: any = {};
 
+  isPrintPreviewVisible:boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  printPreview(event:any): void {
+    this.isPrintPreviewVisible = true;
+  }
 }

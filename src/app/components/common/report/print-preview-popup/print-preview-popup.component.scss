@@ -1,0 +1,16 @@
+.dlg-print-preview {
+    width: 780px;
+    height: 800px;
+    max-height: 90%;
+}
+
+.iframe-printpreview {
+    border:none;
+    width:100%;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    position:absolute;
+    height:100%;
+}
