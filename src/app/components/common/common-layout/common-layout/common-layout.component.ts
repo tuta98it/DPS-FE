@@ -6,6 +6,8 @@ import { NotificationStateService } from 'src/app/shared/app-state/notification-
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { Constants, StorageKeys } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { VTWorklistComponent } from '../../vt-worklist/vt-worklist.component';
+import { WorklistComponent } from '../../worklist/worklist.component';
 
 @Component({
   selector: 'app-common-layout',
@@ -22,6 +24,8 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
   isShowViewer = false;
   protected _currentCaseSubscription: Subscription;
   protected _notificationSub: Subscription;
+  @ViewChild('worklist') worklist!: WorklistComponent;
+  @ViewChild('VTWorklist') VTWorklist!: VTWorklistComponent;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -66,6 +70,13 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
       let state = message.data.type == Constants.UPLOAD_PROCESS_TYPE.PROCESS_DONE ? 
         Constants.UPLOAD_STATUS.COMPLETED : Constants.UPLOAD_STATUS.ERROR;
       this.notificationState.updateState(uploadId, state);
+      if (state == Constants.UPLOAD_STATUS.COMPLETED) {
+        if (this.layoutConfig == this.LAYOUT_CONFIG.DEFAULT) {
+          this.worklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
+        } else if (this.layoutConfig == this.LAYOUT_CONFIG.VT) {
+          this.VTWorklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
+        }
+      }
     }
   }
 

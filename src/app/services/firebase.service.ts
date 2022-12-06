@@ -30,7 +30,6 @@ export class FirebaseService {
 
   receiveMessage() {
     this.firebaseMessaging.messages.subscribe((payload : any) => {
-      console.log(payload);
       this.currentMessage.next(payload);
     });
   }
