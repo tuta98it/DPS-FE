@@ -79,7 +79,6 @@ export class UploadSlideComponent implements OnInit {
         this.notification.error('Vui lòng chọn file');
       } else {
         this.notification.success('Đang tải file lên hệ thống');
-        this.visible = false;
         this.preUpload();
       }
     } else {
@@ -104,6 +103,8 @@ export class UploadSlideComponent implements OnInit {
           this.upload(uploadId, res.d.jsonData);
         }
       }
+    }).add(() => {
+      this.visible = false;
     });
   }
 

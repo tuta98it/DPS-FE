@@ -68,6 +68,7 @@ export class VTWorklistComponent implements OnInit {
   FILE_URL = '';
   visibleKeyImages = false;
 
+  isEditVisit = false;
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -184,7 +185,6 @@ export class VTWorklistComponent implements OnInit {
   getKeyImages() {
     this.keyImageService.getCaseStudyKeyImages(this.selectedCaseStudy.caseStudyId).subscribe({
       next: (res) => {
-        console.log('getKeyImages', res)
         if (res.isValid) {
           res.jsonData.forEach((i:any) => {
             i.src = `${this.FILE_URL}/${i.imagePath}`;

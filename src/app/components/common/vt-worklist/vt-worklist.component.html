@@ -2,6 +2,14 @@
   <as-split direction="vertical" (dragEnd)="dragEnd($event)">
     <as-split-area [size]="100-INIT_WORKLIST_SIZE">
       <div class="worklist-form grid w-full m-0">
+        <div class="col-12 pb-0 pt-2">
+          <button pButton pRipple label="Thêm" icon="pi pi-plus" class="p-button p-button-sm mr-2" ></button>
+          <button pButton pRipple label="Sửa" icon="pi pi-pencil" class="p-button-info p-button-sm mr-2"></button>
+          <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-success p-button-sm mr-2"></button>
+          <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-danger  p-button-sm mr-2"></button>
+          <button pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-success p-button-sm mr-2"></button>
+          <button pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-danger p-button-sm mr-2"></button>
+        </div>
         <div class="col-4 p-0" [formGroup]="patientForm">
           <div class="grid w-full m-0 flex-none">
             <div class="col-12 pt-3 pb-1 flex align-items-center">
@@ -13,19 +21,19 @@
               <div>Tên bệnh nhân<span class="text-red-500">*</span></div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input formControlName="patientsName" pInputText type="text" placeholder="Tên bệnh nhân*" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="patientsName" pInputText type="text" placeholder="Tên bệnh nhân*" class="w-full py-2 px-2" />
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
               <div>Mã bệnh nhân<span class="text-red-500">*</span></div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input formControlName="patientCode" pInputText type="text" placeholder="Mã bệnh nhân*" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="patientCode" pInputText type="text" placeholder="Mã bệnh nhân*" class="w-full py-2 px-2" />
             </div>
             <div class="col-2 py-1 pr-0 flex align-items-center">
               <div>Giới tính<span class="text-red-500">*</span></div>
             </div>
             <div class="col-4 py-1 pr-0">
-              <p-dropdown formControlName="patientsSex" optionLabel="label" optionValue="value"
+              <p-dropdown [disabled]="!isEditVisit" formControlName="patientsSex" optionLabel="label" optionValue="value"
                 [styleClass]="'w-full'" [options]="GENDERS" placeholder="Giới tính*" [showClear]="true">
               </p-dropdown>
             </div>
@@ -33,7 +41,7 @@
               <div>Năm sinh<span class="text-red-500">*</span></div>
             </div>
             <div class="col-4 py-1 pr-0">
-              <p-inputNumber formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="false" class="w-full" 
+              <p-inputNumber [disabled]="!isEditVisit" formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="false" class="w-full" 
                 [styleClass]="'w-full'" [inputStyleClass]="'flex-none w-full py-2 px-2'" [min]="1900" [max]="2100">
             </p-inputNumber>
             </div>
@@ -41,13 +49,13 @@
               <div>Địa chỉ</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input formControlName="address" pInputText type="text" placeholder="Địa chỉ" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="address" pInputText type="text" placeholder="Địa chỉ" class="w-full py-2 px-2" />
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
               <div>Email</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input formControlName="email" pInputText type="text" placeholder="Email" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="email" pInputText type="text" placeholder="Email" class="w-full py-2 px-2" />
             </div>
           </div>
         </div>
@@ -62,13 +70,13 @@
               <div>Mã chỉ định</div>
             </div>
             <div class="sm:col-3 xl:col-4 py-1 pr-0">
-              <input formControlName="modalityCode" pInputText type="text" placeholder="Mã chỉ định" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="modalityCode" pInputText type="text" placeholder="Mã chỉ định" class="w-full py-2 px-2" />
             </div>
             <div class="sm:col-3 xl:col-2 py-1 pr-0 flex align-items-center">
               <div>Loại bệnh phẩm</div>
             </div>
             <div class="col-4 py-1 px-0">
-              <p-dropdown formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" 
+              <p-dropdown [disabled]="!isEditVisit" formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" 
                 [styleClass]="'w-full'" placeholder="&nbsp;" [showClear]="true">
               </p-dropdown>
             </div>
@@ -76,45 +84,45 @@
               <div>Vị trí lấy</div>
             </div>
             <div class="sm:col-3 xl:col-4 py-1 pr-0">
-              <input formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy" class="w-full py-2 px-2" />
             </div>
             <div class="sm:col-3 xl:col-2 py-1 pr-0 flex align-items-center">
               <div>Số lượng mẫu</div>
             </div>
             <div class="col-4 py-1 px-0">
-              <input pInputText type="text" placeholder="Số lượng mẫu" class= "py-2 px-2 w-full" />
+              <input [readOnly]="!isEditVisit" pInputText type="text" placeholder="Số lượng mẫu" class= "py-2 px-2 w-full" />
             </div>
             <div class="col-2 py-1 pr-0 flex align-items-center">
               <div>Ngày lấy mẫu</div>
             </div>
             <div class="col-4 py-1 pr-0">
-              <p-calendar formControlName="createTime" placeholder="Ngày lấy mẫu" [showButtonBar]="true" [showClear]="true"
+              <p-calendar [disabled]="!isEditVisit" formControlName="createTime" placeholder="Ngày lấy mẫu" [showButtonBar]="true" [showClear]="true"
                 styleClass="w-full" [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
             </div>
             <div class="col-2 py-1 pr-0 flex align-items-center">
               <div>Ngày nhận</div>
             </div>
             <div class="col-4 py-1 px-0">
-              <p-calendar placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
+              <p-calendar [disabled]="!isEditVisit" placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
                 [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
               <div>Nơi gửi mẫu</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input formControlName="sourceHospital" pInputText type="text" placeholder="Nơi gửi mẫu" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="sourceHospital" pInputText type="text" placeholder="Nơi gửi mẫu" class="w-full py-2 px-2" />
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
               <div>Bác sĩ chỉ định</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input pInputText type="text" placeholder="Bác sĩ chỉ định" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" pInputText type="text" placeholder="Bác sĩ chỉ định" class="w-full py-2 px-2" />
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
               <div>Chẩn đoán lâm sàng</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <input formControlName="clinicalDiagnosis" pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full py-2 px-2" />
+              <input [readOnly]="!isEditVisit" formControlName="clinicalDiagnosis" pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full py-2 px-2" />
             </div>
           </div>
         </div>
