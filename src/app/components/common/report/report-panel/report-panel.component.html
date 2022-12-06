@@ -9,4 +9,6 @@
     <div class="font-bold"></div>
   </div>
   <report-editor></report-editor>
+  <p-button label="Print" (onClick)="printPreview($event)"></p-button>
 </div>
+<app-print-preview-popup [(visible)]="isPrintPreviewVisible"></app-print-preview-popup>

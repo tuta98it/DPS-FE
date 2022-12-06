@@ -1,0 +1,35 @@
+<p-dialog [(visible)]="visible" [style]="{width: '1200px', height: '1000px', 'max-height': '90%', 'max-width': '90%' }" header="Print preview" [modal]="true" class="p-fluid dlg-print-preview">
+    <ng-template pTemplate="content">
+        <div class="grid h-full">
+            <div class="col-3 layout-option flex flex-column">
+                <div class="flex-grow-1 w-full">
+                    <p-listbox [options]="lstPrintTemplates" [(ngModel)]="selectedTemplateId" optionLabel="name" optionValue="id" (onChange)="onTemplateChanged($event)">
+                        <ng-template let-printTemplate pTemplate="item">
+                            <div class="list-item">
+                                <i class="pi pi-file mr-1"></i>
+                                <span>{{printTemplate.name}}</span>
+                            </div>
+                        </ng-template>
+                    </p-listbox>
+                </div>
+                <div>
+                    <div style="height: 32px;" class="flex flex-row-reverse">
+                        <div>
+                            <button pButton pRipple label="Print" icon="pi pi-print" class="p-button" (click)="printReport()"></button>
+                        </div>
+                        <div>
+                            <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="closePopup()"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9 layout-option pl-0">
+                <!-- preview panel here -->
+                <div class="w-ful h-full relative">
+                    <iframe src="/html/print-template/print-viewer.html" class="iframe-printpreview" >
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

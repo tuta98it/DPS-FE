@@ -97,7 +97,6 @@ export class PrintTemplateDetailComponent implements OnInit {
 
             callback(res.jsonData);
           }
-            
         }
       }
     });
