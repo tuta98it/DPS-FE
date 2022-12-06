@@ -10,6 +10,7 @@ export class ConfirmDialogComponent implements OnInit {
   @Input() visible = false;
   @Input() confirmText = '';
   @Input() confirmLabel = 'Xóa';
+  @Input() cancelLabel = 'Hủy';
   @Output() visibleChange = new EventEmitter<any>();
   @Output() onConfirm = new EventEmitter<any>();
 

@@ -1,12 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { KeyImageService } from 'src/app/services/key-image.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { ReportService } from 'src/app/services/report.service';
+import { UserService } from 'src/app/services/user.service';
+import { VisitService } from 'src/app/services/visit.service';
 import { AppConfigService } from 'src/app/shared/app-config.service';
-import { Constants } from 'src/app/shared/constants/constants';
+import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
+import { Constants, Roles } from 'src/app/shared/constants/constants';
 import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
@@ -16,7 +21,7 @@ import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study
   templateUrl: './vt-worklist.component.html',
   styleUrls: ['./vt-worklist.component.scss']
 })
-export class VTWorklistComponent implements OnInit {
+export class VTWorklistComponent implements OnInit, OnDestroy {
   caseStudies: any = [];
   totalCaseStudies = 0;
   loading = false;
@@ -68,7 +73,14 @@ export class VTWorklistComponent implements OnInit {
   FILE_URL = '';
   visibleKeyImages = false;
 
-  isEditVisit = false;
+  editableVisit = false;
+  visibleConfirmCancel = false;
+  saving = false;
+  doctors: any[] = [];
+
+  protected _authSubscription: Subscription;
+  currentUser = INIT_AUTH_MODEL;
+  
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -76,8 +88,14 @@ export class VTWorklistComponent implements OnInit {
     private reportService: ReportService,
     private keyImageService: KeyImageService,
     public configService: AppConfigService,
+    private authState: AuthStateService,
+    public visitService: VisitService,
+    public userService: UserService,
     private notification: NotificationService,
   ) { 
+    this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
+      this.currentUser = m;
+    });
     Constants.REQUEST_TYPES.forEach((r: any) => {
       this.requestTypes[r.value] = r.label;
     });
@@ -87,6 +105,7 @@ export class VTWorklistComponent implements OnInit {
     this.isSmallScreen = window.innerWidth < 1600;
     this.initForm();
     this.FILE_URL = this.configService.getConfig().api.fileUrl; 
+    this.getDoctors();
   }
 
   ngOnInit(): void {
@@ -94,9 +113,13 @@ export class VTWorklistComponent implements OnInit {
     this.search();
   }
 
+  public ngOnDestroy(): void {
+    this._authSubscription.unsubscribe();
+  }
+
   initForm() {
     this.patientForm = this.fb.group({
-      id: [null],
+      id: [''],
       patientCode: [null, [Validators.required]],
       patientsName: [null, [Validators.required]],
       patientsSex: [null, [Validators.required]],
@@ -112,8 +135,11 @@ export class VTWorklistComponent implements OnInit {
       requestType: [''],
       description: [''],
       sourceHospital: [''],
+      staff: [''],
       specimensCode: [''],
       visitCode: [''],
+      quantity: [''],
+      numberOfSlideManual: [0],
       createTime: [null],
       modalityCode: [''],
       modalityName: ['']
@@ -124,6 +150,7 @@ export class VTWorklistComponent implements OnInit {
       microbodyDescribe: [''],
       consultation: [''],
       diagnose: [''],
+      readDoctor: [''],
     });
   }
 
@@ -146,11 +173,66 @@ export class VTWorklistComponent implements OnInit {
 
   onSelectCaseStudy(data: any) {
     this.selectedCaseStudy = data;
-    this.getCaseStudyOfPatient();
-    this.getPatient();
-    this.getCaseStudy();
-    this.getCaseStudyReports();
-    this.getKeyImages();
+    if (!this.editableVisit) {
+      this.getCaseStudyOfPatient();
+      this.getPatient();
+      this.getCaseStudy();
+      this.getCaseStudyReports();
+      this.getKeyImages();
+    }
+  }
+
+  onCreateVisit() {
+    this.editableVisit = true;
+    this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
+  }
+
+  saveVisit() {
+    this.saving = true;
+    let payload = {
+      caseStudy: { ...this.caseStudyForm.value, isDirty: true },
+      patient: { ...this.patientForm.value, isDirty: true, patientType: Constants.PATIENT_TYPES[1].value },
+      report: { ...this.reportForm.value, isDirty: true }
+    }
+    this.visitService.saveVisit(payload).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Tạo ca khám thành công');
+          this.onSearch(INIT_SEARCH_CASE_STUDY);
+        }
+      }
+    }).add(() => {
+      this.saving = false;
+    });
+  }
+
+  resetInfo() {
+    this.patientForm.reset();
+    this.caseStudyForm.reset();
+    this.reportForm.reset();
+    this.keyImages = [];
+    this.relatedCaseStudies = [];
+    this.totalRelated = 0;
+  }
+
+  cancelEdit() {
+    this.resetInfo();
+    this.editableVisit = false;
+    this.visibleConfirmCancel = false;
+  }
+
+  onSave() {
+    if (this.patientForm.valid) {
+      this.saveVisit();
+    } else {
+      Object.values(this.patientForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+      this.notification.warn('Chưa nhập đủ dữ liệu!');
+    }
   }
 
   getCaseStudy() {
@@ -310,6 +392,31 @@ export class VTWorklistComponent implements OnInit {
           this.patientForm.patchValue(res.jsonData);
         }
       }
+    });
+  }
+
+  getDoctors() {
+    let payload = {
+      take: 1000,
+      skip: 0,
+      keyword: ''
+    };
+    this.userService.getUserRoles(payload).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          res.jsonData.data.forEach((d:any) => {
+            if (d.roles.includes(Roles.DOCTOR_READ)) {
+              this.doctors.push({
+                username: d.username,
+                fullname: d.fullname,
+                id: d.id
+              });
+            }
+          });
+        }
+      }
+    }).add(() => {
+      this.loading = false
     });
   }
 }

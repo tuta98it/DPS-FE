@@ -11,6 +11,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { GalleriaModule } from 'primeng/galleria';
 import { DialogModule } from 'primeng/dialog';
 import { KeyImagesModule } from '../key-images/key-images.module';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { KeyImagesModule } from '../key-images/key-images.module';
     InputTextModule,
     CalendarModule,
     GalleriaModule,
+    ConfirmDialogModule,
     DropdownModule,
     DialogModule,
     InputNumberModule,

@@ -4,7 +4,7 @@
     <span [innerHTML]="confirmText"></span>
   </div>
   <ng-template pTemplate="footer">
-    <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" label="Hủy"
+    <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm" [label]="cancelLabel"
       (click)="visible=false"></p-button>
     <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" [label]="confirmLabel" (click)="onConfirm.emit()"></button>
   </ng-template>
