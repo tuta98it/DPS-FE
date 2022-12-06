@@ -1,6 +1,7 @@
 {
   "api": {
-    "baseUrl": "dpstest2-be.pmr.vn/api"
+    "baseUrl": "dpstest2-be.pmr.vn/api",
+    "fileUrl": "dpstest2-be.pmr.vn/Files"
   },
   "deepzoom": {
     "baseUrl": "dpstest2-dz.pmr.vn"
