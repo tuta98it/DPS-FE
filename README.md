@@ -1,6 +1,8 @@
 # DPS-FE (Digital Pathology Systems)
+
 FE Angular project for DPS product.
 ***
+
 # How to run
 - Install packages: `npm i --force`
 - Start: `npm start`
@@ -42,7 +44,8 @@ src
 # UI classes: PrimeFlex 3
 
 **Lưu ý**: PrimeFlex dùng đơn vị rem trong config css cho các thành phần UI. \
-1 rem = 16px.
+1 rem = 1 lần font-size của root element của HTML document. 
+Ở DPS, font-size = 14px nên **1rem = 14px**.
 
 **Link tham khảo chính:**
 
