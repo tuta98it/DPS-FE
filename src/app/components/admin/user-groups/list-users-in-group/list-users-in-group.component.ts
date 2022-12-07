@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
 import { UserGroupService } from 'src/app/services/user-group.service';
 import { UserService } from 'src/app/services/user.service';
@@ -18,9 +18,31 @@ export class ListUsersInGroupComponent implements OnInit {
   textConfirmDelete = '';
   deletedItem: any = {};
   loading = false;
-  @Input() groupId = '';
   selectedUser = INIT_AUTH_MODEL;
   filteredUsers: any[] = [];
+  
+  _groupId = '';
+  @Input() set groupId(value: string) {
+    this._groupId = value;
+    if (value) {
+      this.getUsersInGroup();
+    }
+  }
+  get groupId() {
+    return this._groupId;
+  }
+
+  _visible = false;
+  @Input() set visible(value: boolean) {
+    this._visible = value;
+    this.visibleChange.emit(value);
+    this.selectedUser = INIT_AUTH_MODEL;
+  }
+  get visible() {
+    return this._visible;
+  }
+  @Output() visibleChange = new EventEmitter<any>();
+
   constructor(
     private userGroupService: UserGroupService,
     private userService: UserService,
@@ -28,12 +50,11 @@ export class ListUsersInGroupComponent implements OnInit {
   ) {
     this.cols = [
       { field: 'username', header: 'Tài khoản', width: '30%' },
-      { field: 'fullname', header: 'Tên', width: '50%' },
+      { field: 'fullname', header: 'Tên', width: '40%' },
     ];
   }
 
   ngOnInit(): void {
-    this.getUsersInGroup();
   }
 
   getUsersInGroup() {

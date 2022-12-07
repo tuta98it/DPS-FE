@@ -52,7 +52,7 @@ export class UserGroupsComponent implements OnInit {
   ngOnInit() {
     this.cols = [
       { field: 'name', header: 'Tên nhóm', width: '30rem' },
-      { field: 'desc', header: 'Mô tả', width: '69rem' }
+      { field: 'desc', header: 'Mô tả', width: '68rem' }
     ];
     this.search();
   }

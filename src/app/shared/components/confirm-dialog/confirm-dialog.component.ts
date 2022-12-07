@@ -6,12 +6,19 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./confirm-dialog.component.scss']
 })
 export class ConfirmDialogComponent implements OnInit {
-  
-  @Input() visible = false;
+  _visible = false;
+  @Input() set visible(value: boolean) {
+    this._visible = value;
+    this.visibleChange.emit(value);
+  }
+  get visible() {
+    return this._visible;
+  }
+  @Output() visibleChange = new EventEmitter<any>();
+
   @Input() confirmText = '';
   @Input() confirmLabel = 'Xóa';
   @Input() cancelLabel = 'Hủy';
-  @Output() visibleChange = new EventEmitter<any>();
   @Output() onConfirm = new EventEmitter<any>();
 
   constructor() { }

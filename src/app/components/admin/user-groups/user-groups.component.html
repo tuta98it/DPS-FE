@@ -43,14 +43,7 @@
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="isVisibleListUsers" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách user trong nhóm'" [modal]="true" class="p-fluid">
-      <ng-template pTemplate="content">
-        <list-users-in-group [groupId]="selectedUserGroup.id"></list-users-in-group>
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleListUsers=false"></button>
-      </ng-template>
-    </p-dialog>
+    <list-users-in-group [(visible)]="isVisibleListUsers" [groupId]="selectedUserGroup.id"></list-users-in-group>
   </div>
 </div>
 
