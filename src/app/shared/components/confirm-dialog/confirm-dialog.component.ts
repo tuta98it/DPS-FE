@@ -20,10 +20,15 @@ export class ConfirmDialogComponent implements OnInit {
   @Input() confirmLabel = 'Xóa';
   @Input() cancelLabel = 'Hủy';
   @Output() onConfirm = new EventEmitter<any>();
+  @Output() onCancel = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  cancel() {
+    this.visible = false;
+    this.onCancel.emit();
+  }
 }
