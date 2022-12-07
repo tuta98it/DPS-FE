@@ -8,4 +8,8 @@
       <img [src]="item.src" width="80px" height="60px" style="display: block; object-fit: contain;"/>
     </div>
   </ng-template>
+  <ng-template pTemplate="caption" let-item>
+    <h4 style="margin-bottom: .5rem; color: #ffffff;">{{item.title}}</h4>
+    <p>{{item.note}}</p>
+  </ng-template>
 </p-galleria>
