@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { IViewerTab } from 'src/app/models/viewer-tab';
+import { AppConfigService } from 'src/app/shared/app-config.service';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
 @Component({
@@ -25,8 +26,12 @@ export class CaseStudyTableComponent implements OnInit {
   cols: any[];
   @ViewChild('caseStudyTable') caseStudyTable!: Table;
   clickTimer: any;
+
+  layoutConfig = '';
+
   constructor(
     private viewerState: ViewerStateService,
+    public configService: AppConfigService,
   ) {
     this.cols = [
       // { field: 'idx', header: 'STT', width: '5rem' },
@@ -42,28 +47,37 @@ export class CaseStudyTableComponent implements OnInit {
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
       { field: 'conclusion', header: 'Kết luận', width: '20rem' }
     ];
+    this.layoutConfig = this.configService.getConfig().layout;
   }
 
   ngOnInit() {
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => this.openViewer(this.selectedCaseStudy) },
-      { label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', 
+      { 
+        label: 'Cập nhật worklist', icon: 'pi pi-fw pi-sync', 
         command: () => this.onAction.emit(
           { action: Constants.CASE_STUDY_ACTIONS.REFRESH }
         ),
-        visible: !this.isRelatedList },
-      { label: 'Sửa chi tiết ca khám', icon: 'pi pi-fw pi-file-edit', 
+        visible: !this.isRelatedList 
+      },
+      { 
+        label: 'Sửa chi tiết ca khám', icon: 'pi pi-fw pi-file-edit', 
         command: () => this.onAction.emit(
           { action: Constants.CASE_STUDY_ACTIONS.EDIT, data: this.selectedCaseStudy }
-        ) },
+        ),
+        visible: this.layoutConfig == Constants.LAYOUT_CONFIG.DEFAULT
+      },
       { label: 'Tải lên lam kính', icon: 'pi pi-fw pi-upload', 
         command: () => this.onAction.emit(
           { action: Constants.CASE_STUDY_ACTIONS.UPLOAD_SLIDE, data: this.selectedCaseStudy }
         ) },
-      { label: 'Sửa thông tin bệnh nhân', icon: 'pi pi-fw pi-user-edit', 
+      { 
+        label: 'Sửa thông tin bệnh nhân', icon: 'pi pi-fw pi-user-edit', 
         command: () => this.onAction.emit(
           { action: Constants.CASE_STUDY_ACTIONS.EDIT_PATIENT, data: this.selectedCaseStudy }
-        ) },
+        ),
+        visible: this.layoutConfig == Constants.LAYOUT_CONFIG.DEFAULT
+      },
       { label: 'Share ca khám', icon: 'pi pi-fw pi-share-alt', 
         command: () => this.onAction.emit(
           { action: Constants.CASE_STUDY_ACTIONS.SHARE, data: this.selectedCaseStudy }
@@ -92,7 +106,6 @@ export class CaseStudyTableComponent implements OnInit {
     // this.selectedCaseStudy = caseStudy;
     // this.onSelectCaseStudy.emit(caseStudy);
     clearTimeout(this.clickTimer);
-    console.log('openViewer', caseStudy);
 
     let newTab: IViewerTab = {
       caseStudyId: caseStudy.caseStudyId,

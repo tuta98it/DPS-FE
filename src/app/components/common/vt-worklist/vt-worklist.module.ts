@@ -12,6 +12,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { DialogModule } from 'primeng/dialog';
 import { KeyImagesModule } from '../key-images/key-images.module';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
+import { ReportModule } from '../report/report.module';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
     DialogModule,
     InputNumberModule,
     KeyImagesModule,
+    ReportModule,
     CommonModule,
   ],
   exports: [

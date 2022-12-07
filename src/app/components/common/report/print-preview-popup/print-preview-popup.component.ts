@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PrintTemplateService } from 'src/app/services/print-template.service';
 
 @Component({
-  selector: 'app-print-preview-popup',
+  selector: 'print-preview-popup',
   templateUrl: './print-preview-popup.component.html',
   styleUrls: ['./print-preview-popup.component.scss']
 })

@@ -8,9 +8,12 @@ export interface ICaseStudy {
   sourceHospital: string,
   specimensCode: string,
   visitCode: string,
-  createTime: string,
+  createTime: any,
   modalityCode: string,
-  modalityName: string
+  modalityName: string,
+  staff?: string,
+  quantity?: string,
+  numberOfSlideManual?: number
 }
 export const INIT_CASE_STUDY : ICaseStudy = {
   id: '',
@@ -22,7 +25,10 @@ export const INIT_CASE_STUDY : ICaseStudy = {
   sourceHospital: '',
   specimensCode: '',
   visitCode: '',
-  createTime: '',
+  createTime: null,
   modalityCode: '',
-  modalityName: ''
+  modalityName: '',
+  staff: '',
+  quantity: '',
+  numberOfSlideManual: 0
 };

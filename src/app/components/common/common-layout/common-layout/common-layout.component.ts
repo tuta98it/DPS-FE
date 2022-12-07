@@ -33,7 +33,6 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
     public configService: AppConfigService,
     private viewerState: ViewerStateService,
     private notificationState: NotificationStateService,
-
   ) {
     this.layoutConfig = this.configService.getConfig().layout;
     let layout = localStorage.getItem(StorageKeys.LAYOUT);

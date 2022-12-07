@@ -35,7 +35,8 @@ import { PrintPreviewPopupComponent } from './print-preview-popup/print-preview-
     ReportPanelComponent,
     ReportDialogComponent,
     ReportEditorComponent,
-    ReportActionsComponent
+    ReportActionsComponent,
+    PrintPreviewPopupComponent
   ],
 })
 export class ReportModule { }

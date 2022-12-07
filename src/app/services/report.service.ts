@@ -10,4 +10,7 @@ export class ReportService extends BaseService {
   getCaseStudyReports(caseStudyId: string): Observable<any> {
     return this.get(`${this.url}/CaseStudy/${caseStudyId}`);
   }
+  unapprove(reportId: string) {
+    return this.get(`${this.url}/UnApprove/${reportId}`);
+  }
 }

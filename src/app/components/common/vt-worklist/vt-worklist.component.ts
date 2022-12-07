@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { INIT_CASE_STUDY } from 'src/app/models/case-study';
+import { INIT_REPORT } from 'src/app/models/report';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { KeyImageService } from 'src/app/services/key-image.service';
@@ -73,7 +75,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   FILE_URL = '';
   visibleKeyImages = false;
 
-  editableVisit = false;
+  creatingVisit = false;
+  editingVisit = false;
   visibleConfirmCancel = false;
   saving = false;
   doctors: any[] = [];
@@ -81,6 +84,16 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
   
+  visiblePrintPreview = false;
+  isDirty = {
+    patientForm: true,
+    caseStudyForm: true,
+    reportForm: true,
+  }
+  currentInfo: any = {};
+
+  visibleConfirmSave = false;
+  visibleConfirmUnapprove = false;
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -93,7 +106,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     public userService: UserService,
     private notification: NotificationService,
   ) { 
-    this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
+    this._authSubscription = this.authState.subscribe((m: IAuthModel) => {
       this.currentUser = m;
     });
     Constants.REQUEST_TYPES.forEach((r: any) => {
@@ -172,8 +185,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   onSelectCaseStudy(data: any) {
-    this.selectedCaseStudy = data;
-    if (!this.editableVisit) {
+    if (!(this.editingVisit || this.creatingVisit)) {
+      this.selectedCaseStudy = data;
       this.getCaseStudyOfPatient();
       this.getPatient();
       this.getCaseStudy();
@@ -183,33 +196,79 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   onCreateVisit() {
-    this.editableVisit = true;
-    this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
+    if (this.creatingVisit) {
+      return;
+    } else if (this.editingVisit) {
+      this.visibleConfirmSave = true;
+    } else {
+      this.creatingVisit = true;
+      this.resetInfo();
+      this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
+    }
   }
 
-  saveVisit() {
+  onEditVisit() {
+    if (!(this.creatingVisit || this.editingVisit)) {
+      this.editingVisit = true;
+      if (this.reportForm.value.readDoctor == '') {
+        this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
+      }
+      this.currentInfo = {
+        caseStudy: JSON.stringify(this.caseStudyForm.value),
+        patient: JSON.stringify(this.patientForm.value),
+        report: JSON.stringify(this.reportForm.value),
+      };
+    }
+  }
+
+  checkDirty() {
+    if (this.editingVisit) {
+      this.isDirty.caseStudyForm = this.currentInfo.caseStudy != JSON.stringify(this.caseStudyForm.value);
+      this.isDirty.patientForm = this.currentInfo.patient != JSON.stringify(this.patientForm.value);
+      this.isDirty.reportForm = this.currentInfo.report != JSON.stringify(this.reportForm.value);
+    } else if (this.creatingVisit) {
+      this.isDirty.caseStudyForm = true;
+      this.isDirty.patientForm = true;
+      this.isDirty.caseStudyForm = true;
+    }
+  }
+
+  saveVisit(isApprove=false) {
     this.saving = true;
+    let state = parseInt(Constants.REPORT_STATES[2].value) 
+    if (isApprove || this.reportForm.value == Constants.REPORT_STATES[4].value) {
+      state = parseInt(Constants.REPORT_STATES[4].value) 
+    }
     let payload = {
-      caseStudy: { ...this.caseStudyForm.value, isDirty: true },
-      patient: { ...this.patientForm.value, isDirty: true, patientType: Constants.PATIENT_TYPES[1].value },
-      report: { ...this.reportForm.value, isDirty: true }
+      caseStudy: { ...this.caseStudyForm.value, isDirty: this.isDirty.caseStudyForm, },
+      patient: { ...this.patientForm.value, isDirty: this.isDirty.patientForm, patientType: Constants.PATIENT_TYPES[1].value },
+      report: { ...this.reportForm.value, isDirty: this.isDirty.reportForm, state: state}
     }
     this.visitService.saveVisit(payload).subscribe({
       next: (res) => {
         if (res.isValid) {
-          this.notification.success('Tạo ca khám thành công');
-          this.onSearch(INIT_SEARCH_CASE_STUDY);
+          if (this.creatingVisit) {
+            this.onSearch(INIT_SEARCH_CASE_STUDY);
+            this.notification.success('Tạo ca khám thành công');
+          } else {
+            this.notification.success('Cập nhật ca khám thành công');
+          }
         }
       }
     }).add(() => {
       this.saving = false;
+      this.cancelEdit();
+      if (this.visibleConfirmSave) {
+        this.visibleConfirmSave = false;
+        this.creatingVisit = true;
+      }
     });
   }
 
   resetInfo() {
     this.patientForm.reset();
-    this.caseStudyForm.reset();
-    this.reportForm.reset();
+    this.caseStudyForm.reset(INIT_CASE_STUDY);
+    this.reportForm.reset(INIT_REPORT);
     this.keyImages = [];
     this.relatedCaseStudies = [];
     this.totalRelated = 0;
@@ -217,13 +276,36 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   cancelEdit() {
     this.resetInfo();
-    this.editableVisit = false;
+    this.creatingVisit = false;
+    this.editingVisit = false;
     this.visibleConfirmCancel = false;
   }
 
-  onSave() {
+  onApprove() {
+    this.onEditVisit();
+    this.onSave(true);
+  }
+
+  onUnapprove() {
+    this.visibleConfirmUnapprove = true;
+  }
+
+  unapprove() {
+    this.reportService.unapprove(this.reportForm.value.id).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Bỏ duyệt ca khám thành công');
+          this.onEditVisit();
+          this.reportForm.controls['state'].setValue(Constants.REPORT_STATES[2].value);
+        }
+      }
+    });
+  }
+
+  onSave(isApprove=false) {
     if (this.patientForm.valid) {
-      this.saveVisit();
+      this.checkDirty();
+      this.saveVisit(isApprove);
     } else {
       Object.values(this.patientForm.controls).forEach((control) => {
         if (control.invalid) {
@@ -258,6 +340,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             microbodyDescribe: Utils.extractContent(res.jsonData[0].microbodyDescribe),
             consultation: Utils.extractContent(res.jsonData[0].consultation),
             diagnose: Utils.extractContent(res.jsonData[0].diagnose), 
+            readDoctor: Utils.extractContent(res.jsonData[0].readDoctorId), 
           });
         }
       }
