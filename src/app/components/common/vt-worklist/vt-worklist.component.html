@@ -14,6 +14,8 @@
             pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-success p-button-sm mr-2"
             (click)="onApprove()"></button>
           <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value" pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-danger p-button-sm mr-2"></button>
+          <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id" pButton pRipple label="In báo cáo" icon="pi pi-print" class="p-button p-button-sm mr-2"
+            (click)="visiblePrintPreview=true"></button>
         </div>
         <div class="col-4 p-0" [formGroup]="patientForm">
           <div class="grid w-full m-0 flex-none">
@@ -211,8 +213,6 @@
             <div class="col-8 py-1 pr-0">
               <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="Bác sĩ đọc kết quả" [showClear]="false">
               </p-dropdown>
-              <button pButton pRipple type="button" icon="pi pi-print" class="btn-report ml-2 flex-none text-2xl font-medium" 
-                (click)="visiblePrintPreview=true" [disabled]="false" title="Xóa lọc"></button>
             </div>
           </div>
         </div>
@@ -224,7 +224,8 @@
               </span>
             </div>
             <div class="col-12 py-1 mt-0 flex justify-content-between">
-              <button pButton pRipple label="View ảnh scan lam" icon="fa-solid fa-microscope" class="flex-none p-button p-button-sm"></button>
+              <button [disabled]="!patientForm.value.id" pButton pRipple label="View ảnh scan lam" icon="fa-solid fa-microscope" class="p-button p-button-sm"
+                (click)="openViewer()"></button>
               <button pButton pRipple type="button" icon="pi pi-images" class="btn-top flex-none text-2xl font-medium"
                 [disabled]="keyImages.length==0" (click)="visibleKeyImages=true" title="Xóa lọc"></button>
             </div>
@@ -259,8 +260,8 @@
                 optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-top mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
-            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-top flex-none text-2xl p-button-danger font-bold p-button-rounded"
-              (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
+              <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-top flex-none text-2xl p-button-danger font-bold p-button-rounded"
+                (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
           </div>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
@@ -281,4 +282,4 @@
   [cancelLabel]="'Hủy'" [confirmLabel]="'Lưu'" (onConfirm)="onSave()"></confirm-dialog>
 <confirm-dialog [(visible)]="visibleConfirmUnapprove" [confirmText]="'Xác nhận bỏ duyệt ca khám?'" 
   [cancelLabel]="'Hủy'" [confirmLabel]="'Ok'" (onConfirm)="unapprove()"></confirm-dialog>
-<print-preview-popup [visible]="visiblePrintPreview"></print-preview-popup>
+<print-preview-popup [(visible)]="visiblePrintPreview"></print-preview-popup>

@@ -5,6 +5,7 @@ import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
 import { INIT_CASE_STUDY } from 'src/app/models/case-study';
 import { INIT_REPORT } from 'src/app/models/report';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
+import { IViewerTab } from 'src/app/models/viewer-tab';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { KeyImageService } from 'src/app/services/key-image.service';
 import { PatientService } from 'src/app/services/patient.service';
@@ -13,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 import { VisitService } from 'src/app/services/visit.service';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
+import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { Constants, Roles } from 'src/app/shared/constants/constants';
 import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -45,13 +47,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   uploadPatientName = '';
   uploadedCaseStudyId = new String('');
   isVisibleUploadSlide = false;
-  
-  caseStudyInfoHeader = '';
-  updatedCaseStudyId = new String('');
-  isVisibleCaseStudyInfo = false;
-  
-  selectedPatientId = new String('');
-  isVisiblePatientInfo = false;
 
   deletedCaseStudyId = '';
   textConfirmDeleteCase = '';
@@ -103,6 +98,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     public configService: AppConfigService,
     private authState: AuthStateService,
     public visitService: VisitService,
+    private viewerState: ViewerStateService,
     public userService: UserService,
     private notification: NotificationService,
   ) { 
@@ -406,12 +402,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   onCaseStudyAction(event: any) {
     if (event.action == Constants.CASE_STUDY_ACTIONS.REFRESH) {
       this.onSearch(this.searchData);
-    } else if (event.action == Constants.CASE_STUDY_ACTIONS.EDIT) {
-      this.onEditCaseStudy(event.data);
     } else if (event.action == Constants.CASE_STUDY_ACTIONS.UPLOAD_SLIDE) {
       this.onUploadSlide(event.data);
-    } else if (event.action == Constants.CASE_STUDY_ACTIONS.EDIT_PATIENT) {
-      this.onEditPatient(event.data);
     } else if (event.action == Constants.CASE_STUDY_ACTIONS.SHARE) {
       this.onShareCaseStudy(event.data);
     } else if (event.action == Constants.CASE_STUDY_ACTIONS.DELETE) {
@@ -423,18 +415,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this.uploadPatientName = data.patientsName;
     this.uploadedCaseStudyId = new String(data.caseStudyId);
     this.isVisibleUploadSlide = true;
-  }
-
-  onEditCaseStudy(data: any) {
-    this.caseStudyInfoHeader = 'Sửa thông tin ca khám';
-    this.updatedCaseStudyId = new String(data.caseStudyId);
-    this.selectedPatientId = data.patientId;
-    this.isVisibleCaseStudyInfo = true;
-  }
-  
-  onEditPatient(event: any) {
-    this.selectedPatientId = new String(event.patientId);
-    this.isVisiblePatientInfo = true;
   }
 
   onDeleteCaseStudy(data: any) {
@@ -454,6 +434,15 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     }).add(() => {
       this.isVisibleDeleteCase = false;
     });
+  }
+
+  openViewer() {
+    let newTab: IViewerTab = {
+      caseStudyId: this.selectedCaseStudy.caseStudyId,
+      patientsName: this.selectedCaseStudy.patientsName,
+      createdTime: this.selectedCaseStudy.createdTime
+    }
+    this.viewerState.openTab(newTab);
   }
 
   onShareCaseStudy(data: any) {
