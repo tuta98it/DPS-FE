@@ -146,7 +146,6 @@ export class UploadSlideComponent implements OnInit {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');
     if (inputUpload.files.length > 0) {
       this.file = inputUpload.files[0];
-      console.log('onUpload', this.file)
       this.fileName = this.file.name;
     }
     // inputUpload.value = null;

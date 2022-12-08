@@ -105,17 +105,17 @@ export class SlideUploadService {
   
       let xhr2 = new XMLHttpRequest();
       xhr2.onreadystatechange = function () {
-          if (xhr2.readyState == XMLHttpRequest.DONE) {
-              let res = JSON.parse(xhr2.responseText);
-              if (res.d.isValid) {
-                $this.notification.success('Đã tải lên. Đang đợi server xử lí', '');
-                $this.notificationState.updateState(data.uploadId, Constants.UPLOAD_STATUS.PROCESSING);
-              }
-              else {
-                $this.notification.error('Không thể tải lên', res.d.errors[0].errorMessage);
-                $this.notificationState.removeNotification(data.uploadId);
-              }
+        if (xhr2.readyState == XMLHttpRequest.DONE) {
+          let res = JSON.parse(xhr2.responseText);
+          if (res.d.isValid) {
+            $this.notification.success('Đã tải lên. Đang đợi server xử lí', '');
+            $this.notificationState.updateState(data.uploadId, Constants.UPLOAD_STATUS.PROCESSING);
           }
+          else {
+            $this.notification.error('Không thể tải lên', res.d.errors[0].errorMessage);
+            $this.notificationState.removeNotification(data.uploadId);
+          }
+        }
       };
       xhr2.open("POST", `${$this.baseUrl}/Upload/UploadComplete`, true); //combine the chunks together
       xhr2.send(formData);

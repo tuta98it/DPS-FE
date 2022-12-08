@@ -13,7 +13,9 @@
           <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state==REPORT_STATES[4].value" 
             pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-success p-button-sm mr-2"
             (click)="onApprove()"></button>
-          <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value" pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-danger p-button-sm mr-2"></button>
+          <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value" 
+            pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-danger p-button-sm mr-2"
+            (click)="onUnapprove()"></button>
           <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id" pButton pRipple label="In báo cáo" icon="pi pi-print" class="p-button p-button-sm mr-2"
             (click)="visiblePrintPreview=true"></button>
         </div>
@@ -224,8 +226,15 @@
               </span>
             </div>
             <div class="col-12 py-1 mt-0 flex justify-content-between">
-              <button [disabled]="!patientForm.value.id" pButton pRipple label="View ảnh scan lam" icon="fa-solid fa-microscope" class="p-button p-button-sm"
-                (click)="openViewer()"></button>
+              <div class="grid p-0 m-0">
+                <button [disabled]="!patientForm.value.id" pButton pRipple label="View ảnh scan lam" icon="fa-solid fa-microscope" class="p-button p-button-sm mr-2"
+                  (click)="openViewer()"></button>
+                <button [loading]="uploadingKeyImage" [disabled]="!patientForm.value.id" #uploadKeyImageContainer pButton pRipple label="Chọn file ảnh" icon="pi pi-paperclip" 
+                  class="p-button p-button-sm relative overflow-hidden block border-none">
+                  <input [disabled]="!patientForm.value.id || uploadingKeyImage" id="dps-upload-key-image" (change)="uploadKeyImage($event)"
+                    type="file" class="absolute top-0 right-0 bottom-0 left-0 m-0 p-0 opacity-0 " > 
+                </button>
+              </div>
               <button pButton pRipple type="button" icon="pi pi-images" class="btn-top flex-none text-2xl font-medium"
                 [disabled]="keyImages.length==0" (click)="visibleKeyImages=true" title="Xóa lọc"></button>
             </div>
