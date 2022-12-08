@@ -30,9 +30,9 @@ export class PrintTemplatesComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
+      { field: 'name', header: 'Tên mẫu in', width: '50rem' },
       { field: 'id', header: 'Id', width: '30rem' },
-      { field: 'priority', header: 'Độ ưu tiên', width: '30rem' },
-      { field: 'templateName', header: 'Tên mẫu in', width: '50rem' },
+      { field: 'priority', header: 'Độ ưu tiên', width: '10rem' },
     ];
     this.getAll();
   }

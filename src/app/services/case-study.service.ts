@@ -21,6 +21,9 @@ export class CaseStudyService extends BaseService {
   getCaseStudyInfo(studyId: string) {
     return this.get(`${this.url}/${studyId}/info`);
   }
+  getCaseStudyReportInfo(reportId: string) {
+    return this.get(`${this.url}/Report/${reportId}`);
+  }
   getListSlideOfCaseStudy(studyId: string) {
     return this.get(`${this.listSlideUrl}/${studyId}`);
   }

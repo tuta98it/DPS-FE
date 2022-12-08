@@ -19,12 +19,16 @@
         <script src="scripts/jquery-confirm.js" type="text/javascript"></script>
         <script src="build/mscform.min.js" type="text/javascript"></script>
         <script>
-            var printCallback = function showPrint(formInfo, commonInfoData) {
+            var previewCallback = function showPrint(formInfo, commonInfoData) {
                 mscform.initFormOthers('main-form', formInfo, true, commonInfoData);
             };
 
+            var doPrintCallback = function doPrint(paperWidth, paperHeight, paperMargin, pathToFormFolder) {
+                mscform.printForm('main-form', paperWidth, paperHeight, paperMargin, pathToFormFolder);
+            };
+
             $(document).ready(function () {
-                parent.registerShowPrint(printCallback);
+                parent.registerShowPrint(previewCallback, doPrintCallback);
             });
         </script>
     </head>
