@@ -300,10 +300,12 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Bỏ duyệt ca khám thành công');
-          this.onEditVisit();
+          // this.onEditVisit();
           this.reportForm.controls['state'].setValue(Constants.REPORT_STATES[2].value);
         }
       }
+    }).add(() => {
+      this.visibleConfirmUnapprove = false;
     });
   }
 
