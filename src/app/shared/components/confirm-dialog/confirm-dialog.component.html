@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="visible" header="Xác nhận" [modal]="true" [style]="{width:'450px'}">
+<p-dialog [(visible)]="visible" header="Xác nhận" [modal]="true" [style]="{width:'450px'}" (onHide)="cancel()">
   <div class="flex align-items-center justify-content-begin">
     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
     <span [innerHTML]="confirmText"></span>

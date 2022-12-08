@@ -12,8 +12,8 @@
             (click)="resetSearch()"></button>
         </span>
         <div class="flex justify-content-end flex-wrap">
-          <button [disabled]="true" pButton pRipple label="Danh sách group" icon="pi pi-users"
-            class="p-button-help mr-2 p-button-sm" (click)="isVisibleListGroup=true"></button>
+          <button [disabled]="!selectedUser.id" pButton pRipple label="Danh sách group" icon="pi pi-users"
+            class="p-button-help mr-2 p-button-sm" (click)="isVisibleListGroups=true"></button>
           <button pButton pRipple label="Thêm thành viên" icon="pi pi-plus"
             class="mr-2 p-button-success p-button-sm"></button>
           <button pButton pRipple label="Tạo tài khoản" icon="pi pi-plus" class="p-button-success p-button-sm" (click)="onCreatUser()"></button>
@@ -33,7 +33,7 @@
           {{rowData[col['field']]}}
         </td>
         <td class="text-center" [style.minWidth]="'5rem'">
-          <p-inputSwitch [(ngModel)]="rowData.enable" (onChange)="handleChange(rowData)"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="rowData.enable" (onChange)="onChangeEnable(rowData)"></p-inputSwitch>
         </td>
         <td [style.minWidth]="'3rem'" class="text-center">
           <button pButton pRipple icon="pi pi-pencil"
@@ -117,15 +117,14 @@
     </ng-template>
   </p-dialog>
 <!-- confirm disable -->
-    <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser" [confirmLabel]="confirmLabelDisable" (onConfirm)="disableUser()"></confirm-dialog>
+    <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser" [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()" (onCancel)="cancelDisable()"></confirm-dialog>
 <!-- Danh sách group trong DS user -->
-    <p-dialog [(visible)]="isVisibleListGroup" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách group của user'" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="isVisibleListGroups" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách group của user'" [modal]="true" class="p-fluid">
         <ng-template pTemplate="content">
-          <app-list-group-in-users  ></app-list-group-in-users>
-          <!-- [userId]="selectedUser.id" -->
+          <list-group-of-users [userId]="selectedUser.id"  ></list-group-of-users>
         </ng-template>
         <ng-template pTemplate="footer">
-          <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleListGroup=false"></button>
+          <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleListGroups=false"></button>
         </ng-template>
       </p-dialog>
   </div>

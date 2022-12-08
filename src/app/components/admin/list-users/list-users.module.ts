@@ -12,13 +12,14 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
-import { ListGroupInUsersComponent } from './list-group-in-users/list-group-in-users.component';
+import { ListGroupOfUsersComponent } from './list-group-of-users/list-group-of-users.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 @NgModule({
   declarations: [
     ListUsersComponent,
-    ListGroupInUsersComponent,
+    ListGroupOfUsersComponent,
 
   ],
   imports: [
@@ -33,6 +34,7 @@ import { ListGroupInUsersComponent } from './list-group-in-users/list-group-in-u
     DialogModule,
     CommonModule,
     ListUsersRoutingModule,
+    AutoCompleteModule,
     ConfirmDialogModule
   ]
 })

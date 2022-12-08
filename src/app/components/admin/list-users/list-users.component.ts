@@ -1,7 +1,8 @@
-import { Component,Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 
 
 
@@ -31,8 +32,8 @@ export class ListUsersComponent implements OnInit {
     usersForm: FormGroup;
     usersFormEdit: FormGroup;
     confirmLabelDisable = "";
-    isVisibleListGroup= false;
-    @Input() userId = '';
+    isVisibleListGroups= false;
+
 
     constructor(
         private fb: FormBuilder,
@@ -54,7 +55,9 @@ export class ListUsersComponent implements OnInit {
             email: [null , [Validators.required]],
             phoneNo: [null],
             username: [null , [Validators.required]],
-            password: [null , [Validators.required]]
+            password: [null , [Validators.required]],
+            disable: [null],
+            enable: [null],
         })
     }
 
@@ -85,6 +88,7 @@ export class ListUsersComponent implements OnInit {
                     if (res.isValid) {
                         this.users = res.jsonData.data;
                         this.users.forEach((u: any) => (u.enable = !u.disable));
+                        console.log('user', this.users)
                         this.total = res.jsonData.total;
                     }
                 },
@@ -210,9 +214,10 @@ export class ListUsersComponent implements OnInit {
         });
       }
 
-    handleChange(item:any) {
-
+      onChangeEnable(item:any) {
         this.usersFormEdit.patchValue({
+            disable: item.disable,
+            enable: item.enable,
             id: item.id,
             fullname: item.fullname,
             email: item.email,
@@ -220,40 +225,42 @@ export class ListUsersComponent implements OnInit {
             username: item.username,
             password: '********'
           });
-        console.log(item.checked)
-        if(!item.enable) {
+        console.log(item)
+        if(item.enable == false) {
+            console.log(item.enable);
+            console.log(item.disable);
             this.textConfirmDisableUser=`Xác nhận Disable tài khoản này <b>${item.username}?`;
             this.confirmLabelDisable= "Disable";
             this.isVisibleDisableUserDialog = true;
         }
         else {
-            this.notification.success('Bạn không được cấp quyền enable user', '');
-        }
-
+            this.isVisibleDisableUserDialog = false;
+            this.search();
+            }
     }
     disableUser() {
         const formEditValue = this.usersFormEdit.value;
-        const payloadEdit = {
-            id: formEditValue.id,
-            fullname: formEditValue.fullname,
-            email: formEditValue.email,
-            phoneNo: formEditValue.phoneNo,
-            username: formEditValue.username,
-            password: formEditValue.password
-        }
-        console.log(payloadEdit.id)
-        this.userService.updateDisable(payloadEdit.id).subscribe({
-          next: (res) => {
+        this.userService.updateDisable(formEditValue.id).subscribe({
+            next: (res) => {
             if (res.isValid) {
-              this.notification.success('Disable User thành công', '');
-              this.isVisibleDisableUserDialog = false;
-              this.search();
+            this.notification.success('Disable User thành công', '');
+            this.isVisibleDisableUserDialog = false;
+            this.search();
+                }
             }
-          }
         });
       }
-      selectUserGroup(users:any) {
-        this.selectedUser = users;
+    cancelDisable(){
+        const formEditValue = this.usersFormEdit.value;
+        formEditValue.enable= true;
+        this.search();
+      }
+
+    isVisibleListGroup() {
+
+      }
+    selectUser(user:any) {
+        this.selectedUser = user;
       }
 
 }
