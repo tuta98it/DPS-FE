@@ -13,7 +13,7 @@
           <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state==REPORT_STATES[4].value" 
             pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-success p-button-sm mr-2"
             (click)="onApprove()"></button>
-          <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value" 
+          <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value" 
             pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-danger p-button-sm mr-2"
             (click)="onUnapprove()"></button>
           <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id" pButton pRipple label="In báo cáo" icon="pi pi-print" class="p-button p-button-sm mr-2"
@@ -112,7 +112,7 @@
               <div>Ngày nhận</div>
             </div>
             <div class="col-4 py-1 px-0">
-              <p-calendar [disabled]="!(creatingVisit || editingVisit)" placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
+              <p-calendar [disabled]="!(creatingVisit || editingVisit)" formControlName="specimensDate" placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
                 [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
@@ -213,7 +213,8 @@
               <div>Bác sĩ đọc kết quả</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="Bác sĩ đọc kết quả" [showClear]="false">
+              <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true"
+                optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="Bác sĩ đọc kết quả" [showClear]="false">
               </p-dropdown>
             </div>
           </div>
@@ -269,8 +270,8 @@
                 optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-top mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
-              <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-top flex-none text-2xl p-button-danger font-bold p-button-rounded"
-                (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
+            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-top flex-none text-2xl p-button-danger font-bold p-button-rounded"
+              (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
           </div>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
@@ -291,4 +292,6 @@
   [cancelLabel]="'Hủy'" [confirmLabel]="'Lưu'" (onConfirm)="onSave()"></confirm-dialog>
 <confirm-dialog [(visible)]="visibleConfirmUnapprove" [confirmText]="'Xác nhận bỏ duyệt ca khám?'" 
   [cancelLabel]="'Hủy'" [confirmLabel]="'Ok'" (onConfirm)="unapprove()"></confirm-dialog>
+<confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
+
 <print-preview-popup [(visible)]="visiblePrintPreview"></print-preview-popup>

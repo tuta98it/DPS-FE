@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -157,6 +158,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       quantity: [''],
       numberOfSlideManual: [0],
       createTime: [null],
+      specimensDate: [null],
       modalityCode: [''],
       modalityName: ['']
     });
@@ -233,7 +235,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     } else if (this.creatingVisit) {
       this.isDirty.caseStudyForm = true;
       this.isDirty.patientForm = true;
-      this.isDirty.caseStudyForm = true;
+      this.isDirty.reportForm = true;
     }
   }
 
@@ -258,14 +260,26 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             this.onSearch(this.searchData);
             this.notification.success('Cập nhật ca khám thành công');
           }
+          this.patientForm.patchValue(res.jsonData.patient);
+          this.caseStudyForm.patchValue({
+            ...res.jsonData.caseStudy,
+            createTime: new Date(res.jsonData.caseStudy.createdTime),
+            specimensDate: res.jsonData.caseStudy.specimensDate ? 
+              new Date(res.jsonData.caseStudy.specimensDate) : null,
+          });
+          this.reportForm.patchValue(res.jsonData.report);
         }
       }
     }).add(() => {
       this.saving = false;
-      this.cancelEdit();
-      if (this.visibleConfirmSave) {
+      // this.cancelEdit();
+      if (this.visibleConfirmSave) { // trường hợp tạo ca bệnh mới khi đang sửa một ca khác
         this.visibleConfirmSave = false;
-        this.creatingVisit = true;
+        this.editingVisit = false;
+        this.onCreateVisit();
+      } else {
+        this.creatingVisit = false;
+        this.editingVisit = false;
       }
     });
   }
@@ -331,6 +345,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           this.caseStudyForm.patchValue({
             ...res.jsonData,
             createTime: new Date(res.jsonData.createdTime),
+            specimensDate: res.jsonData.specimensDate ? 
+              new Date(res.jsonData.caseStudy.specimensDate) : null,
           });
         }
       }
@@ -489,10 +505,12 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   openViewer() {
+    let datePipe = new DatePipe('en-US');
+    let createdTime = datePipe.transform(new Date(this.caseStudyForm.value.createTime), 'HH:mm:ss dd/MM/yyyy');
     let newTab: IViewerTab = {
-      caseStudyId: this.selectedCaseStudy.caseStudyId,
-      patientsName: this.selectedCaseStudy.patientsName,
-      createdTime: this.selectedCaseStudy.createdTime
+      caseStudyId: this.caseStudyForm.value.id,
+      patientsName: this.patientForm.value.patientsName,
+      createdTime: createdTime!
     }
     this.viewerState.openTab(newTab);
   }
