@@ -44,6 +44,6 @@
     <!-- <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-sm p-button-danger"
       (click)="visible=false"></button>
     <button pButton pRipple label="Ẩn" icon="pi pi-chevron-circle-down" class="p-button-sm p-button-info" (click)="visible=false"></button> -->
-    <button pButton pRipple label="Tải lên" icon="pi pi-upload" class="p-button-sm p-button-success" (click)="onSave()"></button>
+    <button [loading]="uploading" pButton pRipple label="Tải lên" icon="pi pi-upload" class="p-button-sm p-button-success" (click)="onSave()"></button>
   </ng-template>
 </p-dialog>

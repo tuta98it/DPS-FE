@@ -23,6 +23,7 @@ export class UploadSlideComponent implements OnInit {
     this.visibleChange.emit(value);
     if (value) {
       this.uploadForm.controls['createTime'].setValue(new Date());
+      this.uploading = false;
     } else {
       this.resetUploadForm();
     }
@@ -50,6 +51,8 @@ export class UploadSlideComponent implements OnInit {
   @ViewChild("uploadSlideContainer") uploadSlideContainer!: ElementRef;
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
+
+  uploading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -92,6 +95,7 @@ export class UploadSlideComponent implements OnInit {
   }
 
   preUpload() {
+    this.uploading = true;
     let ext = this.fileName.slice(this.fileName.lastIndexOf("."));
     if (ext != '') {
       ext = ext.toLocaleLowerCase();
@@ -105,6 +109,7 @@ export class UploadSlideComponent implements OnInit {
       }
     }).add(() => {
       this.visible = false;
+      this.uploading = false;
     });
   }
 
