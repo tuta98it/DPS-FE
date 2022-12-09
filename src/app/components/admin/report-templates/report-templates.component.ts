@@ -68,7 +68,8 @@ export class ReportTemplatesComponent implements OnInit {
                     data: {
                         templateId: resData[i].templateId,
                         templateName: resData[i].templateName,
-                        templateExtName: resData[i].templateExtName,
+                        code: resData[i].code,
+            templateExtName: resData[i].templateExtName,
                         hasChild: resData[i].hasChild,
                         parentName: resData[i].parentName,
                         parentId: resData[i].parentId,

@@ -22,6 +22,7 @@ import { TreeDragDropService } from 'primeng/api';
 export class ImportTemplatesComponent implements OnInit, OnChanges {
     _isVisible = false;
     saving = false;
+    importing=false;
     selectedParent = {};
     jsonData = [];
     reportTemplatesImport: TreeNode<any>[] = [];
@@ -59,7 +60,7 @@ export class ImportTemplatesComponent implements OnInit, OnChanges {
         // }
         let formData = new FormData();
         formData.append('files', event.files[0]);
-
+        this.importing=true;
         this.reportTemplateService.import(formData).subscribe({
             next: (res) => {
                 if (res.isValid) {
@@ -78,7 +79,7 @@ export class ImportTemplatesComponent implements OnInit, OnChanges {
                 this.notification.error('Import file thất bại', '');
             },
             complete: () => {},
-        });
+        }).add(()=>{ this.importing=false;});
     }
 
     extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
@@ -138,9 +139,9 @@ export class ImportTemplatesComponent implements OnInit, OnChanges {
         }
     }
 
-    closeDialog() {
+    closeDialog(data:boolean) {
         // if(this.inputFile) this.inputFile.nativeElement.value='';
-        this.isVisibleChange.emit(false);
+        if(!data)this.isVisibleChange.emit(false);
     }
     saveImport() {
         this.saving = true;

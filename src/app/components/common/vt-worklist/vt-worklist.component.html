@@ -188,7 +188,9 @@
               <div>Code</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <p-dropdown [disabled]="!(creatingVisit || editingVisit)" [styleClass]="'w-full'" optionLabel="label" optionValue="value" placeholder="Code" [showClear]="true">
+              <p-dropdown [disabled]="!(creatingVisit || editingVisit)" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" (onChange)="setReportTemplate($event)"
+                [filterBy]="'code,templateName'" optionLabel="label" optionValue="id" [options]="reportTemplates" appendTo="body" placeholder="Chọn mẫu báo cáo" [showClear]="true"
+                [(ngModel)] = "currentReportTemplate" [ngModelOptions]="{standalone: true}">
               </p-dropdown>
             </div>
             <div class="col-4 py-1 pr-0 flex align-items-center">
@@ -213,7 +215,7 @@
               <div>Bác sĩ đọc kết quả</div>
             </div>
             <div class="col-8 py-1 pr-0">
-              <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true"
+              <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" 
                 optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="Bác sĩ đọc kết quả" [showClear]="false">
               </p-dropdown>
             </div>
@@ -230,11 +232,14 @@
               <div class="grid p-0 m-0">
                 <button [disabled]="!patientForm.value.id" pButton pRipple label="View ảnh scan lam" icon="fa-solid fa-microscope" class="p-button p-button-sm mr-2"
                   (click)="openViewer()"></button>
-                <button [loading]="uploadingKeyImage" [disabled]="!patientForm.value.id" #uploadKeyImageContainer pButton pRipple label="Chọn file ảnh" icon="pi pi-paperclip" 
+                <button [disabled]="!patientForm.value.id" pButton pRipple label="Chọn file ảnh" icon="pi pi-paperclip" class="p-button p-button-sm mr-2"
+                  (click)="onCreateKeyImage()"></button>
+                
+                <!-- <button [loading]="uploadingKeyImage" [disabled]="!patientForm.value.id" #uploadKeyImageContainer pButton pRipple label="Chọn file ảnh" icon="pi pi-paperclip" 
                   class="p-button p-button-sm relative overflow-hidden block border-none">
                   <input [disabled]="!patientForm.value.id || uploadingKeyImage" id="dps-upload-key-image" (change)="uploadKeyImage($event)"
                     type="file" class="absolute top-0 right-0 bottom-0 left-0 m-0 p-0 opacity-0 " > 
-                </button>
+                </button> -->
               </div>
               <button pButton pRipple type="button" icon="pi pi-images" class="btn-top flex-none text-2xl font-medium"
                 [disabled]="keyImages.length==0" (click)="visibleKeyImages=true" title="Xóa lọc"></button>
@@ -244,7 +249,7 @@
                 <div *ngFor="let img of keyImages" [title]="img.note"
                   class="inline-block py-1 px-2 cursor-pointer">
                   <img [src]="img.src" class="w-7rem h-7rem">
-                  <div class="w-7rem overflow-hidden text-overflow-ellipsis">{{img.title ? img.title : '&nbsp;'}}</div>
+                  <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
                 </div>
               </div>
             </div>
@@ -286,6 +291,7 @@
 <search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
 <key-images [(visible)]="visibleKeyImages" [images]="keyImages"></key-images>
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
+<upload-key-image [(visible)]="visibleUploadKeyImage" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-key-image>
 <confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'" 
   [cancelLabel]="'Đóng'" [confirmLabel]="'Ok'" (onConfirm)="cancelEdit()"></confirm-dialog>
 <confirm-dialog [(visible)]="visibleConfirmSave" [confirmText]="'Bạn có muốn lưu thay đổi hiện tại trước khi thêm bệnh phẩm mới?'" 

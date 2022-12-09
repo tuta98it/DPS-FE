@@ -1,9 +1,9 @@
 
 
 
-<p-dialog [(visible)]="isVisible" [style]="{width: '1000px',height:'800px'}" header="Import ds mẫu báo cáo" [modal]="true" class="p-fluid" [maximizable]="true">
+<p-dialog [(visible)]="isVisible" (visibleChange)="closeDialog($event)" [style]="{width: '1000px',height:'800px'}" header="Import ds mẫu báo cáo" [modal]="true" class="p-fluid" [maximizable]="true">
     <ng-template pTemplate="content">
-        <p-fileUpload name="demo[]"  [maxFileSize]="10000000" [customUpload]="true" (uploadHandler)="myUploader($event)"
+        <p-fileUpload name="demo[]"   [maxFileSize]="10000000" [customUpload]="true" (uploadHandler)="myUploader($event)"
              accept=".json" >
             <ng-template pTemplate="content">
                 <ul *ngIf="uploadedFiles.length">
@@ -21,6 +21,10 @@
     <div class="grid p-fluid mt-3">
         <div class="col-12 md:col-6">
             <h4>Danh sách mẫu báo cáo đã import</h4>
+            <span *ngIf="importing">
+                <i *ngIf="importing" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
+                Loading...
+              </span>
             <!-- <p-treeSelect *ngIf="reportTemplates.length>0" [options]="reportTemplates" [(ngModel)]="selectedParent" placeholder="Select parent" [showClear]="true" class="w-full"></p-treeSelect> -->
             <p-tree *ngIf="reportTemplatesImport.length>0" [value]="reportTemplatesImport" [draggableNodes]="true" [droppableNodes]="true" droppableScope="importTree" draggableScope="existTree"></p-tree>
         </div>
@@ -44,6 +48,6 @@
 
 
     <ng-template pTemplate="footer">
-      <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600 " (click)="closeDialog()"></button>
+      <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600 " (click)="closeDialog(false)"></button>
     </ng-template>
   </p-dialog>
