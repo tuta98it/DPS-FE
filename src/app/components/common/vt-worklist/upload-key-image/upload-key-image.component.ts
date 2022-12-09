@@ -136,7 +136,7 @@ export class UploadKeyImageComponent implements OnInit {
       createKeyImage: true,
       isPrintKeyImage: this.isPrintKeyImage,
       keyImageTitle: this.uploadForm.value.title,
-      keyImageNote: this.uploadForm.value.note,
+      keyImageNote: this.uploadForm.value.note ?? '',
     }
     this.uploadService.upload(this.file, uploadSlideData, uploadKeyImageData);
     this.resetUploadForm();

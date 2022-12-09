@@ -106,7 +106,7 @@ export class SlideUploadService {
       formData.append('createKeyImage', keyImageData.createKeyImage+'');
       formData.append('isPrintKeyImage', keyImageData.isPrintKeyImage+'');
       formData.append('keyImageTitle', keyImageData.keyImageTitle);
-      formData.append('keyImageNote', keyImageData.keyImageNote+'');
+      formData.append('keyImageNote', keyImageData.keyImageNote);
   
       let xhr2 = new XMLHttpRequest();
       xhr2.onreadystatechange = function () {

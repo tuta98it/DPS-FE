@@ -384,9 +384,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   getKeyImages() {
-    let caseStudyId = this.selectedCaseStudy.caseStudyId;
+    let caseStudyId = new String(this.selectedCaseStudy.caseStudyId);
     if (caseStudyId) {
-      this.keyImageService.getCaseStudyKeyImages(caseStudyId).subscribe({
+      this.keyImageService.getCaseStudyKeyImages(caseStudyId+'').subscribe({
         next: (res) => {
           if (res.isValid) {
             res.jsonData.forEach((i:any) => {
