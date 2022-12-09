@@ -1,12 +1,12 @@
 {
   "api": {
-    "baseUrl": "dps-vt-be.pmr.vn/api",
+    "baseUrl": "dpstest2-be.pmr.vn/api",
     "fileUrl": "dps-vt-be.pmr.vn/Files"
   },
   "deepzoom": {
     "baseUrl": "dps-vt-dz.pmr.vn"
   },
-  "layout": "VT", 
+  "layout": "VT",
   "slogan": {
     "content": "Chính sức khỏe mới là sự giàu có thực sự, không phải vàng bạc",
     "author": "Mahathma"
