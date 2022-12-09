@@ -59,16 +59,16 @@ export class ReportTemplatesComponent implements OnInit {
             });
     }
 
-    extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
-        if (resData) {
-            for (let i = 0; i < resData.length; ++i) {
-                let newNode: TreeNode = {
-                    label: resData[i].templateName,
-                    key: resData[i].templateId,
-                    data: {
-                        templateId: resData[i].templateId,
-                        templateName: resData[i].templateName,
-                        code: resData[i].code,
+  extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
+    if (resData) {
+      for (let i=0; i<resData.length; ++i) {
+        let newNode: TreeNode = {
+          label: resData[i].templateName,
+          key: resData[i].templateId,
+          data: {
+            templateId: resData[i].templateId,
+            templateName: resData[i].templateName,
+            code: resData[i].code,
             templateExtName: resData[i].templateExtName,
                         hasChild: resData[i].hasChild,
                         parentName: resData[i].parentName,

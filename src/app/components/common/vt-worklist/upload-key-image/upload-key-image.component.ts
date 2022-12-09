@@ -64,7 +64,7 @@ export class UploadKeyImageComponent implements OnInit {
     private uploadService: SlideUploadService,
     private authState: AuthStateService,
     private markTypeService: MarkTypeService,
-  ) { 
+  ) {
 
     this.uploadForm = this.fb.group({
       createTime: [new Date(), [Validators.required]],
@@ -72,7 +72,7 @@ export class UploadKeyImageComponent implements OnInit {
       title: ['', [Validators.required]],
       note: [''],
     });
-    
+
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
       this.currentUser = m;
     });
@@ -136,7 +136,7 @@ export class UploadKeyImageComponent implements OnInit {
       createKeyImage: true,
       isPrintKeyImage: this.isPrintKeyImage,
       keyImageTitle: this.uploadForm.value.title,
-      keyImageNote: this.uploadForm.value.note,
+      keyImageNote: this.uploadForm.value.note ?? '',
     }
     this.uploadService.upload(this.file, uploadSlideData, uploadKeyImageData);
     this.resetUploadForm();
@@ -158,7 +158,7 @@ export class UploadKeyImageComponent implements OnInit {
         }
       }
     });
-  } 
+  }
 
   onUpload(event: any) {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');

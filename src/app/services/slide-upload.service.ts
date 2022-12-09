@@ -36,7 +36,7 @@ export class SlideUploadService {
       },
     );
   }
-  
+
   upload(fileParam: any, dataParam: any, keyImageData=INIT_UPLOAD_KEY_IMAGE_DATA) {
     let file = new File([fileParam], fileParam.name, { type: fileParam.type });
     let data = JSON.parse(JSON.stringify(dataParam));
@@ -92,7 +92,7 @@ export class SlideUploadService {
     }
     function uploadComplete() {
       let formData = new FormData();
-      
+
       formData.append('fileName', data.newFileName);
       formData.append('originFileName', data.fileName);
       formData.append('fileSize', file.size.toString()); // in byte
@@ -106,8 +106,8 @@ export class SlideUploadService {
       formData.append('createKeyImage', keyImageData.createKeyImage+'');
       formData.append('isPrintKeyImage', keyImageData.isPrintKeyImage+'');
       formData.append('keyImageTitle', keyImageData.keyImageTitle);
-      formData.append('keyImageNote', keyImageData.keyImageNote+'');
-  
+      formData.append('keyImageNote', keyImageData.keyImageNote);
+
       let xhr2 = new XMLHttpRequest();
       xhr2.onreadystatechange = function () {
         if (xhr2.readyState == XMLHttpRequest.DONE) {

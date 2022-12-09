@@ -64,20 +64,21 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
 
   onFirebaseMessage(message: any) {
     if (message) {
+      // this.getKeyImagesTrigger += 1;
       this.notification.firebase(message.data.title, message.data.message);
       let fileData = JSON.parse(message.data.otherInfo);
       let uploadId = fileData.OriginFileName.split('.')[0];
-      let state = message.data.type == Constants.UPLOAD_PROCESS_TYPE.PROCESS_DONE ? 
+      let state = message.data.type == Constants.UPLOAD_PROCESS_TYPE.PROCESS_DONE ?
         Constants.UPLOAD_STATUS.COMPLETED : Constants.UPLOAD_STATUS.ERROR;
       this.notificationState.updateState(uploadId, state);
       if (state == Constants.UPLOAD_STATUS.COMPLETED) {
         if (this.layoutConfig == this.LAYOUT_CONFIG.DEFAULT) {
           this.worklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
         } else if (this.layoutConfig == this.LAYOUT_CONFIG.VT) {
-          this.VTWorklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
-          // setTimeout(() => {
-          //   this.VTWorklist.getKeyImages();
-          // }, 1000);
+          this.VTWorklist.getKeyImages();
+          setTimeout(() => {
+            this.VTWorklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
+          }, 100);
         }
       }
     }

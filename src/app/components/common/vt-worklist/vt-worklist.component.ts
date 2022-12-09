@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
@@ -53,7 +53,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   deletedCaseStudyId = '';
   textConfirmDeleteCase = '';
   isVisibleDeleteCase = false;
-  
+
   totalRelated = 0;
   loadingRelated = false;
   relatedTableHeight = 200;
@@ -81,7 +81,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
-  
+
   visiblePrintPreview = false;
   isDirty = {
     patientForm: true,
@@ -111,7 +111,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     public userService: UserService,
     public reportTemplateService: ReportTemplateService,
     private notification: NotificationService,
-  ) { 
+  ) {
     this._authSubscription = this.authState.subscribe((m: IAuthModel) => {
       this.currentUser = m;
     });
@@ -123,7 +123,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     });
     this.isSmallScreen = window.innerWidth < 1600;
     this.initForm();
-    this.FILE_URL = this.configService.getConfig().api.fileUrl; 
+    this.FILE_URL = this.configService.getConfig().api.fileUrl;
     this.getDoctors();
     this.getReportTemplates();
   }
@@ -246,9 +246,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   saveVisit(isApprove=false) {
     this.saving = true;
-    let state = parseInt(Constants.REPORT_STATES[2].value) 
+    let state = parseInt(Constants.REPORT_STATES[2].value)
     if (isApprove || this.reportForm.value.state == Constants.REPORT_STATES[4].value) {
-      state = parseInt(Constants.REPORT_STATES[4].value) 
+      state = parseInt(Constants.REPORT_STATES[4].value)
     }
     let payload = {
       caseStudy: { ...this.caseStudyForm.value, isDirty: this.isDirty.caseStudyForm, },
@@ -269,7 +269,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           this.caseStudyForm.patchValue({
             ...res.jsonData.caseStudy,
             createTime: new Date(res.jsonData.caseStudy.createdTime),
-            specimensDate: res.jsonData.caseStudy.specimensDate ? 
+            specimensDate: res.jsonData.caseStudy.specimensDate ?
               new Date(res.jsonData.caseStudy.specimensDate) : null,
           });
           this.reportForm.patchValue(res.jsonData.report);
@@ -353,7 +353,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           this.caseStudyForm.patchValue({
             ...res.jsonData,
             createTime: new Date(res.jsonData.createdTime),
-            specimensDate: res.jsonData.specimensDate ? 
+            specimensDate: res.jsonData.specimensDate ?
               new Date(res.jsonData.specimensDate) : null,
           });
         }
@@ -371,9 +371,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
               caseStudyId: res.jsonData[0].caseStudyId,
               microbodyDescribe: Utils.extractContent(res.jsonData[0].microbodyDescribe),
               consultation: Utils.extractContent(res.jsonData[0].consultation),
-              diagnose: Utils.extractContent(res.jsonData[0].diagnose), 
-              readDoctor: res.jsonData[0].readDoctorId, 
-              state: res.jsonData[0].state, 
+              diagnose: Utils.extractContent(res.jsonData[0].diagnose),
+              readDoctor: res.jsonData[0].readDoctorId,
+              state: res.jsonData[0].state,
             });
           } else {
             this.reportForm.reset(INIT_REPORT);
@@ -384,9 +384,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   getKeyImages() {
-    let caseStudyId = this.selectedCaseStudy.caseStudyId;
+    let caseStudyId = new String(this.selectedCaseStudy.caseStudyId);
     if (caseStudyId) {
-      this.keyImageService.getCaseStudyKeyImages(caseStudyId).subscribe({
+      this.keyImageService.getCaseStudyKeyImages(caseStudyId+'').subscribe({
         next: (res) => {
           if (res.isValid) {
             res.jsonData.forEach((i:any) => {
@@ -507,7 +507,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.search();
     }
   }
-  
+
   getPatient() {
     this.patientService.getById(this.selectedCaseStudy.patientId).subscribe({
       next: (res) => {
@@ -547,7 +547,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
         if (res.isValid) {
           this.reportTemplates = res.jsonData;
           this.reportTemplates.forEach(t => {
-            t.label = t.code + ' - ' + t.templateName; 
+            t.label = t.code + ' - ' + t.templateName;
           });
         }
       }
