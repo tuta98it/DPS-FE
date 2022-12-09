@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
+import { IUploadKeyImageData } from 'src/app/models/upload-key-image-data';
 import { INIT_UPLOAD_SLIDE_DATA } from 'src/app/models/upload-slide-data';
 import { MarkTypeService } from 'src/app/services/mark-type.service';
 import { SlideUploadService } from 'src/app/services/slide-upload.service';
@@ -24,6 +25,7 @@ export class UploadKeyImageComponent implements OnInit {
     if (value) {
       this.uploadForm.controls['createTime'].setValue(new Date());
       this.uploading = false;
+      this.isPrintKeyImage = true;
     } else {
       this.resetUploadForm();
     }
@@ -54,6 +56,8 @@ export class UploadKeyImageComponent implements OnInit {
 
   uploading = false;
 
+  isPrintKeyImage = true;
+
   constructor(
     private fb: FormBuilder,
     private notification: NotificationService,
@@ -65,6 +69,8 @@ export class UploadKeyImageComponent implements OnInit {
     this.uploadForm = this.fb.group({
       createTime: [new Date(), [Validators.required]],
       markerType: ['', [Validators.required]],
+      title: ['', [Validators.required]],
+      note: [''],
     });
     
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
@@ -125,7 +131,14 @@ export class UploadKeyImageComponent implements OnInit {
     uploadSlideData.createTime = this.uploadForm.value.createTime;
     uploadSlideData.userId = this.currentUser.userId!;
     uploadSlideData.userName = this.currentUser.userName!;
-    this.uploadService.upload(this.file, uploadSlideData, true);
+
+    let uploadKeyImageData : IUploadKeyImageData = {
+      createKeyImage: true,
+      isPrintKeyImage: this.isPrintKeyImage,
+      keyImageTitle: this.uploadForm.value.title,
+      keyImageNote: this.uploadForm.value.note,
+    }
+    this.uploadService.upload(this.file, uploadSlideData, uploadKeyImageData);
     this.resetUploadForm();
   }
 

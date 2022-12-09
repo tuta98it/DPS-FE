@@ -273,6 +273,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
               new Date(res.jsonData.caseStudy.specimensDate) : null,
           });
           this.reportForm.patchValue(res.jsonData.report);
+          this.selectedCaseStudy = {
+            caseStudyId: res.jsonData.caseStudy.id
+          };
         }
       }
     }).add(() => {

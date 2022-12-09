@@ -75,7 +75,9 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
           this.worklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
         } else if (this.layoutConfig == this.LAYOUT_CONFIG.VT) {
           this.VTWorklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
-          // this.VTWorklist.getKeyImages();
+          // setTimeout(() => {
+          //   this.VTWorklist.getKeyImages();
+          // }, 1000);
         }
       }
     }

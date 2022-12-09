@@ -24,9 +24,6 @@ export class UploadSlideComponent implements OnInit {
     if (value) {
       this.uploadForm.controls['createTime'].setValue(new Date());
       this.uploading = false;
-      if (this.createKeyImage) {
-        this.uploadForm.controls['isMotic'].setValue(this.MACHINE_TYPES[2].value);
-      }
     } else {
       this.resetUploadForm();
     }
@@ -46,7 +43,6 @@ export class UploadSlideComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<any>();
   header = '';
   @Input() caseStudyId = new String('');
-  @Input() createKeyImage = false;
 
   uploadForm: FormGroup;
   markTypes: any[] = [];
@@ -130,7 +126,7 @@ export class UploadSlideComponent implements OnInit {
     uploadSlideData.createTime = this.uploadForm.value.createTime;
     uploadSlideData.userId = this.currentUser.userId!;
     uploadSlideData.userName = this.currentUser.userName!;
-    this.uploadService.upload(this.file, uploadSlideData, this.createKeyImage);
+    this.uploadService.upload(this.file, uploadSlideData);
     this.resetUploadForm();
   }
 

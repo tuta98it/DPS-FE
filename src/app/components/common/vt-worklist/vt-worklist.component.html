@@ -249,7 +249,7 @@
                 <div *ngFor="let img of keyImages" [title]="img.note"
                   class="inline-block py-1 px-2 cursor-pointer">
                   <img [src]="img.src" class="w-7rem h-7rem">
-                  <div class="w-7rem overflow-hidden text-overflow-ellipsis">{{img.title ? img.title : '&nbsp;'}}</div>
+                  <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
                 </div>
               </div>
             </div>

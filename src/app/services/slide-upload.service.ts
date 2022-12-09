@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { INIT_UPLOAD_KEY_IMAGE_DATA } from '../models/upload-key-image-data';
 import { AppConfigService } from '../shared/app-config.service';
 import { NotificationStateService } from '../shared/app-state/notification-state.service';
 import { Constants } from '../shared/constants/constants';
@@ -36,7 +37,7 @@ export class SlideUploadService {
     );
   }
   
-  upload(fileParam: any, dataParam: any, createKeyImage=false) {
+  upload(fileParam: any, dataParam: any, keyImageData=INIT_UPLOAD_KEY_IMAGE_DATA) {
     let file = new File([fileParam], fileParam.name, { type: fileParam.type });
     let data = JSON.parse(JSON.stringify(dataParam));
     let chunkCount = 0;
@@ -102,7 +103,10 @@ export class SlideUploadService {
       formData.append('createTime', data.createTime);
       formData.append('userId', data.userId!);
       formData.append('username', data.userName!);
-      formData.append('createKeyImage', createKeyImage+'');
+      formData.append('createKeyImage', keyImageData.createKeyImage+'');
+      formData.append('isPrintKeyImage', keyImageData.isPrintKeyImage+'');
+      formData.append('keyImageTitle', keyImageData.keyImageTitle);
+      formData.append('keyImageNote', keyImageData.keyImageNote+'');
   
       let xhr2 = new XMLHttpRequest();
       xhr2.onreadystatechange = function () {
