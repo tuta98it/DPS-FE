@@ -89,11 +89,11 @@ export class CaseStudyTableComponent implements OnInit {
     ];
   }
 
-  onRowSelect(event: any) {
-    if (event.originalEvent.detail == 1) {
+  onRowSelect(event: any, data: any) {
+    if (event.detail == 1) {
       this.clickTimer = setTimeout(() => {
-        this.selectedCaseStudy = event.data;
-        this.onSelectCaseStudy.emit(event.data);
+        this.selectedCaseStudy = data;
+        this.onSelectCaseStudy.emit(data);
       }, 300)
     }
   }

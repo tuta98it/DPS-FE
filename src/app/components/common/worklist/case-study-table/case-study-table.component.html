@@ -1,8 +1,7 @@
 <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
   [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
-  selectionMode="single" (onRowSelect)="onRowSelect($event)"
-  [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand"
-  >
+  selectionMode="single" [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" 
+  dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand">
   <ng-template pTemplate="header">
     <tr class="text-blue-900">
       <th class="flex flex-none bg-white" [style]="{'width':'50px'}">STT</th>
@@ -14,7 +13,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData>
-    <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData"
+    <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData" (click)="onRowSelect($event, rowData)"
       (dblclick)="openViewer(rowData)"
       [ngClass]="{'bg-grid': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
         'surface-200':rowData['idx']==selectedCaseStudy['idx'],

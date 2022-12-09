@@ -346,7 +346,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             ...res.jsonData,
             createTime: new Date(res.jsonData.createdTime),
             specimensDate: res.jsonData.specimensDate ? 
-              new Date(res.jsonData.caseStudy.specimensDate) : null,
+              new Date(res.jsonData.specimensDate) : null,
           });
         }
       }
