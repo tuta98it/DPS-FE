@@ -10,11 +10,11 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
-  selector: 'upload-slide',
-  templateUrl: './upload-slide.component.html',
-  styleUrls: ['./upload-slide.component.scss']
+  selector: 'upload-key-image',
+  templateUrl: './upload-key-image.component.html',
+  styleUrls: ['./upload-key-image.component.scss']
 })
-export class UploadSlideComponent implements OnInit {
+export class UploadKeyImageComponent implements OnInit {
   MACHINE_TYPES = Constants.MACHINE_TYPES;
 
   _visible = false;
@@ -24,9 +24,6 @@ export class UploadSlideComponent implements OnInit {
     if (value) {
       this.uploadForm.controls['createTime'].setValue(new Date());
       this.uploading = false;
-      if (this.createKeyImage) {
-        this.uploadForm.controls['isMotic'].setValue(this.MACHINE_TYPES[2].value);
-      }
     } else {
       this.resetUploadForm();
     }
@@ -38,7 +35,7 @@ export class UploadSlideComponent implements OnInit {
   _patientName = '';
   @Input() set patientName(value: string) {
     this._patientName = value;
-    this.header = `Thêm lam kính - Bệnh nhân ${this.patientName}`;
+    this.header = `Thêm hình ảnh - Bệnh nhân ${this.patientName}`;
   }
   get patientName() {
     return this._patientName;
@@ -46,7 +43,6 @@ export class UploadSlideComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<any>();
   header = '';
   @Input() caseStudyId = new String('');
-  @Input() createKeyImage = false;
 
   uploadForm: FormGroup;
   markTypes: any[] = [];
@@ -69,7 +65,6 @@ export class UploadSlideComponent implements OnInit {
     this.uploadForm = this.fb.group({
       createTime: [new Date(), [Validators.required]],
       markerType: ['', [Validators.required]],
-      isMotic: ['', [Validators.required]],
     });
     
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
@@ -126,11 +121,11 @@ export class UploadSlideComponent implements OnInit {
     uploadSlideData.patientName = this.patientName;
     uploadSlideData.caseStudyId = this.caseStudyId.toString();
     uploadSlideData.markerType = this.uploadForm.value.markerType;
-    uploadSlideData.isMotic = this.uploadForm.value.isMotic;
+    uploadSlideData.isMotic = this.MACHINE_TYPES[2].value;
     uploadSlideData.createTime = this.uploadForm.value.createTime;
     uploadSlideData.userId = this.currentUser.userId!;
     uploadSlideData.userName = this.currentUser.userName!;
-    this.uploadService.upload(this.file, uploadSlideData, this.createKeyImage);
+    this.uploadService.upload(this.file, uploadSlideData, true);
     this.resetUploadForm();
   }
 

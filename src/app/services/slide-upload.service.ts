@@ -36,7 +36,7 @@ export class SlideUploadService {
     );
   }
   
-  upload(fileParam: any, dataParam: any) {
+  upload(fileParam: any, dataParam: any, createKeyImage=false) {
     let file = new File([fileParam], fileParam.name, { type: fileParam.type });
     let data = JSON.parse(JSON.stringify(dataParam));
     let chunkCount = 0;
@@ -102,6 +102,7 @@ export class SlideUploadService {
       formData.append('createTime', data.createTime);
       formData.append('userId', data.userId!);
       formData.append('username', data.userName!);
+      formData.append('createKeyImage', createKeyImage+'');
   
       let xhr2 = new XMLHttpRequest();
       xhr2.onreadystatechange = function () {

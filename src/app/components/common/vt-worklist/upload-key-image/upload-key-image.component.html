@@ -1,0 +1,35 @@
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="header" [modal]="true"
+  class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="patient-info-container overflow-auto">
+      <div class="grid mx-0 p-1" [formGroup]="uploadForm">
+        <div class="field col-12 px-0 pb-0">
+          <p-calendar formControlName="createTime" [showTime]="true" [showIcon]="true" appendTo="body" placeholder="Thời gian tạo*"
+            inputStyleClass="w-full p-inputtext-sm text-base" [dateFormat]="'dd/mm/yy'"></p-calendar>
+        </div>
+        <div class="field col-12 p-0">
+          <p-dropdown formControlName="markerType" optionLabel="name" optionValue="id" appendTo="body"
+            [options]="markTypes" placeholder="Phương pháp nhuộm*" [showClear]="true">
+          </p-dropdown>
+          <div class="m-error" *ngIf="uploadForm.controls['markerType'].invalid && uploadForm.controls['markerType'].dirty">
+            *Phương pháp nhuộm không được để trống
+          </div>
+        </div>
+        <div class="col-9 px-0 pt-0">
+          <input pInputText readonly="true" type="text" class="w-full text-base" [value]="fileName" placeholder="*Chưa chọn file">
+        </div>
+        <div #uploadSlideContainer class="col-3 pr-0 pt-0">
+          <span class="relative overflow-hidden block">
+            <span class="w-full h-3rem flex justify-content-center align-items-center bg-primary border-round-md text-base">Chọn file</span>
+            <input id="dps-upload-slide" type="file" class="absolute top-0 right-0 bottom-0 left-0 m-0 p-0 opacity-0 " (change)="onUpload($event)"> 
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-sm p-button-danger"
+      (click)="visible=false"></button>
+    <button [loading]="uploading" pButton pRipple label="Tải lên" icon="pi pi-upload" class="p-button-sm p-button-success" (click)="onSave()"></button>
+  </ng-template>
+</p-dialog>
