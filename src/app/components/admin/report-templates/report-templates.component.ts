@@ -13,17 +13,19 @@ import { NotificationService } from 'src/app/shared/notification.service';
 })
 export class ReportTemplatesComponent implements OnInit {
     reportTemplates: TreeNode[] = [];
-    isVisibleImportDialog=false;
+    uploadedFiles: any[] = [];
+    isVisibleImportDialog = false;
     loading = false;
     saving = false;
     isExporting = false;
+    isImporting = false;
     deleting = false;
     text = '';
     currentTemplate = JSON.parse(JSON.stringify(INIT_REPORT_TEMPLATE));
     selectedParent: TreeNode | null = null;
     isVisibleDeleteItemDialog = false;
     textConfirmDelete = '';
-    test: TreeNode<any>[]=[];
+    jsonData = [];
 
     constructor(
         private reportTemplateService: ReportTemplateService,
@@ -44,47 +46,17 @@ export class ReportTemplatesComponent implements OnInit {
                     // console.log(res.jsonData);
 
                     if (res.isValid) {
-                        this.extractReportTemplates(
+                        this.reportTemplateService.extractReportTemplates(
                             res.jsonData,
                             this.reportTemplates
                         );
-                        console.log(this.reportTemplates);
-
-
+                        // console.log(this.reportTemplates);
                     }
                 },
             })
             .add(() => {
                 this.loading = false;
             });
-    }
-
-  extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
-    if (resData) {
-      for (let i=0; i<resData.length; ++i) {
-        let newNode: TreeNode = {
-          label: resData[i].templateName,
-          key: resData[i].templateId,
-          data: {
-            templateId: resData[i].templateId,
-            templateName: resData[i].templateName,
-            code: resData[i].code,
-            templateExtName: resData[i].templateExtName,
-                        hasChild: resData[i].hasChild,
-                        parentName: resData[i].parentName,
-                        parentId: resData[i].parentId,
-                        microbodyDescribe: resData[i].microbodyDescrible,
-                        diagnose: resData[i].diagnose,
-                        discuss: resData[i].discuss,
-                        recommendation: resData[i].recommendation,
-                        consultation: resData[i].consultaion,
-                    },
-                    children: [],
-                };
-                this.extractReportTemplates(resData[i].child, newNode.children);
-                extractedData?.push(newNode);
-            }
-        }
     }
 
     selectTemplate(event: any) {
@@ -183,7 +155,10 @@ export class ReportTemplatesComponent implements OnInit {
     updateReportTemplates(resData: any[]) {
         this.loading = true;
         this.reportTemplates = [];
-        this.extractReportTemplates(resData, this.reportTemplates);
+        this.reportTemplateService.extractReportTemplates(
+            resData,
+            this.reportTemplates
+        );
         this.loading = false;
     }
 
@@ -212,5 +187,58 @@ export class ReportTemplatesComponent implements OnInit {
                 this.isExporting = false;
             },
         });
+    }
+    onNodeDrop(data: any) {
+        this.reportTemplateService.deExtractReportTemplates(
+            this.reportTemplates,
+            this.jsonData
+        );
+        console.log(this.jsonData);
+        this.loading = true;
+        this.reportTemplateService
+            .updateAll({ jsonData: this.jsonData })
+            .subscribe({
+                next: (res) => {
+                    if (res.isValid) {
+                        this.getAll();
+                        this.notification.success('Cập nhật thành công', '');
+                    } else {
+                        this.notification.success('Có lỗi xảy ra', '');
+                    }
+                },
+                error: (error) => {
+                    this.notification.error('Có lỗi xảy ra', '');
+                },
+            })
+            .add(() => {
+                this.loading = false;
+            });
+        // console.log(this.jsonData);
+    }
+
+    myUploader(event: { files: any }) {
+        let formData = new FormData();
+        formData.append('files', event.files[0]);
+        this.isImporting = true;
+        this.reportTemplateService
+            .import(formData)
+            .subscribe({
+                next: (res) => {
+                    if (res.isValid) {
+                        this.notification.success('Import file thành công', '');
+                        this.getAll();
+                    } else {
+                        this.notification.error('Import file thất bại', '');
+                    }
+                },
+
+                error: (error) => {
+                    this.notification.error('Import file thất bại', '');
+                },
+                complete: () => {},
+            })
+            .add(() => {
+                this.isImporting = false;
+            });
     }
 }
