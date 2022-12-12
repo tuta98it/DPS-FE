@@ -201,6 +201,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.getCaseStudy();
       this.getCaseStudyReports();
       this.getKeyImages();
+    } else {
+      this.notification.warn('Bạn đang nhập dữ liệu', 'Vui lòng Lưu hoặc Hủy trước khi chuyển sang ca bệnh khác');
     }
   }
 
