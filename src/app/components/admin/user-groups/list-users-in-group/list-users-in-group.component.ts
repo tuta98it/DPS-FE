@@ -20,7 +20,7 @@ export class ListUsersInGroupComponent implements OnInit {
   loading = false;
   selectedUser = INIT_AUTH_MODEL;
   filteredUsers: any[] = [];
-  
+
   _groupId = '';
   @Input() set groupId(value: string) {
     this._groupId = value;
@@ -116,5 +116,5 @@ export class ListUsersInGroupComponent implements OnInit {
         }
       }
     });
-  } 
+  }
 }

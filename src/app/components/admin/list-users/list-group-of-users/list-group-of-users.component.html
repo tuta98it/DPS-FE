@@ -1,16 +1,24 @@
-<div class="grid mt-0">
-    <div class="col-9 pb-0">
-      <!-- <p-autoComplete [(ngModel)]="selectedUser" [showEmptyMessage]="true" [suggestions]="filteredUsers" [showClear]="true"
-        (onClear)="selectedUser={}" [placeholder]="'Tìm kiếm user'" appendTo="body"
-        (completeMethod)="filterUser($event)" field="label" [minLength]="1" inputStyleClass="p-inputtext-sm"></p-autoComplete> -->
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách nhóm của tài khoản...'" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="grid mt-0">
+      <div class="col-9 pb-0">
+        <p-autoComplete [(ngModel)]="selectedGroup" [showEmptyMessage]="true" [suggestions]="filteredGroups" [showClear]="true"
+        (onClear)="selectedGroup={}" [placeholder]="'Tìm kiếm group'"  appendTo="body"
+        (completeMethod)="filterGroup($event)" field="label" [minLength]="1" inputStyleClass="p-inputtext-sm"></p-autoComplete>
+      </div>
+      <div class="col-3 pb-0">
+        <button  pButton pRipple icon="pi pi-plus" class="p-button-sm" label="Thêm group" (click)="addGroup()"></button>
+      </div>
+      <div class="col-12 pb-0">
+        <m-table [isLazyLoad]="false" [cols]="cols" [items]="groups" (onDeleteItem)="onDeleteItem($event)"
+          [dataKey]="'id'" [loading]="loading" [actions]="[ACTIONS.DELETE]"></m-table>
+      </div>
     </div>
-    <div class="col-3 pb-0">
-      <!-- <button [disabled]="!selectedUser.userId" pButton pRipple icon="pi pi-plus" class="p-button-sm" label="Thêm group" ></button> -->
-    </div>
-    <div class="col-12 pb-0">
-      <!-- <m-table [isLazyLoad]="false" [cols]="cols" [items]="users" (onDeleteItem)="onDeleteItem($event)"
-        [dataKey]="'id'" [loading]="loading" [actions]="[ACTIONS.DELETE]"></m-table> -->
-    </div>
-</div>
-  <!-- <confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="removeUser()"></confirm-dialog> -->
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="visible=false"></button>
+  </ng-template>
+</p-dialog>
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="removeGroup()"></confirm-dialog>
+
 

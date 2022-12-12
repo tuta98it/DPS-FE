@@ -19,10 +19,10 @@
           <button pButton pRipple label="Tạo tài khoản" icon="pi pi-plus" class="p-button-success p-button-sm" (click)="onCreatUser()"></button>
         </div>
       </div>
-      <m-table [isLazyLoad]="false" [items]="users" [dataKey]="'id'" [loading]="loading" [customBodyTemplate]="customBodyTemplate"
-        [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)">
-        <!-- <div>test</div> -->
+      <m-table [isLazyLoad]="false" [cols]="cols" [items]="users" [take]="searchData.take" (selectRow)="selectUser($event)"   [customBodyTemplate]="customBodyTemplate"
+        [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)" [totalRecords]="total" [dataKey]="'id'" [loading]="loading">
       </m-table>
+        <!-- <div>test</div> -->
       <ng-template #customHeaderTemplate>
         <th *ngFor="let col of cols; let i = index" [style.minWidth]="col['width']">{{col['header']}}</th>
         <th style="min-width: 5rem" class="text-center">Enable</th>
@@ -43,12 +43,12 @@
     </div>
 <!-- thêm user -->
     <p-dialog [(visible)]="isVisibleUserDialog" [style]="{width: '450px'}" [header]="userDialogHeader"  [modal]="true" class="p-fluid">
-        <ng-template pTemplate="content">
+      <ng-template pTemplate="content">
           <form [formGroup]="usersForm">
-            <div class="field">
-              <label for="fullName"><strong>Họ và tên</strong></label>
-              <input type="text" pInputText id="fullName" placeholder="Họ và tên..."  formControlName="fullName" required autofocus/>
-            </div>
+      <div class="field">
+        <label for="fullName"><strong>Họ và tên</strong></label>
+        <input type="text" pInputText id="fullName" placeholder="Họ và tên..."  formControlName="fullName" required autofocus/>
+      </div>
             <div class="field">
                 <label for="phoneNo"><strong>Số điện thoại</strong></label>
                 <input type="tel" pInputText id="phoneNo" placeholder="09..." formControlName="phoneNo"  autofocus/>
@@ -88,7 +88,7 @@
           <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserDialog=false"></button>
           <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()" ></button>
         </ng-template>
-      </p-dialog>
+    </p-dialog>
 <!-- sửa thông tin user -->
 <p-dialog [(visible)]="isVisibleUserEdit" [style]="{width: '450px'}" [header]="userDialogHeader"  [modal]="true" class="p-fluid">
     <ng-template pTemplate="content">
@@ -119,14 +119,7 @@
 <!-- confirm disable -->
     <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser" [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()" (onCancel)="cancelDisable()"></confirm-dialog>
 <!-- Danh sách group trong DS user -->
-    <p-dialog [(visible)]="isVisibleListGroups" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách group của user'" [modal]="true" class="p-fluid">
-        <ng-template pTemplate="content">
-          <list-group-of-users [userId]="selectedUser.id"  ></list-group-of-users>
-        </ng-template>
-        <ng-template pTemplate="footer">
-          <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleListGroups=false"></button>
-        </ng-template>
-      </p-dialog>
+<list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"  ></list-group-of-users>
   </div>
 </div>
 

@@ -19,13 +19,4 @@ export class UserService extends BaseService {
   updateDisable(id: any): Observable<any> {
     return this.get(`${this.url}/Disable/${id}`, id);
   }
-
-
-//   addUser(userId: string, groupId: string) {
-//     let payload = { userId, groupId };
-//     return this.post(`${this.url}/AddUser`, payload); /api/User/Register
-//   }
-//   updateUserRoles(groupId: string, roleIds: string[]) {
-//     return this.post(`${this.url}/Role/${groupId}`, { roleIds });
-//   }
 }

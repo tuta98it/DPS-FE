@@ -1,4 +1,4 @@
-import { Component,Input, OnInit } from '@angular/core';
+import { Component,Input,EventEmitter, Output, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { UserGroupService } from 'src/app/services/user-group.service';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -11,13 +11,38 @@ import { Constants } from 'src/app/shared/constants/constants';
   styleUrls: ['./list-group-of-users.component.scss']
 })
 export class ListGroupOfUsersComponent implements OnInit {
-    @Input() userId = '';
-    loading= false;
+    ACTIONS = Constants.ACTIONS;
     cols:any[] = [];
+    groups: any = [];
+    isVisibleDeleteItemDialog = false;
+    textConfirmDelete = '';
+    deletedItem: any = {};
+    loading = false;
     filteredGroups: any[] = [];
     selectedGroup = INIT_AUTH_MODEL;
-    groups: any = [];
 
+    _userId = '';
+    @Input() set userId(value: string) {
+      this._userId = value;
+      if (value) {
+        this.getListGroup();
+      }
+    }
+    get userId() {
+      return this._userId;
+
+    }
+
+    _visible = false;
+  @Input() set visible(value: boolean) {
+    this._visible = value;
+    this.visibleChange.emit(value);
+    this.selectedGroup = INIT_AUTH_MODEL;
+  }
+  get visible() {
+    return this._visible;
+  }
+  @Output() visibleChange = new EventEmitter<any>();
 
 
 
@@ -33,13 +58,13 @@ export class ListGroupOfUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getListGroup();
   }
 
   getListGroup() {
     this.loading = true;
-    this.userService.getUsers(this.userId).subscribe({
+    this.userGroupService.getListGroup(this.userId).subscribe({
       next: (res) => {
+        console.log("listgroup",res.jsonData)
         if (res.isValid) {
           this.groups = res.jsonData;
         }
@@ -48,34 +73,61 @@ export class ListGroupOfUsersComponent implements OnInit {
       this.loading = false
     });
   }
-//   addGroup() {
-//     this.userGroupService.addUser(this.selectedGroup?.groupId ?? '', this.userId).subscribe({
-//       next: (res) => {
-//         if (res.isValid) {
-//           this.notification.success('Thêm user thành công', '');
-//           this. getListGroup();
-//         }
-//       }
-//     });
-//   }
+  addGroup() {
+    console.log('userId', this._userId);
+    this.userGroupService.addUser(this.userId,"" ).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Thêm Group thành công', '');
+          this. getListGroup();
+        }
+      }
+    });
+  }
+  onDeleteItem(item: any) {
+    this.userGroupService.removeUser(this.deletedItem.id, this.userId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Cập nhật thành công', '');
+          this.isVisibleDeleteItemDialog = false;
+          this. getListGroup();
+        }
+      }
+    });
+  }
+
+  removeGroup() {
+    this.userGroupService.removeUser(this.deletedItem.id, this.userId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Cập nhật thành công', '');
+          this.isVisibleDeleteItemDialog = false;
+          this.getListGroup();
+        }
+      }
+    });
+  }
+
   filterGroup(data:any) {
     let payload = {
         skip: 0,
         take: 10,
         keyword: data.query
       }
-      this.userGroupService.search(payload).subscribe({
+      this.userGroupService.searchGroup(payload).subscribe({
         next: (res) => {
+          console.log(res.jsonData.data);
           if (res.isValid) {
             this.filteredGroups = [];
-            res.jsonData.forEach((u:any) => {
+            res.jsonData.data.forEach((u:any) => {
               this.filteredGroups.push({
-                groupId: u.id,
+                id: u.id,
                 name: u.name,
                 desc: u.desc,
                 label: u.name + ' - ' + u.desc
               });
             });
+            console.log('filter',this.filteredGroups );
           }
         }
       });
