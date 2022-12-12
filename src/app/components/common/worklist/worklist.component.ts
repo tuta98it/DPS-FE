@@ -47,7 +47,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   @Input() selectedLayout = Constants.LAYOUT.FULL;
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
   isShowRelated = true;
-  panelSizes = [100/3, 100/3, 100/3];
+  panelSizes = [40, 20, 40];
   reportPanelHeight = 0;
   isSmallScreen = true;
   constructor(

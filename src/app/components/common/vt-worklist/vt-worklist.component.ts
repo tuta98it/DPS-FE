@@ -36,7 +36,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   caseStudies: any = [];
   totalCaseStudies = 0;
   loading = false;
-  tableHeight = 200;
   lastMaxStart = -1;
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
@@ -61,11 +60,13 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   totalRelated = 0;
   loadingRelated = false;
-  relatedTableHeight = 200;
   relatedCaseStudies: any = [];
 
+  //UI default sizes
+  tableHeight = 200; //pixel
+  relatedTableHeight = 100; //pixel
   isSmallScreen = true;
-  INIT_WORKLIST_SIZE = 30;
+  INIT_WORKLIST_SIZE = 30; //percentage
 
   GENDERS = Constants.GENDERS;
 
