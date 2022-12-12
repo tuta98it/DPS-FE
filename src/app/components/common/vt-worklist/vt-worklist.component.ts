@@ -66,7 +66,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   tableHeight = 200; //pixel
   relatedTableHeight = 100; //pixel
   isSmallScreen = true;
-  INIT_WORKLIST_SIZE = 30; //percentage
+  INIT_WORKLIST_HEIGHT = 30; //percentage
+  INIT_WORKLIST_MIN = 30; //percentage
 
   GENDERS = Constants.GENDERS;
 
@@ -140,6 +141,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.reportStates[r.value] = r.label;
     });
     this.isSmallScreen = window.innerWidth < 1600;
+    if(!this.isSmallScreen)
+      this.INIT_WORKLIST_HEIGHT = 35;
     this.initForm();
     this.FILE_URL = this.configService.getConfig().api.fileUrl;
     this.getDoctors();
@@ -152,7 +155,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.setTableHeight(this.INIT_WORKLIST_SIZE);
+    this.setTableHeight(this.INIT_WORKLIST_HEIGHT);
     this.search();
     this.initCamera();
     this.getMarkTypes();

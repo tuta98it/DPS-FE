@@ -1,8 +1,8 @@
 <div class="vt-worklist-container h-full w-full">
   <as-split direction="vertical" (dragEnd)="dragEnd($event)">
-    <as-split-area [size]="100-INIT_WORKLIST_SIZE">
+    <as-split-area [size]="100-INIT_WORKLIST_HEIGHT">
       <div class="worklist-form grid w-full m-0">
-        <div class="col-10 p-0">
+        <div [ngClass]="{'col-10': isSmallScreen==true, 'col-9' : isSmallScreen==false }" class="p-0">
           <div class="card mx-3 my-3 flex-column">
             <div class="flex flex-row-reverse">
               <div class="w-auto">
@@ -130,7 +130,7 @@
                     <div>BS chỉ định</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" pInputText type="text" placeholder="Bác sĩ chỉ định" class="w-full py-2 px-2" />
+                    <input [readOnly]="!(creatingVisit || editingVisit)" pInputText type="text" placeholder="BS chỉ định" class="w-full py-2 px-2" />
                   </div>
                   <div class="col-2 py-1 pr-0 flex align-items-center">
                     <div>Chẩn đoán LS</div>
@@ -216,7 +216,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2 p-0">
+        <div [ngClass]="{'col-2': isSmallScreen==true, 'col-3' : isSmallScreen==false }" class="p-0">
           <div class="card mr-3 my-3">
             <div class="w-full m-0 flex-none">
               <div class="flex align-items-center">
@@ -287,7 +287,7 @@
         </div>
       </div>
     </as-split-area>
-    <as-split-area [size]="INIT_WORKLIST_SIZE" [minSize]="INIT_WORKLIST_SIZE">
+    <as-split-area [size]="INIT_WORKLIST_HEIGHT" [minSize]="INIT_WORKLIST_MIN">
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-3': !isSmallScreen, 'pb-1': true}">
           <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
