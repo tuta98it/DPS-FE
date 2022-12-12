@@ -153,6 +153,10 @@ export class PrintPreviewPopupComponent implements OnInit {
     }
   }
 
+  printReport2Pdf(): void {
+    
+  }
+
   showPrintTemplate(templateInfo: any) {
     if(this.iframePreviewFunction != null) {
       this.iframePreviewFunction(templateInfo, this.lstCommonInfos);
