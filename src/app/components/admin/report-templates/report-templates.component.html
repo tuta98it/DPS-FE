@@ -13,8 +13,8 @@
         <span class="block p-input-icon-left">
         </span>
         <div class="flex justify-content-end flex-wrap">
-          <!-- <button pButton pRipple label="Upload" icon="pi pi-upload" class="p-button-info p-button-sm mr-2"></button>
-          <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help p-button-sm mr-2"></button> -->
+          <button [disabled]="loading" pButton pRipple label="Import" icon="pi pi-upload" class="p-button-info p-button-sm mr-2" (click)="isVisibleImportDialog=true"></button>
+          <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help p-button-sm mr-2" (click)="export()" [loading]="isExporting"></button>
           <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm mr-2" (click)="resetTemplate()"></button>
           <button [loading]="deleting" [disabled]="!currentTemplate.templateId" pButton pRipple label="Xóa" icon="pi pi-trash" (click)="onDeleteItem()"
             class="p-button-danger p-button-sm mr-2"></button>
@@ -28,6 +28,14 @@
       </div>
       <div class="col-10">
         <input [(ngModel)]="currentTemplate.templateName" pInputText type="text" placeholder="Tên mẫu báo cáo" class="w-full p-inputtext-sm text-base" />
+      </div>
+    </div>
+    <div class="grid">
+      <div class="col-2 text-lg align-items-center flex">
+        Code:
+      </div>
+      <div class="col-10">
+        <input [(ngModel)]="currentTemplate.code" pInputText type="text" placeholder="Code" class="w-full p-inputtext-sm text-base" />
       </div>
     </div>
     <div class="grid">
@@ -82,3 +90,4 @@
 </div>
 
 <confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="deleteReportTemplate()"></confirm-dialog>
+<app-import-templates [(isVisible)]="isVisibleImportDialog" [reportTemplates]="reportTemplates"></app-import-templates>

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
@@ -8,9 +8,9 @@ import { INIT_REPORT } from 'src/app/models/report';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { IViewerTab } from 'src/app/models/viewer-tab';
 import { CaseStudyService } from 'src/app/services/case-study.service';
-import { FileUploadService } from 'src/app/services/file-upload.service';
 import { KeyImageService } from 'src/app/services/key-image.service';
 import { PatientService } from 'src/app/services/patient.service';
+import { ReportTemplateService } from 'src/app/services/report-template.service';
 import { ReportService } from 'src/app/services/report.service';
 import { UserService } from 'src/app/services/user.service';
 import { VisitService } from 'src/app/services/visit.service';
@@ -53,7 +53,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   deletedCaseStudyId = '';
   textConfirmDeleteCase = '';
   isVisibleDeleteCase = false;
-  
+
   totalRelated = 0;
   loadingRelated = false;
   relatedTableHeight = 200;
@@ -77,10 +77,11 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   visibleConfirmCancel = false;
   saving = false;
   doctors: any[] = [];
+  reportTemplates: any[] = [];
 
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
-  
+
   visiblePrintPreview = false;
   isDirty = {
     patientForm: true,
@@ -93,14 +94,14 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   visibleConfirmUnapprove = false;
 
   @ViewChild("uploadKeyImageContainer") uploadKeyImageContainer!: ElementRef;
-  uploadingKeyImage = false;
   keyImageUploadedPath = '';
+  visibleUploadKeyImage = false;
+  currentReportTemplate = '';
 
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
     private caseStudyService: CaseStudyService,
-    private fileUploadService: FileUploadService,
     private reportService: ReportService,
     private keyImageService: KeyImageService,
     public configService: AppConfigService,
@@ -108,8 +109,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     public visitService: VisitService,
     private viewerState: ViewerStateService,
     public userService: UserService,
+    public reportTemplateService: ReportTemplateService,
     private notification: NotificationService,
-  ) { 
+  ) {
     this._authSubscription = this.authState.subscribe((m: IAuthModel) => {
       this.currentUser = m;
     });
@@ -121,8 +123,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     });
     this.isSmallScreen = window.innerWidth < 1600;
     this.initForm();
-    this.FILE_URL = this.configService.getConfig().api.fileUrl; 
+    this.FILE_URL = this.configService.getConfig().api.fileUrl;
     this.getDoctors();
+    this.getReportTemplates();
   }
 
   ngOnInit(): void {
@@ -198,6 +201,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.getCaseStudy();
       this.getCaseStudyReports();
       this.getKeyImages();
+    } else {
+      this.notification.warn('Bạn đang nhập dữ liệu', 'Vui lòng Lưu hoặc Hủy trước khi chuyển sang ca bệnh khác');
     }
   }
 
@@ -211,6 +216,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.resetInfo();
       this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
     }
+    this.currentReportTemplate = '';
   }
 
   onEditVisit() {
@@ -225,6 +231,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
         report: JSON.stringify(this.reportForm.value),
       };
     }
+    this.currentReportTemplate = '';
   }
 
   checkDirty() {
@@ -241,9 +248,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   saveVisit(isApprove=false) {
     this.saving = true;
-    let state = parseInt(Constants.REPORT_STATES[2].value) 
+    let state = parseInt(Constants.REPORT_STATES[2].value)
     if (isApprove || this.reportForm.value.state == Constants.REPORT_STATES[4].value) {
-      state = parseInt(Constants.REPORT_STATES[4].value) 
+      state = parseInt(Constants.REPORT_STATES[4].value)
     }
     let payload = {
       caseStudy: { ...this.caseStudyForm.value, isDirty: this.isDirty.caseStudyForm, },
@@ -264,10 +271,13 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           this.caseStudyForm.patchValue({
             ...res.jsonData.caseStudy,
             createTime: new Date(res.jsonData.caseStudy.createdTime),
-            specimensDate: res.jsonData.caseStudy.specimensDate ? 
+            specimensDate: res.jsonData.caseStudy.specimensDate ?
               new Date(res.jsonData.caseStudy.specimensDate) : null,
           });
           this.reportForm.patchValue(res.jsonData.report);
+          this.selectedCaseStudy = {
+            caseStudyId: res.jsonData.caseStudy.id
+          };
         }
       }
     }).add(() => {
@@ -345,7 +355,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           this.caseStudyForm.patchValue({
             ...res.jsonData,
             createTime: new Date(res.jsonData.createdTime),
-            specimensDate: res.jsonData.specimensDate ? 
+            specimensDate: res.jsonData.specimensDate ?
               new Date(res.jsonData.specimensDate) : null,
           });
         }
@@ -363,9 +373,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
               caseStudyId: res.jsonData[0].caseStudyId,
               microbodyDescribe: Utils.extractContent(res.jsonData[0].microbodyDescribe),
               consultation: Utils.extractContent(res.jsonData[0].consultation),
-              diagnose: Utils.extractContent(res.jsonData[0].diagnose), 
-              readDoctor: res.jsonData[0].readDoctorId, 
-              state: res.jsonData[0].state, 
+              diagnose: Utils.extractContent(res.jsonData[0].diagnose),
+              readDoctor: res.jsonData[0].readDoctorId,
+              state: res.jsonData[0].state,
             });
           } else {
             this.reportForm.reset(INIT_REPORT);
@@ -376,16 +386,19 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   getKeyImages() {
-    this.keyImageService.getCaseStudyKeyImages(this.selectedCaseStudy.caseStudyId).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          res.jsonData.forEach((i:any) => {
-            i.src = `${this.FILE_URL}/${i.imagePath}`;
-          });
-          this.keyImages = res.jsonData;
+    let caseStudyId = new String(this.selectedCaseStudy.caseStudyId);
+    if (caseStudyId) {
+      this.keyImageService.getCaseStudyKeyImages(caseStudyId+'').subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            res.jsonData.forEach((i:any) => {
+              i.src = `${this.FILE_URL}/${i.imagePath}`;
+            });
+            this.keyImages = res.jsonData;
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   getCaseStudyOfPatient() {
@@ -404,42 +417,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     }).add(() => {
       this.loadingRelated = false;
     });
-  }
-
-  uploadKeyImage(event: any) {
-    let inputUpload = this.uploadKeyImageContainer.nativeElement.querySelector('#dps-upload-key-image');
-    if (inputUpload.files.length > 0) {
-      this.uploadingKeyImage = true;
-      this.fileUploadService.upload(inputUpload.files[0]).subscribe({
-        next: (res) => {
-          if (res.isValid) {
-            this.keyImageUploadedPath = res.jsonData;
-          }
-        }
-      }).add(() => {
-        this.saveKeyImage();
-      });
-    }
-  }
-
-  saveKeyImage() {
-    if (this.keyImageUploadedPath) {
-      let payload = {
-        title: "",
-        caseStudyId: this.caseStudyForm.value.id,
-        imagePath: this.keyImageUploadedPath,
-        note: ""
-      }
-      this.keyImageService.create(payload).subscribe({
-        next: (res) => {
-          if (res.isValid) {
-            this.getKeyImages();
-          }
-        }
-      }).add(() => {
-        this.uploadingKeyImage = false;
-      });
-    }
   }
 
   onSearch(data: any) {
@@ -477,6 +454,12 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     } else if (event.action == Constants.CASE_STUDY_ACTIONS.DELETE) {
       this.onDeleteCaseStudy(event.data);
     }
+  }
+
+  onCreateKeyImage() {
+    this.uploadPatientName = this.patientForm.value.patientsName;
+    this.uploadedCaseStudyId = new String(this.caseStudyForm.value.id);
+    this.visibleUploadKeyImage = true;
   }
 
   onUploadSlide(data: any) {
@@ -526,7 +509,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.search();
     }
   }
-  
+
   getPatient() {
     this.patientService.getById(this.selectedCaseStudy.patientId).subscribe({
       next: (res) => {
@@ -557,8 +540,31 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           });
         }
       }
-    }).add(() => {
-      this.loading = false
     });
+  }
+
+  getReportTemplates() {
+    this.reportTemplateService.getList().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.reportTemplates = res.jsonData;
+          this.reportTemplates.forEach(t => {
+            t.label = t.code + ' - ' + t.templateName;
+          });
+        }
+      }
+    });
+  }
+
+  setReportTemplate(event:any) {
+    let id = event.value;
+    if (id) {
+      let reportTemplate = this.reportTemplates.find(t => t.id == id);
+      if (reportTemplate) {
+        this.reportForm.controls['microbodyDescribe'].setValue(Utils.extractContent(reportTemplate.microbodyDescrible));
+        this.reportForm.controls['consultation'].setValue(Utils.extractContent(reportTemplate.consultation));
+        this.reportForm.controls['diagnose'].setValue(Utils.extractContent(reportTemplate.diagnose));
+      }
+    }
   }
 }

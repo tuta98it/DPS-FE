@@ -15,7 +15,7 @@
           <button [disabled]="!selectedUser.id" pButton pRipple label="Danh sách group" icon="pi pi-users"
             class="p-button-help mr-2 p-button-sm" (click)="isVisibleListGroups=true"></button>
           <button pButton pRipple label="Thêm thành viên" icon="pi pi-plus"
-            class="mr-2 p-button-success p-button-sm"></button>
+            class="mr-2 p-button-success p-button-sm" (click)="onCreatAdd()"></button>
           <button pButton pRipple label="Tạo tài khoản" icon="pi pi-plus" class="p-button-success p-button-sm" (click)="onCreatUser()"></button>
         </div>
       </div>
@@ -85,7 +85,7 @@
           </form>
         </ng-template>
         <ng-template pTemplate="footer">
-          <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserDialog=false"></button>
+          <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleUserDialog=false"></button>
           <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()" ></button>
         </ng-template>
     </p-dialog>

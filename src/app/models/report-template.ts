@@ -1,6 +1,7 @@
 export interface ReportTemplate {
   templateId?: string;
   templateName?: string;
+  code?: string;
   templateExtName?: string;
   hasChild?: boolean;
   parentName?: string;
@@ -14,6 +15,7 @@ export interface ReportTemplate {
 export const INIT_REPORT_TEMPLATE: ReportTemplate = {
   templateId: '',
   templateName: '',
+  code: '',
   templateExtName: '',
   hasChild: false,
   parentName: '',

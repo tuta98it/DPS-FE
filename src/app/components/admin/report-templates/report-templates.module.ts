@@ -11,10 +11,13 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
+import { ImportTemplatesComponent } from './import-templates/import-templates.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
-    ReportTemplatesComponent
+    ReportTemplatesComponent,
+    ImportTemplatesComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +31,7 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
     ButtonModule,
     TreeSelectModule,
     ReportTemplatesRoutingModule,
+    FileUploadModule
   ]
 })
 export class ReportTemplatesModule { }

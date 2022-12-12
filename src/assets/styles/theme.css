@@ -594,7 +594,7 @@ p-calendar.p-calendar-clearable.p-calendar-w-btn .p-calendar-clear-icon {
   padding: 0.75rem 0.75rem;
 }
 .p-cascadeselect .p-cascadeselect-label.p-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 .p-cascadeselect .p-cascadeselect-label:enabled:focus {
   outline: 0 none;
@@ -813,7 +813,7 @@ p-chips.p-chips-clearable .p-chips-clear-icon {
   border: 0 none;
 }
 .p-dropdown .p-dropdown-label.p-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 .p-dropdown .p-dropdown-label:enabled:focus {
   outline: 0 none;
@@ -1218,19 +1218,19 @@ p-inputswitch.ng-dirty.ng-invalid > .p-inputswitch {
 }
 
 ::-webkit-input-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 
 :-moz-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 
 ::-moz-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 
 :-ms-input-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 
 .p-input-filled .p-inputtext {
@@ -1342,7 +1342,7 @@ p-listbox.ng-dirty.ng-invalid > .p-listbox {
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .p-multiselect .p-multiselect-label.p-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 .p-multiselect.p-multiselect-chip .p-multiselect-token {
   padding: 0.375rem 0.75rem;
@@ -1759,7 +1759,7 @@ p-togglebutton.ng-dirty.ng-invalid > .p-togglebutton.p-button {
   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .p-treeselect .p-treeselect-label.p-placeholder {
-  color: #6c757d;
+  color: var(--surface-400);
 }
 .p-treeselect.p-treeselect-chip .p-treeselect-token {
   padding: 0.375rem 0.75rem;

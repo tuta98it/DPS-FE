@@ -1,0 +1,53 @@
+
+
+
+<p-dialog [(visible)]="isVisible" (visibleChange)="closeDialog($event)" [style]="{width: '1000px',height:'800px'}" header="Import ds mẫu báo cáo" [modal]="true" class="p-fluid" [maximizable]="true">
+    <ng-template pTemplate="content">
+        <p-fileUpload name="demo[]"   [maxFileSize]="10000000" [customUpload]="true" (uploadHandler)="myUploader($event)"
+             accept=".json" >
+            <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                </ul>
+            </ng-template>
+    </p-fileUpload>
+
+    <!-- <button pButton  label="Lưu" icon="pi pi-times" class=" " (click)="saveImport()"></button> -->
+    <div class="w-full text-right">
+        <button [loading]="saving" pButton pRipple label="Lưu" icon="pi pi-save " class="p-button-primary p-button-sm mt-3 w-5rem" (click)="saveImport()"></button>
+    </div>
+
+
+    <div class="grid p-fluid mt-3">
+        <div class="col-12 md:col-6">
+            <h4>Danh sách mẫu báo cáo đã import</h4>
+            <span *ngIf="importing">
+                <i *ngIf="importing" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
+                Loading...
+              </span>
+            <!-- <p-treeSelect *ngIf="reportTemplates.length>0" [options]="reportTemplates" [(ngModel)]="selectedParent" placeholder="Select parent" [showClear]="true" class="w-full"></p-treeSelect> -->
+            <p-tree *ngIf="reportTemplatesImport.length>0" [value]="reportTemplatesImport" [draggableNodes]="true" [droppableNodes]="true" droppableScope="importTree" draggableScope="existTree"></p-tree>
+        </div>
+
+        <!-- <div class="col-12 md:col-4">
+            <h4>Server 1</h4>
+            <p>Can transfer to Files.</p>
+            <p-tree [value]="files3" [draggableNodes]="true" [droppableNodes]="true" droppableScope="server1" draggableScope="files"></p-tree>
+        </div> -->
+
+        <div class="col-12 md:col-6" *ngIf="reportTemplates.length>0">
+            <h4>Danh sách mẫu báo cáo hiện có</h4>
+
+            <!-- <p-treeSelect *ngIf="reportTemplates.length>0" [options]="reportTemplates" [(ngModel)]="selectedParent" placeholder="Select parent" [showClear]="true" class="w-full"></p-treeSelect> -->
+            <p-tree  [value]="reportTemplates" [draggableNodes]="true" [droppableNodes]="true" droppableScope="existTree" draggableScope="importTree"></p-tree>
+        </div>
+    </div>
+
+
+    </ng-template>
+
+
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600 " (click)="closeDialog(false)"></button>
+    </ng-template>
+  </p-dialog>

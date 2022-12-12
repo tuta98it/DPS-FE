@@ -7,7 +7,7 @@
     <img class="fixed left-0 h-full w-full" src="assets/images/bg_right.png" />
   </div>
   <div class="grid">
-    <div class="col-6 mt-9">
+    <div class="col-6 mt-10rem">
       <div class="mt-8 m-auto relative z-1 text-center text-white">
         <img class="h-13rem " src="assets/images/msc.png"/>
         <h1 class="text-6xl mt-0 ">DPS</h1>
@@ -17,14 +17,14 @@
         </h2>
       </div>
     </div>
-    <div class="col-5 col-offset-1 relative z-1 text-center mt-9 p-8">
+    <div class="col-5 col-offset-1 relative z-1 text-center mt-10rem p-8">
       <img class="relative mx-4 pt-6 h-10rem w-24rem" src="assets/images/logo-PMRDPS.png"/>
       <form [formGroup]="loginForm">
         <div class="col-8 m-auto mt-6 w-23rem">
           <div class="field Smt-6 mb-5 mt-6">
             <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username"
               (keydown.enter)="login()" class="w-full border-round-3xl border-500 p-4 h-3rem b-r-2 text-base">
-            <div class="m-error text-sm min-height-bottom ml-4"
+            <div class="m-error text-sm inp-login ml-4"
               *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].dirty">
               *Vui lòng nhập tên đăng nhập
             </div>
@@ -35,13 +35,13 @@
               (keydown.enter)="login()" styleClass="w-full p-password p-component p-inputwrapper p-input-icon-right"
               placeholder="Mật khẩu" inputStyleClass=" border-500 p-4 h-3rem b-r-25 text-base">
             </p-password>
-            <div class="m-error text-sm min-height-bottom ml-4  " *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].dirty">
+            <div class="m-error text-sm inp-login ml-4  " *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].dirty">
               *Vui lòng nhập mật khẩu
             </div>
           </div>
           <button [disabled]="loading" pRipple type="button" (click)="login()"
             class="w-full border-none border-round-3xl cursor-pointer
-              h-3rem bg-orange-500 text-white hover:bg-orange-400 flex align-items-center justify-content-center b-r-25 text-base mt-6 font-style">
+              h-3rem bg-orange-500 text-white hover:bg-orange-400 flex align-items-center justify-content-center b-r-25 text-base mt-6 btn-login">
             <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem;"></i>
             Đăng nhập
           </button>

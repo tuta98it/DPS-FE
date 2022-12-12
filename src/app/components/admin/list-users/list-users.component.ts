@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -17,6 +17,7 @@ export class ListUsersComponent implements OnInit {
   isVisibleUserEdit = false;
   isEditUser = false;
   isVisibleDisableUserDialog = false;
+  isVisibleAddUserDialog = false;
   textConfirmDisableUser = '';
   disableItem: any = {};
   userDialogHeader = '';
@@ -36,6 +37,11 @@ export class ListUsersComponent implements OnInit {
   isVisibleListGroups = false;
 
 
+  usernameForm: FormGroup;
+//   usersFormEdit: FormGroup;
+//   confirmLabelDisable = "";
+//   @Input() userId = '';
+//   isVisibleListGroups = false;
   constructor(
     private fb: FormBuilder,
     private notification: NotificationService,
@@ -60,6 +66,9 @@ export class ListUsersComponent implements OnInit {
       disable: [null],
       enable: [null],
     })
+    this.usernameForm = this.fb.group({
+      username: [null, [Validators.required]],
+    })
   }
 
   confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
@@ -69,7 +78,7 @@ export class ListUsersComponent implements OnInit {
       return { confirm: true, error: true };
     }
     return {};
-  };;
+  }
 
 
   ngOnInit(): void {
@@ -89,7 +98,6 @@ export class ListUsersComponent implements OnInit {
         if (res.isValid) {
           this.users = res.jsonData.data;
           this.users.forEach((u: any) => (u.enable = !u.disable));
-          console.log('user', this.users)
           this.total = res.jsonData.total;
         }
       },
@@ -127,6 +135,13 @@ export class ListUsersComponent implements OnInit {
     this.isEditUser = false;
     this.userDialogHeader = 'Thêm tài khoản mới';
   }
+  onCreatAdd() {
+    this.usernameForm.patchValue({
+      name: ''
+    });
+    this.isVisibleAddUserDialog = true;
+    this.isEditUser = false;
+  }
   onEditUser(item: any) {
     this.usersFormEdit.patchValue({
       id: item.id,
@@ -154,6 +169,17 @@ export class ListUsersComponent implements OnInit {
           control.updateValueAndValidity({ onlySelf: true });
         }
       });
+    }
+  }
+  saveAdd() {
+    console.log("usersAdd", this.usernameForm.valid);
+    console.log("isEditUser", this.isEditUser)
+    if (this.usernameForm.valid && !this.isEditUser) {
+      console.log('thêm');
+      this.createAdd();
+    } else {
+      console.log('không thêm được');
+
     }
   }
   saveItemEdit() {
@@ -194,6 +220,29 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
+
+  onListGroup() {
+
+  }
+
+  createAdd() {
+    const formValue = this.usernameForm.value;
+    const payload = {
+      username: formValue.username,
+    }
+    this.userService.addUsername(payload).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Thêm thành công', '');
+          this.isVisibleDisableUserDialog = false;
+          this.search();
+        }
+        else {
+
+        }
+      }
+    });
+  }
   updateUser() {
     const formEditValue = this.usersFormEdit.value;
     const payloadEdit = {
@@ -226,10 +275,8 @@ export class ListUsersComponent implements OnInit {
       username: item.username,
       password: '********'
     });
-    console.log(item)
-    if (item.enable == false) {
-      console.log(item.enable);
-      console.log(item.disable);
+    console.log(item.checked)
+    if (!item.enable) {
       this.textConfirmDisableUser = `Xác nhận Disable tài khoản này <b>${item.username}?`;
       this.confirmLabelDisable = "Disable";
       this.isVisibleDisableUserDialog = true;
@@ -240,7 +287,7 @@ export class ListUsersComponent implements OnInit {
     }
   }
   disableUser() {
-    const formEditValue = this.usersFormEdit.value;      // làm thế nào không gọi đến form mà vẫn lấy được id.
+    const formEditValue = this.usersFormEdit.value;
     this.userService.updateDisable(formEditValue.id).subscribe({
       next: (res) => {
         if (res.isValid) {
@@ -256,19 +303,12 @@ export class ListUsersComponent implements OnInit {
     formEditValue.enable = true;
     this.search();
   }
-  onListGroup() {
-
-  }
 
   isVisibleListGroup() {
-    this.isVisibleListGroups = true;
+
   }
   selectUser(user: any) {
     this.selectedUser = user;
   }
-
-
-
-
 
 }
