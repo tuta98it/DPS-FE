@@ -1,7 +1,15 @@
 :host ::ng-deep .vt-worklist-container {
-  .btn-top {
+  .p-menuitem-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .btn-search {
     width: 2.6rem;
     height: 2.6rem;
+  }
+  .btn-image {
+    width: 2.45rem;
+    height: 2.45rem;
   }
   .btn-report {
     width: 2.5rem;
@@ -18,4 +26,5 @@
       right: 1rem;
     }
   }
+
 }

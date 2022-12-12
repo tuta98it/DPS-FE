@@ -14,6 +14,7 @@ import { KeyImagesModule } from '../key-images/key-images.module';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 import { ReportModule } from '../report/report.module';
 import { UploadKeyImageComponent } from './upload-key-image/upload-key-image.component';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { UploadKeyImageComponent } from './upload-key-image/upload-key-image.com
     GalleriaModule,
     ConfirmDialogModule,
     DropdownModule,
+    ContextMenuModule,
     DialogModule,
     InputNumberModule,
     KeyImagesModule,

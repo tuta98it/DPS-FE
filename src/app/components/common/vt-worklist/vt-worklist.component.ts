@@ -1,17 +1,22 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
 import { INIT_CASE_STUDY } from 'src/app/models/case-study';
 import { INIT_REPORT } from 'src/app/models/report';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
+import { IUploadKeyImageData } from 'src/app/models/upload-key-image-data';
+import { INIT_UPLOAD_SLIDE_DATA } from 'src/app/models/upload-slide-data';
 import { IViewerTab } from 'src/app/models/viewer-tab';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { KeyImageService } from 'src/app/services/key-image.service';
+import { MarkTypeService } from 'src/app/services/mark-type.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { ReportTemplateService } from 'src/app/services/report-template.service';
 import { ReportService } from 'src/app/services/report.service';
+import { SlideUploadService } from 'src/app/services/slide-upload.service';
 import { UserService } from 'src/app/services/user.service';
 import { VisitService } from 'src/app/services/visit.service';
 import { AppConfigService } from 'src/app/shared/app-config.service';
@@ -93,10 +98,20 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   visibleConfirmSave = false;
   visibleConfirmUnapprove = false;
 
-  @ViewChild("uploadKeyImageContainer") uploadKeyImageContainer!: ElementRef;
+  @ViewChild("liveCam") liveCam!: ElementRef;
   keyImageUploadedPath = '';
   visibleUploadKeyImage = false;
   currentReportTemplate = '';
+  
+  cameras: MenuItem[] = [];
+  selectedCameraId = '';
+  stream!: MediaStream;
+  canvas: any;
+  loadingCamera = false;
+  markTypes: any[] = [];
+  selectedMarkType = '';
+  uploadingKeyImage = false;
+  MACHINE_TYPES: any;
 
   constructor(
     private fb: FormBuilder,
@@ -108,6 +123,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     private authState: AuthStateService,
     public visitService: VisitService,
     private viewerState: ViewerStateService,
+    private markTypeService: MarkTypeService,
+    private slideUploadService: SlideUploadService,
     public userService: UserService,
     public reportTemplateService: ReportTemplateService,
     private notification: NotificationService,
@@ -126,15 +143,129 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this.FILE_URL = this.configService.getConfig().api.fileUrl;
     this.getDoctors();
     this.getReportTemplates();
+    this.cameras = [
+      { id: '', label: 'Đang kết nối thiết bị', visible: true },
+      { id: '', label: 'Không tìm thấy thiết bị thiết bị', visible: false },
+    ];
+    this.canvas = document.createElement('canvas');
   }
 
   ngOnInit(): void {
     this.setTableHeight(this.INIT_WORKLIST_SIZE);
     this.search();
+    this.initCamera();
+    this.getMarkTypes();
   }
 
   public ngOnDestroy(): void {
     this._authSubscription.unsubscribe();
+  }
+
+  initCamera(){
+    navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
+      navigator.mediaDevices.enumerateDevices()
+        .then(devices => {
+          devices.forEach(
+            device => {
+              if (device.kind === 'videoinput') {
+                console.log('device', device)
+                this.cameras.push({ 
+                  id: device.deviceId, 
+                  label: device.label,
+                  command: (event) => this.selectCamera(event.item.id),
+                });
+              }
+            }
+          );
+          // stop track after get list camera devices
+          let track = stream.getTracks()[0];
+          track.stop();
+        })
+        .catch(err => console.log(err))
+        .finally(() => { 
+          this.cameras[0].visible = false;
+          if (this.cameras.length == 2) {
+            this.cameras[1].visible = true;
+          }
+          this.cameras = [...this.cameras];
+          if (this.cameras.length > 2) {
+            this.selectCamera(this.cameras[2].id ?? '');
+          }
+        });
+    });
+  }
+
+  selectCamera(id: string) {
+    this.loadingCamera = true;
+    this.selectedCameraId = id;
+    const vgaConstraints = {
+      video: {
+        deviceId: this.selectedCameraId
+      }
+    };
+    navigator.mediaDevices.getUserMedia(vgaConstraints)
+      .then((stream: any) => {
+        this.stream = stream;
+        this.loadingCamera = false;
+      }).catch(err => console.log(err));
+  }
+
+  captureImage() {
+    if (!this.loadingCamera && this.selectedCameraId) {
+      if (!this.selectedMarkType) {
+        return this.notification.warn('Vui lòng chọn phương pháp nhuộm');
+      }
+      let video = this.liveCam.nativeElement;
+      this.canvas.width = video.videoWidth;
+      this.canvas.height = video.videoHeight;
+      let ctx = this.canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0);
+      this.canvas.toBlob((blob:any) => this.preUploadKeyImage(blob), 'image/png');
+    }
+  }
+  
+  preUploadKeyImage(imgBlob: any) {
+    let tempUrl = window.URL.createObjectURL(imgBlob);
+    console.log('tempUrl', tempUrl);
+    this.uploadingKeyImage = true;
+    let ext = 'png';
+    let uploadId = new Date().getTime() * 1000 + '';
+    this.slideUploadService.preUpload(uploadId + ext).subscribe({
+      next: (res) => {
+        if (res.d.isValid) {
+          this.uploadKeyImage(imgBlob, uploadId, res.d.jsonData);
+        }
+      }
+    }).add(() => {
+      this.uploadingKeyImage = false;
+    });
+  }
+
+  uploadKeyImage(file: any, uploadId:string, newFileName: string) {
+    let now = new Date();
+    let datePipe = new DatePipe('en-US');
+    let createdTime = datePipe.transform(now, 'HH:mm:ss dd/MM/yyyy');
+    let fileName = 'livecam_' + datePipe.transform(now, 'ddMMyyyyHHmmss') +'.png';
+
+    let uploadSlideData = INIT_UPLOAD_SLIDE_DATA;
+    uploadSlideData.uploadId = uploadId;
+    uploadSlideData.fileName = fileName;
+    uploadSlideData.newFileName = newFileName;
+    uploadSlideData.patientName = this.patientForm.value.patientsName;
+    uploadSlideData.caseStudyId = this.caseStudyForm.value.id;
+    uploadSlideData.markerType = this.selectedMarkType;
+    uploadSlideData.isMotic = this.MACHINE_TYPES[2].value;
+    uploadSlideData.createTime = now;
+    uploadSlideData.userId = this.currentUser.userId!;
+    uploadSlideData.userName = this.currentUser.userName!;
+
+    let uploadKeyImageData : IUploadKeyImageData = {
+      createKeyImage: true,
+      isPrintKeyImage: true,
+      keyImageTitle: `Live Cam - ${createdTime}`,
+      keyImageNote: '',
+    }
+    this.slideUploadService.upload(file, uploadSlideData, uploadKeyImageData);
   }
 
   initForm() {
@@ -566,5 +697,15 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
         this.reportForm.controls['diagnose'].setValue(Utils.extractContent(reportTemplate.diagnose));
       }
     }
+  }
+  
+  getMarkTypes() {
+    this.markTypeService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.markTypes = res.jsonData;
+        }
+      }
+    });
   }
 }
