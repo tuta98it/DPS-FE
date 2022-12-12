@@ -35,7 +35,7 @@
   --content-padding:1.25rem;
   --inline-spacing:0.5rem;
   --border-radius:6px;
-  --surface-ground:#eff3f8;
+  --surface-ground:#e6ecf3; /*#eff3f8;*/
   --surface-section:#ffffff;
   --surface-card:#ffffff;
   --surface-overlay:#ffffff;
@@ -6292,5 +6292,5 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 
 .bg-grid{
-  background-color: rgba(0, 146, 110, 0.1) !important;
+  background-color: #ffffffef !important;
 }
