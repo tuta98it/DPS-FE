@@ -89,9 +89,9 @@
                   <div class="sm:col-3 xl:col-2 py-1 pr-0 flex align-items-center">
                     <div>Loại bệnh phẩm</div>
                   </div>
-                  <div class="col-4 py-1 px-0">
+                  <div class="col-4 py-1 pr-0">
                     <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" 
-                      [styleClass]="'w-full'" placeholder="&nbsp;" [showClear]="true">
+                      [styleClass]="'w-full'" placeholder="Loại bệnh phẩm" [showClear]="true">
                     </p-dropdown>
                   </div>
                   <div class="col-2 py-1 pr-0 flex align-items-center">
@@ -103,7 +103,7 @@
                   <div class="sm:col-3 xl:col-2 py-1 pr-0 flex align-items-center">
                     <div>Số lượng mẫu</div>
                   </div>
-                  <div class="col-4 py-1 px-0">
+                  <div class="col-4 py-1 pr-0">
                     <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="quantity" pInputText type="text" placeholder="Số lượng mẫu" class= "py-2 px-2 w-full" />
                   </div>
                   <div class="col-2 py-1 pr-0 flex align-items-center">
@@ -116,7 +116,7 @@
                   <div class="col-2 py-1 pr-0 flex align-items-center">
                     <div>Ngày nhận</div>
                   </div>
-                  <div class="col-4 py-1 px-0">
+                  <div class="col-4 py-1 pr-0">
                     <p-calendar [disabled]="!(creatingVisit || editingVisit)" formControlName="specimensDate" placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
                       [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
                   </div>
