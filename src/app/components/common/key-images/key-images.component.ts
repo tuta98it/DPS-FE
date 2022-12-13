@@ -34,9 +34,23 @@ export class KeyImagesComponent implements OnInit {
     return this._visible;
   }
   @Output() visibleChange = new EventEmitter<any>();
-  constructor() { }
+
+  isSmallScreen = true;
+  imgWidth = '960px';
+  imgHeight = '720px';
+
+  constructor() { 
+    this.isSmallScreen = window.innerWidth < 1600;
+    this.setImageSize();
+  }
 
   ngOnInit(): void {
   }
 
+  setImageSize() {
+    if (this.isSmallScreen) {
+      this.imgWidth = '720px';
+      this.imgHeight = '480px';
+    }
+  }
 }
