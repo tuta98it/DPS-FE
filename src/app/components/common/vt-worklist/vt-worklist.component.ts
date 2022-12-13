@@ -101,6 +101,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   visibleConfirmUnapprove = false;
 
   @ViewChild("liveCam") liveCam!: ElementRef;
+  @ViewChild("liveCamContainer") liveCamContainer!: ElementRef;
   keyImageUploadedPath = '';
   visibleUploadKeyImage = false;
   currentReportTemplate = '';
@@ -153,8 +154,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.reportStates[r.value] = r.label;
     });
     this.isSmallScreen = window.innerWidth < 1600;
-    if(!this.isSmallScreen)
+    if(!this.isSmallScreen) {
       this.INIT_WORKLIST_HEIGHT = 35;
+    }
     this.initForm();
     this.FILE_URL = this.configService.getConfig().api.fileUrl;
     this.getDoctors();
@@ -224,6 +226,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
         .then((stream: any) => {
           this.stream = stream;
           this.loadingCamera = false;
+          this.liveCamContainer.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start'});
         }).catch(err => console.log(err));
     }
   }
@@ -739,5 +742,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+  
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({behavior: 'smooth', block: 'start'})
   }
 }
