@@ -110,6 +110,18 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   stream!: MediaStream;
   canvas: any;
   loadingCamera = false;
+  _isShowLiveCam = false;
+  set isShowLiveCam(value: boolean) {
+    this._isShowLiveCam = value;
+    if (value) {
+      this.showLiveCam();
+    } else {
+      this.stopLiveCam();
+    }
+  }
+  get isShowLiveCam(): boolean {
+    return this._isShowLiveCam;
+  }
   markTypes: any[] = [];
   selectedMarkType = '';
   uploadingKeyImage = false;
@@ -172,7 +184,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           devices.forEach(
             device => {
               if (device.kind === 'videoinput') {
-                console.log('device', device)
                 this.cameras.push({ 
                   id: device.deviceId, 
                   label: device.label,
@@ -183,7 +194,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           );
           // stop track after get list camera devices
           let track = stream.getTracks()[0];
-          track.stop();
+          if (track) {
+            track.stop();
+          }
         })
         .catch(err => console.log(err))
         .finally(() => { 
@@ -199,19 +212,34 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectCamera(id: string) {
-    this.loadingCamera = true;
-    this.selectedCameraId = id;
-    const vgaConstraints = {
-      video: {
-        deviceId: this.selectedCameraId
+  showLiveCam() {
+    if (this.selectedCameraId) {
+      this.loadingCamera = true;
+      const vgaConstraints = {
+        video: {
+          deviceId: this.selectedCameraId
+        }
+      };
+      navigator.mediaDevices.getUserMedia(vgaConstraints)
+        .then((stream: any) => {
+          this.stream = stream;
+          this.loadingCamera = false;
+        }).catch(err => console.log(err));
+    }
+  }
+
+  stopLiveCam() {
+    navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
+      let track = stream.getTracks()[0];
+      if (track) {
+        track.stop();
       }
-    };
-    navigator.mediaDevices.getUserMedia(vgaConstraints)
-      .then((stream: any) => {
-        this.stream = stream;
-        this.loadingCamera = false;
-      }).catch(err => console.log(err));
+    });
+  }
+
+  selectCamera(id: string) {
+    this.selectedCameraId = id;
+    this.showLiveCam();
   }
 
   captureImage() {

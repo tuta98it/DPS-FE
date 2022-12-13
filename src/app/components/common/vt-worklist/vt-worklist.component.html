@@ -231,55 +231,53 @@
             </div>
           </div>
           <div class="card mr-3 my-3 flex-grow-1">
-            <div class="w-full m-0 flex-none">
+            <div class="w-full m-0 flex-none xl:h-20rem sm:h-16rem overflow-auto">
               <div class="flex align-items-center">
                 <span class="font-bold">
                   Kết quả hình ảnh
                 </span>
               </div>
-              <div class="py-1 mt-2 flex justify-content-between">
+              <div class="py-1 mt-2 flex">
                 <div class="grid p-0 m-0">
                   <button #btnCamera pButton pRipple type="button" icon="pi pi-camera" class="btn-image flex-none text-2xl font-medium mr-2"
-                    [loading]="uploadingKeyImage" (click)="captureImage()" [disabled]="!patientForm.value.id" title="Live camera"></button>
-                  <p-dropdown optionLabel="name" optionValue="id" appendTo="body" [styleClass]="'w-14rem mr-2'"
-                    [(ngModel)]="selectedMarkType" [options]="markTypes" placeholder="Phương pháp nhuộm*" [showClear]="true">
-                  </p-dropdown>
+                    [loading]="uploadingKeyImage" (click)="isShowLiveCam=!isShowLiveCam" [disabled]="!patientForm.value.id" title="Live camera"></button>
                   <button [disabled]="!patientForm.value.id" pButton pRipple icon="pi pi-paperclip" class="btn-image flex-none text-xl font-medium mr-2"
                     (click)="onCreateKeyImage()"></button>
                   </div>
-                <div class="grid p-0 m-0">
-                  <button [disabled]="!patientForm.value.id" pButton pRipple icon="fa-solid fa-microscope" class="btn-image flex-none text-xl font-medium mr-2"
-                    (click)="openViewer()"></button>
+                  <button [disabled]="!patientForm.value.id" pButton pRipple icon="fa-solid fa-microscope" 
+                    title="Xem ảnh scan lam" class="btn-image flex-none text-xl font-medium mr-2" (click)="openViewer()"></button>
                   <button pButton pRipple type="button" icon="pi pi-images" class="btn-image flex-none text-2xl font-medium"
                     [disabled]="keyImages.length==0" (click)="visibleKeyImages=true" title="Xem key images"></button>
-                </div>
               </div>
-              <div class="col-4 py-1 pr-0 mt-0">
-                <div class="w-full border-400 border-1 xl:h-16rem sm:h-10rem overflow-auto">
-                  <div *ngIf="!selectedCameraId || !patientForm.value.id" class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
+              <div *ngIf="isShowLiveCam" class="col-12 py-1 px-0 mt-0">
+                <p-dropdown optionLabel="name" optionValue="id" appendTo="body" [styleClass]="'w-full mr-2 mb-2'"
+                  [(ngModel)]="selectedMarkType" [options]="markTypes" placeholder="Phương pháp nhuộm*" [showClear]="true">
+                </p-dropdown>
+                <div *ngIf="!selectedCameraId || !patientForm.value.id" class="w-full border-400 border-1 xl:h-10rem sm:h-10rem overflow-auto">
+                  <div class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
                     <i class="pi pi-camera text-6xl"></i>
                     <span class="mt-2">
                       Live camera
                     </span> 
                   </div>
-                  <div *ngIf="loadingCamera && patientForm.value.id" class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
-                    <i class="pi pi-spin pi-spinner text-xl"></i>
+                </div>
+                <div *ngIf="!selectedCameraId || !patientForm.value.id" class="w-full border-400 border-1 xl:h-10rem sm:h-10rem overflow-auto">
+                  <div class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
+                    <i class="pi pi-camera text-6xl"></i>
                     <span class="mt-2">
-                      Loading
+                      Live camera
                     </span> 
                   </div>
-                  <div *ngIf="!loadingCamera && selectedCameraId && patientForm.value.id" class="w-full h-full overflow-hidden">
-                    <video #liveCam id="live-cam" autoplay width="100%" height="100%" [srcObject]="stream"></video>
-                  </div>
+                </div>
+                <div *ngIf="!loadingCamera && selectedCameraId && patientForm.value.id" class="w-full h-full overflow-hidden">
+                  <video #liveCam id="live-cam" autoplay width="100%" height="100%" [srcObject]="stream"></video>
                 </div>
               </div>
-              <div class="col-8 py-1 pl-2 mt-0">
-                <div class="w-full py-2 px-1 border-400 border-1 xl:h-16rem sm:h-10rem overflow-auto">
-                  <div *ngFor="let img of keyImages" [title]="img.note"
-                    class="inline-block py-1 px-2 cursor-pointer">
-                    <img [src]="img.src" class="w-7rem h-7rem">
-                    <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
-                  </div>
+              <div class="w-full py-2 px-1 border-400 border-1">
+                <div *ngFor="let img of keyImages" [title]="img.note"
+                  class="inline-block py-1 px-2 cursor-pointer">
+                  <img [src]="img.src" class="w-7rem h-7rem">
+                  <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
                 </div>
               </div>
             </div>

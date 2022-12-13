@@ -29,6 +29,7 @@ import { Roles } from './shared/constants/constants';
             import(
               './components/common/common-layout/common-layout.module'
             ).then((m) => m.CommonLayoutModule),
+          canActivate: [AuthGuard],
         },
         { path: '**', redirectTo: 'login' },
       ],
