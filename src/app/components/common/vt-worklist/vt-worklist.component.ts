@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -101,7 +101,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   visibleConfirmUnapprove = false;
 
   @ViewChild("liveCam") liveCam!: ElementRef;
-  @ViewChild("liveCamContainer") liveCamContainer!: ElementRef;
   keyImageUploadedPath = '';
   visibleUploadKeyImage = false;
   currentReportTemplate = '';
@@ -126,7 +125,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   markTypes: any[] = [];
   selectedMarkType = '';
   uploadingKeyImage = false;
-  MACHINE_TYPES: any;
 
   constructor(
     private fb: FormBuilder,
@@ -143,6 +141,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     public userService: UserService,
     public reportTemplateService: ReportTemplateService,
     private notification: NotificationService,
+    private ref: ChangeDetectorRef,
   ) {
     this._authSubscription = this.authState.subscribe((m: IAuthModel) => {
       this.currentUser = m;
@@ -208,7 +207,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           }
           this.cameras = [...this.cameras];
           if (this.cameras.length > 2) {
-            this.selectCamera(this.cameras[2].id ?? '');
+            this.selectedCameraId = this.cameras[2].id ?? '';
           }
         });
     });
@@ -226,17 +225,13 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
         .then((stream: any) => {
           this.stream = stream;
           this.loadingCamera = false;
-          this.liveCamContainer.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start'});
         }).catch(err => console.log(err));
     }
   }
 
   stopLiveCam() {
-    navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
-      let track = stream.getTracks()[0];
-      if (track) {
-        track.stop();
-      }
+    this.stream.getTracks().forEach(track => {
+      track.stop();
     });
   }
 
@@ -256,14 +251,17 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       let ctx = this.canvas.getContext("2d");
       ctx.drawImage(video, 0, 0);
       this.canvas.toBlob((blob:any) => this.preUploadKeyImage(blob), 'image/png');
+      this.notification.success('Đang tải file lên hệ thống');
     }
   }
   
   preUploadKeyImage(imgBlob: any) {
-    let tempUrl = window.URL.createObjectURL(imgBlob);
-    console.log('tempUrl', tempUrl);
+    // let tempUrl = window.URL.createObjectURL(imgBlob);
+    // console.log('tempUrl', tempUrl);
     this.uploadingKeyImage = true;
-    let ext = 'png';
+    this.loadingCamera = true;
+    this.ref.detectChanges();
+    let ext = '.png';
     let uploadId = new Date().getTime() * 1000 + '';
     this.slideUploadService.preUpload(uploadId + ext).subscribe({
       next: (res) => {
@@ -273,6 +271,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     }).add(() => {
       this.uploadingKeyImage = false;
+      this.loadingCamera = false;
     });
   }
 
@@ -289,7 +288,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     uploadSlideData.patientName = this.patientForm.value.patientsName;
     uploadSlideData.caseStudyId = this.caseStudyForm.value.id;
     uploadSlideData.markerType = this.selectedMarkType;
-    uploadSlideData.isMotic = this.MACHINE_TYPES[2].value;
+    uploadSlideData.isMotic = Constants.MACHINE_TYPES[2].value;
     uploadSlideData.createTime = now;
     uploadSlideData.userId = this.currentUser.userId!;
     uploadSlideData.userName = this.currentUser.userName!;
@@ -552,7 +551,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   getKeyImages() {
-    let caseStudyId = new String(this.selectedCaseStudy.caseStudyId);
+    let caseStudyId = this.selectedCaseStudy.caseStudyId ?
+      new String(this.selectedCaseStudy.caseStudyId) : this.caseStudyForm.value.id;
     if (caseStudyId) {
       this.keyImageService.getCaseStudyKeyImages(caseStudyId+'').subscribe({
         next: (res) => {
@@ -743,7 +743,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
   scroll(el: HTMLElement) {
     el.scrollIntoView({behavior: 'smooth', block: 'start'})
   }
