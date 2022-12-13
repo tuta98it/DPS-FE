@@ -23,7 +23,7 @@ export class ListUsersComponent implements OnInit {
   userDialogHeader = '';
   searchData = {
     skip: 0,
-    take: Constants.TABLE_PARAM.PAGE_SIZE,
+    take: 1000,
     keyword: '',
   };
   loading = false;
@@ -35,13 +35,7 @@ export class ListUsersComponent implements OnInit {
   usersFormEdit: FormGroup;
   confirmLabelDisable = "";
   isVisibleListGroups = false;
-
-
   usernameForm: FormGroup;
-//   usersFormEdit: FormGroup;
-//   confirmLabelDisable = "";
-//   @Input() userId = '';
-//   isVisibleListGroups = false;
   constructor(
     private fb: FormBuilder,
     private notification: NotificationService,
@@ -110,7 +104,7 @@ export class ListUsersComponent implements OnInit {
   resetSearch() {
     this.searchData = {
       skip: 0,
-      take: Constants.TABLE_PARAM.PAGE_SIZE,
+      take: 1000,
       keyword: '',
     };
     this.search();
@@ -220,11 +214,6 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
-
-  onListGroup() {
-
-  }
-
   createAdd() {
     const formValue = this.usernameForm.value;
     const payload = {
@@ -303,12 +292,11 @@ export class ListUsersComponent implements OnInit {
     formEditValue.enable = true;
     this.search();
   }
-
-  isVisibleListGroup() {
-
-  }
   selectUser(user: any) {
     this.selectedUser = user;
+  }
+  openVisibleListGroups(){
+    this.isVisibleListGroups=true;
   }
 
 }

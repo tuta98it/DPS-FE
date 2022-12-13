@@ -20,8 +20,12 @@ export class UserGroupService extends BaseService {
   updateGroupRoles(groupId: string, roleIds: string[]) {
     return this.post(`${this.url}/Role/${groupId}`, { roleIds });
   }
-  getListGroup(userId: string) {
+  getListGroupOfUser(userId: string) {
     return this.get(`${this.url}/UserGroup/${userId}`);
+  }
+  UpdateGroupOfUser(userId: string, groupIds:any[]) {
+    let payload = { userId, groupIds };
+    return this.put(`${this.url}/UserGroup/${userId}`,payload);
   }
   searchGroup(data: any) {
     return this.post(`${this.url}/Search`, data);

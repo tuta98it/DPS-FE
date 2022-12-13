@@ -13,7 +13,7 @@
         </span>
         <div class="flex justify-content-end flex-wrap">
           <button [disabled]="!selectedUser.id" pButton pRipple label="Danh sách group" icon="pi pi-users"
-            class="p-button-help mr-2 p-button-sm" (click)="isVisibleListGroups=true"></button>
+            class="p-button-help mr-2 p-button-sm" (click)="openVisibleListGroups()"></button>
           <button pButton pRipple label="Thêm thành viên" icon="pi pi-plus"
             class="mr-2 p-button-success p-button-sm" (click)="onCreatAdd()"></button>
           <button pButton pRipple label="Tạo tài khoản" icon="pi pi-plus" class="p-button-success p-button-sm" (click)="onCreatUser()"></button>
@@ -44,82 +44,82 @@
 <!-- thêm user -->
     <p-dialog [(visible)]="isVisibleUserDialog" [style]="{width: '450px'}" [header]="userDialogHeader"  [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
-          <form [formGroup]="usersForm">
-      <div class="field">
-        <label for="fullName"><strong>Họ và tên</strong></label>
-        <input type="text" pInputText id="fullName" placeholder="Họ và tên..."  formControlName="fullName" required autofocus/>
-      </div>
-            <div class="field">
-                <label for="phoneNo"><strong>Số điện thoại</strong></label>
-                <input type="tel" pInputText id="phoneNo" placeholder="09..." formControlName="phoneNo"  autofocus/>
+        <form [formGroup]="usersForm">
+          <div class="field">
+            <label for="fullName"><strong>Họ và tên</strong></label>
+            <input type="text" pInputText id="fullName" placeholder="Họ và tên..."  formControlName="fullName" required autofocus/>
+          </div>
+          <div class="field">
+              <label for="phoneNo"><strong>Số điện thoại</strong></label>
+              <input type="tel" pInputText id="phoneNo" placeholder="09..." formControlName="phoneNo"  autofocus/>
+          </div>
+          <div class="field">
+              <label for="mail"><strong>Email</strong></label>
+              <input type="email" pInputText id="mail" placeholder="Email..." formControlName="email" required autofocus/>
+              <div class="text-red-500 text-left" *ngIf="usersForm.controls['email'].invalid &&
+              (usersForm.controls['email'].dirty || usersForm.controls['email'].touched)"><i>*Mail không được để trống</i>
+              </div>
             </div>
-            <div class="field">
-                <label for="mail"><strong>Email</strong></label>
-                <input type="email" pInputText id="mail" placeholder="Email..." formControlName="email" required autofocus/>
-                <div class="text-red-500 text-left" *ngIf="usersForm.controls['email'].invalid &&
-                (usersForm.controls['email'].dirty || usersForm.controls['email'].touched)"><i>*Mail không được để trống</i>
-                </div>
+          <div class="field">
+              <label for="username"><strong>Tên đăng nhập</strong></label>
+              <input type="text" pInputText id="username" placeholder="Tên đăng nhập..." formControlName="username" required autofocus/>
+              <div class="text-red-500 text-left" *ngIf="usersForm.controls['username'].invalid &&
+              (usersForm.controls['username'].dirty || usersForm.controls['username'].touched)" ><i>*Tên đăng nhập không được để trống</i>
               </div>
-            <div class="field">
-                <label for="username"><strong>Tên đăng nhập</strong></label>
-                <input type="text" pInputText id="username" placeholder="Tên đăng nhập..." formControlName="username" required autofocus/>
-                <div class="text-red-500 text-left" *ngIf="usersForm.controls['username'].invalid &&
-                (usersForm.controls['username'].dirty || usersForm.controls['username'].touched)" ><i>*Tên đăng nhập không được để trống</i>
-                </div>
+            </div>
+          <div class="field">
+              <label for="password"><strong>Mật khẩu</strong></label>
+              <input type="password" pInputText id="pass" placeholder="Mật khẩu..." formControlName="password" required autofocus/>
+              <div class="text-red-500 text-left" *ngIf="usersForm.controls['password'].invalid &&
+              (usersForm.controls['password'].dirty || usersForm.controls['password'].touched)" ><i>*Mật khẩu không được để trống và từ 6 ký tự trở lên</i>
               </div>
-            <div class="field">
-                <label for="password"><strong>Mật khẩu</strong></label>
-                <input type="password" pInputText id="pass" placeholder="Mật khẩu..." formControlName="password" required autofocus/>
-                <div class="text-red-500 text-left" *ngIf="usersForm.controls['password'].invalid &&
-                (usersForm.controls['password'].dirty || usersForm.controls['password'].touched)" ><i>*Mật khẩu không được để trống và từ 6 ký tự trở lên</i>
-                </div>
-              </div>
-            <div class="field">
-                <label for="repass"><strong>Nhập lại mật khẩu</strong></label>
-                <input type="password" pInputText id="repass" placeholder="nhập lại mật khẩu..." formControlName="repass" required autofocus/>
-                <div class="text-red-500 text-left" *ngIf="usersForm.controls['repass'].invalid &&
-                (usersForm.controls['repass'].dirty && usersForm.controls['password'].hasError('confirm') || usersForm.controls['repass'].touched)">
-                <i>*Nhập lại mật khẩu không đúng</i>
-                </div>
-              </div>
-          </form>
-        </ng-template>
-        <ng-template pTemplate="footer">
-          <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleUserDialog=false"></button>
-          <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()" ></button>
-        </ng-template>
+            </div>
+          <div class="field">
+            <label for="repass"><strong>Nhập lại mật khẩu</strong></label>
+            <input type="password" pInputText id="repass" placeholder="nhập lại mật khẩu..." formControlName="repass" required autofocus/>
+            <div class="text-red-500 text-left" *ngIf="usersForm.controls['repass'].invalid &&
+              (usersForm.controls['repass'].dirty && usersForm.controls['password'].hasError('confirm') || usersForm.controls['repass'].touched)">
+              <i>*Nhập lại mật khẩu không đúng</i>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleUserDialog=false"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()" ></button>
+      </ng-template>
     </p-dialog>
 <!-- sửa thông tin user -->
-<p-dialog [(visible)]="isVisibleUserEdit" [style]="{width: '450px'}" [header]="userDialogHeader"  [modal]="true" class="p-fluid">
-    <ng-template pTemplate="content">
-      <form [formGroup]="usersFormEdit">
-        <div class="field">
-          <label for="fullname"><strong>Họ và tên</strong></label>
-          <input type="text" pInputText id="fullname1" placeholder="Họ và tên..." formControlName="fullname" autofocus/>
-        </div>
-        <div class="field">
+    <p-dialog [(visible)]="isVisibleUserEdit" [style]="{width: '450px'}" [header]="userDialogHeader"  [modal]="true" class="p-fluid">
+      <ng-template pTemplate="content">
+        <form [formGroup]="usersFormEdit">
+          <div class="field">
+            <label for="fullname"><strong>Họ và tên</strong></label>
+            <input type="text" pInputText id="fullname1" placeholder="Họ và tên..." formControlName="fullname" autofocus/>
+          </div>
+          <div class="field">
             <label for="phoneNo"><strong>Số điện thoại</strong></label>
             <input type="tel" pInputText id="numberFone1" placeholder="09..." formControlName="phoneNo" autofocus/>
-        </div>
-        <div class="field">
+          </div>
+          <div class="field">
             <label for="email"><strong>Email</strong></label>
             <input type="email" pInputText id="mail1" placeholder="Email..." formControlName="email" required autofocus/>
             <div class="text-red-500 text-left" *ngIf="usersFormEdit.controls['email'].invalid &&
-            (usersFormEdit.controls['email'].dirty || usersFormEdit.controls['email'].touched)" >
-           <i>*Mail không được để trống</i>
+              (usersFormEdit.controls['email'].dirty || usersFormEdit.controls['email'].touched)" >
+              <i>*Mail không được để trống</i>
             </div>
           </div>
-      </form>
-    </ng-template>
-    <ng-template pTemplate="footer">
-      <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserEdit=false"></button>
-      <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItemEdit()"></button>
-    </ng-template>
-  </p-dialog>
+        </form>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text" (click)="isVisibleUserEdit=false"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItemEdit()"></button>
+      </ng-template>
+    </p-dialog>
 <!-- confirm disable -->
     <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser" [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()" (onCancel)="cancelDisable()"></confirm-dialog>
 <!-- Danh sách group trong DS user -->
-<list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"  ></list-group-of-users>
+    <list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"  ></list-group-of-users>
   </div>
 </div>
 
