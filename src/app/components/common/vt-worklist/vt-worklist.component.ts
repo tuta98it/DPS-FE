@@ -125,7 +125,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   markTypes: any[] = [];
   selectedMarkType = '';
   uploadingKeyImage = false;
-
+  isLiveCamFullScreen = false;
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -208,6 +208,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           this.cameras = [...this.cameras];
           if (this.cameras.length > 2) {
             this.selectedCameraId = this.cameras[2].id ?? '';
+            if (this.isShowLiveCam) {
+              this.showLiveCam();
+            }
           }
         });
     });
@@ -240,7 +243,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this.showLiveCam();
   }
 
-  captureImage() {
+  captureImage(event: any) {
+    event.preventDefault();
     if (!this.loadingCamera && this.selectedCameraId) {
       if (!this.selectedMarkType) {
         return this.notification.warn('Vui lòng chọn phương pháp nhuộm');
@@ -259,7 +263,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     // let tempUrl = window.URL.createObjectURL(imgBlob);
     // console.log('tempUrl', tempUrl);
     this.uploadingKeyImage = true;
-    this.loadingCamera = true;
+    // this.loadingCamera = true;
     this.ref.detectChanges();
     let ext = '.png';
     let uploadId = new Date().getTime() * 1000 + '';
@@ -271,7 +275,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     }).add(() => {
       this.uploadingKeyImage = false;
-      this.loadingCamera = false;
+      // this.loadingCamera = false;
     });
   }
 

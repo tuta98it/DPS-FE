@@ -272,8 +272,14 @@
                       Loading
                     </span> 
                   </div>
-                  <div *ngIf="!loadingCamera && selectedCameraId && patientForm.value.id" class="w-full h-full overflow-hidden cursor-pointer" (click)="captureImage()" >
-                    <video #liveCam id="live-cam" autoplay width="100%" height="100%" [srcObject]="stream"></video>
+                  <div *ngIf="!loadingCamera && selectedCameraId && patientForm.value.id" class="w-full h-full overflow-hidden cursor-pointer"
+                    [ngClass]="{'fixed top-0 right-0 bottom-0 left-0 z-5 bg-black-alpha-90': isLiveCamFullScreen, 'relative': !isLiveCamFullScreen}">
+                    <video (click)="captureImage($event)" #liveCam id="live-cam" autoplay width="100%" height="100%"
+                      [srcObject]="stream"></video>
+                    <button pButton pRipple type="button" icon="fa-solid fa-expand" class="text-white hover:surface-400 absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
+                      *ngIf="!isLiveCamFullScreen" (click)="isLiveCamFullScreen=true" title="Toàn màn hình"></button>
+                    <button pButton pRipple type="button" icon="pi pi-times" class="text-white hover:surface-400 absolute top-0 right-0 p-button-outlined btn-image flex-none text-2xl font-bold border-none"
+                      *ngIf="isLiveCamFullScreen" (click)="isLiveCamFullScreen=false" title="Thoát"></button>
                   </div>
                 </div>
               </div>
@@ -285,7 +291,7 @@
                     <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
                   </div>
                   <button pButton pRipple type="button" icon="fa-solid fa-expand" class="absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
-                    [disabled]="keyImages.length==0" (click)="visibleKeyImages=true" title="Xem key images"></button>
+                    (click)="visibleKeyImages=true" title="Xem key images"></button>
                 </div>
                 <div *ngIf="keyImages.length==0" class="w-full h-15rem flex flex-column justify-content-center align-items-center surface-300">
                   <i class="pi pi-images text-xl"></i>
