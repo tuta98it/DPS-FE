@@ -29,10 +29,14 @@ export class AuthGuard implements CanActivate, OnDestroy {
   async canActivate(
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot): Promise<boolean> {
-    if (route.data['role'] && this.currentUser.userTypes?.includes(route.data['role'])) {
+    if (route.data['role']) {
+      if (this.currentUser.userTypes?.includes(route.data['role'])) {
+        return true;
+      }
+    } else if (this.currentUser.userId) {
       return true;
     }
-    this.notification.warn('Bạn không có quyền truy cập đường dẫn này', '')
+    // this.notification.warn('Bạn không có quyền truy cập đường dẫn này', '');
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url} });
     return false;
   }
