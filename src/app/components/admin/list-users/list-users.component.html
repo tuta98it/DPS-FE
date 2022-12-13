@@ -120,6 +120,25 @@
     <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser" [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()" (onCancel)="cancelDisable()"></confirm-dialog>
 <!-- Danh sách group trong DS user -->
 <list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"  ></list-group-of-users>
+
+
+<p-dialog [(visible)]="isVisibleAddUserDialog" [style]="{width: '450px'}" header="Thêm thành viên"  [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="usernameForm">
+      <div class="field">
+        <label for="name">Tên đăng nhập</label>
+        <input type="text" pInputText id="username" formControlName="username" required autofocus/>
+        <div class="m-error" *ngIf="usernameForm.controls['username'].invalid && usernameForm.controls['username'].dirty">*Tên đăng nhập không được để trống</div>
+      </div>
+    </form>
+  </ng-template>
+  
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleAddUserDialog=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveAdd()"></button>
+  </ng-template>
+</p-dialog>
+
   </div>
 </div>
 
