@@ -27,8 +27,12 @@
                 mscform.printForm('main-form', paperWidth, paperHeight, paperMargin, pathToFormFolder);
             };
 
+            var doSavePdfCallback = function save2Pdf(filename, paperWidth, paperHeight, paperMargin, pathToFormFolder) {
+                mscform.save2Pdf('main-form', filename, paperWidth, paperHeight, paperMargin, pathToFormFolder);
+            };
+
             $(document).ready(function () {
-                parent.registerShowPrint(previewCallback, doPrintCallback);
+                parent.registerShowPrint(previewCallback, doPrintCallback, doSavePdfCallback);
             });
         </script>
     </head>

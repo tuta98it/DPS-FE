@@ -30,9 +30,9 @@ export class PrintTemplatesComponent implements OnInit {
 
   ngOnInit() {
     this.cols = [
-      { field: 'name', header: 'Tên mẫu in', width: '50rem' },
-      { field: 'id', header: 'Id', width: '30rem' },
-      { field: 'priority', header: 'Độ ưu tiên', width: '10rem' },
+      { field: 'name', header: 'Tên mẫu in', width: '20rem' },
+      { field: 'id', header: 'Id', width: '15rem' },
+      { field: 'priority', header: 'Độ ưu tiên', width: '5rem' },
     ];
     this.getAll();
   }
@@ -60,7 +60,7 @@ export class PrintTemplatesComponent implements OnInit {
   }
 
   onDeleteItem(item: any) {
-    this.textConfirmDelete = `Xác nhận xóa mẫu in <b>${item.templateName}</b>?`
+    this.textConfirmDelete = `Xác nhận xóa mẫu in <b>${item.name}</b>?`
     this.deletedItem = item;
     this.isVisibleDeleteItemDialog = true;
   }
