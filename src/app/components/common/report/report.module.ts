@@ -12,8 +12,6 @@ import { ReportEditorComponent } from './report-editor/report-editor.component';
 import { ReportActionsComponent } from './report-actions/report-actions.component';
 import { PrintPreviewPopupComponent } from './print-preview-popup/print-preview-popup.component';
 
-
-
 @NgModule({
   declarations: [
     ReportPanelComponent,

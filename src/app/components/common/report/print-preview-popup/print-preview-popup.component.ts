@@ -45,18 +45,13 @@ export class PrintPreviewPopupComponent implements OnInit {
 
   iframePreviewFunction: any = null;
   iframePrintFunction: any = null;
+  iframeSavePdfFunction: any = null;
 
   constructor(
     private printTemplateService: PrintTemplateService,
     private caseStudyService: CaseStudyService,
   ) {
-    this.lstPrintTemplates = [
-      {name: 'New York', id: 'NY'},
-      {name: 'Rome', id: 'RM'},
-      {name: 'London', id: 'LDN'},
-      {name: 'Istanbul', id: 'IST'},
-      {name: 'Paris', id: 'PRS'}
-    ];
+    this.lstPrintTemplates = [];
 
     //bind functions for iframe
     (<any>window).registerShowPrint= this.registerShowPrint.bind(this);
@@ -154,7 +149,10 @@ export class PrintPreviewPopupComponent implements OnInit {
   }
 
   printReport2Pdf(): void {
-    
+    if(this.iframeSavePdfFunction != null) {
+      var patientName = (this.lstCommonInfos.patientsName != undefined && this.lstCommonInfos.patientsName != "") ? this.lstCommonInfos.patientsName : "dps-report";
+      this.iframeSavePdfFunction(patientName, '210mm', '297mm', '0', '/html/print-template');
+    }
   }
 
   showPrintTemplate(templateInfo: any) {
@@ -173,10 +171,11 @@ export class PrintPreviewPopupComponent implements OnInit {
    * formInfo: json data of form
    * commonInfoData: array of common info values
    */
-  registerShowPrint(previewCallback:any, printCallback: any) {
+  registerShowPrint(previewCallback:any, printCallback: any, savePdfCallback: any) {
     console.log('isIframeReady before: ' + this.isIframeReady);
     this.iframePreviewFunction = previewCallback;
     this.iframePrintFunction = printCallback;
+    this.iframeSavePdfFunction = savePdfCallback;
     this.isIframeReady = true;
     if(this.isWaiting4Show && this.lstCommonInfos != null) {
       this.isWaiting4Show = false;
