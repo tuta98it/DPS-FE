@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Danh sách nhóm của tài khoản'" [modal]="true" class="p-fluid" (onHide)="closeListGroup()">
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '750px'}" [header]="'Danh sách nhóm của tài khoản'" [modal]="true" class="p-fluid" (onHide)="closeListGroup()">
   <ng-template pTemplate="content">
     <div class="grid mt-0">
       <p-table [value]="listGroups" [(selection)]="selectedGroups" dataKey="id" [tableStyle]="{'min-width': '50rem'}" [loading]="loading">
@@ -7,7 +7,7 @@
                 <th style="width: 8rem"> Chọn nhóm
                 </th>
                 <th>Tên nhóm</th>
-                <th>mô tả</th>
+                <th>Mô tả</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-listGroup>
@@ -23,8 +23,8 @@
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Save" icon="pi pi-times" class="p-button-text text-green-600" (click)="saveGroupOfUser()"></button>
     <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="closeListGroup()"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text text-green-600" (click)="saveGroupOfUser()"></button>
   </ng-template>
 </p-dialog>
 

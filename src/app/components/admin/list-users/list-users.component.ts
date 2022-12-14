@@ -13,17 +13,34 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
   styleUrls: ['./list-users.component.scss'],
 })
 export class ListUsersComponent implements OnInit {
-  isVisibleUserDialog = false;
-  isVisibleUserEdit = false;
+  _isVisibleUserDialog = false;
+  set isVisibleUserDialog(value: boolean) {
+    this._isVisibleUserDialog = value;
+    if (!value) {
+      this.usersForm.markAsPristine();
+    }
+  }
+  get isVisibleUserDialog() {
+    return this._isVisibleUserDialog;
+  }
+  _isVisibleUserEdit = false;
+  set isVisibleUserEdit(value: boolean) {
+    this._isVisibleUserEdit = value;
+    if (!value) {
+      this.usersForm.markAsPristine();
+    }
+  }
+  get isVisibleUserEdit() {
+    return this._isVisibleUserEdit;
+  }
   isEditUser = false;
   isVisibleDisableUserDialog = false;
-  isVisibleAddUserDialog = false;
   textConfirmDisableUser = '';
   disableItem: any = {};
   userDialogHeader = '';
   searchData = {
     skip: 0,
-    take: 1000,
+    take: 40,
     keyword: '',
   };
   loading = false;
@@ -35,7 +52,19 @@ export class ListUsersComponent implements OnInit {
   usersFormEdit: FormGroup;
   confirmLabelDisable = "";
   isVisibleListGroups = false;
-  usernameForm: FormGroup;
+
+  _isVisibleAddAccountDialog = false;
+  set isVisibleAddAccountDialog(value: boolean) {
+    this._isVisibleAddAccountDialog = value;
+    if (!value) {
+      this.accountForm.markAsPristine();
+    }
+  }
+  get isVisibleAddAccountDialog() {
+    return this._isVisibleAddAccountDialog;
+  }
+  accountForm: FormGroup;
+  disabledUserId = '';
   constructor(
     private fb: FormBuilder,
     private notification: NotificationService,
@@ -60,7 +89,7 @@ export class ListUsersComponent implements OnInit {
       disable: [null],
       enable: [null],
     })
-    this.usernameForm = this.fb.group({
+    this.accountForm = this.fb.group({
       username: [null, [Validators.required]],
     })
   }
@@ -104,7 +133,7 @@ export class ListUsersComponent implements OnInit {
   resetSearch() {
     this.searchData = {
       skip: 0,
-      take: 1000,
+      take: 40,
       keyword: '',
     };
     this.search();
@@ -129,11 +158,11 @@ export class ListUsersComponent implements OnInit {
     this.isEditUser = false;
     this.userDialogHeader = 'Thêm tài khoản mới';
   }
-  onCreatAdd() {
-    this.usernameForm.patchValue({
-      name: ''
+  onCreateAccount() {
+    this.accountForm.patchValue({
+      username: ''
     });
-    this.isVisibleAddUserDialog = true;
+    this.isVisibleAddAccountDialog = true;
     this.isEditUser = false;
   }
   onEditUser(item: any) {
@@ -150,13 +179,9 @@ export class ListUsersComponent implements OnInit {
     this.userDialogHeader = 'Sửa thông tin tài khoản';
   }
   saveItem() {
-    console.log("usersForm", this.usersForm.valid);
-    console.log("isEditUser", this.isEditUser)
     if (this.usersForm.valid && !this.isEditUser) {
-      console.log('thêm');
       this.createUser();
     } else {
-      console.log('không thêm được');
       Object.values(this.usersForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
@@ -165,25 +190,22 @@ export class ListUsersComponent implements OnInit {
       });
     }
   }
-  saveAdd() {
-    console.log("usersAdd", this.usernameForm.valid);
-    console.log("isEditUser", this.isEditUser)
-    if (this.usernameForm.valid && !this.isEditUser) {
-      console.log('thêm');
-      this.createAdd();
+  saveAccount() {
+    if (this.accountForm.valid && !this.isEditUser) {
+      this.createAccount();
     } else {
-      console.log('không thêm được');
-
+      Object.values(this.accountForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
     }
   }
   saveItemEdit() {
-    console.log("usersForm", this.usersFormEdit.valid);
-    console.log("isEditUser", this.isEditUser)
     if (this.usersFormEdit.valid && this.isEditUser) {
-      console.log('sửa');
       this.updateUser();
     } else {
-      console.log('không sửa được');
       Object.values(this.usersFormEdit.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
@@ -208,14 +230,11 @@ export class ListUsersComponent implements OnInit {
           this.isVisibleUserDialog = false;
           this.search();
         }
-        else {
-
-        }
       }
     });
   }
-  createAdd() {
-    const formValue = this.usernameForm.value;
+  createAccount() {
+    const formValue = this.accountForm.value;
     const payload = {
       username: formValue.username,
     }
@@ -225,9 +244,6 @@ export class ListUsersComponent implements OnInit {
           this.notification.success('Thêm thành công', '');
           this.isVisibleDisableUserDialog = false;
           this.search();
-        }
-        else {
-
         }
       }
     });
@@ -254,30 +270,18 @@ export class ListUsersComponent implements OnInit {
   }
 
   onChangeEnable(item: any) {
-    this.usersFormEdit.patchValue({
-      disable: item.disable,
-      enable: item.enable,
-      id: item.id,
-      fullname: item.fullname,
-      email: item.email,
-      phoneNo: item.phoneNo,
-      username: item.username,
-      password: '********'
-    });
-    console.log(item.checked)
     if (!item.enable) {
+      this.disabledUserId = item.id;
       this.textConfirmDisableUser = `Xác nhận Disable tài khoản này <b>${item.username}?`;
       this.confirmLabelDisable = "Disable";
       this.isVisibleDisableUserDialog = true;
     }
     else {
-      this.isVisibleDisableUserDialog = false;
       this.search();
     }
   }
   disableUser() {
-    const formEditValue = this.usersFormEdit.value;
-    this.userService.updateDisable(formEditValue.id).subscribe({
+    this.userService.updateDisable(this.disabledUserId).subscribe({
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Disable User thành công', '');
@@ -288,14 +292,12 @@ export class ListUsersComponent implements OnInit {
     });
   }
   cancelDisable() {
-    const formEditValue = this.usersFormEdit.value;
-    formEditValue.enable = true;
     this.search();
   }
   selectUser(user: any) {
     this.selectedUser = user;
   }
-  openVisibleListGroups(){
+  openListGroups(){
     this.isVisibleListGroups=true;
   }
 
