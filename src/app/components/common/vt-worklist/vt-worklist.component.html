@@ -323,8 +323,10 @@
                 optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
-            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-search flex-none text-2xl p-button-danger font-bold p-button-rounded"
+            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-search mr-2 flex-none text-2xl p-button-danger font-bold p-button-rounded"
               (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
+            <button pButton pRipple type="button" icon="pi pi-download" class="btn-search flex-none text-xl font-bold p-button-rounded"
+              [loading]="loadingExport" (click)="exportReport()" title="Xuất báo cáo"></button>
           </div>
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-1">

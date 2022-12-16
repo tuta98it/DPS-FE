@@ -1,4 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import saveAs from 'file-saver';
 import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -50,6 +52,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   panelSizes = [40, 20, 40];
   reportPanelHeight = 0;
   isSmallScreen = true;
+  
+  loadingExport = false;
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
@@ -218,5 +222,22 @@ export class WorklistComponent implements OnInit, AfterViewInit {
       this.panelSizes = [this.panelSizes[0], 5, 95-this.panelSizes[0]];
       this.setTableHeight(this.panelSizes[0], 5);
     }
+  }
+
+  exportReport() {
+    this.loadingExport = true;
+    this.caseStudyService.exportReport(this.searchData).subscribe({
+      next: (res) => {
+        if (res.body) {
+          let now = new Date();
+          let datePipe = new DatePipe('en-US');
+          let createdTime = datePipe.transform(now, 'HHmmss_ddMMyyyy');
+          let fileName = `Bao-cao-DPS-${createdTime}.xlsx`;
+          saveAs(res.body, fileName);
+        }
+      }
+    }).add(() => {
+      this.loadingExport = false;
+    });
   }
 }

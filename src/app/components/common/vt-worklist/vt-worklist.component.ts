@@ -26,6 +26,7 @@ import { Constants, Roles } from 'src/app/shared/constants/constants';
 import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'vt-worklist',
@@ -127,6 +128,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   uploadingKeyImage = false;
   isLiveCamFullScreen = false;
   activeKeyImageIndex = 0;
+
+  loadingExport = false;
 
   constructor(
     private fb: FormBuilder,
@@ -703,7 +706,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res.isValid) {
           res.jsonData.data.forEach((d:any) => {
-            if (d.roles.includes(Roles.DOCTOR_READ)) {
+            if (d.roles && d.roles.includes(Roles.DOCTOR_READ)) {
               this.doctors.push({
                 username: d.username,
                 fullname: d.fullname,
@@ -754,5 +757,22 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   openKeyImage(index=0) {
     this.activeKeyImageIndex = index;
     this.visibleKeyImages = true;
+  }
+
+  exportReport() {
+    this.loadingExport = true;
+    this.caseStudyService.exportReport(this.searchData).subscribe({
+      next: (res) => {
+        if (res.body) {
+          let now = new Date();
+          let datePipe = new DatePipe('en-US');
+          let createdTime = datePipe.transform(now, 'HHmmss_ddMMyyyy');
+          let fileName = `Bao-cao-DPS-${createdTime}.xlsx`;
+          saveAs(res.body, fileName);
+        }
+      }
+    }).add(() => {
+      this.loadingExport = false;
+    });
   }
 }

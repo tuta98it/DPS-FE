@@ -4,7 +4,9 @@
     [ngClass]="{'w-14rem p-2 pr-6': selectedLayout==LAYOUT.FULL, 'p-1 pt-0 pr-4': selectedLayout==LAYOUT.DUAL, 
     'text-white bg-blue-700': currentCaseId==tab.caseStudyId, 'bg-gray-300 text-color': currentCaseId!=tab.caseStudyId,
     'flex-none mr-1 border-round-sm relative': true}" style="cursor: default;">
-    <div [ngClass]="{'mb-1': selectedLayout==LAYOUT.FULL, 'font-medium':true}">{{tab.patientsName}}</div>
+    <div [ngClass]="{'mb-1': selectedLayout==LAYOUT.FULL, 'font-medium':true}" class="overflow-hidden text-overflow-ellipsis white-space-nowrap">
+      {{tab.patientsName}}
+    </div>
     <div>{{tab.createdTime}}</div>
     <i [ngClass]="{'p-2': selectedLayout==LAYOUT.FULL, 'p-1': selectedLayout==LAYOUT.DUAL, 
       'pi pi-times text-sm text-white font-medium absolute top-0 right-0 cursor-pointer': true}"
