@@ -73,13 +73,13 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							),
 					},
 					{
-						path: 'crud',
+						path: 'admin-dashboard',
 						loadChildren: () =>
-							import('../crud/crud.module').then(
-								(m) => m.CrudModule
+							import('../admin-dashboard/admin-dashboard.module').then(
+								(m) => m.AdminDashboardModule
 							),
 					},
-					{ path: '', redirectTo: 'user-groups', pathMatch: 'full' },
+					{ path: '', redirectTo: 'admin-dashboard', pathMatch: 'full' },
 				],
 			},
 		]),

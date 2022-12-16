@@ -86,11 +86,6 @@ export class AdminMenuComponent implements OnInit {
             visible: this.currentUser.userTypes?.includes(Roles.MANAGE_MARKTYPE),
             routerLink: ['/admin/mark-types'],
           },
-          // {
-          //   label: 'CRUD',
-          //   icon: 'pi pi-fw pi-briefcase',
-          //   routerLink: ['/admin/crud'],
-          // },
         ]
       },
     ];
