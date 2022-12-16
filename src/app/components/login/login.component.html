@@ -1,36 +1,37 @@
-<div class="min-h-screen h-full overflow-hidden">
-  <div>
-    <img class="fixed left-0 h-full w-7" src="assets/images/img-login.jpg" />
-    <img class="fixed left-0 h-full w-full opacity-90" src="assets/images/bg_left.png" />
-  </div>
-  <div>
-    <img class="fixed left-0 h-full w-full" src="assets/images/bg_right.png" />
-  </div>
-  <div class="grid">
+<div class="min-h-screen  h-full overflow-hidden">
+    <div>
+      <img class="fixed notmobie left-0 h-full w-7" src="assets/images/img-login.jpg" />
+      <img class="fixed mobile left-0 h-full w-full opacity-90" style="display:none" src="assets/images/login-background.png" />
+      <img class="fixed notmobie left-0 h-full w-full opacity-90" src="assets/images/bg_left.png" />
+    </div>
+    <div>
+      <img class="fixed notmobie left-0 h-full w-full" src="assets/images/bg_right.png" />
+    </div>
+  <div class="grid login-input">
     <div class="col-6 mt-10rem">
-      <div class="mt-8 m-auto relative z-1 text-center text-white">
-        <img class="h-13rem " src="assets/images/msc.png"/>
-        <h1 class="text-6xl mt-0 ">DPS</h1>
-        <h2 class="font-light mt-7 mx-8 text-2xl">{{slogan.content}}
+      <div class="mt-8 m-auto relative z-1 text-center text-white login-form ">
+        <img class="h-13rem login-logoMSC-slogan" src="assets/images/msc.png"/>
+        <h1 class="text-6xl mt-0 login-logoMSC-slogan">DPS</h1>
+        <h2 class="font-light mt-7 mx-8 text-2xl login-logoMSC-slogan">{{slogan.content}}
         </h2>
-        <h2 class="font-light mt-5"> - {{slogan.author}} - 
+        <h2 class="font-light mt-5 login-logoMSC-slogan"> - {{slogan.author}} - 
         </h2>
       </div>
     </div>
-    <div class="col-5 col-offset-1 relative z-1 text-center mt-10rem p-8">
-      <img class="relative mx-4 pt-6 h-10rem w-24rem" src="assets/images/logo-PMRDPS.png"/>
+    <div class="col-5 col-offset-1 relative z-1 text-center mt-10rem p-8 login-input">
+      <img class="relative mx-4 pt-6 h-10rem w-24rem login-logoPMR" src="assets/images/logo-PMRDPS.png"/>
       <form [formGroup]="loginForm">
-        <div class="col-8 m-auto mt-6 w-23rem">
+        <div class="col-8 m-auto mt-6 w-23rem login-inp-btn-password">
           <div class="field Smt-6 mb-5 mt-6">
             <input type="text" placeholder="Tên đăng nhập" pInputText formControlName="username"
-              (keydown.enter)="login()" class="w-full border-round-3xl border-500 p-4 h-3rem b-r-2 text-base">
+              (keydown.enter)="login()" class="w-full border-round-3xl border-500 p-4 h-3rem b-r-2 text-base ">
             <div class="m-error text-sm inp-login ml-4"
               *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].dirty">
               *Vui lòng nhập tên đăng nhập
             </div>
           </div>
 
-          <div class="field Smt-6 mb-5 mt-6">
+          <div class="field Smt-6 mb-5 mt-6 ">
             <p-password [feedback]="false" [toggleMask]="true" formControlName="password" inputId="password"
               (keydown.enter)="login()" styleClass="w-full p-password p-component p-inputwrapper p-input-icon-right"
               placeholder="Mật khẩu" inputStyleClass=" border-500 p-4 h-3rem b-r-25 text-base">
