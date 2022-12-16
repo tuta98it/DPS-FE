@@ -285,10 +285,12 @@
               </div>
               <div class="w-full px-2 mt-1">
                 <div *ngIf="keyImages.length>0" class="w-full py-2 px-1 border-400 border-1 relative">
-                  <div *ngFor="let img of keyImages; let i = index" [title]="img.note" (click)="openKeyImage(i)"
-                    class="inline-block py-1 px-2 cursor-pointer">
-                    <img [src]="img.src" class="w-7rem h-7rem" style="object-fit: cover;">
+                  <div *ngFor="let img of keyImages; let i = index" [title]="img.note??''" (click)="openKeyImage(i)"
+                    class="key-images relative inline-block p-2 cursor-pointer">
+                    <img (contextmenu)="$event.preventDefault();addPrintedKeyImage(img.id);" [src]="img.src" class="w-7rem h-7rem" style="object-fit: cover;">
                     <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
+                    <p-badge *ngIf="printedKeyImages.indexOf(img.id)>-1" [value]="printedKeyImages.indexOf(img.id)+1+''" 
+                      (contextmenu)="$event.preventDefault();removePrintedKeyImage(img.id);" styleClass="printed-index absolute top-0 right-0"></p-badge>
                   </div>
                   <button pButton pRipple type="button" icon="fa-solid fa-expand" class="absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
                     (click)="visibleKeyImages=true" title="Xem key images"></button>
@@ -339,7 +341,8 @@
   </as-split>
 </div>
 <search-case-study [searchData]="searchData" (onCancelSearch)="onCancelSearch()" [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
-<key-images [(visible)]="visibleKeyImages" [images]="keyImages" [activeIndex]="activeKeyImageIndex"></key-images>
+<key-images [(visible)]="visibleKeyImages" [images]="keyImages" [activeIndex]="activeKeyImageIndex" [printedKeyImages]="printedKeyImages"
+  (removePrintedKeyImage)="removePrintedKeyImage($event)" (addPrintedKeyImage)="addPrintedKeyImage($event)"></key-images>
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
 <upload-key-image [(visible)]="visibleUploadKeyImage" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-key-image>
 <confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'" 

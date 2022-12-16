@@ -34,14 +34,18 @@ export class KeyImagesComponent implements OnInit {
     return this._visible;
   }
   @Output() visibleChange = new EventEmitter<any>();
+  
+  @Output() removePrintedKeyImage = new EventEmitter<any>();
+  @Output() addPrintedKeyImage = new EventEmitter<any>();
 
   isSmallScreen = true;
   @Input() activeIndex = 0;
   imgWidth = '960px';
   imgHeight = '720px';
+  
+  @Input() printedKeyImages: any[] = [];
 
   constructor() { 
-    this.isSmallScreen = window.innerWidth < 1600;
     this.setImageSize();
   }
 
@@ -49,9 +53,15 @@ export class KeyImagesComponent implements OnInit {
   }
 
   setImageSize() {
-    if (this.isSmallScreen) {
-      this.imgWidth = '720px';
-      this.imgHeight = '480px';
+    this.imgWidth = window.innerWidth*0.5 + 'px';
+    this.imgHeight = window.innerHeight*0.75 + 'px';
+  }
+
+  changePrinted(index: number) {
+    if (this.printedKeyImages.indexOf(this.images[index].id) > -1) {
+      this.removePrintedKeyImage.emit(this.images[index].id);
+    } else {
+      this.addPrintedKeyImage.emit(this.images[index].id);
     }
   }
 }

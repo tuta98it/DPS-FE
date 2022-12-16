@@ -10,7 +10,9 @@
     </div>
   </ng-template>
   <ng-template pTemplate="caption" let-item>
-    <h4 style="margin-bottom: .5rem; color: #ffffff;">{{item.title}}</h4>
+    <h5 style="margin-bottom: .5rem; color: #ffffff;">{{item.title}}</h5>
     <p>{{item.note ?? ''}}</p>
+    <input type="checkbox" [checked]="printedKeyImages.indexOf(images[activeIndex].id)>-1" (change)="changePrinted(activeIndex)" class="inline-block w-1rem h-1rem cursor-pointer mr-2">
+    <span class="text-lg text-white">In cùng báo cáo - Thứ tự in: {{printedKeyImages.indexOf(images[activeIndex].id)+1}}</span>
   </ng-template>
 </p-galleria>

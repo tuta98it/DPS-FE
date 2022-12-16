@@ -100,6 +100,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   keyImages: any[] = [];
   FILE_URL = '';
   visibleKeyImages = false;
+  printedKeyImages: any[] = [];
 
   creatingVisit = false;
   editingVisit = false;
@@ -555,6 +556,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             specimensDate: res.jsonData.specimensDate ?
               new Date(res.jsonData.specimensDate) : null,
           });
+          this.printedKeyImages = res.jsonData.printKeyImages;
         }
       }
     });
@@ -797,6 +799,32 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     }).add(() => {
       this.loadingExport = false;
+    });
+  }
+
+  removePrintedKeyImage(id: string) {
+    let i = this.printedKeyImages.indexOf(id);
+    if (i > -1) {
+      this.printedKeyImages.splice(i, 1);
+      this.savePrintedKeyImages();
+    }
+  }
+
+  addPrintedKeyImage(id: string) {
+    if (this.printedKeyImages.indexOf(id)==-1) {
+      this.printedKeyImages.push(id);
+      this.savePrintedKeyImages();
+    }
+  }
+
+  savePrintedKeyImages() {
+    let payload = {
+      caseStudyId: this.caseStudyForm.value.id,
+      keyImageIds: this.printedKeyImages
+    };
+    this.caseStudyService.savePrintedKeyImages(payload).subscribe({
+      next: (res) => {
+      }
     });
   }
 }

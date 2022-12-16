@@ -560,7 +560,7 @@ p-calendar.p-calendar-clearable .p-inputtext {
 }
 p-calendar.p-calendar-clearable .p-calendar-clear-icon {
   color: #6c757d;
-  right: 1.5rem;
+  right: 1rem;
 }
 
 p-calendar.p-calendar-clearable.p-calendar-w-btn .p-calendar-clear-icon {

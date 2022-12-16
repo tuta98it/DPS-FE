@@ -15,7 +15,7 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
 import { ReportModule } from '../report/report.module';
 import { UploadKeyImageComponent } from './upload-key-image/upload-key-image.component';
 import { ContextMenuModule } from 'primeng/contextmenu';
-
+import { BadgeModule } from 'primeng/badge';
 
 @NgModule({
   declarations: [
@@ -28,6 +28,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
     ReactiveFormsModule,
     FormsModule,
     InputTextModule,
+    BadgeModule,
     CalendarModule,
     GalleriaModule,
     ConfirmDialogModule,

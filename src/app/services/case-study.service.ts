@@ -46,4 +46,8 @@ export class CaseStudyService extends BaseService {
   exportReport(data: any): Observable<HttpResponse<Blob>> {
     return this.httpClient.post<Blob>(`${this.baseUrl+this.url}/Export`, data, { observe: 'response', responseType: 'blob' as 'json' });
   }
+
+  savePrintedKeyImages(data: any) {
+    return this.post(`${this.url}/PrintKeyImages`, data);
+  }
 }
