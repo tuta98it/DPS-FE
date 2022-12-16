@@ -36,6 +36,7 @@ export class KeyImagesComponent implements OnInit {
   @Output() visibleChange = new EventEmitter<any>();
 
   isSmallScreen = true;
+  @Input() activeIndex = 0;
   imgWidth = '960px';
   imgHeight = '720px';
 

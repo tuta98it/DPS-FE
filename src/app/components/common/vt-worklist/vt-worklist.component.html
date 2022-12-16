@@ -285,7 +285,7 @@
               </div>
               <div class="w-full px-2 mt-1">
                 <div *ngIf="keyImages.length>0" class="w-full py-2 px-1 border-400 border-1 relative">
-                  <div *ngFor="let img of keyImages" [title]="img.note"
+                  <div *ngFor="let img of keyImages; let i = index" [title]="img.note" (click)="openKeyImage(i)"
                     class="inline-block py-1 px-2 cursor-pointer">
                     <img [src]="img.src" class="w-7rem h-7rem" style="object-fit: cover;">
                     <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
@@ -337,7 +337,7 @@
   </as-split>
 </div>
 <search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
-<key-images [(visible)]="visibleKeyImages" [images]="keyImages"></key-images>
+<key-images [(visible)]="visibleKeyImages" [images]="keyImages" [activeIndex]="activeKeyImageIndex"></key-images>
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
 <upload-key-image [(visible)]="visibleUploadKeyImage" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-key-image>
 <confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'" 

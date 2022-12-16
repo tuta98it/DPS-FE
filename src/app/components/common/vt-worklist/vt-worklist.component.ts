@@ -126,6 +126,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   selectedMarkType = '';
   uploadingKeyImage = false;
   isLiveCamFullScreen = false;
+  activeKeyImageIndex = 0;
+
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -749,7 +751,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     });
   }
 
-  scroll(el: HTMLElement) {
-    el.scrollIntoView({behavior: 'smooth', block: 'start'})
+  openKeyImage(index=0) {
+    this.activeKeyImageIndex = index;
+    this.visibleKeyImages = true;
   }
 }

@@ -1,5 +1,6 @@
 <p-galleria [value]="images" [(visible)]="visible" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-  [containerClass]="'key-images-container w-full h-full'" [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [baseZIndex]="100000">
+  [containerClass]="'key-images-container w-full h-full'" [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [baseZIndex]="100000"
+  [(activeIndex)]="activeIndex">
   <ng-template pTemplate="item" let-item>
     <img [src]="item.src" [style.width]="imgWidth" [style.height]="imgHeight" style="display: block; object-fit: contain;"/>
   </ng-template>
