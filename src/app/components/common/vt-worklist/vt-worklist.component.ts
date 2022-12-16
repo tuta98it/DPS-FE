@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
 import { INIT_CASE_STUDY } from 'src/app/models/case-study';
 import { INIT_REPORT } from 'src/app/models/report';
-import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
+import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { IUploadKeyImageData } from 'src/app/models/upload-key-image-data';
 import { INIT_UPLOAD_SLIDE_DATA } from 'src/app/models/upload-slide-data';
 import { IViewerTab } from 'src/app/models/viewer-tab';
@@ -38,9 +38,30 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   totalCaseStudies = 0;
   loading = false;
   lastMaxStart = -1;
-  INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
-  searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
-  isVisibleSearchCaseStudy = false;
+  INIT_SEARCH_CASE_STUDY = { ...JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY)), from: new Date() };
+  _searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  set searchData(value: SearchCaseStudy) {
+    this._searchData = value;
+    this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
+    this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
+    
+  }
+  get searchData(): SearchCaseStudy {
+    return this._searchData;
+  }
+
+  currentSearchData:SearchCaseStudy|null = null;
+  _isVisibleSearchCaseStudy = false;
+  set isVisibleSearchCaseStudy(value: boolean) {
+    this._isVisibleSearchCaseStudy = value;
+    if (value) {
+      this.searchData = { ...this.searchData };
+      this.currentSearchData = JSON.parse(JSON.stringify(this.searchData));
+    }
+  }
+  get isVisibleSearchCaseStudy(): boolean {
+    return this._isVisibleSearchCaseStudy;
+  }
 
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
@@ -111,6 +132,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   stream!: MediaStream;
   canvas: any;
   loadingCamera = false;
+
   _isShowLiveCam = false;
   set isShowLiveCam(value: boolean) {
     this._isShowLiveCam = value;
@@ -157,6 +179,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
     });
+    this.searchData = JSON.parse(JSON.stringify(this.INIT_SEARCH_CASE_STUDY));
     this.isSmallScreen = window.innerWidth < 1600;
     if(!this.isSmallScreen) {
       this.INIT_WORKLIST_HEIGHT = 35;
@@ -352,7 +375,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    // AnhHT: maybe better if search in CaseStudyTableComponent
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
@@ -436,7 +458,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       next: (res) => {
         if (res.isValid) {
           if (this.creatingVisit) {
-            this.onSearch(INIT_SEARCH_CASE_STUDY);
+            this.onSearch(this.INIT_SEARCH_CASE_STUDY);
             this.notification.success('Tạo ca khám thành công');
           } else {
             this.onSearch(this.searchData);
@@ -597,8 +619,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   onSearch(data: any) {
     this.searchData = JSON.parse(JSON.stringify(data));
-    this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
-    this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
     this.searchData.page = 1;
     this.caseStudyTable.selectedCaseStudy = {};
     this.selectedCaseStudy = {};
@@ -609,6 +629,10 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this.search();
   }
 
+  onCancelSearch() {
+    this.searchData = this.currentSearchData!;
+  }
+  
   dragEnd(event: any) {
     this.setTableHeight(event.sizes[1]);
   }

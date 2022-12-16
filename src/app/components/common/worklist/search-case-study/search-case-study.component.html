@@ -1,4 +1,5 @@
-<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Tìm kiếm'" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '600px'}" [header]="'Tìm kiếm'" [modal]="true" class="p-fluid"
+  [closable]="false" [closeOnEscape]="false">
   <ng-template pTemplate="content">
     <div class="patient-info-container overflow-auto">
       <div class="grid mx-0 p-1">
@@ -21,16 +22,16 @@
           <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" placeholder="Trạng thái" optionLabel="label" optionValue="value" [showClear]="true"></p-dropdown>
         </div>
         <div class="col-6 pl-0 pr-2">
-          <p-calendar placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar [showButtonBar]="true" placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
         </div>
         <div class="col-6 pl-2 pr-0">
-          <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar [showButtonBar]="true" placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
         </div>
         <div class="col-6 pl-0 pr-2 pb-1">
-          <p-calendar placeholder="Duyệt từ ngày" [(ngModel)]="searchData.approveFrom" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar [showButtonBar]="true" placeholder="Duyệt từ ngày" [(ngModel)]="searchData.approveFrom" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
         </div>
         <div class="col-6 pl-2 pr-0 pb-1">
-          <p-calendar placeholder="Duyệt đến ngày" [(ngModel)]="searchData.approveTo" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
+          <p-calendar [showButtonBar]="true" placeholder="Duyệt đến ngày" [(ngModel)]="searchData.approveTo" [showIcon]="true" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="w-full p-inputtext-sm text-base"></p-calendar>
         </div>
         <div class="col-12 text-red-500 p-0 font-italic">
           *Lọc theo NGÀY DUYỆT báo cáo chỉ dùng cho chức năng Xuất báo cáo
@@ -45,7 +46,7 @@
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="visible=false"></button>
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="onCancelSearchEmit()"></button>
     <button pButton pRipple label="Tìm kiếm" icon="pi pi-search" class="p-button-text" (click)="onSearchEmit()"></button>
   </ng-template>
 </p-dialog>

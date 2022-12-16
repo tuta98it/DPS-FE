@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import saveAs from 'file-saver';
-import { INIT_SEARCH_CASE_STUDY } from 'src/app/models/search-case-study';
+import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
@@ -15,7 +15,30 @@ import { CaseStudyTableComponent } from './case-study-table/case-study-table.com
 export class WorklistComponent implements OnInit, AfterViewInit {
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   LAYOUT = Constants.LAYOUT;
-  searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  _searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  set searchData(value: SearchCaseStudy) {
+    this._searchData = value;
+    this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
+    this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
+    
+  }
+  get searchData(): SearchCaseStudy {
+    return this._searchData;
+  }
+
+  currentSearchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  _isVisibleSearchCaseStudy = false;
+  set isVisibleSearchCaseStudy(value: boolean) {
+    this._isVisibleSearchCaseStudy = value;
+    if (value) {
+      this.searchData = { ...this.searchData };
+      this.currentSearchData = JSON.parse(JSON.stringify(this.searchData));
+    }
+  }
+  get isVisibleSearchCaseStudy(): boolean {
+    return this._isVisibleSearchCaseStudy;
+  }
+
   caseStudies: any = [];
   relatedCaseStudies: any = [];
   totalCaseStudies = 0;
@@ -30,7 +53,6 @@ export class WorklistComponent implements OnInit, AfterViewInit {
 
   uploadPatientName = '';
   
-  isVisibleSearchCaseStudy = false;
   isVisiblePatientInfo = false;
   isVisibleUploadSlide = false;
   isVisibleDeleteCase = false;
@@ -64,6 +86,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
     });
+    this.searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
     this.isSmallScreen = window.innerWidth < 1600;
   }
 
@@ -120,6 +143,10 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.caseStudyTable.resetScrollTop();
     this.lastMaxStart = -1;
     this.search();
+  }
+
+  onCancelSearch() {
+    this.searchData = this.currentSearchData;
   }
 
   onSelectCaseStudy(data: any) {

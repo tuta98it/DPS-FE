@@ -21,10 +21,11 @@ export class SearchCaseStudyComponent implements OnInit {
   }
   @Output() visibleChange = new EventEmitter<any>();
   @Output() onSearch = new EventEmitter<any>();
+  @Output() onCancelSearch = new EventEmitter<any>();
   
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
-  searchData: SearchCaseStudy = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  @Input() searchData: SearchCaseStudy = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
 
   constructor() { }
 
@@ -33,6 +34,11 @@ export class SearchCaseStudyComponent implements OnInit {
 
   onSearchEmit() {
     this.onSearch.emit(this.searchData);
+    this.visible = false;
+  }
+
+  onCancelSearchEmit() {
+    this.onCancelSearch.emit();
     this.visible = false;
   }
 }

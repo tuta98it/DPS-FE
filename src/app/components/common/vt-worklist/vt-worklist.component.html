@@ -338,7 +338,7 @@
     </as-split-area>
   </as-split>
 </div>
-<search-case-study [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
+<search-case-study [searchData]="searchData" (onCancelSearch)="onCancelSearch()" [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
 <key-images [(visible)]="visibleKeyImages" [images]="keyImages" [activeIndex]="activeKeyImageIndex"></key-images>
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
 <upload-key-image [(visible)]="visibleUploadKeyImage" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-key-image>
