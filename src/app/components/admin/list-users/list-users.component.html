@@ -26,7 +26,7 @@
         [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)"
         [totalRecords]="total" [dataKey]="'id'" [loading]="loading">
       </m-table>
-      <!-- <div>test</div> -->
+        <!-- <div>test</div> -->
       <ng-template #customHeaderTemplate>
         <th *ngFor="let col of cols; let i = index" [style.minWidth]="col['width']">{{col['header']}}</th>
         <th style="min-width: 5rem" class="text-center">Enable</th>
@@ -45,7 +45,7 @@
         </td>
       </ng-template>
     </div>
-    <!-- thêm user -->
+<!-- thêm user -->
     <p-dialog [(visible)]="isVisibleUserDialog" [style]="{width: '450px'}" [header]="userDialogHeader" [modal]="true"
       class="p-fluid">
       <ng-template pTemplate="content">
@@ -66,23 +66,23 @@
             <input type="email" pInputText placeholder="Email..." formControlName="email" required autofocus />
             <div class="m-error" *ngIf="usersForm.controls['email'].invalid && usersForm.controls['email'].dirty">
               *Email không được để trống
+              </div>
             </div>
-          </div>
           <div class="field">
             <label><strong>Tên đăng nhập</strong></label>
             <input type="text" pInputText placeholder="Tên đăng nhập..." formControlName="username" required
-              autofocus />
+              autocomplete="new-username" autofocus />
             <div class="m-error" *ngIf="usersForm.controls['username'].invalid && usersForm.controls['username'].dirty">
               *Tên đăng nhập không được để trống
+              </div>
             </div>
-          </div>
           <div class="field">
             <label><strong>Mật khẩu</strong></label>
-            <input type="password" pInputText placeholder="Mật khẩu..." formControlName="password" required autofocus />
+            <input type="password" pInputText placeholder="Mật khẩu..." formControlName="password" required autofocus autocomplete="new-password" />
             <div class="m-error" *ngIf="usersForm.controls['password'].invalid && usersForm.controls['password'].dirty">
               *Mật khẩu không được để trống và từ 6 ký tự trở lên
+              </div>
             </div>
-          </div>
           <div class="field">
             <label><strong>Nhập lại mật khẩu</strong></label>
             <input type="password" pInputText placeholder="Nhập lại mật khẩu..." formControlName="repass" required
@@ -100,7 +100,7 @@
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
       </ng-template>
     </p-dialog>
-    <!-- sửa thông tin user -->
+<!-- sửa thông tin user -->
     <p-dialog [(visible)]="isVisibleUserEdit" [style]="{width: '450px'}" [header]="userDialogHeader" [modal]="true"
       class="p-fluid">
       <ng-template pTemplate="content">
@@ -129,33 +129,38 @@
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItemEdit()"></button>
       </ng-template>
     </p-dialog>
-    <!-- confirm disable -->
+<!-- confirm disable -->
     <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser"
       [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()"
       (onCancel)="cancelDisable()"></confirm-dialog>
-    <!-- Danh sách group trong DS user -->
+<!-- Danh sách group trong DS user -->
     <list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"></list-group-of-users>
 
     <p-dialog [(visible)]="isVisibleAddAccountDialog" [style]="{width: '450px'}" header="Thêm thành viên" [modal]="true"
       class="p-fluid">
-      <ng-template pTemplate="content">
+  <ng-template pTemplate="content">
         <form [formGroup]="accountForm">
-          <div class="field">
+      <div class="field">
             <label>Tên đăng nhập</label>
             <input type="text" pInputText formControlName="username" required autofocus />
             <div class="m-error"
               *ngIf="accountForm.controls['username'].invalid && accountForm.controls['username'].dirty">*Tên đăng nhập
               không được để trống</div>
-          </div>
-        </form>
-      </ng-template>
+      </div>
+    </form>
+  </ng-template>
 
-      <ng-template pTemplate="footer">
+  <ng-template pTemplate="footer">
         <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
           (click)="isVisibleAddAccountDialog=false"></button>
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveAccount()"></button>
-      </ng-template>
+  </ng-template>
     </p-dialog>
 
   </div>
 </div>
+
+
+
+
+

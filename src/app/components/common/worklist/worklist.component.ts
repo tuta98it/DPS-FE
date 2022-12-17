@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import saveAs from 'file-saver';
+import { saveAs } from 'file-saver';
 import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -20,7 +20,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this._searchData = value;
     this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
     this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
-    
+
   }
   get searchData(): SearchCaseStudy {
     return this._searchData;
@@ -52,7 +52,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   caseStudyInfoHeader = '';
 
   uploadPatientName = '';
-  
+
   isVisiblePatientInfo = false;
   isVisibleUploadSlide = false;
   isVisibleDeleteCase = false;
@@ -61,7 +61,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
 
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   REPORT_STATES = Constants.REPORT_STATES;
-  
+
   requestTypes:any = {};
   reportStates:any = {};
   selectedPatientId = new String('');
@@ -74,7 +74,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   panelSizes = [40, 20, 40];
   reportPanelHeight = 0;
   isSmallScreen = true;
-  
+
   loadingExport = false;
   constructor(
     private caseStudyService: CaseStudyService,
@@ -189,7 +189,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.selectedPatientId = data.patientId;
     this.isVisibleCaseStudyInfo = true;
   }
-  
+
   onEditPatient(event: any) {
     this.selectedPatientId = new String(event.patientId);
     this.isVisiblePatientInfo = true;
