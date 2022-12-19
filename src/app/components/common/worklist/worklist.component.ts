@@ -229,7 +229,11 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     let contentHeight = window.innerHeight - headerHeight*fontSize;
     this.tableHeight = contentHeight*worklistSize/100 - 80;
     this.relatedTableHeight = contentHeight*relatedListSize/100 - 60;
-    this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 50;
+    if (this.isShowRelated) {
+      this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 60;
+    } else {
+      this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 70;
+    }
   }
 
   onLazyLoad(event:any) {
@@ -246,8 +250,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
       this.panelSizes = [this.panelSizes[0], 20, 80-this.panelSizes[0]];
       this.setTableHeight(this.panelSizes[0], 20);
     } else {
-      this.panelSizes = [this.panelSizes[0], 5, 95-this.panelSizes[0]];
-      this.setTableHeight(this.panelSizes[0], 5);
+      this.panelSizes = [this.panelSizes[0], 6, 94-this.panelSizes[0]];
+      this.setTableHeight(this.panelSizes[0], 6);
     }
   }
 
