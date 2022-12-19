@@ -1,17 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { INIT_CASE_STUDY } from 'src/app/models/case-study';
+import { ISlideNotification } from 'src/app/models/slide-notification';
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { PatientService } from 'src/app/services/patient.service';
+import { NotificationStateService } from 'src/app/shared/app-state/notification-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
 
+import moment from 'moment';
 @Component({
   selector: 'case-study-info',
   templateUrl: './case-study-info.component.html',
   styleUrls: ['./case-study-info.component.scss']
 })
-export class CaseStudyInfoComponent implements OnInit {
+export class CaseStudyInfoComponent implements OnInit, OnDestroy {
   _visible = false;
   @Input() set visible(value: boolean) {
     this._visible = value;
@@ -19,6 +23,8 @@ export class CaseStudyInfoComponent implements OnInit {
     if (!value) {
       this.caseStudyForm.reset(INIT_CASE_STUDY);
       this.selectedPatient = {};
+      this.slideFiles = [];
+      this.nSlideFiles = '0';
     }
   }
   get visible() {
@@ -30,11 +36,13 @@ export class CaseStudyInfoComponent implements OnInit {
   _caseStudyId = new String('');
   @Input() set caseStudyId(data: String) {
     this._caseStudyId = data;
-    if (data == '') {
-      this.addTemporaryCaseStudy();
-    } else {
-      this.getCaseStudy();
-      this.getPatient();
+    if (this.visible) {
+      if (data == '' ) {
+        this.addTemporaryCaseStudy();
+      } else {
+        this.getCaseStudy();
+        this.getPatient();
+      }
     }
   }
   get caseStudyId() {
@@ -51,10 +59,26 @@ export class CaseStudyInfoComponent implements OnInit {
   genders:any = {};
   caseStudyForm: FormGroup;
 
+  visibleConfirmCancel = false;
+  textConfirmCancel = '';
+
+  visibleUploadSlide = false;
+  uploadedCaseStudyId = new String('');
+  protected _notificationsSubscription: Subscription;
+
+  slideFiles: any[] = [];
+  slideNotifications: ISlideNotification[] = [];
+  UPLOAD_STATUS_LABEL = Constants.UPLOAD_STATUS_LABEL;
+  nSlideFiles = '0';
+  uploadedPatientName = '';
+
+  currentInfo: any = {};
+
   constructor(
     private patientService: PatientService,
     private notification: NotificationService,
     private caseStudyService: CaseStudyService,
+    private notificationState: NotificationStateService,
     private fb: FormBuilder,
   ) { 
     Constants.GENDERS.forEach((r: any) => {
@@ -74,27 +98,66 @@ export class CaseStudyInfoComponent implements OnInit {
       modalityCode: [''],
       modalityName: ['']
     });
+    this._notificationsSubscription = this.notificationState.subscribeNotifications( (notifications: ISlideNotification[]) => {
+      this.slideNotifications = notifications;
+      this.filterSlideFiles();
+    });
   }
 
   ngOnInit(): void {
     
   }
+ 
+  public ngOnDestroy(): void {
+    this._notificationsSubscription.unsubscribe();
+  }
 
   onUploadSlide() {
+    this.visibleUploadSlide = true;
+  }
 
+  filterSlideFiles() {
+    if (this.caseStudyId == '') {
+      this.slideFiles = this.slideNotifications.filter(n => n.caseStudyId == this.uploadedCaseStudyId);
+    } else {
+      let slideFiles = this.slideNotifications.filter(n => n.caseStudyId == this.caseStudyId);
+      for (let i=0; i<slideFiles.length; ++i) {
+        let index = this.slideFiles.findIndex(f => f.id == slideFiles[i].id);
+        if (index > -1) {
+          this.slideFiles[index].state = slideFiles[i].state;
+        } else if (slideFiles[i].state==Constants.UPLOAD_STATUS.UPLOADING) {
+          this.slideFiles.unshift(slideFiles[i]);
+        }
+      }
+    }
+    this.setNSlideFiles();
+  }
+
+  setNSlideFiles() {
+    if (this.slideFiles.length) {
+      let nErrorFiles = this.slideFiles.filter(f => f.state==Constants.UPLOAD_STATUS.ERROR).length;
+      this.nSlideFiles = this.slideFiles.filter(f => f.state==Constants.UPLOAD_STATUS.COMPLETED).length + '/'
+        + (this.slideFiles.length-nErrorFiles);
+      if (nErrorFiles) {
+        this.nSlideFiles += `( ${nErrorFiles} thất bại)`;
+      }
+    } else {
+      this.nSlideFiles = '0';
+    }
   }
 
   addTemporaryCaseStudy() {
     this.caseStudyService.addTemporaryCaseStudy().subscribe({
       next: (res) => {
         this.caseStudyForm.controls['id'].setValue(res.d.jsonData);
+        this.uploadedCaseStudyId = res.d.jsonData;
       }
     });
   }
 
   onSave() {
     if (this.caseStudyForm.valid) {
-      if (!this.caseStudyId) {
+      if (this.caseStudyId == '') {
         this.createCaseStudy();
       } else {
         this.updateCaseStudy();
@@ -135,14 +198,22 @@ export class CaseStudyInfoComponent implements OnInit {
   }
 
   getCaseStudy() {
-    this.caseStudyService.getById(this.caseStudyId).subscribe({
+    this.caseStudyService.getCaseStudyInfo(this.caseStudyId+'').subscribe({
       next: (res) => {
         if (res.isValid) {
           this.updatedCaseStudy = res.jsonData;
+          this.uploadedCaseStudyId = res.jsonData.caseStudyId;
+          this.uploadedPatientName = res.jsonData.patientsName;
           this.caseStudyForm.patchValue({
             ...res.jsonData,
-            createTime: new Date(res.jsonData.createdTime),
+            id: res.jsonData.caseStudyId,
+            createTime: moment(res.jsonData.createdTime, "HH:mm:ss DD/MM/YYYY").toDate(),
           });
+          this.slideFiles = res.jsonData.slides ?? [];
+          this.setNSlideFiles();
+          this.currentInfo = {
+            caseStudy: JSON.stringify(this.caseStudyForm.value)
+          };
         }
       }
     });
@@ -181,5 +252,31 @@ export class CaseStudyInfoComponent implements OnInit {
   onClearPatient() {
     this.selectedPatient = {};
     this.caseStudyForm.controls['patientId'].setValue(null);
+  }
+
+  isDirty() {
+    if (!this.caseStudyId) {
+      return !this.caseStudyForm.pristine || this.selectedPatient.id;
+    } else {
+      // return this.currentInfo.caseStudy != JSON.stringify(this.caseStudyForm.value);
+      return false;
+    }
+  }
+
+  onCancel() {
+    if (this.isDirty()) {
+      this.textConfirmCancel = 
+      `Đóng cửa sổ sẽ làm mất các nội dung chưa được lưu, bao gồm:<br/>
+      Thông tin ca thăm khám<br/>
+      Các lam kính vừa tải lên`
+      this.visibleConfirmCancel = true;
+    } else {
+      this.visible = false;
+    }
+  }
+
+  confirmCancel() {
+    this.visibleConfirmCancel = false;
+    this.visible = false;
   }
 }

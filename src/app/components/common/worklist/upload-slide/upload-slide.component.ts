@@ -35,7 +35,10 @@ export class UploadSlideComponent implements OnInit {
   _patientName = '';
   @Input() set patientName(value: string) {
     this._patientName = value;
-    this.header = `Thêm lam kính - Bệnh nhân ${this.patientName}`;
+    this.header = 'Thêm lam kính';
+    if (value) {
+      this.header += ` - Bệnh nhân ${value}`;
+    }
   }
   get patientName() {
     return this._patientName;
@@ -119,9 +122,10 @@ export class UploadSlideComponent implements OnInit {
     uploadSlideData.uploadId = uploadId;
     uploadSlideData.fileName = this.fileName;
     uploadSlideData.newFileName = newFileName;
-    uploadSlideData.patientName = this.patientName;
+    uploadSlideData.patientName = this.patientName ? this.patientName : 'Không xác định';
     uploadSlideData.caseStudyId = this.caseStudyId.toString();
     uploadSlideData.markerType = this.uploadForm.value.markerType;
+    uploadSlideData.markerTypeName = this.markTypes.find(m => m.id==this.uploadForm.value.markerType).name;
     uploadSlideData.isMotic = this.uploadForm.value.isMotic;
     uploadSlideData.createTime = this.uploadForm.value.createTime;
     uploadSlideData.userId = this.currentUser.userId!;

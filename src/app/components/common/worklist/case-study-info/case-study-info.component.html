@@ -1,4 +1,5 @@
-<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '700px'}" [header]="header" [modal]="true" class="p-fluid">
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '700px'}" [header]="header" [modal]="true" class="p-fluid" 
+  [closable]="false" [closeOnEscape]="false">
   <ng-template pTemplate="content">
     <div class="case-study-info-container overflow-auto">
       <div class="grid mx-0 pt-2 mb-0 px-1">
@@ -57,12 +58,12 @@
         </div>
       </div>
       <div class="flex justify-content-between align-items-center px-1">
-        <span class="text-lg font-medium">Số lam kính đã nhập: 0</span>
+        <span class="text-lg font-medium">Số lam kính đã nhập: {{nSlideFiles}}</span>
         <button pButton pRipple label="Tải lên lam kính" icon="pi pi-upload" class="w-auto p-button-primary p-button-sm"
           (click)="onUploadSlide()"></button>
       </div>
       <div class="mt-1">
-        <p-table styleClass="p-datatable-xs p-datatable-gridlines">
+        <p-table [value]="slideFiles" styleClass="p-datatable-sm p-datatable-gridlines">
           <ng-template pTemplate="header">
             <tr>
               <th class="w-3">
@@ -80,15 +81,23 @@
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+            <tr>
+              <td>{{item['markerTypeName']}}</td>
+              <td>{{item['fileName']}}</td>
+              <td>{{item['modifiedDate'] | date:'dd/MM/yyyy HH:mm:ss'}}</td>
+              <td class="{{UPLOAD_STATUS_LABEL[item['state']].color}}">{{UPLOAD_STATUS_LABEL[item['state']].label}}</td>
+            </tr>
           </ng-template>
         </p-table>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
-    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text p-button-danger" (click)="visible=false"></button>
+    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-text p-button-danger" (click)="onCancel()"></button>
     <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-text" (click)="onSave()"></button>
   </ng-template>
 </p-dialog>
 <patient-info [(visible)]="isVisiblePatientInfo" [header]="'Thêm mới bệnh nhân'" (onSelectPatient)="onSelectPatient($event)"></patient-info>
+<confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="textConfirmCancel" [confirmLabel]="'Đồng ý'" (onConfirm)="confirmCancel()"></confirm-dialog>
+<upload-slide [(visible)]="visibleUploadSlide" [caseStudyId]="uploadedCaseStudyId" [patientName]="uploadedPatientName"></upload-slide>
 

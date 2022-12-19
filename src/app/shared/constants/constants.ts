@@ -33,6 +33,13 @@ export class Constants {
     COMPLETED: 4,
     ERROR: 69
   }
+  public static readonly UPLOAD_STATUS_LABEL = {
+    [Constants.UPLOAD_STATUS.UPLOADING]: { label: 'Đang tải lên', color: 'text-orange-500' },
+    [Constants.UPLOAD_STATUS.PROCESSING]: { label: 'Đang xử lý', color: 'text-orange-500' },
+    [Constants.UPLOAD_STATUS.COMPLETED]: { label: 'Đã hoàn thành', color: 'text-green-500' },
+    [Constants.UPLOAD_STATUS.ERROR]: { label: 'Thất bại', color: 'text-red-500' },
+  }
+  
   public static readonly UPLOAD_PROCESS_TYPE = {
     PROCESS_DONE: 'ProcessDone',
     PROCESS_ERROR: 'ProcessError',

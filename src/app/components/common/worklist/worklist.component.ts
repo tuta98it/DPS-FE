@@ -178,7 +178,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
 
   onCreateCaseStudy() {
     this.caseStudyInfoHeader = 'Thêm ca khám';
-    this.updatedCaseStudyId = '';
+    this.updatedCaseStudyId = new String();
     this.selectedPatientId = '';
     this.isVisibleCaseStudyInfo = true;
   }

@@ -6,6 +6,7 @@ export interface ISlideNotification {
   fileSize?: number;
   fileSizeStr?: string;
   patientName?: string;
+  markerTypeName?: string;
   state?: number;
   modifiedDate?: Date | null;
 }
@@ -17,6 +18,7 @@ export const INIT_SLIDE_NOTIFICATION: ISlideNotification = {
   fileSize: 0,
   fileSizeStr: '',
   patientName: '',
+  markerTypeName: '',
   state: 0,
   modifiedDate: null,
 };

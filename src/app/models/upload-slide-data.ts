@@ -5,6 +5,7 @@ export interface IUploadSlideData {
   newFileName?: string;
   caseStudyId?: string;
   markerType?: string;
+  markerTypeName?: string;
   isMotic?: string;
   createTime?: Date | null;
   userId?: string;
@@ -17,6 +18,7 @@ export const INIT_UPLOAD_SLIDE_DATA: IUploadSlideData = {
   newFileName: '',
   caseStudyId: '',
   markerType: '',
+  markerTypeName: '',
   isMotic: '',
   createTime: null,
   userId: '',

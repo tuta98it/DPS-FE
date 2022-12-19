@@ -58,7 +58,9 @@ export class SlideUploadService {
         id: data.uploadId,
         patientName: data.patientName,
         fileName: data.fileName,
+        caseStudyId: data.caseStudyId,
         fileSize: SIZE,
+        markerTypeName: data.markerTypeName,
         fileSizeStr: Utils.humanFileSize(SIZE),
         uploadProgress: 0,
         state: Constants.UPLOAD_STATUS.UPLOADING

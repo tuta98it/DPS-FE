@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ISlideNotification } from 'src/app/models/slide-notification';
 import { SlideService } from 'src/app/services/slide.service';
@@ -11,7 +11,7 @@ import Utils from 'src/app/shared/helpers/utils';
   templateUrl: './notification-panel.component.html',
   styleUrls: ['./notification-panel.component.scss']
 })
-export class NotificationPanelComponent implements OnInit {
+export class NotificationPanelComponent implements OnInit, OnDestroy {
   uploadingList: ISlideNotification[] = [];
   processingList: ISlideNotification[] = [];
   completedList: ISlideNotification[] = [];
@@ -46,6 +46,10 @@ export class NotificationPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  
+  public ngOnDestroy(): void {
+    this._notificationsSubscription.unsubscribe();
   }
 
   getSlideNotifications() {
