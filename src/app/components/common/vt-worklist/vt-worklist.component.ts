@@ -556,7 +556,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             specimensDate: res.jsonData.specimensDate ?
               new Date(res.jsonData.specimensDate) : null,
           });
-          this.printedKeyImages = res.jsonData.printKeyImages;
+          this.printedKeyImages = res.jsonData.printKeyImages ?? [];
         }
       }
     });
