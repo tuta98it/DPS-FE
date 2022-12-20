@@ -146,7 +146,7 @@
             obj.fontSize = objects[i].fontSize / ratio;       
             objects[i].setCoords(objects[i].calcCoords(true));
           } else {
-            console.log(objects[i].forRuler);
+            // console.log(objects[i].forRuler);
             objects[i].fontSize = objects[i].fontSize / ratio;
             let obj = objects[i];
             let aCoord = obj.aCoords;
@@ -366,43 +366,6 @@
     this.calcViewportBoundaries();
     this.renderCanvas(canvasEl.getContext("2d"), this._objects);
     this.viewportTransform = vp;
-    this.width = originalWidth;
-    this.height = originalHeight;
-    this.calcViewportBoundaries();
-    this.interactive = originalInteractive;
-    this.enableRetinaScaling = originalRetina;
-    this.contextTop = originalContextTop;
-    return canvasEl;
-  };
-
-  fabric.Canvas.prototype.toCanvasElementNoTransform = function (multiplier, cropping) {
-    multiplier = multiplier || 1;
-    cropping = cropping || {};
-    var scaledWidth = (cropping.width || this.width) * multiplier,
-      scaledHeight = (cropping.height || this.height) * multiplier,
-      zoom = this.getZoom(),
-      originalWidth = this.width,
-      originalHeight = this.height,
-      newZoom = zoom * multiplier,
-      vp = this.viewportTransform,
-      translateX = (vp[4] - (cropping.left || 0)) * multiplier,
-      translateY = (vp[5] - (cropping.top || 0)) * multiplier,
-      originalInteractive = this.interactive,
-      newVp = [newZoom, 0, 0, newZoom, translateX, translateY],
-      originalRetina = this.enableRetinaScaling,
-      canvasEl = fabric.util.createCanvasElement(),
-      originalContextTop = this.contextTop;
-    canvasEl.width = scaledWidth;
-    canvasEl.height = scaledHeight;
-    this.contextTop = null;
-    this.enableRetinaScaling = false;
-    this.interactive = false;
-    // this.viewportTransform = newVp;
-    this.width = scaledWidth;
-    this.height = scaledHeight;
-    this.calcViewportBoundaries();
-    this.renderCanvas(canvasEl.getContext("2d"), this._objects);
-    // this.viewportTransform = vp;
     this.width = originalWidth;
     this.height = originalHeight;
     this.calcViewportBoundaries();

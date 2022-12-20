@@ -153,7 +153,42 @@
                         </g>
                     </svg>
                 </div>
-                
+
+                <div title="Add polygon" id="tool_polygon" class="tool_freehand tool-btn one-at-a-time clinical-no-need" active="mscdps.enablePolygon()" deactive="mscdps.disablePolygon()">
+                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 256.000000 256.000000"
+                        preserveAspectRatio="xMidYMid meet">
+                        <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none" class="stroke-stroke">
+                            <path d="M1658 2460 c-78 -23 -151 -93 -177 -169 -30 -92 1 -205 76 -272 50
+                            -46 101 -63 178 -63 142 1 249 114 247 262 -2 108 -70 202 -171 237 -48 16
+                            -109 18 -153 5z m101 -161 c63 -22 80 -102 32 -150 -38 -37 -88 -39 -128 -5
+                            -50 43 -32 130 32 157 27 11 28 11 64 -2z"/>
+                            <path d="M980 2149 c-416 -82 -386 -75 -410 -99 -23 -23 -26 -76 -6 -102 31
+                            -42 47 -40 443 38 208 41 388 81 399 89 65 42 21 148 -59 144 -12 -1 -177 -32
+                            -367 -70z"/>
+                            <path d="M160 2159 c-124 -56 -184 -183 -147 -310 33 -110 133 -183 252 -183
+                            185 0 310 208 225 373 -43 83 -136 141 -230 141 -34 0 -72 -8 -100 -21z m168
+                            -175 c34 -39 30 -95 -9 -128 -86 -73 -194 26 -133 122 31 48 102 51 142 6z"/>
+                            <path d="M1843 1922 c-27 -4 -63 -47 -63 -75 0 -11 70 -211 155 -446 164 -449
+                            175 -471 234 -471 32 0 68 30 77 64 7 28 -299 871 -328 903 -22 24 -42 30 -75
+                            25z"/>
+                            <path d="M222 1603 c-7 -3 -19 -18 -28 -34 -13 -26 -14 -82 -9 -432 4 -243 11
+                            -413 17 -430 20 -52 88 -64 127 -24 l22 24 -3 426 -3 425 -24 26 c-24 25 -65
+                            33 -99 19z"/>
+                            <path d="M2212 887 c-44 -14 -118 -80 -142 -127 -86 -168 39 -372 228 -372
+                            102 0 187 51 232 138 33 66 35 170 3 230 -29 54 -101 117 -151 132 -47 14
+                            -125 14 -170 -1z m157 -182 c39 -39 30 -109 -18 -138 -41 -24 -74 -21 -110 9
+                            -24 20 -31 34 -31 63 0 90 95 130 159 66z"/>
+                            <path d="M1258 576 c-446 -66 -634 -97 -652 -109 -48 -32 -44 -98 8 -132 23
+                            -16 61 -11 682 79 732 107 704 100 704 177 0 46 -36 80 -84 78 -17 -1 -313
+                            -43 -658 -93z"/>
+                            <path d="M200 595 c-101 -32 -180 -138 -180 -241 0 -107 49 -187 143 -234 127
+                            -63 266 -21 337 103 50 87 40 208 -24 292 -55 72 -185 110 -276 80z m144 -186
+                            c42 -50 29 -116 -28 -143 -65 -30 -131 13 -131 86 0 83 105 121 159 57z"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="separator"></div>
                 <div id="ruler-btn" class="tool-btn one-at-a-time clinical-no-need" title="Measure distance" active="mscdps.enableRuler()" deactive="mscdps.disableRuler()">
                     <!--<img src="~/images/tool-bar-icon/surface1.svg"/>-->
                     <svg xmlns="http://www.w3.org/2000/svg" width="25.952" height="25.983" viewBox="0 0 25.952 25.983">
@@ -163,14 +198,12 @@
                         </g>
                     </svg>
                 </div>
-    
                 <div title="Delete selecting annotation" class="tool-btn flashing clinical-no-need" id="tool_deleteAnnotation" onclick="mscdps.removeCurrentAnnotation()">
                     <!--<img src="~/images/tool-bar-icon/eraser.svg" />-->
                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="20.63" viewBox="0 0 23 20.63">
                         <path d="M21.8,32.992H13.3l1.912-1.952c.02-.02.037-.048.055-.068l7.44-7.443a.888.888,0,0,0,0-1.251l-7.251-7.251a.885.885,0,0,0-1.248,0l-8.56,8.56a.868.868,0,0,0-.1.125L.517,28.739a1.79,1.79,0,0,0-.031,2.485l3.2,3.379a2.769,2.769,0,0,0,1.264.719,1.2,1.2,0,0,0,.351.065,1.962,1.962,0,0,0,.206.012H21.8a1.2,1.2,0,0,0,0-2.407ZM2.821,30.322a.435.435,0,0,1-.117-.253l-.051-.053.052-.051a.44.44,0,0,1,.124-.261l4.859-4.859a.431.431,0,0,1,.612,0l4.594,4.694a.447.447,0,0,1,0,.621l-2.732,2.773c-.018.018-.038.057-.059.057H5.365c-.023,0-.044-.043-.063-.062Z" transform="translate(-0.001 -14.769)" class="stroke" />
                     </svg>
                 </div>
-
                 <div title="Show/hide all annotations" class="tool-btn one-at-a-time clinical-no-need" id="tool_hideAnnotations" active="mscdps.showHideAnnotations()" deactive="mscdps.showHideAnnotations()">
                     <!--<img src="~/images/tool-bar-icon/eraser.svg" />-->
                     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -395,20 +428,16 @@
                     </div>
                 </div>
                 <div id="key-image">
-    
-                    <div class="panel-title">Slide</div>
+                    <div class="panel-title">Slides</div>
                     <div id="slides-box">
-    
-    
                     </div>
                     <hr class="clinical-no-need" />
+
                     <div class="clinical-no-need">
                         <div class="panel-title">Key images <span id="lblKeyImageCount"></span></div>
                         <!--<div class="pull-right" title="Mở key-image slider"  style="cursor: pointer; margin-right: 10px"><i class="fas fa-eye"></i></div>-->
                     </div>
-    
                     <div id="images-box" class="clinical-no-need"></div>
-    
                 </div>
             </div>
 
