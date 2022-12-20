@@ -181,6 +181,7 @@ body {
 #main-content {
     display: flex;
     height: calc(100% - 0px);
+    border-top: solid 1px var(--border-button-color);
 }
 
 .h-unselectable {
@@ -297,10 +298,19 @@ body {
     cursor: pointer;
     margin: 15px;
 }
+.panel-title span {
+    font-size: 16px;
+}
 
 #tool-box img.selected {
     /*border: 1px solid white;*/
     transition: 0.2s;
+}
+
+#tool-box .separator {
+    border-top: 1px dashed gray;
+    height: 8px;
+    width: 70%;
 }
 
 #slide-viewer {
@@ -401,11 +411,10 @@ canvas:focus,
     }
 
 #key-image {
-    /*width: 400px;*/
     height: 100%;
-    width: 240px;
+    width: 280px;
     min-width: 200px;
-    max-width: 285px;
+    max-width: 320px;
     padding: 10px;
     padding-left: 0px;
     padding-right: 0px;
@@ -420,10 +429,7 @@ canvas:focus,
 
 #key-image hr {
     border-top: 2px solid #eeeded;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin: 10px;
 }
 
 #key-image h4 {
@@ -438,23 +444,24 @@ canvas:focus,
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    padding: 10px 14px;
 }
 
 #slides-box {
-    margin-top: 16px;
-    padding: 8px;
+    padding: 0px 8px 0 11px;
+}
+
+#images-box {
+    padding: 0px 15px;
 }
 
 #slides-box .image-container {
-    margin-bottom: 16px;
+    margin: 4px 1.5%;
     text-align: center;
-    width: 33%;
+    width: 30%;
     display: flex;
     flex-direction: column;
     cursor: pointer;
     justify-content: space-between;
-    padding: 0px 6px;
 }
 
 #slides-box .image-container > div > div.slide-thumbnail {
@@ -522,19 +529,19 @@ canvas:focus,
     line-height: 55px;
 }
 
-#images-box {
-    margin-top: 16px;
+#right-panel-container .rounded-box {
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: white;
 }
 
 #images-box > div {
     text-align: center;
     width: 100%;
     display: flex;
-    padding: 12px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     position: relative;
 }
 
@@ -1137,4 +1144,11 @@ canvas:focus,
 }
 .slide-properties div span {
     margin-left: 8px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .panel-title,
+    .panel-title span {
+        font-size: 14px;
+    }
 }

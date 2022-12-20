@@ -15638,10 +15638,23 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
          * @param {*} value
          */
         _set: function (key, value) {
+            //leht - synch x1,x2,y1,y2 when moving
+            if(key === 'left') {
+                let deltaX = value - this.left;
+                this.x1 += deltaX;
+                this.x2 += deltaX;
+            }
+            if(key === 'top') {
+                let deltaY = value - this.top;
+                this.y1 += deltaY;
+                this.y2 += deltaY;
+            }
+            //leht - end
             this.callSuper('_set', key, value);
             if (typeof coordProps[key] !== 'undefined') {
                 this._setWidthHeight();
             }
+            
             return this;
         },
 
