@@ -255,8 +255,8 @@ export class CaseStudyInfoComponent implements OnInit, OnDestroy {
   }
 
   isDirty() {
-    if (!this.caseStudyId) {
-      return !this.caseStudyForm.pristine || this.selectedPatient.id;
+    if (this.caseStudyId == '') {
+      return !this.caseStudyForm.pristine || this.selectedPatient.id || this.slideFiles.length > 0;
     } else {
       // return this.currentInfo.caseStudy != JSON.stringify(this.caseStudyForm.value);
       return false;
