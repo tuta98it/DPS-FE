@@ -232,7 +232,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     if (this.isShowRelated) {
       this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 60;
     } else {
-      this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 70;
+      this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 200;
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'report-editor',
@@ -7,7 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportEditorComponent implements OnInit {
   fields: any[] = [];
-  constructor() { 
+  reportForm: any = {
+    microbodyDescribe: '',
+    diagnose: '',
+    discuss: '',
+    recommendation: '',
+    consultation: '',
+  };
+  @Input() height = 0;
+
+  constructor(
+    private ref: ChangeDetectorRef
+
+  ) { 
     this.fields = [
       { key: 'microbodyDescribe', label: 'Mô tả vi thể', value: '' },
       { key: 'diagnose', label: 'Chẩn đoán', value: '' },

@@ -60,10 +60,9 @@
         <span class="sm:text-lg xl:text-xl font-bold text-primary-color">
           Báo cáo của bệnh nhân <ng-container *ngIf="selectedCaseStudy?.patientId">{{selectedCaseStudy.patientsName}} - {{selectedCaseStudy.createdTime}}</ng-container> 
         </span>
-        <i class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer" (click)="toggleRelated()" ></i>
       </div>
       <div class="grid w-full m-0 flex-none">
-        <report-panel class="w-full" [style.height]="reportPanelHeight+'px'" [caseStudy]="selectedCaseStudy"></report-panel>
+        <report-panel class="w-full" [height]="reportPanelHeight" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-panel>
       </div>
     </as-split-area>
   </as-split>

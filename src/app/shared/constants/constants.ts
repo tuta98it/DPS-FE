@@ -27,6 +27,13 @@ export class Constants {
     SHARE: 5,
     DELETE: 6,
   }
+  public static readonly REPORT_ACTIONS = {
+    DISCARD: 0,
+    SAVE: 1,
+    APPROVE: 2,
+    UNAPPROVE: 3,
+    PRINT: 4
+  }
   public static readonly UPLOAD_STATUS = {
     UPLOADING: 1,
     PROCESSING: 2,
