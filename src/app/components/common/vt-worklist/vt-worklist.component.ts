@@ -119,8 +119,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     reportForm: true,
   }
   currentInfo: any = {};
-
-  visibleConfirmSave = false;
   visibleConfirmUnapprove = false;
 
   @ViewChild("liveCam") liveCam!: ElementRef;
@@ -405,15 +403,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   onCreateVisit() {
-    if (this.creatingVisit) {
-      return;
-    } else if (this.editingVisit) {
-      this.visibleConfirmSave = true;
-    } else {
-      this.creatingVisit = true;
-      this.resetInfo();
-      this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
-    }
+    this.creatingVisit = true;
+    this.resetInfo();
+    this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
     this.currentReportTemplate = '';
   }
 
@@ -480,15 +472,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     }).add(() => {
       this.saving = false;
-      // this.cancelEdit();
-      if (this.visibleConfirmSave) { // trường hợp tạo ca bệnh mới khi đang sửa một ca khác
-        this.visibleConfirmSave = false;
-        this.editingVisit = false;
-        this.onCreateVisit();
-      } else {
-        this.creatingVisit = false;
-        this.editingVisit = false;
-      }
+      this.creatingVisit = false;
+      this.editingVisit = false;
     });
   }
 
