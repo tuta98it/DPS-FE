@@ -38,7 +38,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   totalCaseStudies = 0;
   loading = false;
   lastMaxStart = -1;
-  INIT_SEARCH_CASE_STUDY = { ...JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY)), from: new Date() };
+  INIT_SEARCH_CASE_STUDY = { ...JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY)), from: new Date().setHours(0, 0, 0, 0) };
   _searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   set searchData(value: SearchCaseStudy) {
     this._searchData = value;
