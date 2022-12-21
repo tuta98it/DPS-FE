@@ -57,4 +57,10 @@ export class NotificationStateService {
       this.dispatchNotifications(this.notifications);
     }
   }
+
+  public removeCompleted() {
+    this.notifications = this.notifications.filter(n => 
+      n.state==Constants.UPLOAD_STATUS.UPLOADING || n.state==Constants.UPLOAD_STATUS.PROCESSING);
+    this.dispatchNotifications(this.notifications);
+  }
 }

@@ -73,7 +73,7 @@ export class NotificationPanelComponent implements OnInit, OnDestroy {
     this.slideService.markAsReadAll().subscribe({
       next: (res) => {
         if (res.isValid) {
-          this.notificationState.dispatchNotifications([]);
+          this.notificationState.removeCompleted();
         }
       }
     });
