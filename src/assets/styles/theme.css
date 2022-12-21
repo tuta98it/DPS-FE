@@ -4288,7 +4288,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border-color: transparent transparent #dee2e6 transparent;
   background: #ffffff;
   color: #6c757d;
-  padding: 1.25rem;
+  padding: 0.75rem;
   font-weight: 700;
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
@@ -4333,7 +4333,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-tabview .p-tabview-panels {
   background: #ffffff;
-  padding: 1.25rem;
+  /* padding: 1.25rem; */
   border: 0 none;
   color: #495057;
   border-bottom-right-radius: 6px;

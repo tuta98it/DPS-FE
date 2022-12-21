@@ -7,10 +7,16 @@ import { BaseService } from './base-service';
 })
 export class ReportService extends BaseService {
   override url = '/Report';
+  
   getCaseStudyReports(caseStudyId: string): Observable<any> {
     return this.get(`${this.url}/CaseStudy/${caseStudyId}`);
   }
+  
   unapprove(reportId: string) {
     return this.get(`${this.url}/UnApprove/${reportId}`);
+  }
+  
+  updateReport(reportId: string, data: any) {
+    return this.post(`${this.url}/Read/${reportId}`, data);
   }
 }

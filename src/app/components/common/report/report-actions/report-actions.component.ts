@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-import { Roles } from 'src/app/shared/constants/constants';
+import { Constants, Roles } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'report-actions',
@@ -8,8 +8,9 @@ import { Roles } from 'src/app/shared/constants/constants';
   styleUrls: ['./report-actions.component.scss']
 })
 export class ReportActionsComponent implements OnInit {
-
+  REPORT_ACTIONS = Constants.REPORT_ACTIONS;
   doctors: any[] = [];
+  @Output() onAction = new EventEmitter<any>();
 
   constructor(
     public userService: UserService,
@@ -18,7 +19,12 @@ export class ReportActionsComponent implements OnInit {
   ngOnInit(): void {
     this.getDoctors();
   }
-  @Output() onAction = new EventEmitter<any>();
+
+  emitAction(action: any) {
+    this.onAction.emit(
+      { action: action }
+    );
+  }
 
   getDoctors() {
     let payload = {

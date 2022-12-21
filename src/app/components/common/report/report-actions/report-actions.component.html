@@ -11,7 +11,8 @@
   </div>
   <div class="col-8 p-0">
     <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-outlined p-button-danger p-button-sm mr-2"></button>
-    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-outlined p-button-success p-button-sm mr-2"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-outlined p-button-success p-button-sm mr-2"
+      (click)="emitAction(REPORT_ACTIONS.SAVE)"></button>
     <button pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-outlined p-button-success p-button-sm mr-2"></button>
     <button pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-outlined p-button-danger p-button-sm mr-2"></button>
     <button pButton pRipple label="In " icon="pi pi-print" class="p-button-outlined p-button-sm mr-2"></button>

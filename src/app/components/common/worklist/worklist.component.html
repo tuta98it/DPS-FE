@@ -1,5 +1,5 @@
 <div class="h-full w-full">
-  <as-split class="h-full bg-blue-50" direction="vertical" (dragEnd)="onResizeEnd($event)">
+  <as-split class="h-full" direction="vertical" (dragEnd)="onResizeEnd($event)">
     <as-split-area [size]="panelSizes[0]" [minSize]="5">
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">

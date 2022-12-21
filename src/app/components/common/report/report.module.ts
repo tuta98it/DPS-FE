@@ -12,6 +12,7 @@ import { ReportEditorComponent } from './report-editor/report-editor.component';
 import { ReportActionsComponent } from './report-actions/report-actions.component';
 import { PrintPreviewPopupComponent } from './print-preview-popup/print-preview-popup.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { TabViewModule } from 'primeng/tabview';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ReactiveFormsModule,
     DialogModule,
     ListboxModule,
+    TabViewModule,
     ButtonModule,
     DropdownModule
   ],

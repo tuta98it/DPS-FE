@@ -287,10 +287,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
   
   preUploadKeyImage(imgBlob: any) {
-    // let tempUrl = window.URL.createObjectURL(imgBlob);
-    // console.log('tempUrl', tempUrl);
     this.uploadingKeyImage = true;
-    // this.loadingCamera = true;
     this.ref.detectChanges();
     let ext = '.png';
     let uploadId = new Date().getTime() * 1000 + '';

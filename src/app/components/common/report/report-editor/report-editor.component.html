@@ -6,6 +6,6 @@
   </div>
   <div *ngFor="let field of fields" class="mt-1">
     <div class="font-semibold text-lg">[{{field.label}}]</div>
-    <p style="min-height: 3rem;" editable="true" [(ngModel)]="reportForm[field.key]" ></p>
+    <p style="min-height: 3rem;" editable="true" propValueAccessor="innerHTML" [(ngModel)]="reportForm[field.key]" ></p>
   </div>
 </div>
