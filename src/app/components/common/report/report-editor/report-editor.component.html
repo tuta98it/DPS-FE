@@ -1,11 +1,14 @@
-<div [style.height]="height+'px'" class="p-2 w-full overflow-auto block bg-white surface-border border-1">
-  <div>
-    <div><span class="inline-block w-6rem">Trạng thái</span>: <span class="font-semibold">Đang đọc</span></div>
-    <div><span class="inline-block w-6rem">Bác sĩ đọc</span>: <span class="font-semibold">Nguyễn Văn Hiệp</span></div>
-    <div><span class="inline-block w-6rem">Bác sĩ duyệt</span>: <span class="font-semibold">Nguyễn Văn Hiệp</span></div>
-  </div>
-  <div *ngFor="let field of fields" class="mt-1">
-    <div class="font-semibold text-lg">[{{field.label}}]</div>
-    <p style="min-height: 3rem;" editable="true" propValueAccessor="innerHTML" [(ngModel)]="reportForm[field.key]" ></p>
+<div class="report-editor-container">
+  <div [style.height]="height+'px'" class="p-2 w-full overflow-auto block surface-border border-1" 
+    (dblclick)="isDisable=false" [ngClass]="{'disable-editor' : isDisable}" [title]="isDisable ? 'Click đúp để sửa' : ''">
+    <div>
+      <div><span class="inline-block w-6rem">Trạng thái</span>: <span class="font-semibold">{{reportForm.stateLabel ?? 'Đang đọc'}}</span></div>
+      <div><span class="inline-block w-6rem">Bác sĩ đọc</span>: <span class="font-semibold">{{reportForm.readDoctor}}</span></div>
+      <div><span class="inline-block w-6rem">Bác sĩ duyệt</span>: <span class="font-semibold">{{reportForm.approveDoctor}}</span></div>
+    </div>
+    <div *ngFor="let field of fields" class="mt-1">
+      <div class="font-semibold text-lg">[{{field.label}}]</div>
+      <p style="min-height: 3rem;" [editable]="!isDisable" propValueAccessor="innerHTML" [(ngModel)]="reportForm[field.key]" ></p>
+    </div>
   </div>
 </div>

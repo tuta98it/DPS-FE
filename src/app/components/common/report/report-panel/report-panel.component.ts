@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { TabView } from 'primeng/tabview';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { INIT_REPORT } from 'src/app/models/report';
 import { ReportService } from 'src/app/services/report.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { ReportEditorComponent } from '../report-editor/report-editor.component';
 
 @Component({
@@ -30,11 +30,18 @@ export class ReportPanelComponent implements OnInit {
 
   reports: any[] = [];
   activeReportTab = 0;
+  visiblePrintPreview = false;
+  disableEditor = true;
+
+  reportStates:any = {};
 
   constructor(
     private reportService: ReportService,
-    private ref: ChangeDetectorRef
+    private notification: NotificationService,
   ) { 
+    Constants.REPORT_STATES.forEach((r: any) => {
+      this.reportStates[r.value] = r.label;
+    });
     this.isSmallScreen = window.innerWidth < 1600;
     if(!this.isSmallScreen) {
       this.minusHeight = 80;
@@ -47,7 +54,9 @@ export class ReportPanelComponent implements OnInit {
 
   onReportAction(event: any) {
     if (event.action == Constants.REPORT_ACTIONS.SAVE) {
-      this.createReport();
+      this.saveReport();
+    } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
+      this.visiblePrintPreview = true;
     }
   }
 
@@ -56,6 +65,9 @@ export class ReportPanelComponent implements OnInit {
     this.reportService.getCaseStudyReports(this.caseStudyId+'').subscribe({
       next: (res) => {
         if (res.jsonData.length > 0) {
+          res.jsonData.forEach((r: any) => {
+            r.stateLabel = this.reportStates[r.state];
+          });
           this.reports = res.jsonData;
         } else {
           this.addDraftReport();
@@ -64,18 +76,41 @@ export class ReportPanelComponent implements OnInit {
     });
   }
 
-  createReport() {
-    console.log('createReport', this.activeReportTab);
-    // let payload = {
-    //   ...this.reportEditor.reportForm,
-    //   caseStudyId: this.caseStudyId
-    // };
-    // this.reportService.create(payload).subscribe({
-    //   next: (res) => {
-    //     this.getReports();
-    //   }
-    // });
+  saveReport() {
+    if (this.reports[this.activeReportTab].id) {
+      this.updateReport();
+    } else {
+      this.createReport();
+    }
   }
+
+  createReport() {
+    let payload = {
+      ...this.reports[this.activeReportTab],
+      caseStudyId: this.caseStudyId
+    };
+    this.reportService.create(payload).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.reports[this.activeReportTab]['id'] = res.jsonData.id;
+          this.reports[this.activeReportTab]['caseStudyId'] = res.jsonData.caseStudyId;
+          this.updateReport();
+        }
+      }
+    });
+  }
+
+  updateReport() {
+    this.reportService.updateReport(this.reports[this.activeReportTab]).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.getReports();
+          this.notification.success('Lưu báo cáo thành công');
+          this.disableEditor = true;
+        }
+      }
+    });
+  } 
 
   changeReportTab(event: any) {
     this.activeReportTab = event.index;

@@ -1,3 +1,9 @@
-[contenteditable] {
-  outline: 0px solid transparent;
+.report-editor-container {
+  [contenteditable] {
+    outline: 0px solid transparent;
+  }
+  .disable-editor {
+    background-color: rgba(130, 170, 227, 0.25);
+    cursor: grab;
+  }
 }

@@ -8,13 +8,14 @@
   <div *ngIf="caseStudyId!=''" class="w-full h-full px-3">
     <p-tabView (onChange)="changeReportTab($event)">
       <p-tabPanel *ngFor="let report of reports" header="Report #1" leftIcon="pi pi-calendar" tooltip="1972">
-        <report-editor [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
+        <report-editor [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
       </p-tabPanel>
     </p-tabView>
     <div class="grid m-0 mt-2">
       <div class="col-10 p-0">
-        <report-actions (onAction)="onReportAction($event)"></report-actions>
+        <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
       </div>
     </div>
   </div>
 </div>
+<print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>

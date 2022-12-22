@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Constants, Roles } from 'src/app/shared/constants/constants';
 
@@ -11,6 +11,8 @@ export class ReportActionsComponent implements OnInit {
   REPORT_ACTIONS = Constants.REPORT_ACTIONS;
   doctors: any[] = [];
   @Output() onAction = new EventEmitter<any>();
+  @Input() report: any = {};
+  @Input() disableEditor = true;
 
   constructor(
     public userService: UserService,

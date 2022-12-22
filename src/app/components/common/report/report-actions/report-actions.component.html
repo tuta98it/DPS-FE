@@ -1,5 +1,5 @@
 <div class="grid m-0">
-  <div class="col-2 p-0 pr-2">
+  <!-- <div class="col-2 p-0 pr-2">
     <p-dropdown formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full p-inputtext-sm'" 
       optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="BS đọc" [showClear]="false">
     </p-dropdown>
@@ -8,13 +8,14 @@
     <p-dropdown formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full p-inputtext-sm'" 
       optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="BS duyệt" [showClear]="false">
     </p-dropdown>
-  </div>
-  <div class="col-8 p-0">
-    <button pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-outlined p-button-danger p-button-sm mr-2"></button>
-    <button pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-outlined p-button-success p-button-sm mr-2"
+  </div> -->
+  <div class="col-12 p-0">
+    <button [disabled]="disableEditor" pButton pRipple label="Hủy" icon="pi pi-times" class="p-button-outlined p-button-danger p-button-sm mr-2"></button>
+    <button [disabled]="disableEditor" pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-outlined p-button-success p-button-sm mr-2"
       (click)="emitAction(REPORT_ACTIONS.SAVE)"></button>
     <button pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-outlined p-button-success p-button-sm mr-2"></button>
     <button pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-outlined p-button-danger p-button-sm mr-2"></button>
-    <button pButton pRipple label="In " icon="pi pi-print" class="p-button-outlined p-button-sm mr-2"></button>
+    <button pButton pRipple label="In " icon="pi pi-print" class="p-button-outlined p-button-sm mr-2"
+      (click)="emitAction(REPORT_ACTIONS.PRINT)"></button>
   </div>
 </div>

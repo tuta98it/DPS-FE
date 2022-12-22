@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'report-editor',
@@ -15,6 +15,16 @@ export class ReportEditorComponent implements OnInit {
     consultation: '',
   };
   @Input() height = 0;
+  
+  _isDisable = true;
+  @Input() set isDisable(value: boolean) {
+    this._isDisable = value;
+    this.isDisableChange.emit(value);
+  }
+  get isDisable() {
+    return this._isDisable;
+  }
+  @Output() isDisableChange = new EventEmitter<any>();
 
   constructor() { 
     this.fields = [

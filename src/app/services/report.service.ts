@@ -16,7 +16,7 @@ export class ReportService extends BaseService {
     return this.get(`${this.url}/UnApprove/${reportId}`);
   }
   
-  updateReport(reportId: string, data: any) {
-    return this.post(`${this.url}/Read/${reportId}`, data);
+  updateReport(data: any) {
+    return this.post(`${this.url}/Read/${data.id}`, data);
   }
 }
