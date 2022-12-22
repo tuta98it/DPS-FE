@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { INIT_REPORT } from 'src/app/models/report';
 import { ReportService } from 'src/app/services/report.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -38,6 +38,7 @@ export class ReportPanelComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private notification: NotificationService,
+    private ref: ChangeDetectorRef
   ) { 
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
@@ -112,11 +113,15 @@ export class ReportPanelComponent implements OnInit {
     });
   } 
 
-  changeReportTab(event: any) {
-    this.activeReportTab = event.index;
-  }
-
   addDraftReport() {
     this.reports.push(JSON.parse(JSON.stringify(INIT_REPORT)));
+  }
+
+  addReportTab() {
+    this.addDraftReport();
+    setTimeout(() => {
+      this.activeReportTab = this.reports.length - 1;
+    }, 100);
+    this.disableEditor = true;
   }
 }

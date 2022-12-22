@@ -6,14 +6,18 @@
     </span> 
   </div>
   <div *ngIf="caseStudyId!=''" class="w-full h-full px-3">
-    <p-tabView (onChange)="changeReportTab($event)">
-      <p-tabPanel *ngFor="let report of reports" header="Report #1" leftIcon="pi pi-calendar" tooltip="1972">
+    <p-tabView [(activeIndex)]="activeReportTab">
+      <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
         <report-editor [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
       </p-tabPanel>
     </p-tabView>
     <div class="grid m-0 mt-2">
       <div class="col-10 p-0">
         <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
+      </div>
+      <div class="col-2 p-0">
+        <button [disabled]="!disableEditor" pButton pRipple label="Thêm" icon="pi pi-plus" class="float-right p-button p-button-sm mr-2" 
+          (click)="addReportTab()"></button>
       </div>
     </div>
   </div>
