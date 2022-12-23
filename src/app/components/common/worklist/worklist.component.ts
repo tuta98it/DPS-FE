@@ -76,6 +76,9 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   isSmallScreen = true;
 
   loadingExport = false;
+
+  visibleReportDialog = false;
+
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
@@ -99,6 +102,13 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.toggleRelated();
     // setTimeout(() => this.toggleRelated(), 500);
   }
+
+  openReportDialog() {
+    if (this.selectedCaseStudy?.caseStudyId) {
+      this.visibleReportDialog = true;
+    }
+  }
+  
   search() {
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({

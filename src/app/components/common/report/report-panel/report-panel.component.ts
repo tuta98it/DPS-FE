@@ -1,10 +1,8 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { INIT_REPORT } from 'src/app/models/report';
 import { ReportService } from 'src/app/services/report.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
-import { ReportEditorComponent } from '../report-editor/report-editor.component';
-
 @Component({
   selector: 'report-panel',
   templateUrl: './report-panel.component.html',
@@ -22,7 +20,6 @@ export class ReportPanelComponent implements OnInit {
   get caseStudyId() {
     return this._caseStudyId;
   }
-  @ViewChild('reportEditor') reportEditor!: ReportEditorComponent;
 
   @Input() height = 0;
   minusHeight = 65;
@@ -31,14 +28,25 @@ export class ReportPanelComponent implements OnInit {
   reports: any[] = [];
   activeReportTab = 0;
   visiblePrintPreview = false;
-  disableEditor = true;
+
+  _disableEditor = true;
+  set disableEditor(value: boolean) {
+    this._disableEditor = value;
+    if (!value) {
+      this.currentReport = JSON.stringify(this.reports[this.activeReportTab]);
+    }
+  }
+  get disableEditor() {
+    return this._disableEditor;
+  }
+
+  currentReport: any = {};
 
   reportStates:any = {};
 
   constructor(
     private reportService: ReportService,
     private notification: NotificationService,
-    private ref: ChangeDetectorRef
   ) { 
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
@@ -58,6 +66,9 @@ export class ReportPanelComponent implements OnInit {
       this.saveReport();
     } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
       this.visiblePrintPreview = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
+      this.reports[this.activeReportTab] = JSON.parse(this.currentReport);
+      this.disableEditor = true;
     }
   }
 
@@ -121,6 +132,7 @@ export class ReportPanelComponent implements OnInit {
     this.addDraftReport();
     setTimeout(() => {
       this.activeReportTab = this.reports.length - 1;
+      this.disableEditor = false;
     }, 100);
     this.disableEditor = true;
   }
