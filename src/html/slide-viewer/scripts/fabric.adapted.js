@@ -15912,20 +15912,20 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
         pi = Math.PI,
         extend = fabric.util.object.extend;
 
-    if (fabric.Circle) {
-        fabric.warn('fabric.Circle is already defined.');
+    if (fabric.LineArrow) {
+        fabric.warn('fabric.LineArrow is already defined.');
         return;
     }
 
     var cacheProperties = fabric.Object.prototype.cacheProperties.concat();
     cacheProperties.push(
-        'radius'
+        'arrowSize'
     );
 
     /**
-     * Circle class
+     * LineArrow class
      * @class fabric.LineArrow
-     * @extends fabric.Line
+     * @extends fabric.LineArrow
      * @see {@link fabric.LineArrow#initialize} for constructor definition
      */
     fabric.LineArrow = fabric.util.createClass(fabric.Line, {
