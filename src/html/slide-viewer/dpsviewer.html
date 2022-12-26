@@ -34,6 +34,7 @@
         <script src="scripts/openseadragon-scalebar.js"></script>
         <script src="scripts/openseadragonzoomlevels.js"></script>
         <script src="scripts/OpenSeadragonHTMLelements.js"></script>
+        <!-- <script src="scripts/fabric.js"></script> -->
         <script src="scripts/fabric.adapted.js"></script>
         <script src="scripts/openseadragon-fabricjs-overlay.js"></script>
 
@@ -90,8 +91,7 @@
                         </g>
                     </svg>
                 </div>
-    
-                <!--<hr class="clinical-no-need"/>-->
+                <div class="separator"></div>
                 <div title="Free drawing" id="tool_freehandRegion" class="tool_freehand tool-btn one-at-a-time clinical-no-need" active="mscdps.enableFreeRegion()" deactive="mscdps.disableFreeRegion()">
                     <!--<img src="~/images/tool-bar-icon/write.svg" />-->
                     <svg xmlns="http://www.w3.org/2000/svg" width="23.026" height="23.026" viewBox="0 0 23.026 23.026">
@@ -125,11 +125,23 @@
     
                 <div title="Add line" id="tool_freehandLine" class="tool_freehand tool-btn one-at-a-time clinical-no-need" active="mscdps.enableLine()" deactive="mscdps.disableLine()">
                     <!--<img src="~/images/tool-bar-icon/vector.svg" />-->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22.5" height="22.5" viewBox="0 0 22.5 22.5">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="22.5" height="22.5" viewBox="0 0 22.5 22.5">
                         <g transform="translate(0.5 0.5)">
                             <g data-name="Group 33">
                                 <path data-name="Path 31" d="M21.142,0h-2.15a.358.358,0,0,0-.358.358v2L2.36,18.634h-2A.358.358,0,0,0,0,18.992v2.15a.358.358,0,0,0,.358.358h2.15a.358.358,0,0,0,.358-.358v-2L19.14,2.867h2a.358.358,0,0,0,.358-.358V.358A.358.358,0,0,0,21.142,0ZM2.15,20.784H.717V19.35H2.15ZM20.784,2.15H19.35V.717h1.433Z" class="stroke stroke-stroke" stroke-width="1" />
                             </g>
+                        </g>
+                    </svg> -->
+
+                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                        width="22.5" height="22.5" viewBox="0 0 170.000000 172.000000"
+                        preserveAspectRatio="xMidYMid meet">
+                        <g transform="translate(0.000000,172.000000) scale(0.100000,-0.100000)"
+                            fill="#505050" stroke="none" class="stroke">
+                            <path d="M795 1615 c-16 -15 -25 -36 -25 -55 0 -19 9 -40 25 -55 l24 -25 278
+                            0 278 0 -663 -663 c-607 -607 -662 -665 -662 -695 0 -44 38 -82 82 -82 30 0
+                            88 55 695 662 l663 663 0 -278 0 -278 25 -24 c32 -33 78 -33 110 0 l25 24 0
+                            391 0 391 -25 24 -24 25 -391 0 -391 0 -24 -25z"/>
                         </g>
                     </svg>
                 </div>
@@ -158,7 +170,7 @@
                     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" viewBox="0 0 256.000000 256.000000"
                         preserveAspectRatio="xMidYMid meet">
-                        <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none" class="stroke-stroke">
+                        <g transform="translate(0.000000,256.000000) scale(0.100000,-0.100000)" fill="#505050" stroke="none" class="stroke">
                             <path d="M1658 2460 c-78 -23 -151 -93 -177 -169 -30 -92 1 -205 76 -272 50
                             -46 101 -63 178 -63 142 1 249 114 247 262 -2 108 -70 202 -171 237 -48 16
                             -109 18 -153 5z m101 -161 c63 -22 80 -102 32 -150 -38 -37 -88 -39 -128 -5
@@ -299,12 +311,9 @@
                 
                 <div id="slide-title" style="display: none;">
                     Bệnh nhân: <span id="patientsName">PatientName here</span>
-
-
                     <div class="pull-right" id="hide-right-panel">
                         <i class="fas fa-eye-slash"></i>
                     </div>
-
                     <div class="pull-right" id="show-right-panel" style="display: none">
                         <i class="fas fa-eye"></i>
                     </div>
@@ -371,10 +380,8 @@
                             <img src="./styles/images/report.svg" />
                         </div>
                         <div class="outline-1">
-    
                         </div>
                         <div class="outline-2">
-    
                         </div>
                     </div>
                     <div class="h-unselectable h-hud" id="slide-info">
@@ -413,11 +420,6 @@
                 </div>
                 <div class="h-unselectable h-hud patient-hud" id="divPatientHUD">
                     Patient & Study info
-                    <!-- <div>@Model.PatientsName | @Model.YOB </div>
-                    <div>@Model.PatientSexCode | @Model.PatientsAge Y | @Model.PatientCode  </div>
-                    <div>@Model.BodyPart</div>
-                    <div>@Model.Description</div>
-                    <div>@Model.Diagnostic</div> -->
                 </div>
             </div>
     

@@ -15904,6 +15904,80 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
 
 })(typeof exports !== 'undefined' ? exports : this);
 
+(function (global) {
+
+    'use strict';
+
+    var fabric = global.fabric || (global.fabric = {}),
+        pi = Math.PI,
+        extend = fabric.util.object.extend;
+
+    if (fabric.Circle) {
+        fabric.warn('fabric.Circle is already defined.');
+        return;
+    }
+
+    var cacheProperties = fabric.Object.prototype.cacheProperties.concat();
+    cacheProperties.push(
+        'radius'
+    );
+
+    /**
+     * Circle class
+     * @class fabric.LineArrow
+     * @extends fabric.Line
+     * @see {@link fabric.LineArrow#initialize} for constructor definition
+     */
+    fabric.LineArrow = fabric.util.createClass(fabric.Line, {
+
+    type: 'lineArrow',
+
+    arrowSize: 4,
+  
+    initialize: function(element, options) {
+      options || (options = {});
+      this.callSuper('initialize', element, options);
+    },
+  
+    toObject: function() {
+      return fabric.util.object.extend(this.callSuper('toObject'));
+    },
+  
+    _render: function(ctx) {
+      this.callSuper('_render', ctx);
+  
+      // do not render if width/height are zeros or object is not visible
+      if (this.width === 0 || this.height === 0 || !this.visible) return;
+  
+      ctx.save();
+  
+      var xDiff = this.x2 - this.x1;
+      var yDiff = this.y2 - this.y1;
+      var angle = Math.atan2(yDiff, xDiff);
+      ctx.translate((this.x2 - this.x1) / 2, (this.y2 - this.y1) / 2);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      //move 10px in front of line to start the arrow so it does not have the square line end showing in front (0,0)
+      ctx.moveTo(this.arrowSize * 2, 0);
+      ctx.lineTo(-this.arrowSize * 4, this.arrowSize * 3);
+      ctx.lineTo(-this.arrowSize * 4, -this.arrowSize * 3);
+      ctx.closePath();
+      ctx.fillStyle = this.stroke;
+      ctx.fill();
+  
+      ctx.restore();
+  
+    }
+  });
+  
+  fabric.LineArrow.fromObject = function(object, callback) {
+    callback && callback(new fabric.LineArrow([object.x1, object.y1, object.x2, object.y2], object));
+  };
+  
+  fabric.LineArrow.async = true;
+
+})(typeof exports !== 'undefined' ? exports : this);
+
 
 (function (global) {
 
