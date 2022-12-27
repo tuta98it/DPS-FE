@@ -1,0 +1,39 @@
+<div class="grid">
+    <div class="col-12 p-0">
+        <div class="card admin-content m-0">
+            <div class="my-2 flex justify-content-between flex-wrap">
+                <span class="block p-input-icon-left">
+                </span>
+                <div class="flex justify-content-end flex-wrap">
+                    <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-success p-button-sm" (click)="onCreatItem()"></button>
+                </div>
+            </div>
+            <m-table [isLazyLoad]="false" [cols]="cols" [items]="sourceHospitals" [dataKey]="'id'" [loading]="loading" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" (selectRow)="selectSourceHospital($event)" ></m-table>
+        </div>
+        <p-dialog [(visible)]="isVisibleSourceHospitalDialog" [style]="{width:'450px'}" [header]="sourceHospitalDialogHeader" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <form [formGroup]="sourceHospitalForm">
+                    <div clas="field">
+                        <label for="name"><span class="text-red-500">*</span>Tên nơi gửi mẫu</label>
+                        <input type="text" pInputText id="name" formControlName="name" required autofocus>
+                        <div class="m-error" *ngIf="sourceHospitalForm.controls['name'].invalid && sourceHospitalForm.controls['name'].dirty">*Tên nơi gửi mẫu không được để trống</div>
+                    </div>
+                    <div clas="field">
+                        <label for="address"><span class="text-red-500">*</span>Địa chỉ</label>
+                        <input type="text" pInputText id="address" formControlName="address" autofocus>
+                    </div>
+                    <div clas="field">
+                        <label for="phoneNo"><span class="text-red-500">*</span>Số điện thoại</label>
+                        <input type="text" pInputText id="phoneNo" formControlName="phoneNo" autofocus>
+                    </div>
+                </form>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Đóng" icon="pi pi-time" class="p-button-text text-red-600" (click)="isVisibleSourceHospitalDialog=false"></button>
+                <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="deleteSourceHospital()"></confirm-dialog>
+

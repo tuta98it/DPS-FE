@@ -12,7 +12,7 @@ import { Roles } from 'src/app/shared/constants/constants';
 export class AdminMenuComponent implements OnInit {
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
-  
+
   model: any[] = [];
 
   constructor(
@@ -99,6 +99,11 @@ export class AdminMenuComponent implements OnInit {
                 label: 'KTV xử lí mẫu',
                 icon: 'pi pi-fw pi-users',
                 routerLink: ['/admin/sample-processing'],
+              },
+              {
+                label: 'Danh mục nơi gửi mẫu',
+                icon: 'pi pi-fw pi-align-justify',
+                routerLink: ['/admin/source-hospital'],
               }
             ]
           },
