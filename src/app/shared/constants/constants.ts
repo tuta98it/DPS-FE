@@ -1,7 +1,7 @@
 export class Constants {
   public static readonly FIREBASE_TOKEN = 'fb-token';
   public static readonly OBJECT_ID_EMPTY = "000000000000000000000000";
-    
+
   public static readonly TABLE_PARAM = {
     PAGE_SIZE: 40,
   }
@@ -46,7 +46,7 @@ export class Constants {
     [Constants.UPLOAD_STATUS.COMPLETED]: { label: 'Đã hoàn thành', color: 'text-green-500' },
     [Constants.UPLOAD_STATUS.ERROR]: { label: 'Thất bại', color: 'text-red-500' },
   }
-  
+
   public static readonly UPLOAD_PROCESS_TYPE = {
     PROCESS_DONE: 'ProcessDone',
     PROCESS_ERROR: 'ProcessError',
@@ -99,6 +99,7 @@ export class Roles {
   public static readonly MANAGE_BRANCH = "Quản lý branch";
   public static readonly MANGAGE_USER = "Quản lý user";
   public static readonly MANGAGE_GROUP = "Quản lý group user";
+  public static readonly MANGAGE_CATEGORY = "Quản lý danh mục";
   public static readonly MANAGE_TEMPLATE = "Quản lý mẫu báo cáo / mẫu in";
   public static readonly MANAGE_MARKTYPE = "Quản lý phương pháp nhuộm";
   public static readonly MANAGE_CS_STATUS = "Quản lý trạng trái ca chụp";

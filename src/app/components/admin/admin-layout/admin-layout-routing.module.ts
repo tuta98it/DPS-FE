@@ -72,6 +72,13 @@ import { AdminLayoutComponent } from './admin.layout.component';
 								(m) => m.MarkTypesModule
 							),
 					},
+                    {
+						path: 'source-hospital',
+						loadChildren: () =>
+							import('../source-hospital/source-hospital.module').then(
+								(m) => m.SourceHospitalModule
+							),
+					},
 					{
 						path: 'admin-dashboard',
 						loadChildren: () =>
@@ -80,6 +87,7 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							),
 					},
 					{ path: '', redirectTo: 'admin-dashboard', pathMatch: 'full' },
+
 				],
 			},
 		]),

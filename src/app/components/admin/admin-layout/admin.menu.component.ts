@@ -12,7 +12,7 @@ import { Roles } from 'src/app/shared/constants/constants';
 export class AdminMenuComponent implements OnInit {
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
-  
+
   model: any[] = [];
 
   constructor(
@@ -81,10 +81,21 @@ export class AdminMenuComponent implements OnInit {
             ]
           },
           {
-            label: 'Quản lý phương pháp nhuộm',
-            icon: 'pi pi-fw pi-align-justify',
+            label: 'Quản lý Danh mục',
+            icon: 'pi pi-fw pi-user',
             visible: this.currentUser.userTypes?.includes(Roles.MANAGE_MARKTYPE),
-            routerLink: ['/admin/mark-types'],
+            items: [
+              {
+                label: 'Danh mục nơi gửi mẫu',
+                icon: 'pi pi-fw pi-align-justify',
+                routerLink: ['/admin/source-hospital'],
+              },
+              {
+                label: 'Quản lý phương pháp nhuộm',
+                icon: 'pi pi-fw pi-align-justify',
+                routerLink: ['/admin/mark-types'],
+              },
+            ]
           },
         ]
       },
