@@ -76,6 +76,10 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   isSmallScreen = true;
 
   loadingExport = false;
+
+  visibleReportDialog = false;
+  disableReport = true;
+
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
@@ -99,6 +103,13 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     this.toggleRelated();
     // setTimeout(() => this.toggleRelated(), 500);
   }
+
+  openReportDialog() {
+    if (this.selectedCaseStudy?.caseStudyId) {
+      this.visibleReportDialog = true;
+    }
+  }
+  
   search() {
     this.loading = true;
     this.caseStudyService.search(this.searchData).subscribe({
@@ -150,8 +161,13 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   }
 
   onSelectCaseStudy(data: any) {
-    this.selectedCaseStudy = data;
-    this.getCaseStudyOfPatient();
+    if (this.disableReport) {
+      this.selectedCaseStudy = data;
+      this.getCaseStudyOfPatient();
+      this.disableReport = true;
+    } else {
+      this.notification.warn('Bạn đang nhập báo cáo', 'Vui lòng Lưu hoặc Hủy trước khi chuyển sang ca bệnh khác');
+    }
   }
 
   onCaseStudyAction(event: any) {

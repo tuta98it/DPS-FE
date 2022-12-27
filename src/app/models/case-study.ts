@@ -13,7 +13,7 @@ export interface ICaseStudy {
   specimensDates: any,
   modalityCode: string,
   modalityName: string,
-  staff?: string,
+  technician?: string,
   quantity?: string,
   numberOfSlideManual?: number
 }
@@ -32,7 +32,7 @@ export const INIT_CASE_STUDY : ICaseStudy = {
   specimensDates: null,
   modalityCode: '',
   modalityName: '',
-  staff: '',
+  technician: '',
   quantity: '',
   numberOfSlideManual: 0
 };

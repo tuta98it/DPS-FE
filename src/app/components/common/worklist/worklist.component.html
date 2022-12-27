@@ -1,5 +1,5 @@
 <div class="h-full w-full">
-  <as-split class="h-full bg-blue-50" direction="vertical" (dragEnd)="onResizeEnd($event)">
+  <as-split class="h-full" direction="vertical" (dragEnd)="onResizeEnd($event)">
     <as-split-area [size]="panelSizes[0]" [minSize]="5">
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">
@@ -60,9 +60,11 @@
         <span class="sm:text-lg xl:text-xl font-bold text-primary-color">
           Báo cáo của bệnh nhân <ng-container *ngIf="selectedCaseStudy?.patientId">{{selectedCaseStudy.patientsName}} - {{selectedCaseStudy.createdTime}}</ng-container> 
         </span>
+        <img src="assets/images/icons/zoom.svg" class="block flex-none ml-auto cursor-pointer" style="height: 1.5rem;" alt="Mở rộng" title="Mở rộng"
+          (click)="openReportDialog()">
       </div>
       <div class="grid w-full m-0 flex-none">
-        <report-panel class="w-full" [height]="reportPanelHeight" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-panel>
+        <report-panel class="w-full" [(disableEditor)]="disableReport" [height]="reportPanelHeight" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-panel>
       </div>
     </as-split-area>
   </as-split>
@@ -73,3 +75,4 @@
 <patient-info [(visible)]="isVisiblePatientInfo" [header]="'Sửa thông tin bệnh nhân'" [patientId]="selectedPatientId"></patient-info>
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
 <confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
+<report-dialog [(visible)]="visibleReportDialog" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-dialog>

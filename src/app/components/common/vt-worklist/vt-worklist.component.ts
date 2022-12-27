@@ -38,7 +38,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   totalCaseStudies = 0;
   loading = false;
   lastMaxStart = -1;
-  INIT_SEARCH_CASE_STUDY = { ...JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY)), from: new Date() };
+  INIT_SEARCH_CASE_STUDY = { ...JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY)), from: new Date().setHours(0, 0, 0, 0) };
   _searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   set searchData(value: SearchCaseStudy) {
     this._searchData = value;
@@ -119,8 +119,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     reportForm: true,
   }
   currentInfo: any = {};
-
-  visibleConfirmSave = false;
   visibleConfirmUnapprove = false;
 
   @ViewChild("liveCam") liveCam!: ElementRef;
@@ -289,10 +287,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
   
   preUploadKeyImage(imgBlob: any) {
-    // let tempUrl = window.URL.createObjectURL(imgBlob);
-    // console.log('tempUrl', tempUrl);
     this.uploadingKeyImage = true;
-    // this.loadingCamera = true;
     this.ref.detectChanges();
     let ext = '.png';
     let uploadId = new Date().getTime() * 1000 + '';
@@ -354,7 +349,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       description: [''],
       sourceHospital: [''],
       modalityDoctor: [''],
-      staff: [''],
+      technician: [''],
       specimensCode: [''],
       visitCode: [''],
       quantity: [''],
@@ -405,15 +400,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   onCreateVisit() {
-    if (this.creatingVisit) {
-      return;
-    } else if (this.editingVisit) {
-      this.visibleConfirmSave = true;
-    } else {
-      this.creatingVisit = true;
-      this.resetInfo();
-      this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
-    }
+    this.creatingVisit = true;
+    this.resetInfo();
+    this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
     this.currentReportTemplate = '';
   }
 
@@ -480,15 +469,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     }).add(() => {
       this.saving = false;
-      // this.cancelEdit();
-      if (this.visibleConfirmSave) { // trường hợp tạo ca bệnh mới khi đang sửa một ca khác
-        this.visibleConfirmSave = false;
-        this.editingVisit = false;
-        this.onCreateVisit();
-      } else {
-        this.creatingVisit = false;
-        this.editingVisit = false;
-      }
+      this.creatingVisit = false;
+      this.editingVisit = false;
     });
   }
 

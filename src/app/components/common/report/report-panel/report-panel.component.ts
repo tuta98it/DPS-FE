@@ -1,8 +1,8 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { INIT_REPORT } from 'src/app/models/report';
 import { ReportService } from 'src/app/services/report.service';
 import { Constants } from 'src/app/shared/constants/constants';
-import { ReportEditorComponent } from '../report-editor/report-editor.component';
-
+import { NotificationService } from 'src/app/shared/notification.service';
 @Component({
   selector: 'report-panel',
   templateUrl: './report-panel.component.html',
@@ -14,24 +14,48 @@ export class ReportPanelComponent implements OnInit {
     this._caseStudyId = data;
     if (data != '') {
       this.getReports();
+      this.activeReportTab = 0;
     }
   }
   get caseStudyId() {
     return this._caseStudyId;
   }
-  @ViewChild('reportEditor') reportEditor!: ReportEditorComponent;
 
   @Input() height = 0;
-  minusHeight = 30;
+  minusHeight = 65;
   isSmallScreen = true;
+
+  reports: any[] = [];
+  activeReportTab = 0;
+  visiblePrintPreview = false;
+
+  _disableEditor = true;
+  @Input() set disableEditor(value: boolean) {
+    this._disableEditor = value;
+    if (!value) {
+      this.currentReport = JSON.stringify(this.reports[this.activeReportTab]);
+    }
+    this.disableEditorChange.emit(value);
+  }
+  get disableEditor() {
+    return this._disableEditor;
+  }
+  @Output() disableEditorChange = new EventEmitter<any>();
+
+  currentReport: any = {};
+
+  reportStates:any = {};
 
   constructor(
     private reportService: ReportService,
-    private ref: ChangeDetectorRef
+    private notification: NotificationService,
   ) { 
+    Constants.REPORT_STATES.forEach((r: any) => {
+      this.reportStates[r.value] = r.label;
+    });
     this.isSmallScreen = window.innerWidth < 1600;
     if(!this.isSmallScreen) {
-      this.minusHeight = 45;
+      this.minusHeight = 80;
     }
   }
 
@@ -41,27 +65,79 @@ export class ReportPanelComponent implements OnInit {
 
   onReportAction(event: any) {
     if (event.action == Constants.REPORT_ACTIONS.SAVE) {
+      this.saveReport();
+    } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
+      this.visiblePrintPreview = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
+      this.reports[this.activeReportTab] = JSON.parse(this.currentReport);
+      this.disableEditor = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.ADD) {
+      this.addReportTab();
+    } 
+  }
+
+  getReports() {
+    this.reports = [];
+    this.reportService.getCaseStudyReports(this.caseStudyId+'').subscribe({
+      next: (res) => {
+        if (res.jsonData.length > 0) {
+          res.jsonData.forEach((r: any) => {
+            r.stateLabel = this.reportStates[r.state];
+          });
+          this.reports = res.jsonData;
+        } else {
+          this.addDraftReport();
+        }
+      }
+    });
+  }
+
+  saveReport() {
+    if (this.reports[this.activeReportTab].id) {
+      this.updateReport();
+    } else {
       this.createReport();
     }
   }
 
-  getReports() {
-    this.reportService.getCaseStudyReports(this.caseStudyId+'').subscribe({
+  createReport() {
+    let payload = {
+      ...this.reports[this.activeReportTab],
+      caseStudyId: this.caseStudyId
+    };
+    this.reportService.create(payload).subscribe({
       next: (res) => {
-        console.log('getReports', res)
+        if (res.isValid) {
+          this.reports[this.activeReportTab]['id'] = res.jsonData.id;
+          this.reports[this.activeReportTab]['caseStudyId'] = res.jsonData.caseStudyId;
+          this.updateReport();
+        }
       }
     });
   }
 
-  createReport() {
-    let payload = {
-      ...this.reportEditor.reportForm,
-      caseStudyId: this.caseStudyId
-    }
-    this.reportService.create(payload).subscribe({
+  updateReport() {
+    this.reportService.updateReport(this.reports[this.activeReportTab]).subscribe({
       next: (res) => {
-        console.log('createReport', res)
+        if (res.isValid) {
+          this.getReports();
+          this.notification.success('Lưu báo cáo thành công');
+          this.disableEditor = true;
+        }
       }
     });
+  } 
+
+  addDraftReport() {
+    this.reports.push(JSON.parse(JSON.stringify(INIT_REPORT)));
+  }
+
+  addReportTab() {
+    this.addDraftReport();
+    setTimeout(() => {
+      this.activeReportTab = this.reports.length - 1;
+      this.disableEditor = false;
+    }, 100);
+    this.disableEditor = true;
   }
 }

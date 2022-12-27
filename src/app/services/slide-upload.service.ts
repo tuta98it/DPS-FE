@@ -8,7 +8,7 @@ import { Constants } from '../shared/constants/constants';
 import Utils from '../shared/helpers/utils';
 import { NotificationService } from '../shared/notification.service';
 
-const BYTES_PER_CHUNK = 10 * 1024 * 1024; // sample chunk sizes. 10MB
+const BYTES_PER_CHUNK = 100 * 1024 * 1024; // sample chunk sizes. 10MB
 
 @Injectable({
   providedIn: 'root'
