@@ -9,34 +9,41 @@
             (click)="onCreateItem()"></button>
         </div>
       </div>
-      <m-table [isLazyLoad]="false" [cols]="cols" [items]="markTypes" (onEditItem)="onEditItem($event)" (onDeleteItem)="onDeleteItem($event)" 
-        (selectRow)="selectMarkType($event)" [dataKey]="'id'" [loading]="loading" ></m-table>
+      <m-table [isLazyLoad]="false" [cols]="cols" [items]="markTypes" (onEditItem)="onEditItem($event)"
+        (onDeleteItem)="onDeleteItem($event)" (selectRow)="selectMarkType($event)" [dataKey]="'id'"
+        [loading]="loading"></m-table>
     </div>
 
-    <p-dialog [(visible)]="isVisibleMarkTypeDialog" [style]="{width: '450px'}" [header]="markTypeDialogHeader" [modal]="true" class="p-fluid">
+    <p-dialog [(visible)]="isVisibleMarkTypeDialog" [style]="{width: '450px'}" [header]="markTypeDialogHeader"
+      [modal]="true" class="p-fluid">
       <ng-template pTemplate="content">
         <form [formGroup]="markTypeForm">
           <div class="field">
             <label for="name"><span class="text-red-500">*</span>Tên phương pháp nhuộm</label>
-            <input type="text" pInputText id="name" formControlName="name" required autofocus/>
-            <div class="m-error" *ngIf="markTypeForm.controls['name'].invalid && markTypeForm.controls['name'].dirty">*Tên phương pháp nhuộm không được để trống
+            <input type="text" pInputText id="name" formControlName="name" required autofocus />
+            <div class="m-error" *ngIf="markTypeForm.controls['name'].invalid && markTypeForm.controls['name'].dirty">
+              *Tên phương pháp nhuộm không được để trống
             </div>
           </div>
           <div class="field">
             <label for="description"><span class="text-red-500">*</span>Mô tả</label>
-            <textarea id="description" pInputText formControlName="describe"  rows="3"></textarea>
-            <div class="m-error" *ngIf="markTypeForm.controls['describe'].invalid && markTypeForm.controls['describe'].dirty">*Mô tả không được để trống
+            <textarea id="description" pInputText formControlName="describe" rows="3"></textarea>
+            <div class="m-error"
+              *ngIf="markTypeForm.controls['describe'].invalid && markTypeForm.controls['describe'].dirty">*Mô tả không
+              được để trống
             </div>
           </div>
         </form>
       </ng-template>
 
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600" (click)="isVisibleMarkTypeDialog=false"></button>
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
+          (click)="isVisibleMarkTypeDialog=false"></button>
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
       </ng-template>
     </p-dialog>
   </div>
 </div>
 
-<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete" (onConfirm)="deleteMarkType()"></confirm-dialog>
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete"
+  (onConfirm)="deleteMarkType()"></confirm-dialog>

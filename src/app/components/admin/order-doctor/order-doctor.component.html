@@ -1,0 +1,46 @@
+<div class="grid">
+    <div class="col-12 p-0">
+        <div class="card admin-content m-0">
+            <div class="my-2 flex justify-content-between flex-wrap">
+                <span class="block p-input-icon-left"></span>
+                <div class="flex justify-content-end flex-wrap">
+                    <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-success p-button-sm"
+                        (click)="onCreateItem()"></button>
+                </div>
+            </div>
+        <m-table [isLazyLoad]="false" [cols]="cols" [items]="orderDoctors" (onEditItem)="onEditItem($event)"
+            (onDeleteItem)="onDeleteItem($event)" (selectRow)="selectOrderDoctor($event)" [dataKey]="'id'"
+            [loading]="loading"></m-table>
+        </div>    
+    <p-dialog [(visible)]="isVisibleOrderDoctorDialog" [style]="{width: '450px'}" [header]="orderDoctorDialogHeader"
+        [modal]="true" class="p-fluid">
+        <ng-template pTemplate="content">
+            <form [formGroup]="orderDoctorForm">
+                <div class="field">
+                    <label for="name"><span class="text-red-500">*</span>Tên bác sĩ chỉ định</label>
+                    <input type="text" pInputText id="name" formControlName="name" required autofocus />
+                    <div class="m-error"
+                        *ngIf="orderDoctorForm.controls['name'].invalid && orderDoctorForm.controls['name'].dirty">*Tên
+                        bác sĩ không được để trống</div>
+                </div>
+                <div class="field">
+                    <label for="phoneNo"><span class="text-red-500"></span>SĐT</label>
+                    <input type="text" pInputText id="phoneNo" formControlName="phoneNo" autofocus />
+                </div>
+                <div class="field">
+                    <label for="hisCode"><span class="text-red-500"></span>Mã Code</label>
+                    <input type="text" pInputText id="hisCode" formControlName="hisCode" autofocus />
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
+                (click)="isVisibleOrderDoctorDialog=false"></button>
+            <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
+        </ng-template>
+    </p-dialog>
+    </div>
+</div>
+<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete"
+    (onConfirm)="deleteOrderDoctor()"></confirm-dialog>

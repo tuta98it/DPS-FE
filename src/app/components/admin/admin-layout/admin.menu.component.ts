@@ -81,10 +81,26 @@ export class AdminMenuComponent implements OnInit {
             ]
           },
           {
-            label: 'Quản lý phương pháp nhuộm',
+            label: 'Quản lý danh mục',
             icon: 'pi pi-fw pi-align-justify',
             visible: this.currentUser.userTypes?.includes(Roles.MANAGE_MARKTYPE),
-            routerLink: ['/admin/mark-types'],
+            items: [
+              {
+                label: 'BS chỉ định',
+                icon: 'pi pi-fw pi-user',
+                routerLink: ['/admin/order-doctor'],
+              },
+              {
+                label: 'Phương pháp nhuộm',
+                icon: 'pi pi-fw pi-book',
+                routerLink: ['/admin/mark-types'],
+              },
+              {
+                label: 'KTV xử lí mẫu',
+                icon: 'pi pi-fw pi-users',
+                routerLink: ['/admin/sample-processing'],
+              }
+            ]
           },
         ]
       },

@@ -89,6 +89,7 @@ export class Roles {
   public static readonly DOCTOR_READ = "Bác sĩ đọc";
   public static readonly DOCTOR_APPROVE = "Bác sĩ duyệt";
   public static readonly DOCTOR_WATCH = "Bác sĩ xem";
+  public static readonly ORDER_DOCTOR = "Bác sĩ chỉ định";
   public static readonly ADMIN = "admin";
   public static readonly DEMO = "Demo";
   public static readonly MANAGER = "Quản lý";

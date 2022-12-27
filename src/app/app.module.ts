@@ -15,7 +15,6 @@ import { FirebaseService } from './services/firebase.service';
 import { NotificationModule } from './shared/components/notification/notification.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -23,7 +22,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
     declarations: [
-      AppComponent
+      AppComponent,
     ],
     imports: [
       NotificationModule,

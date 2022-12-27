@@ -65,11 +65,34 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						canActivate: [AuthGuard],
 						data: { role: Roles.MANAGE_TEMPLATE },
 					},
+					// {
+					// 	path: 'order-doctor',
+					// 	loadChildren: () =>
+					// 		import('../print-templates/print-templates.module').then(
+					// 			(m) => m.PrintTemplatesModule
+					// 		),
+					// 	canActivate: [AuthGuard],
+					// 	data: { role: Roles.MANAGE_MARKTYPE },
+					// },
 					{
 						path: 'mark-types',
 						loadChildren: () =>
 							import('../mark-types/mark-types.module').then(
 								(m) => m.MarkTypesModule
+							),
+					},
+					{
+						path: 'order-doctor',
+						loadChildren: () =>
+							import('../order-doctor/order-doctor.module').then(
+								(m) => m. OrderDoctorModule
+							),
+					},
+					{
+						path: 'sample-processing',
+						loadChildren: () => 
+							import('../sample-processing/sample-processing.module').then(
+								(m) => m.SampleProcessingModule
 							),
 					},
 					{
