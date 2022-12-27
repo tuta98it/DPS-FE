@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { INIT_REPORT } from 'src/app/models/report';
 import { ReportService } from 'src/app/services/report.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -30,15 +30,17 @@ export class ReportPanelComponent implements OnInit {
   visiblePrintPreview = false;
 
   _disableEditor = true;
-  set disableEditor(value: boolean) {
+  @Input() set disableEditor(value: boolean) {
     this._disableEditor = value;
     if (!value) {
       this.currentReport = JSON.stringify(this.reports[this.activeReportTab]);
     }
+    this.disableEditorChange.emit(value);
   }
   get disableEditor() {
     return this._disableEditor;
   }
+  @Output() disableEditorChange = new EventEmitter<any>();
 
   currentReport: any = {};
 
@@ -69,7 +71,9 @@ export class ReportPanelComponent implements OnInit {
     } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
       this.reports[this.activeReportTab] = JSON.parse(this.currentReport);
       this.disableEditor = true;
-    }
+    } else if (event.action == Constants.REPORT_ACTIONS.ADD) {
+      this.addReportTab();
+    } 
   }
 
   getReports() {
