@@ -78,6 +78,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   loadingExport = false;
 
   visibleReportDialog = false;
+  disableReport = true;
 
   constructor(
     private caseStudyService: CaseStudyService,
@@ -160,8 +161,13 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   }
 
   onSelectCaseStudy(data: any) {
-    this.selectedCaseStudy = data;
-    this.getCaseStudyOfPatient();
+    if (this.disableReport) {
+      this.selectedCaseStudy = data;
+      this.getCaseStudyOfPatient();
+      this.disableReport = true;
+    } else {
+      this.notification.warn('Bạn đang nhập báo cáo', 'Vui lòng Lưu hoặc Hủy trước khi chuyển sang ca bệnh khác');
+    }
   }
 
   onCaseStudyAction(event: any) {

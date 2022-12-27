@@ -349,7 +349,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       description: [''],
       sourceHospital: [''],
       modalityDoctor: [''],
-      staff: [''],
+      technician: [''],
       specimensCode: [''],
       visitCode: [''],
       quantity: [''],

@@ -2,35 +2,35 @@
   <div class="uploading">
     <div class="title py-1 text-center text-white">Đang tải lên</div>
     <div [ngClass]="{'hidden': uploadingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
-    <div *ngFor="let notification of uploadingList" class="px-3 py-1 relative">
+    <div *ngFor="let notification of uploadingList" class="px-3 py-2 relative">
       <div class="font-medium pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
-        <i class="fa-solid fa-user pr-2"></i>{{notification.patientName}}
+        <i class="fa-solid fa-user pr-2"></i><strong>{{notification.patientName}}</strong>
       </div>
       <div class="font-italic pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
-        <i class="fa-solid fa-file pr-2"></i>File: {{notification.fileName}}
+        <i class="fa-solid fa-file pr-2"></i>{{notification.fileName}}
       </div>
-      <div class="font-italic pb-1"><i class="fa-regular fa-file pr-2"></i>Size: {{notification.fileSizeStr}}</div>
+      <div class="font-italic pb-1"><i class="fa-regular fa-file-archive pr-2"></i>{{notification.fileSizeStr}}</div>
       <p-progressBar [value]="notification.uploadProgress"></p-progressBar>
     </div>
   </div>
-  <div class="processing">
+  <div class="processing mt-1">
     <div class="title py-1 text-center text-white">Đang xử lý</div>
     <div [ngClass]="{'hidden': processingList.length!=0}" class="py-4 text-center font-italic">Không có file nào</div>
-    <div *ngFor="let notification of processingList" class="px-3 py-1 relative">
+    <div *ngFor="let notification of processingList" class="px-3 py-2 relative">
       <div class="font-medium pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
-        <i class="fa-solid fa-user pr-2"></i>{{notification.patientName}}
+        <i class="fa-solid fa-user pr-2"></i><strong>{{notification.patientName}}</strong>
       </div>
       <div class="font-italic pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
-        <i class="fa-solid fa-file pr-2"></i>File: {{notification.fileName}}
+        <i class="fa-solid fa-file pr-2"></i>{{notification.fileName}}
       </div>
-      <div class="font-italic pb-1"><i class="fa-regular fa-file pr-2"></i>Size: {{notification.fileSizeStr}}</div>
+      <div class="font-italic pb-1"><i class="fa-regular fa-file-archive pr-2"></i>{{notification.fileSizeStr}}</div>
       <div class="font-italic">
-        <span class=" pr-2"><i class="pi pi-spin pi-spinner font-bold text-primary"></i></span>
+        <span class="pr-2"><i class="pi pi-spin pi-spinner font-bold text-primary"></i></span>
         Đang xử lý
       </div>
     </div>
   </div>
-  <div class="completed">
+  <div class="completed my-1">
     <div class="title py-1 text-center text-white">Đã xử lý xong</div>
     <div class="flex justify-content-end">
       <span title="Đánh dấu đã đọc tất cả" (click)="markAsReadAll()"
@@ -41,20 +41,20 @@
       <i class="pi pi-spin pi-spinner mr-1"></i>
       Loading...
     </div>
-    <div *ngFor="let notification of completedList" class="px-3 py-1 relative">
+    <div *ngFor="let notification of completedList" class="px-3 py-2 relative">
       <div class="font-medium pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
-        <i class="fa-solid fa-user pr-2"></i>{{notification.patientName}}
+        <i class="fa-solid fa-user pr-2"></i><strong>{{notification.patientName}}</strong>
       </div>
       <div class="font-italic pb-1 overflow-hidden text-overflow-ellipsis white-space-nowrap">
-        <i class="fa-solid fa-file pr-2"></i>File: {{notification.fileName}}
+        <i class="fa-solid fa-file pr-2"></i>{{notification.fileName}}
       </div>
-      <div class="font-italic pb-1"><i class="fa-regular fa-file pr-2"></i>Size: {{notification.fileSizeStr}}</div>
+      <div class="font-italic pb-1"><i class="fa-regular fa-file-archive pr-2"></i>{{notification.fileSizeStr}}</div>
       <div *ngIf="notification.state==UPLOAD_STATUS.COMPLETED" class="text-green-500">
-        <i class="fa-solid fa-circle-check relative" style="left: -1px"></i>
+        <i class="fa-solid fa-circle-check relative pr-2" style="left: -1px"></i>
         <span>Thành công - {{notification.modifiedDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
       </div>
       <div *ngIf="notification.state==UPLOAD_STATUS.ERROR" class="text-red-500">
-        <i class="fa-solid fa-circle-xmark relative" style="left: -1px"></i>
+        <i class="fa-solid fa-circle-xmark relative pr-2" style="left: -1px"></i>
         <span>Thất bại - {{notification.modifiedDate | date:'dd/MM/yyyy HH:mm:ss'}}</span>
       </div>
       <i class="pi pi-times font-bold p-2 absolute top-0 right-0 cursor-pointer" (click)="markAsRead(notification.id)" ></i>

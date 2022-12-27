@@ -32,7 +32,10 @@ export class Constants {
     SAVE: 1,
     APPROVE: 2,
     UNAPPROVE: 3,
-    PRINT: 4
+    PRINT: 4,
+    ADD: 5,
+    KEY_IMAGES: 6,
+    HISTORY: 7,
   }
   public static readonly UPLOAD_STATUS = {
     UPLOADING: 1,

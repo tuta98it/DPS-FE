@@ -1,21 +1,9 @@
 <p-dialog [(visible)]="visible" [style]="{width: '1200px', height: '1000px', 'max-height': '90%', 'max-width': '90%' }" header="Báo cáo" [modal]="true">
-  <p-tabView [(activeIndex)]="activeReportTab">
+  <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true">
     <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
       <report-editor [(isDisable)]="disableEditor" [reportForm]="report" #reportEditor></report-editor>
     </p-tabPanel>
   </p-tabView>
-  <div class="grid m-0 mt-2">
-    <div class="col-10 p-0">
-      <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
-      <button [disabled]="!disableEditor" pButton pRipple label="Thêm" icon="pi pi-plus" class="float-right p-button p-button-sm" 
-        (click)="addReportTab()"></button>
-      </div>
-    <div class="col-2 p-0">
-      <button pButton pRipple label="Key Images" icon="pi pi-images" class="float-right p-button-outline p-button-sm" 
-        ></button>
-      <button pButton pRipple label="Xem lịch sử" icon="pi pi-images" class="float-right p-button-outline p-button-sm" 
-        ></button>
-    </div>
-  </div>
+  <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
 </p-dialog>
 <print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>

@@ -19,4 +19,20 @@ export class ReportService extends BaseService {
   updateReport(data: any) {
     return this.post(`${this.url}/Read/${data.id}`, data);
   }
+
+  check(reportId: string) {
+    return this.get(`${this.url}/Check/${reportId}`);
+  }
+
+  discard(reportId: string) {
+    return this.get(`${this.url}/Discard/${reportId}`);
+  }
+
+  reading(reportId: string) {
+    return this.get(`${this.url}/Reading/${reportId}`);
+  }
+
+  approving(reportId: string) {
+    return this.get(`${this.url}/Approving/${reportId}`);
+  }
 }

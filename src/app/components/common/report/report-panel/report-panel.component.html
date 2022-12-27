@@ -1,25 +1,17 @@
-<div [style.height]="height+'px'">
+<div class="report-panel-container" [style.height]="height+'px'">
   <div *ngIf="caseStudyId==''" class="w-full h-full flex flex-column justify-content-center align-items-center surface-100">
     <i class="pi pi-file-edit text-4xl"></i>
     <span class="mt-2">
-      Báo cáo của ca bệnh
+      Báo cáo của bệnh nhân
     </span> 
   </div>
   <div *ngIf="caseStudyId!=''" class="w-full h-full px-3">
-    <p-tabView [(activeIndex)]="activeReportTab">
+    <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true" [styleClass]="'bg-white'">
       <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
         <report-editor [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
       </p-tabPanel>
     </p-tabView>
-    <div class="grid m-0 mt-2">
-      <div class="col-10 p-0">
-        <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
-      </div>
-      <div class="col-2 p-0">
-        <button [disabled]="!disableEditor" pButton pRipple label="Thêm" icon="pi pi-plus" class="float-right p-button p-button-sm mr-2" 
-          (click)="addReportTab()"></button>
-      </div>
-    </div>
+    <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
   </div>
 </div>
 <print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
