@@ -23,8 +23,8 @@ export class ViewerTabsComponent implements OnInit, OnDestroy {
     this._currentTabsSubscription = this.viewerState.subscribeCurrentTabs( (tabs: IViewerTab[]) => {
       this.currentTabs = tabs;
     });
-    this._currentCaseSubscription = this.viewerState.subscribeCurrentCase( (id: string) => {
-      this.currentCaseId = id;
+    this._currentCaseSubscription = this.viewerState.subscribeCurrentCase( (tab: any) => {
+      this.currentCaseId = tab.caseStudyId;
     });
   }
 

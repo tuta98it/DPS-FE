@@ -29,6 +29,9 @@ export class ViewerComponent implements OnInit, OnDestroy {
 
   isLoading = false;
 
+  sharedToken = '';
+  isUseToken:boolean = false;
+
   constructor(
     private viewerState: ViewerStateService,
     private authState: AuthStateService,
@@ -40,9 +43,14 @@ export class ViewerComponent implements OnInit, OnDestroy {
     this._currentTabsSubscription = this.viewerState.subscribeCurrentTabs( (tabs: IViewerTab[]) => {
       this.currentTabs = tabs;
     });
-    this._currentCaseSubscription = this.viewerState.subscribeCurrentCase( (id: string) => {
-      this.currentCaseId = id;
-      this.changeCaseStudy(id);
+    this._currentCaseSubscription = this.viewerState.subscribeCurrentCase( (tab: any) => {
+      this.currentCaseId = tab.caseStudyId;
+      this.sharedToken = tab.sharedToken;
+      if(this.sharedToken != undefined && this.sharedToken != '')
+        this.isUseToken = true;
+
+      console.log('currentCaseId: ' + this.currentCaseId + ', useToken: ' + this.isUseToken);
+      this.changeCaseStudy(this.currentCaseId);
     });
     this._authSubscription = this.authState.subscribe( (m: IAuthModel) => {
       this.currentUser = m;
@@ -104,7 +112,10 @@ export class ViewerComponent implements OnInit, OnDestroy {
     });
     this.renderer.setAttribute(newIFrame, 'id', '0');
     this.renderer.setAttribute(newIFrame, 'style', 'border:none;width:100%;top:0;left:0;right:0;bottom:0;position:absolute;height:100%;');
-    this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=' + this.baseUrl + '&domainSlide=' + this.baseUrlDz + '&study=' + id + '&userId=' + this.currentUser.userId + '&username=' + this.currentUser.userName);
+    if(!this.isUseToken)
+      this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=' + this.baseUrl + '&domainSlide=' + this.baseUrlDz + '&study=' + id + '&shared=false&userId=' + this.currentUser.userId + '&username=' + this.currentUser.userName);
+    else
+      this.renderer.setAttribute(newIFrame, 'src', '/html/slide-viewer/dpsviewer.html?domain=' + this.baseUrl + '&domainSlide=' + this.baseUrlDz + '&study=' + id + '&shared=true');
 
     this.renderer.appendChild(newContainer, newIFrame);
     this.renderer.appendChild(this.viewerContainer.nativeElement, newContainer);
@@ -144,61 +155,109 @@ export class ViewerComponent implements OnInit, OnDestroy {
   ////////////////////////////////////////////////////////
   getStudyInfo(studyId: string, callback: any) {
     console.log('parent getStudyInfo, studyId: ' + studyId);
-    this.caseStudyService.getCaseStudyInfo(studyId).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          if(callback != undefined)
-            callback(res.jsonData);
+    if(!this.isUseToken) {
+      this.caseStudyService.getCaseStudyInfo(studyId).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
         }
-      }
-    });
+      });
+    }
+    else {
+      this.caseStudyService.getCaseStudyInfoByToken(studyId, this.sharedToken).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
+        }
+      });
+    }
   }
 
   getListKeyImages(slideId: string, callback: any) {
     console.log('parent getListKeyImages, slideId: ' + slideId);
-    this.caseStudyService.getListKeyImageOfSlide(slideId).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          if(callback != undefined)
-            callback(res.jsonData);
+    if(!this.isUseToken) {
+      this.caseStudyService.getListKeyImageOfSlide(slideId).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
         }
-      }
-    });
+      });
+    }
+    else {
+      this.caseStudyService.getListKeyImageOfSlideByToken(slideId, this.sharedToken).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
+        }
+      });
+    }
   }
 
   deleteKeyImage(keyImageId: string, callback: any) {
     console.log('parent deleteKeyImage, keyImageId: ' + keyImageId);
-    this.caseStudyService.deleteKeyImage(keyImageId).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          if(callback != undefined)
-            callback(res.jsonData);
+    if(!this.isUseToken) {
+      this.caseStudyService.deleteKeyImage(keyImageId).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
         }
-      }
-    });
+      });
+    }
+    else {
+      console.error('Should not deleteKeyImage in shared mode!!!');
+    }
+    
   }
 
   getListAnnotations(slideId: string, callback: any) {
     console.log('parent getListAnnotations, slideId: ' + slideId);
-    this.annotationService.getListAnnotationOfSlide(slideId).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          if(callback != undefined)
-            callback(res.jsonData);
+    if(!this.isUseToken) {
+      this.annotationService.getListAnnotationOfSlide(slideId).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
         }
-      }
-    });
+      });
+    }
+    else {
+      this.annotationService.getListAnnotationOfSlideByToken(slideId, this.sharedToken).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
+        }
+      });
+    }
+    
   }
 
   saveListAnnotations(data: any, callback: any) {
     // console.log('parent getListAnnotations, slideId: ' + slideId);
-    this.annotationService.saveAnnotationsBySlide(data).subscribe({
-      next: (res) => {
-        if (res.isValid) {
-          if(callback != undefined)
-            callback(res.jsonData);
+    if(!this.isUseToken) {
+      this.annotationService.saveAnnotationsBySlide(data).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
         }
-      }
-    });
+      });
+    }
+    else {
+
+    }
   }
 }

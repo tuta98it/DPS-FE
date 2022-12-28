@@ -16,4 +16,9 @@ export class AnnotationService extends BaseService {
   saveAnnotationsBySlide(data: any) {
     return this.post(`${this.url}/UpdateBySlide`, data);
   }
+
+  //for shared token
+  getListAnnotationOfSlideByToken(slideId: string, sharedToken: string) {
+    return this.get(`${this.url}/GetByToken?id=${slideId}&token=${sharedToken}`);
+  }
 }

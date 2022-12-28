@@ -19,6 +19,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ClickStopPropagationDirective } from 'src/app/shared/directives/click-stop-propagation.directive';
 import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ShareStudyComponent } from '../share-study/share-study.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
     HeaderComponent,
     NotificationPanelComponent,
     ClickStopPropagationDirective,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    ShareStudyComponent
   ],
   imports: [
     CommonModule,

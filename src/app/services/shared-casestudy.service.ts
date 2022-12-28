@@ -9,4 +9,7 @@ export class SharedCasestudyService extends BaseService {
   getCaseStudyLinks(caseStudyId: string) {
     return this.get(`${this.url}/CaseStudy/${caseStudyId}`);
   }
+  getCaseStudyByToken(sharedToken: string) {
+    return this.get(`${this.url}/${sharedToken}`);
+  }
 }

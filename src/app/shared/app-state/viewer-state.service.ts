@@ -6,25 +6,30 @@ import { IViewerTab } from 'src/app/models/viewer-tab';
   providedIn: 'root'
 })
 export class ViewerStateService {
-  protected currentCaseSubject: BehaviorSubject<string>;
-  protected currentCaseId = '';
+  protected currentCaseSubject: BehaviorSubject<any>;
+  // protected currentCaseId = '';
+  protected currentCase:any = {};
 
   protected currentTabsSubject: BehaviorSubject<IViewerTab[]>;
   protected currentTabs:IViewerTab[] = [];
 
   constructor()
   {
-    this.currentCaseSubject = new BehaviorSubject<string>(this.currentCaseId);
+    // this.currentCaseSubject = new BehaviorSubject<string>(this.currentCaseId);
+    this.currentCaseSubject = new BehaviorSubject<string>(this.currentCase);
     this.currentTabsSubject = new BehaviorSubject<IViewerTab[]>(this.currentTabs);
   }
   
-  public subscribeCurrentCase(callback: (data: string) => void): Subscription {
+  public subscribeCurrentCase(callback: (data: any) => void): Subscription {
     return this.currentCaseSubject.subscribe(callback);
   }
 
-  public dispatchCurrentCase(data: string): void {
-    this.currentCaseId = data;
-    this.currentCaseSubject.next(data);
+  public dispatchCurrentCase(data: IViewerTab): void {
+    this.currentCase = {
+      caseStudyId: data.caseStudyId,
+      sharedToken: data.sharedToken
+    };
+    this.currentCaseSubject.next(this.currentCase);
   }
 
   public subscribeCurrentTabs(callback: (data: IViewerTab[]) => void): Subscription {
@@ -42,7 +47,8 @@ export class ViewerStateService {
       this.currentTabs.push(newTab);
       this.dispatchCurrentTabs();
     } 
-    this.dispatchCurrentCase(newTab.caseStudyId);
+    // this.dispatchCurrentCase(newTab.caseStudyId);
+    this.dispatchCurrentCase(newTab);
   }
 
   public closeTab(id: string) {
@@ -52,11 +58,14 @@ export class ViewerStateService {
       this.dispatchCurrentTabs();
     }
     if (this.currentTabs.length > i) {
-      this.dispatchCurrentCase(this.currentTabs[i].caseStudyId);
+      this.dispatchCurrentCase(this.currentTabs[i]);
     } else if (i > 0) {
-      this.dispatchCurrentCase(this.currentTabs[i-1].caseStudyId);
+      this.dispatchCurrentCase(this.currentTabs[i-1]);
     } else {
-      this.dispatchCurrentCase('');
+      this.dispatchCurrentCase({
+        caseStudyId: '',
+        sharedToken: ''
+      });
     }
   }
 }

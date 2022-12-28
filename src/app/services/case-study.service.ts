@@ -50,4 +50,12 @@ export class CaseStudyService extends BaseService {
   savePrintedKeyImages(data: any) {
     return this.post(`${this.url}/PrintKeyImages`, data);
   }
+
+  //for shared token
+  getCaseStudyInfoByToken(studyId: string, sharedToken: string) {
+    return this.get(`${this.url}/${sharedToken}/InfoByToken`);
+  }
+  getListKeyImageOfSlideByToken(slideId: string, sharedToken: string) {
+    return this.get(`${this.listKeyImageUrl}/Share/${sharedToken}/${slideId}`);
+  }
 }
