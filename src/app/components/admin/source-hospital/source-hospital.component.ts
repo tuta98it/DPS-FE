@@ -51,7 +51,6 @@ export class SourceHospitalComponent implements OnInit {
         phoneNo: [null],
       });
     }
-
   ngOnInit(): void {
     this.cols = [
         {field:'id', header:'Id', width:'16rem'},
@@ -61,7 +60,6 @@ export class SourceHospitalComponent implements OnInit {
     ]
     this.getAll();
   }
-
   getAll() {
     this.loading=true;
     this.sourceHospitalSevice.getAll().subscribe({
@@ -74,7 +72,6 @@ export class SourceHospitalComponent implements OnInit {
         this.loading= false
     });
   }
-
   onCreatItem() {
     this.sourceHospitalForm.reset();
     this.sourceHospitalForm.patchValue({
@@ -102,9 +99,8 @@ export class SourceHospitalComponent implements OnInit {
             }
         });
     }
-
   }
-  createSourceHospital(){
+  createSourceHospital() {
     this.sourceHospitalSevice.create(this.sourceHospitalForm.value).subscribe({
         next: (res) => {
            if(res.isValid) {
@@ -149,7 +145,7 @@ export class SourceHospitalComponent implements OnInit {
   deleteSourceHospital(){
     this.sourceHospitalSevice.deleteById(this.deletedItem.id).subscribe({
         next: (res) => {
-            if(res.isvalid) {
+            if(res.isValid) {
                 this.notification.success('Xóa nơi gửi mẫu thành công','');
                 this.isVisibleDeleteItemDialog = false;
                 this.getAll();

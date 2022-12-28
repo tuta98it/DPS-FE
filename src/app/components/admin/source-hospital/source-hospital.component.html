@@ -13,17 +13,19 @@
         <p-dialog [(visible)]="isVisibleSourceHospitalDialog" [style]="{width:'450px'}" [header]="sourceHospitalDialogHeader" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <form [formGroup]="sourceHospitalForm">
-                    <div clas="field">
+                    <div class="field">
                         <label for="name"><span class="text-red-500">*</span>Tên nơi gửi mẫu</label>
                         <input type="text" pInputText id="name" formControlName="name" required autofocus>
-                        <div class="m-error" *ngIf="sourceHospitalForm.controls['name'].invalid && sourceHospitalForm.controls['name'].dirty">*Tên nơi gửi mẫu không được để trống</div>
+                        <div class="m-error" *ngIf="sourceHospitalForm.controls['name'].invalid && sourceHospitalForm.controls['name'].dirty">
+                            *Tên nơi gửi mẫu không được để trống
+                        </div>
                     </div>
-                    <div clas="field">
-                        <label for="address"><span class="text-red-500">*</span>Địa chỉ</label>
+                    <div class="field">
+                        <label for="address">Địa chỉ</label>
                         <input type="text" pInputText id="address" formControlName="address" autofocus>
                     </div>
-                    <div clas="field">
-                        <label for="phoneNo"><span class="text-red-500">*</span>Số điện thoại</label>
+                    <div class="field">
+                        <label for="phoneNo">Số điện thoại</label>
                         <input type="text" pInputText id="phoneNo" formControlName="phoneNo" autofocus>
                     </div>
                 </form>
