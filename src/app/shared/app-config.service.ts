@@ -49,6 +49,8 @@ export class AppConfigService {
     this.config.api.baseUrl = 'https://' + data.api.baseUrl;
     this.config.api.fileUrl = 'https://' + data.api.fileUrl;
     this.config.deepzoom.baseUrl = 'https://' + data.deepzoom.baseUrl;
+    this.config.domain = data.domain;
+    this.config.sharedUrl = `https://${data.domain}/${data.sharedUrl}`;
     this.config.layout = data.layout;
     this.config.slogan = data.slogan;
   };

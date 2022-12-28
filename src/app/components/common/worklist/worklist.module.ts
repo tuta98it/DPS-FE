@@ -26,6 +26,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { AngularSplitModule } from 'angular-split';
+import { SharedCaseStudyComponent } from './shared-case-study/shared-case-study.component';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,8 @@ import { AngularSplitModule } from 'angular-split';
     CaseStudyInfoComponent,
     PatientInfoComponent,
     SearchCaseStudyComponent,
-    UploadSlideComponent
+    UploadSlideComponent,
+    SharedCaseStudyComponent
   ],
   imports: [
     SplitterModule,
@@ -52,6 +56,8 @@ import { AngularSplitModule } from 'angular-split';
     CalendarModule,
     ReactiveFormsModule,
     FormsModule,
+    RadioButtonModule,
+    OverlayPanelModule,
     ReportModule,
     TooltipModule,
     ConfirmDialogModule,

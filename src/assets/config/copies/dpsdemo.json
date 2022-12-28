@@ -6,6 +6,8 @@
   "deepzoom": {
     "baseUrl": "dpsdemo-dz.pmr.vn"
   },
+  "domain": "dpsdemo.pmr.vn",
+  "sharedUrl": "share",
   "layout": "default", 
   "slogan": {
     "content": "Chính sức khỏe mới là sự giàu có thực sự, không phải vàng bạc",

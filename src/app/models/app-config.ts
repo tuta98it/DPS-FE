@@ -6,6 +6,8 @@ export class AppConfig {
   deepzoom: {
     baseUrl: string
   };
+  domain: string;
+  sharedUrl: string;
   layout: string;
   slogan: {
     content: string,
@@ -19,6 +21,8 @@ export class AppConfig {
     this.deepzoom = {
       baseUrl: ''
     };
+    this.domain = '';
+    this.sharedUrl = '';
     this.layout = '';
     this.slogan = {
       content: '',

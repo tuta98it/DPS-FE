@@ -321,8 +321,8 @@
             <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
               [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
             <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
-                placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
+              placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
+              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-search mr-2 flex-none text-2xl p-button-danger font-bold p-button-rounded"

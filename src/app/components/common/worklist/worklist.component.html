@@ -76,3 +76,4 @@
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
 <confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
 <report-dialog [(visible)]="visibleReportDialog" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-dialog>
+<shared-case-study [(visible)]="visibleSharedCaseStudy" [caseStudyId]="sharedCaseStudyId"></shared-case-study>

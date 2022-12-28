@@ -80,6 +80,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   visibleReportDialog = false;
   disableReport = true;
 
+  visibleSharedCaseStudy = false;
+  sharedCaseStudyId = '';
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
@@ -231,7 +233,8 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   }
 
   onShareCaseStudy(data: any) {
-    this.notification.warn('Chức năng đang phát triển');
+    this.sharedCaseStudyId = data.caseStudyId;
+    this.visibleSharedCaseStudy = true;
   }
 
   onResizeEnd(event: any) {

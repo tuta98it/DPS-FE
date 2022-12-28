@@ -79,6 +79,18 @@ export class Constants {
     {label: 'Đang duyệt', value: "3"},
     {label: 'Đã duyệt', value: "4"},
   ];
+  public static readonly SHARED_PERIODS = [
+    {label: '4 tiếng', value: 4},
+    {label: '8 tiếng', value: 8},
+    {label: '1 ngày', value: 24},
+    {label: '2 ngày', value: 48},
+    {label: '3 ngày', value: 72},
+    {label: '1 tuần', value: 168},
+    {label: '2 tuần', value: 336},
+    {label: '3 tuần', value: 504},
+    {label: '1 tháng', value: 720},
+    {label: 'Vô thời hạn', value: -1},
+  ];
 }
 export class StorageKeys {
   public static readonly TOKEN = 'dps-token';
