@@ -152,6 +152,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   loadingExport = false;
 
+  visibleSharedCaseStudy = false;
+  sharedCaseStudyId = '';
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -683,7 +685,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   onShareCaseStudy(data: any) {
-    this.notification.warn('Chức năng đang phát triển');
+    this.sharedCaseStudyId = data.caseStudyId;
+    this.visibleSharedCaseStudy = true;
   }
 
   onLazyLoad(event:any) {

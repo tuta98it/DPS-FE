@@ -71,6 +71,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     CaseStudyTableComponent,
     UploadSlideComponent,
     SearchCaseStudyComponent,
+    SharedCaseStudyComponent
   ]
 })
 export class WorklistModule { }

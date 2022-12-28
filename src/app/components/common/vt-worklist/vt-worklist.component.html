@@ -352,3 +352,4 @@
 <confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
 <print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reportForm.value.id" *ngIf="reportForm"></print-preview-popup>
 <p-contextMenu [target]="btnCamera" styleClass="w-16rem white-space-nowrap" [model]="cameras"></p-contextMenu>
+<shared-case-study [(visible)]="visibleSharedCaseStudy" [caseStudyId]="sharedCaseStudyId"></shared-case-study>
