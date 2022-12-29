@@ -14,11 +14,13 @@ import { NotificationService } from 'src/app/shared/notification.service';
 export class ReportTemplatesComponent implements OnInit {
     reportTemplates: TreeNode[] = [];
     uploadedFiles: any[] = [];
-    isVisibleImportDialog = false;
+    isVisibleImportReportDialog = false;
     loading = false;
     saving = false;
     isExporting = false;
     isImporting = false;
+    isVisibleDragDropReport = false;
+
     deleting = false;
     text = '';
     currentTemplate = JSON.parse(JSON.stringify(INIT_REPORT_TEMPLATE));
@@ -26,6 +28,11 @@ export class ReportTemplatesComponent implements OnInit {
     isVisibleDeleteItemDialog = false;
     textConfirmDelete = '';
     jsonData = [];
+    payloadUpdateReport = [];
+    isVisibleDragDropReports = false;
+    reportTemplatesDefault: any;
+    listTemplateReportsUpload = [];
+    listTemplateReportsCurrent = [];
 
     constructor(
         private reportTemplateService: ReportTemplateService,
@@ -46,7 +53,7 @@ export class ReportTemplatesComponent implements OnInit {
                     // console.log(res.jsonData);
 
                     if (res.isValid) {
-                        this.reportTemplateService.extractReportTemplates(
+                        this.extractReportTemplates(
                             res.jsonData,
                             this.reportTemplates
                         );
@@ -155,10 +162,7 @@ export class ReportTemplatesComponent implements OnInit {
     updateReportTemplates(resData: any[]) {
         this.loading = true;
         this.reportTemplates = [];
-        this.reportTemplateService.extractReportTemplates(
-            resData,
-            this.reportTemplates
-        );
+        this.extractReportTemplates(resData, this.reportTemplates);
         this.loading = false;
     }
 
@@ -188,19 +192,85 @@ export class ReportTemplatesComponent implements OnInit {
             },
         });
     }
+    extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
+        if (resData) {
+            for (let i = 0; i < resData.length; ++i) {
+                let newNode: TreeNode = {
+                    label: resData[i].templateName,
+                    key: resData[i].templateId,
+                    data: {
+                        templateId: resData[i].templateId,
+                        templateName: resData[i].templateName,
+                        code: resData[i].code,
+                        templateExtName: resData[i].templateExtName,
+                        hasChild: resData[i].hasChild,
+                        parentName: resData[i].parentName,
+                        parentId: resData[i].parentId,
+                        microbodyDescribe: resData[i].microbodyDescrible,
+                        diagnose: resData[i].diagnose,
+                        discuss: resData[i].discuss,
+                        recommendation: resData[i].recommendation,
+                        consultation: resData[i].consultaion,
+                    },
+                    children: [],
+                };
+                this.extractReportTemplates(resData[i].child, newNode.children);
+                extractedData?.push(newNode);
+            }
+        }
+        this.reportTemplatesDefault = JSON.parse(JSON.stringify(extractedData));
+    }
+
+    deExtractReportTemplates(treeData: any[], jsonData: any[] | undefined) {
+        if (treeData.length > 0) {
+            for (let i = 0; i < treeData.length; ++i) {
+                console.log(treeData[i]);
+                console.log(jsonData);
+
+                let newNode = {
+                    templateId: treeData[i].data.templateId,
+                    templateName: treeData[i].data.templateName,
+                    templateExtName: treeData[i].data.templateExtName,
+                    hasChild: treeData[i].data.hasChild,
+                    code: treeData[i].data.code,
+                    parentName: treeData[i].data.parentName,
+                    parentId: treeData[i].data.parentId,
+                    microbodyDescribe: treeData[i].data.microbodyDescrible,
+                    diagnose: treeData[i].data.diagnose,
+                    discuss: treeData[i].data.discuss,
+                    recommendation: treeData[i].data.recommendation,
+                    consultation: treeData[i].data.consultaion,
+                    child: [],
+                };
+
+                jsonData?.push(newNode);
+                this.deExtractReportTemplates(
+                    treeData[i].children,
+                    newNode.child
+                );
+            }
+        }
+    }
     onNodeDrop(data: any) {
-        this.reportTemplateService.deExtractReportTemplates(
+        this.isVisibleDragDropReports = true;
+
+        // console.log(this.jsonData);
+    }
+
+    confirmSaveReports() {
+        this.payloadUpdateReport = [];
+        this.deExtractReportTemplates(
             this.reportTemplates,
-            this.jsonData
+            this.payloadUpdateReport
         );
         console.log(this.jsonData);
         this.loading = true;
         this.reportTemplateService
-            .updateAll({ jsonData: this.jsonData })
+            .updateAll({ jsonData: this.payloadUpdateReport })
             .subscribe({
                 next: (res) => {
                     if (res.isValid) {
-                        this.getAll();
+                        // this.getAll();
                         this.notification.success('Cập nhật thành công', '');
                     } else {
                         this.notification.success('Có lỗi xảy ra', '');
@@ -212,10 +282,13 @@ export class ReportTemplatesComponent implements OnInit {
             })
             .add(() => {
                 this.loading = false;
+                this.isVisibleDragDropReports = false;
             });
-        // console.log(this.jsonData);
     }
-
+    cancelSaveReports() {
+        this.reportTemplates = this.reportTemplatesDefault;
+        this.isVisibleDragDropReports = false;
+    }
     myUploader(event: { files: any }) {
         let formData = new FormData();
         formData.append('files', event.files[0]);
@@ -226,7 +299,17 @@ export class ReportTemplatesComponent implements OnInit {
                 next: (res) => {
                     if (res.isValid) {
                         this.notification.success('Import file thành công', '');
-                        this.getAll();
+                        // this.getAll();
+                        this.listTemplateReportsCurrent = JSON.parse(
+                            JSON.stringify(this.reportTemplates)
+                        );
+                        this.extractReportTemplates(
+                            res.jsonData,
+                            this.listTemplateReportsUpload
+                        );
+                        console.log(this.listTemplateReportsCurrent);
+
+                        this.isVisibleImportReportDialog = true;
                     } else {
                         this.notification.error('Import file thất bại', '');
                     }
@@ -241,4 +324,5 @@ export class ReportTemplatesComponent implements OnInit {
                 this.isImporting = false;
             });
     }
+    saveListReport() {}
 }

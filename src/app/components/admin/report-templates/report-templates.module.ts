@@ -14,6 +14,7 @@ import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/co
 import { FileUploadModule } from 'primeng/fileupload';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TreeDragDropService } from 'primeng/api';
+import {FieldsetModule} from 'primeng/fieldset';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { TreeDragDropService } from 'primeng/api';
     TreeSelectModule,
     ReportTemplatesRoutingModule,
     FileUploadModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    FieldsetModule
   ],
   providers:[TreeDragDropService]
 })

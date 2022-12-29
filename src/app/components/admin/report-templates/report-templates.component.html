@@ -113,6 +113,36 @@
     </div>
   </div>
 </div>
-
 <confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete"
-  (onConfirm)="deleteReportTemplate()"></confirm-dialog>
+    (onConfirm)="deleteReportTemplate()"></confirm-dialog>
+<confirm-dialog [(visible)]="isVisibleDragDropReports" confirmText="Lưu thay đổi ds mẫu báo cáo" confirmLabel="Xác nhận"
+    (onClose)="cancelSaveReports()" (onConfirm)="confirmSaveReports()"
+    (onCancel)="cancelSaveReports()"></confirm-dialog>
+
+<p-dialog [(visible)]="isVisibleImportReportDialog" [style]="{width: '700px'}" [header]="''" [modal]="true"
+    class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="grid">
+            <div class="col-6 ">
+                <p-fieldset legend="DS mẫu báo cáo hiện tại">
+                    <p-tree [value]="listTemplateReportsCurrent" [draggableNodes]="true" [droppableNodes]="true" droppableScope="tree1" draggableScope="tree2"></p-tree>
+                </p-fieldset>
+
+
+            </div>
+            <div class="col-6 ">
+                <p-fieldset legend="DS mẫu báo cáo đã upload">
+                    <p-tree [value]="listTemplateReportsUpload" [draggableNodes]="true" [droppableNodes]="true" droppableScope="tree2" draggableScope="tree1"></p-tree>
+                </p-fieldset>
+
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text"
+            (click)="isVisibleImportReportDialog=false"></button>
+        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text"
+            (click)="saveListReport()"></button>
+    </ng-template>
+</p-dialog>
