@@ -121,10 +121,14 @@
               <i>*Mail không được để trống</i>
             </div>
           </div>
+          <div class="field">
+            <label><strong>His code</strong></label>
+            <input type="text" pInputText placeholder="His code" formControlName="hisCode" autofocus />
+          </div>
         </form>
       </ng-template>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text"
+        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
           (click)="isVisibleUserEdit=false"></button>
         <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItemEdit()"></button>
       </ng-template>
@@ -133,6 +137,10 @@
     <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser"
       [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()"
       (onCancel)="cancelDisable()"></confirm-dialog>
+<!-- confirm enable -->
+    <confirm-dialog [(visible)]="isVisibleEnableUserDialog" [confirmText]="textConfirmEnableUser"
+        [confirmLabel]="confirmLabelEnable" (onClose)="cancelEnable()" (onConfirm)="enableUser()"
+        (onCancel)="cancelEnable()"></confirm-dialog>
 <!-- Danh sách group trong DS user -->
     <list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"></list-group-of-users>
 

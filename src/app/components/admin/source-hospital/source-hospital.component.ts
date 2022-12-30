@@ -32,8 +32,8 @@ export class SourceHospitalComponent implements OnInit {
     textConfirmDelete='';
     deletedItem: any = {};
     searchData = {
-        skip: 0,
-        take: 40,
+        skip: 40,
+        take: 0,
         keyword: '',
       };
 
@@ -152,6 +152,28 @@ export class SourceHospitalComponent implements OnInit {
             }
         }
     });
+  }
+  search() {
+    this.loading =true;
+    this.sourceHospitalSevice.search(this.searchData).subscribe({
+        next: (res) => {
+            if (res.isValid) {
+                this.sourceHospitals = res.jsonData.data;
+                // this.sourceHospitals.forEach((u:any) => (u.enable = !u.disable));
+                // this.total = res.jsonData.total;
+            }
+        }
+    }).add(() => {
+        this.loading = false;
+    })
+  }
+  resetSearch() {
+    this.searchData = {
+        skip: 40,
+        take: 0,
+        keyword: '',
+    };
+    this.search();
   }
 
 }

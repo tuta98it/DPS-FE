@@ -35,7 +35,9 @@ export class ListUsersComponent implements OnInit {
   }
   isEditUser = false;
   isVisibleDisableUserDialog = false;
+  isVisibleEnableUserDialog = false;
   textConfirmDisableUser = '';
+  textConfirmEnableUser = '';
   disableItem: any = {};
   userDialogHeader = '';
   searchData = {
@@ -51,6 +53,7 @@ export class ListUsersComponent implements OnInit {
   usersForm: FormGroup;
   usersFormEdit: FormGroup;
   confirmLabelDisable = "";
+  confirmLabelEnable = "";
   isVisibleListGroups = false;
 
   _isVisibleAddAccountDialog = false;
@@ -77,7 +80,8 @@ export class ListUsersComponent implements OnInit {
       phoneNo: [null],
       username: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.minLength(6)]],
-      repass: [null, [Validators.required, this.confirmationValidator]]
+      repass: [null, [Validators.required, this.confirmationValidator]],
+      hisCode:[null],
     });
     this.usersFormEdit = this.fb.group({
       id: [null],
@@ -88,6 +92,7 @@ export class ListUsersComponent implements OnInit {
       password: [null, [Validators.required]],
       disable: [null],
       enable: [null],
+      hisCode:[null],
     })
     this.accountForm = this.fb.group({
       username: [null, [Validators.required]],
@@ -153,6 +158,7 @@ export class ListUsersComponent implements OnInit {
       username: '',
       password: '',
       repass: '',
+      hisCode:'',
     });
     this.isVisibleUserDialog = true;
     this.isEditUser = false;
@@ -172,7 +178,8 @@ export class ListUsersComponent implements OnInit {
       email: item.email,
       phoneNo: item.phoneNo,
       username: item.username,
-      password: '********'
+      password: '********',
+      hisCode: item.hisCode
     });
     this.isVisibleUserEdit = true;
     this.isEditUser = true;
@@ -221,7 +228,7 @@ export class ListUsersComponent implements OnInit {
       fullName: formValue.fullName,
       password: formValue.password,
       email: formValue.email,
-      phoneNo: formValue.phoneNo
+      phoneNo: formValue.phoneNo,
     }
     this.userService.registerUser(payload).subscribe({
       next: (res) => {
@@ -256,7 +263,8 @@ export class ListUsersComponent implements OnInit {
       email: formEditValue.email,
       phoneNo: formEditValue.phoneNo,
       username: formEditValue.username,
-      password: formEditValue.password
+      password: formEditValue.password,
+      hisCode: formEditValue.hisCode,
     }
     this.userService.update(formEditValue.id, payloadEdit).subscribe({
       next: (res) => {
@@ -271,13 +279,16 @@ export class ListUsersComponent implements OnInit {
 
   onChangeEnable(item: any) {
     if (!item.enable) {
-      this.disabledUserId = item.id;
-      this.textConfirmDisableUser = `Xác nhận Disable tài khoản này <b>${item.username}?`;
-      this.confirmLabelDisable = "Disable";
-      this.isVisibleDisableUserDialog = true;
+        this.disabledUserId = item.id;
+        this.textConfirmDisableUser = `Xác nhận Disable tài khoản này <b>${item.username}?`;
+        this.confirmLabelDisable = "Disable";
+        this.isVisibleDisableUserDialog = true;
     }
     else {
-      this.search();
+        this.disabledUserId = item.id;
+        this.textConfirmEnableUser = `Xác nhận Enable tài khoản này <b>${item.username}?`;
+        this.confirmLabelEnable = "Enable";
+        this.isVisibleEnableUserDialog = true;
     }
   }
   disableUser() {
@@ -292,6 +303,20 @@ export class ListUsersComponent implements OnInit {
     });
   }
   cancelDisable() {
+    this.search();
+  }
+  enableUser() {
+    this.userService.updateDisable(this.disabledUserId).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.notification.success('Enable User thành công', '');
+          this.isVisibleEnableUserDialog = false;
+          this.search();
+        }
+      }
+    });
+  }
+  cancelEnable() {
     this.search();
   }
   selectUser(user: any) {
