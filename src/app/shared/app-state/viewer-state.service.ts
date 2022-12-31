@@ -63,7 +63,7 @@ export class ViewerStateService {
       this.dispatchCurrentCase(this.currentTabs[i-1]);
     } else {
       this.dispatchCurrentCase({
-        caseStudyId: '',
+        caseStudyId: 'null',
         sharedToken: ''
       });
     }

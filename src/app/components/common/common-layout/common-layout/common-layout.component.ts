@@ -42,7 +42,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
     }
     this._currentCaseSubscription = this.viewerState.subscribeCurrentCase( (tab: any) => {
       // console.log('subscribeCurrentCase here', tab);
-      if (tab != null && tab.caseStudyId != undefined) {
+      if (tab != null && tab.caseStudyId != undefined && tab.caseStudyId != 'null') {
         this.isShowViewer = true;
       } else {
         this.isShowViewer = false;
