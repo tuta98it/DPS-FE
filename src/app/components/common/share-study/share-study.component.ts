@@ -11,6 +11,7 @@ import { SharedCasestudyService } from 'src/app/services/shared-casestudy.servic
 })
 export class ShareStudyComponent implements OnInit {
   sharedToken: string = '';
+  canShowViewer:boolean = true;
 
   private routeSubscription: any;
 
@@ -26,6 +27,7 @@ export class ShareStudyComponent implements OnInit {
       if(this.sharedToken == undefined) {
         //TODO: redirect to some where?
         console.error('Not found token!!!');
+        this.canShowViewer = false;
         return;
       }
         
@@ -36,22 +38,26 @@ export class ShareStudyComponent implements OnInit {
   }
 
   getCaseStudyByToken() {
-    //test
-    let caseStudy = {
-      caseStudyId: 'sharing',
-      patientsName: 'Test BN',
-      createdTime: '20221212T001818',
-    }
-    this.openViewer(caseStudy);
+    // check valid token
+    this.sharedCasestudyService.getCaseStudyByToken(this.sharedToken).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          console.log(res);
+          this.canShowViewer = true;
 
-    // don't need this API
-    // this.sharedCasestudyService.getCaseStudyByToken(this.sharedToken).subscribe({
-    //   next: (res) => {
-    //     if (res.isValid) {
-    //       console.log(res);
-    //     }
-    //   }
-    // });
+          //sample info
+          let caseStudy = {
+            caseStudyId: 'sharing',
+            patientsName: 'Test BN',
+            createdTime: '20221212T001818',
+          }
+          this.openViewer(caseStudy);
+        }
+        else {
+          this.canShowViewer = false;
+        }
+      }
+    });
   }
 
   openViewer(caseStudy: any) {
