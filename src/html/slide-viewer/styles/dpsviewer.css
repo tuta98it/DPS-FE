@@ -195,7 +195,7 @@ body {
 
 .h-hud {
     position: absolute;
-    width: 240px;
+    width: auto;
     color: white;
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 4px 8px;
@@ -1103,7 +1103,9 @@ canvas:focus,
     .zoom-level {
         display: flex;
         align-items: center;
-        font-size:12px;
+    }
+    .zoom-level div {
+        font-size:12px !important;
     }
 
     .zoom-slider {
