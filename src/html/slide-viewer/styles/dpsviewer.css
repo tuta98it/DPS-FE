@@ -970,8 +970,8 @@ canvas:focus,
 
 .float-button-container {
     position: absolute;
-    right: 30px;
-    bottom: 30px;
+    right: 10px;
+    bottom: 40px;
     z-index: 10;
     transition: 0.1s;
     width: 64px;
