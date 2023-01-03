@@ -6,7 +6,9 @@ export interface ICaseStudy {
   requestType: string,
   description: string,
   sourceHospital: string,
+  sourceHospitalId?: string,
   modalityDoctor?: string,
+  modalityDoctorId?: string,
   specimensCode: string,
   visitCode: string,
   createTime: any,
@@ -14,6 +16,7 @@ export interface ICaseStudy {
   modalityCode: string,
   modalityName: string,
   technician?: string,
+  technicianId?: string,
   quantity?: string,
   numberOfSlideManual?: number
 }
@@ -25,7 +28,9 @@ export const INIT_CASE_STUDY : ICaseStudy = {
   requestType: '',
   description: '',
   sourceHospital: '',
+  sourceHospitalId: '',
   modalityDoctor: '',
+  modalityDoctorId: '',
   specimensCode: '',
   visitCode: '',
   createTime: null,
@@ -33,6 +38,7 @@ export const INIT_CASE_STUDY : ICaseStudy = {
   modalityCode: '',
   modalityName: '',
   technician: '',
+  technicianId: '',
   quantity: '',
   numberOfSlideManual: 0
 };

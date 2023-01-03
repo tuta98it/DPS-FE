@@ -27,6 +27,9 @@ import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
 import { saveAs } from 'file-saver';
+import { OrderDoctorService } from 'src/app/services/order-doctor.service';
+import { TechnicianService } from 'src/app/services/technician.service';
+import { SourceHospitalService } from 'src/app/services/source-hospital.service';
 
 @Component({
   selector: 'vt-worklist',
@@ -154,6 +157,11 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   visibleSharedCaseStudy = false;
   sharedCaseStudyId = '';
+
+  orderDoctors: any[] = [];
+  technicians: any[] = [];
+  sourceHospitals: any[] = [];
+
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -166,8 +174,11 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     private viewerState: ViewerStateService,
     private markTypeService: MarkTypeService,
     private slideUploadService: SlideUploadService,
-    public userService: UserService,
-    public reportTemplateService: ReportTemplateService,
+    private userService: UserService,
+    private orderDoctorService: OrderDoctorService,
+    private technicianService: TechnicianService,
+    private sourceHospitalService: SourceHospitalService,
+    private reportTemplateService: ReportTemplateService,
     private notification: NotificationService,
     private ref: ChangeDetectorRef,
   ) {
@@ -188,6 +199,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this.initForm();
     this.FILE_URL = this.configService.getConfig().api.fileUrl;
     this.getDoctors();
+    this.getTechnicians();
+    this.getOrderDoctors();
+    this.getSourceHospitals();
     this.getReportTemplates();
     this.cameras = [
       { id: '', label: 'Đang kết nối thiết bị', visible: true },
@@ -349,9 +363,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       clinicalDiagnosis: [''],
       requestType: [''],
       description: [''],
-      sourceHospital: [''],
-      modalityDoctor: [''],
-      technician: [''],
+      sourceHospitalId: [''],
+      modalityDoctorId: [''],
+      technicianId: [''],
       specimensCode: [''],
       visitCode: [''],
       quantity: [''],
@@ -725,6 +739,36 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
               });
             }
           });
+        }
+      }
+    });
+  }
+
+  getOrderDoctors() {
+    this.orderDoctorService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.orderDoctors = res.jsonData;
+        }
+      }
+    });
+  }
+
+  getTechnicians() {
+    this.technicianService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.technicians = res.jsonData;
+        }
+      }
+    });
+  }
+
+  getSourceHospitals() {
+    this.sourceHospitalService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.sourceHospitals = res.jsonData;
         }
       }
     });

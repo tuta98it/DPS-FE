@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SampleProcessingService } from 'src/app/services/sample-processing.service';
+import { TechnicianService } from 'src/app/services/technician.service';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class SampleProcessingComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private notification: NotificationService,
-    private sampleProcessingService: SampleProcessingService,
+    private sampleProcessingService: TechnicianService,
   ) { 
     this.sampleProcessingForm = this.fb.group({
       id: [null],
