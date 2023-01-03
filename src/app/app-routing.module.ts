@@ -24,6 +24,20 @@ import { Roles } from './shared/constants/constants';
             ),
         },
         {
+          path: '404',
+          loadChildren: () =>
+            import('./components/not-found/not-found.module').then(
+              (m) => m.NotFoundModule
+            ),
+        },
+        {
+          path: '403',
+          loadChildren: () =>
+            import('./components/no-permission/no-permission.module').then(
+              (m) => m.NoPermissionModule
+            ),
+        },
+        {
           path: '',
           loadChildren: () =>
             import(
@@ -31,7 +45,7 @@ import { Roles } from './shared/constants/constants';
             ).then((m) => m.CommonLayoutModule),
           canActivate: [AuthGuard],
         },
-        { path: '**', redirectTo: 'login' },
+        { path: '**', redirectTo: '404' },
       ],
       {
         scrollPositionRestoration: 'enabled',
