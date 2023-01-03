@@ -11,9 +11,7 @@ import { SharedCasestudyService } from 'src/app/services/shared-casestudy.servic
 })
 export class ShareStudyComponent implements OnInit {
   sharedToken: string = '';
-  canShowViewer:boolean = true;
-
-  private routeSubscription: any;
+  canShowViewer: boolean|null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,7 +20,7 @@ export class ShareStudyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe(params => {
+    this.route.params.subscribe(params => {
       this.sharedToken = params['token'];
       if(this.sharedToken == undefined) {
         //TODO: redirect to some where?
