@@ -4,9 +4,11 @@
       (click)="emitAction(REPORT_ACTIONS.DISCARD)"></button>
     <button [disabled]="disableEditor" pButton pRipple label="Lưu" icon="pi pi-save" class="flex-none p-button-outlined p-button-success p-button-sm mr-2"
       (click)="emitAction(REPORT_ACTIONS.SAVE)"></button>
-    <button pButton pRipple label="Duyệt" icon="pi pi-check" class="flex-none p-button-outlined p-button-success p-button-sm mr-2"></button>
-    <button pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="flex-none p-button-outlined p-button-danger p-button-sm mr-2"></button>
-    <button pButton pRipple label="In " icon="pi pi-print" class="flex-none p-button-outlined p-button-sm mr-2"
+    <button [disabled]="!disableEditor" pButton pRipple label="Duyệt" icon="pi pi-check" class="flex-none p-button-outlined p-button-success p-button-sm mr-2"
+      (click)="emitAction(REPORT_ACTIONS.APPROVE)"></button>
+    <button [disabled]="!disableEditor" pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="flex-none p-button-outlined p-button-danger p-button-sm mr-2"
+      (click)="emitAction(REPORT_ACTIONS.UNAPPROVE)"></button>
+    <button [disabled]="!disableEditor" pButton pRipple label="In " icon="pi pi-print" class="flex-none p-button-outlined p-button-sm mr-2"
       (click)="emitAction(REPORT_ACTIONS.PRINT)"></button>
     <button [disabled]="!disableEditor" pButton pRipple label="Thêm" icon="pi pi-plus" class="p-button p-button-sm" 
       (click)="emitAction(REPORT_ACTIONS.ADD)"></button>
@@ -15,6 +17,6 @@
     <button pButton pRipple label="Xem lịch sử" icon="pi pi-images" class="float-right p-button-outlined p-button-sm" 
       ></button>
     <button pButton pRipple label="Key Images" icon="pi pi-images" class="float-right p-button-outlined p-button-sm mr-2" 
-      ></button>
+      (click)="emitAction(REPORT_ACTIONS.KEY_IMAGES)"></button>
   </div>
 </div>

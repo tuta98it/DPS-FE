@@ -3,7 +3,7 @@
     <as-split-area [size]="100-INIT_WORKLIST_HEIGHT">
       <div class="worklist-form grid w-full m-0">
         <div [ngClass]="{'col-10': isSmallScreen==true, 'col-9' : isSmallScreen==false }" class="p-0">
-          <div class="card m-3 mb-0 flex-column">
+          <div class="card mx-3 mt-2 mb-0 flex-column">
             <div class="flex flex-row-reverse">
               <div class="w-auto">
                 <button [disabled]="creatingVisit || editingVisit" pButton pRipple label="Thêm" icon="pi pi-plus" class="p-button p-button-sm mr-2" 
@@ -223,7 +223,7 @@
           </div>
         </div>
         <div [ngClass]="{'col-2': isSmallScreen==true, 'col-3' : isSmallScreen==false }" class="p-0">
-          <div class="card mr-3 my-3">
+          <div class="card mr-3 mb-3 mt-2">
             <div class="w-full m-0 flex-none">
               <div class="flex align-items-center">
                 <span class="font-bold">
@@ -236,7 +236,7 @@
               </div>
             </div>
           </div>
-          <div [ngClass]="{'h-28rem': isSmallScreen, 'h-29rem' : !isSmallScreen}" class="card mr-3 my-3 pl-2 flex-grow-1 overflow-auto">
+          <div [ngClass]="{'h-28rem': isSmallScreen, 'h-29rem' : !isSmallScreen}" class="card mr-3 mt-3 pl-2 flex-grow-1 overflow-auto">
             <div class="w-full m-0 flex-none">
               <div class="px-2 flex align-items-center">
                 <span class="font-bold">

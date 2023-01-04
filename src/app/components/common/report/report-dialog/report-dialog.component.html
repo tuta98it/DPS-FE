@@ -1,4 +1,18 @@
-<p-dialog [(visible)]="visible" [style]="{width: '1200px', height: '1000px', 'max-height': '90%', 'max-width': '90%' }" header="Báo cáo" [modal]="true">
+<p-dialog class="report-dialog-container" [(visible)]="visible" [style]="{width: '1200px', height: '1000px', 'max-height': '90%', 'max-width': '90%' }" header="Báo cáo" [modal]="true">
+  <div class="grid m-0 mt-2">
+    <div class="col-10 p-0">
+      <p-treeSelect class="mr-3" appendTo="body" [(ngModel)]="selectedReportTemplate" [resetFilterOnHide]="true" [options]="reportTemplates" [filter]="true" placeholder="-- Standard template --"></p-treeSelect>
+      <p-dropdown [filter]="true" [resetFilterOnHide]="true" class="mr-3" [styleClass]="'w-14rem flex-none'" 
+        optionLabel="name" optionValue="id" [options]="[]" appendTo="body" placeholder="-- Custom template --" [showClear]="false">
+      </p-dropdown>
+      <button [disabled]="!selectedReportTemplate" (click)="applyReportTemplate()"
+        pButton pRipple label="Update" icon="pi pi-file-edit" class="p-button mr-3"></button>
+      <button pButton pRipple label="Save Custom Report" icon="pi pi-save" class="p-button mr-3"></button>
+    </div>
+    <div class="col-2 p-0">
+      <!-- <i class="pi pi-angle-up font-bold text-4xl float-right" ></i> -->
+    </div>
+  </div>
   <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true">
     <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
       <report-editor [(isDisable)]="disableEditor" [reportForm]="report" #reportEditor></report-editor>

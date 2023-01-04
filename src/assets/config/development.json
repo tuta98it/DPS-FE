@@ -1,12 +1,12 @@
 {
   "api": {
-    "baseUrl": "dpsdemo-be.pmr.vn/api",
-    "fileUrl": "dpsdemo-be.pmr.vn/Files"
+    "baseUrl": "dpstest2-be.pmr.vn/api",
+    "fileUrl": "dpstest2-be.pmr.vn/Files"
   },
   "deepzoom": {
-    "baseUrl": "dpsdemo-dz.pmr.vn"
+    "baseUrl": "dpstest2-dz.pmr.vn"
   },
-  "domain": "dpsdemo.pmr.vn",
+  "domain": "dpstest2.pmr.vn",
   "sharedUrl": "share",
   "layout": "default", 
   "slogan": {

@@ -5,13 +5,23 @@
       Báo cáo của bệnh nhân
     </span> 
   </div>
-  <div *ngIf="caseStudyId!=''" class="w-full h-full px-3">
+  <div *ngIf="caseStudyId!=''" class="w-full h-full px-3 relative">
     <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true" [styleClass]="'bg-white'">
       <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
-        <report-editor [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
+        <report-editor [reportTabIndex]="i" [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
       </p-tabPanel>
     </p-tabView>
+    <div class="absolute top-0 right-0 flex">
+      <p-treeSelect class="mr-3" appendTo="body" [(ngModel)]="selectedReportTemplate" [resetFilterOnHide]="true" [options]="reportTemplates" [filter]="true" placeholder="-- Standard template --"></p-treeSelect>
+      <p-dropdown [filter]="true" [resetFilterOnHide]="true" class="mr-3" [styleClass]="'w-14rem flex-none'" 
+        optionLabel="name" optionValue="id" [options]="[]" appendTo="body" placeholder="-- Custom template --" [showClear]="false">
+      </p-dropdown>
+      <button [disabled]="!selectedReportTemplate" (click)="applyReportTemplate()"
+        pButton pRipple label="Update" icon="pi pi-file-edit" class="p-button mr-3"></button>
+    </div>
+
     <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
   </div>
 </div>
 <print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
+<key-images [(visible)]="visibleKeyImages" [caseStudyId]="caseStudyId"></key-images>

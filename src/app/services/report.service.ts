@@ -35,4 +35,8 @@ export class ReportService extends BaseService {
   approving(reportId: string) {
     return this.get(`${this.url}/Approving/${reportId}`);
   }
+  
+  approveReport(report: any) {
+    return this.post(`${this.url}/ApproveReport/${report.id}`, report);
+  }
 }

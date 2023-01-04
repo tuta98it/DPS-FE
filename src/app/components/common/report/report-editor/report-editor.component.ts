@@ -17,6 +17,8 @@ export class ReportEditorComponent implements OnInit {
     id: '',
   };
   @Input() height = 0;
+
+  @Input() reportTabIndex = 0;
   
   _isDisable = true;
   @Input() set isDisable(value: boolean) {
@@ -43,13 +45,16 @@ export class ReportEditorComponent implements OnInit {
   ngOnInit(): void {
   }
   
-  checkReport() {
-    if (this.isDisable) {
+  checkReport(template:any=null) {
+    if (this.isDisable || template != null) {
       if (this.reportForm['id'] != '') {
         this.reportService.check(this.reportForm['id']).subscribe({
           next: (res) => {
             if (res.isValid) {
               this.isDisable = false;
+              if (template) {
+                this.applyTemplate(template);
+              }
             }
           }
         });
@@ -59,4 +64,11 @@ export class ReportEditorComponent implements OnInit {
     }
   } 
 
+  applyTemplate(template: any) {
+    this.reportForm.microbodyDescribe = template.microbodyDescribe;
+    this.reportForm.diagnose = template.diagnose;
+    this.reportForm.discuss = template.discuss;
+    this.reportForm.recommendation = template.recommendation;
+    this.reportForm.consultation = template.consultation;
+  }
 }

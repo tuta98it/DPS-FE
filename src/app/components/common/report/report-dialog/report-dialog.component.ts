@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { TreeNode } from 'primeng/api';
 import { INIT_REPORT } from 'src/app/models/report';
+import { ReportTemplateService } from 'src/app/services/report-template.service';
 import { ReportService } from 'src/app/services/report.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { ReportEditorComponent } from '../report-editor/report-editor.component';
 
 @Component({
   selector: 'report-dialog',
@@ -53,9 +56,17 @@ export class ReportDialogComponent implements OnInit {
 
   reportStates:any = {};
 
+  @ViewChildren("reportEditor") private reportEditors!: QueryList<ReportEditorComponent>;
+
+  visibleKeyImages = false;
+
+  reportTemplates: TreeNode[] = [];
+  selectedReportTemplate: any = null;
+
   constructor(
     private reportService: ReportService,
     private notification: NotificationService,
+    private reportTemplateService: ReportTemplateService,
   ) { 
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
@@ -64,6 +75,7 @@ export class ReportDialogComponent implements OnInit {
     if(!this.isSmallScreen) {
       this.minusHeight = 80;
     }
+    this.getReportTemplates();
   }
 
   ngOnInit(): void {
@@ -130,6 +142,37 @@ export class ReportDialogComponent implements OnInit {
     });
   } 
 
+
+  approveReport() {
+    if (this.reports[this.activeReportTab].id != '') {
+      this.reportService.approveReport(this.reports[this.activeReportTab]).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            this.getReports();
+            this.notification.success('Duyệt báo cáo thành công');
+            this.disableEditor = true;
+          }
+        }
+      });
+    } else {
+      this.notification.error('Báo cáo chưa được lưu');
+    }
+  }
+
+  unapproveReport() {
+    if (this.reports[this.activeReportTab].id != '') {
+      this.reportService.unapprove(this.reports[this.activeReportTab].id).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            this.getReports();
+            this.notification.success('Bỏ duyệt báo cáo thành công');
+            this.disableEditor = true;
+          }
+        }
+      });
+    }
+  }
+
   addDraftReport() {
     this.reports.push(JSON.parse(JSON.stringify(INIT_REPORT)));
   }
@@ -141,5 +184,57 @@ export class ReportDialogComponent implements OnInit {
       this.disableEditor = false;
     }, 100);
     this.disableEditor = true;
+  }
+  
+  applyReportTemplate() {
+    if (this.reportEditors) {
+      let reportEditor = this.reportEditors.find(e => e.reportTabIndex == this.activeReportTab);
+      console.log('applyReportTemplate', this.selectedReportTemplate, reportEditor);
+      if (reportEditor) {
+        reportEditor.checkReport(this.selectedReportTemplate.data);
+      }
+    }
+  }
+
+  getReportTemplates() {
+    this.reportTemplates = [];
+    this.reportTemplateService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.extractReportTemplates(
+            res.jsonData,
+            this.reportTemplates
+          );
+        }
+      },
+    });
+  }
+
+  extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
+    if (resData) {
+      for (let i = 0; i < resData.length; ++i) {
+        let newNode: TreeNode = {
+          label: resData[i].templateName,
+          key: resData[i].templateId,
+          data: {
+            templateId: resData[i].templateId,
+            templateName: resData[i].templateName,
+            code: resData[i].code,
+            templateExtName: resData[i].templateExtName,
+            hasChild: resData[i].hasChild,
+            parentName: resData[i].parentName,
+            parentId: resData[i].parentId,
+            microbodyDescribe: resData[i].microbodyDescrible,
+            diagnose: resData[i].diagnose,
+            discuss: resData[i].discuss,
+            recommendation: resData[i].recommendation,
+            consultation: resData[i].consultaion,
+          },
+          children: [],
+        };
+        this.extractReportTemplates(resData[i].child, newNode.children);
+        extractedData?.push(newNode);
+      }
+    }
   }
 }

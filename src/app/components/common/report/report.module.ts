@@ -5,7 +5,6 @@ import { NgsContenteditableModule } from '@ng-stack/contenteditable';
 import { ListboxModule } from 'primeng/listbox';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
-
 import { ReportPanelComponent } from './report-panel/report-panel.component';
 import { ReportDialogComponent } from './report-dialog/report-dialog.component';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
@@ -13,6 +12,8 @@ import { ReportActionsComponent } from './report-actions/report-actions.componen
 import { PrintPreviewPopupComponent } from './print-preview-popup/print-preview-popup.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { TabViewModule } from 'primeng/tabview';
+import { KeyImagesModule } from '../key-images/key-images.module';
+import { TreeSelectModule } from 'primeng/treeselect';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { TabViewModule } from 'primeng/tabview';
     DialogModule,
     ListboxModule,
     TabViewModule,
+    TreeSelectModule,
     ButtonModule,
+    KeyImagesModule,
     DropdownModule
   ],
   exports: [

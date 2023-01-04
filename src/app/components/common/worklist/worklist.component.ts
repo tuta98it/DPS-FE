@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
@@ -85,6 +85,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   constructor(
     private caseStudyService: CaseStudyService,
     private notification: NotificationService,
+    private ref: ChangeDetectorRef
   ) {
     Constants.REQUEST_TYPES.forEach((r: any) => {
       this.requestTypes[r.value] = r.label;
@@ -248,11 +249,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
     let contentHeight = window.innerHeight - headerHeight*fontSize;
     this.tableHeight = contentHeight*worklistSize/100 - 80;
     this.relatedTableHeight = contentHeight*relatedListSize/100 - 60;
-    if (this.isShowRelated) {
-      this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 60;
-    } else {
-      this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 200;
-    }
+    this.reportPanelHeight = contentHeight*(100-worklistSize-relatedListSize)/100 - 65;
   }
 
   onLazyLoad(event:any) {

@@ -2,12 +2,12 @@
   <as-split class="h-full" direction="vertical" (dragEnd)="onResizeEnd($event)">
     <as-split-area [size]="panelSizes[0]" [minSize]="5">
       <div class="grid w-full m-0">
-        <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1': true}">
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1 pt-2': true}">
           <span class="block sm:text-lg xl:text-xl font-bold text-primary-color pt-2">
             <ng-container *ngIf="selectedLayout==LAYOUT.FULL">Danh sách ca khám:</ng-container> {{totalCaseStudies}} kết quả
           </span>
         </div>
-        <div [ngClass]="{'col-6' : isSmallScreen, 'col-10': !isSmallScreen, 'pb-1': true}">
+        <div [ngClass]="{'col-6' : isSmallScreen, 'col-10': !isSmallScreen, 'pb-1 pt-2': true}">
           <div class="flex justify-content-end">
             <input pInputText type="text" placeholder="Tên bệnh nhân" title="Tên bệnh nhân"
               class="text-base w-14rem p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
