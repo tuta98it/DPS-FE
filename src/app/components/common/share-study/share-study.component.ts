@@ -40,7 +40,7 @@ export class ShareStudyComponent implements OnInit {
     this.sharedCasestudyService.getCaseStudyByToken(this.sharedToken).subscribe({
       next: (res) => {
         if (res.isValid) {
-          console.log('getCaseStudyByToken response: ', res);
+          console.log('getCaseStudyByToken: ', res);
           this.canShowViewer = true;
 
           //study info
@@ -48,7 +48,7 @@ export class ShareStudyComponent implements OnInit {
             caseStudyId: res.jsonData.caseStudyId,
             patientsName: res.jsonData.patientsName,
             createdTime: '20221212T001818',
-          }
+          };
           this.openViewer(caseStudy);
         }
         else {
