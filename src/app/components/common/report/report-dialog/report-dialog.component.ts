@@ -34,9 +34,6 @@ export class ReportDialogComponent implements OnInit {
     return this._caseStudyId;
   }
   
-  minusHeight = 65;
-  isSmallScreen = true;
-
   reports: any[] = [];
   activeReportTab = 0;
   visiblePrintPreview = false;
@@ -62,6 +59,28 @@ export class ReportDialogComponent implements OnInit {
 
   reportTemplates: TreeNode[] = [];
   selectedReportTemplate: any = null;
+  currentTemplate: any = {
+    microbodyDescribe: '',
+    diagnose: '',
+    discuss: '',
+    recommendation: '',
+    consultation: '',
+  };
+
+  isSmallScreen = true;
+  minusHeight = 240; //px
+  editorHeight = 400; 
+  templateHeight = 250; 
+  initTemplateHeight = 250; 
+  _isShowTemplate = true;
+  set isShowTemplate(value: boolean) {
+    this._isShowTemplate = value;
+    this.templateHeight = value ? this.initTemplateHeight : 50;
+    this.setEditorHeight();
+  }
+  get isShowTemplate() {
+    return this._isShowTemplate;
+  }
 
   constructor(
     private reportService: ReportService,
@@ -71,10 +90,17 @@ export class ReportDialogComponent implements OnInit {
     Constants.REPORT_STATES.forEach((r: any) => {
       this.reportStates[r.value] = r.label;
     });
+
     this.isSmallScreen = window.innerWidth < 1600;
-    if(!this.isSmallScreen) {
-      this.minusHeight = 80;
+    if(this.isSmallScreen) {
+      this.minusHeight = 210;
     }
+    if (window.innerWidth < 1600) {
+      this.initTemplateHeight = 150;
+      this.templateHeight = 150;
+    }
+    this.setEditorHeight();
+
     this.getReportTemplates();
   }
 
@@ -87,7 +113,18 @@ export class ReportDialogComponent implements OnInit {
       this.saveReport();
     } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
       this.visiblePrintPreview = true;
-    }
+    } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
+      this.reports[this.activeReportTab] = JSON.parse(this.currentReport);
+      this.disableEditor = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.ADD) {
+      this.addReportTab();
+    } else if (event.action == Constants.REPORT_ACTIONS.KEY_IMAGES) {
+      this.visibleKeyImages = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.APPROVE) {
+      this.approveReport();
+    } else if (event.action == Constants.REPORT_ACTIONS.UNAPPROVE) {
+      this.unapproveReport();
+    } 
   }
 
   getReports() {
@@ -185,11 +222,14 @@ export class ReportDialogComponent implements OnInit {
     }, 100);
     this.disableEditor = true;
   }
+
+  onSelectTemplate(event: any) {
+    this.currentTemplate = event.node.data;
+  }
   
   applyReportTemplate() {
     if (this.reportEditors) {
       let reportEditor = this.reportEditors.find(e => e.reportTabIndex == this.activeReportTab);
-      console.log('applyReportTemplate', this.selectedReportTemplate, reportEditor);
       if (reportEditor) {
         reportEditor.checkReport(this.selectedReportTemplate.data);
       }
@@ -236,5 +276,10 @@ export class ReportDialogComponent implements OnInit {
         extractedData?.push(newNode);
       }
     }
+  }
+
+  setEditorHeight() {
+    let dialogHeight = window.innerHeight*0.9;
+    this.editorHeight = dialogHeight - this.templateHeight - this.minusHeight;
   }
 }

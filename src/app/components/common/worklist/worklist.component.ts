@@ -5,6 +5,7 @@ import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-c
 import { CaseStudyService } from 'src/app/services/case-study.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { ReportPanelComponent } from '../report/report-panel/report-panel.component';
 import { CaseStudyTableComponent } from './case-study-table/case-study-table.component';
 
 @Component({
@@ -77,7 +78,17 @@ export class WorklistComponent implements OnInit, AfterViewInit {
 
   loadingExport = false;
 
-  visibleReportDialog = false;
+  @ViewChild('reportPanel') reportPanel!: ReportPanelComponent;
+  _visibleReportDialog = false;
+  set visibleReportDialog(value: boolean) {
+    this._visibleReportDialog = value;
+    if (!value && this.selectedCaseStudy?.caseStudyId) {
+      this.reportPanel.getReports();
+    }
+  }
+  get visibleReportDialog() {
+    return this._visibleReportDialog;
+  }
   disableReport = true;
 
   visibleSharedCaseStudy = false;

@@ -64,7 +64,7 @@
           (click)="openReportDialog()">
       </div>
       <div class="grid w-full m-0 flex-none">
-        <report-panel class="w-full" [(disableEditor)]="disableReport" [height]="reportPanelHeight" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-panel>
+        <report-panel #reportPanel class="w-full" [(disableEditor)]="disableReport" [height]="reportPanelHeight" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-panel>
       </div>
     </as-split-area>
   </as-split>

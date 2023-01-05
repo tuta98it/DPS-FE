@@ -30,6 +30,8 @@ export class ReportEditorComponent implements OnInit {
   }
   @Output() isDisableChange = new EventEmitter<any>();
 
+  @Input() isTemplate = false;
+  
   constructor(
     private reportService: ReportService
   ) { 
