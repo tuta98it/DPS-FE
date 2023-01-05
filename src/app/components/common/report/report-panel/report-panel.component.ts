@@ -35,9 +35,6 @@ export class ReportPanelComponent implements OnInit {
   _disableEditor = true;
   @Input() set disableEditor(value: boolean) {
     this._disableEditor = value;
-    if (!value) {
-      this.currentReport = JSON.stringify(this.reports[this.activeReportTab]);
-    }
     this.disableEditorChange.emit(value);
   }
   get disableEditor() {
@@ -45,12 +42,19 @@ export class ReportPanelComponent implements OnInit {
   }
   @Output() disableEditorChange = new EventEmitter<any>();
 
-  currentReport: any = {};
-
   reportStates:any = {};
 
   visibleKeyImages = false;
 
+  isSelectedTemplate = false;
+  currentTemplate: any = {
+    microbodyDescribe: '',
+    diagnose: '',
+    discuss: '',
+    recommendation: '',
+    consultation: '',
+  };
+  customTemplates: any[] = [];
   reportTemplates: TreeNode[] = [];
   selectedReportTemplate: any = null;
   @ViewChildren("reportEditor") private reportEditors!: QueryList<ReportEditorComponent>;
@@ -68,6 +72,7 @@ export class ReportPanelComponent implements OnInit {
       this.minusHeight = 80;
     }
     this.getReportTemplates();
+    this.getCustomTemplates();
   }
 
   ngOnInit(): void {
@@ -80,7 +85,7 @@ export class ReportPanelComponent implements OnInit {
     } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
       this.visiblePrintPreview = true;
     } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
-      this.reports[this.activeReportTab] = JSON.parse(this.currentReport);
+      this.getReports();
       this.disableEditor = true;
     } else if (event.action == Constants.REPORT_ACTIONS.ADD) {
       this.addReportTab();
@@ -191,9 +196,8 @@ export class ReportPanelComponent implements OnInit {
   applyReportTemplate() {
     if (this.reportEditors) {
       let reportEditor = this.reportEditors.find(e => e.reportTabIndex == this.activeReportTab);
-      console.log('applyReportTemplate', this.selectedReportTemplate, reportEditor);
       if (reportEditor) {
-        reportEditor.checkReport(this.selectedReportTemplate.data);
+        reportEditor.checkReport(this.currentTemplate);
       }
     }
   }
@@ -211,7 +215,25 @@ export class ReportPanelComponent implements OnInit {
       },
     });
   }
+  
+  getCustomTemplates() {
+    this.reportTemplateService.getCustomTemplates().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.customTemplates = res.jsonData;
+          this.customTemplates.forEach(t => {
+            t.label = t.code + ' - ' + t.templateName;
+          });
+        }
+      }
+    });
+  }
 
+  onSelectTemplate(event: any, isCustom=false) {
+    this.currentTemplate = isCustom ? event.value : event.node.data;
+    this.isSelectedTemplate = true;
+  }
+  
   extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
     if (resData) {
       for (let i = 0; i < resData.length; ++i) {

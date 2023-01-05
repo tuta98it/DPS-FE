@@ -4,11 +4,12 @@
       <p-treeSelect class="mr-3" appendTo="body" [(ngModel)]="selectedReportTemplate" (onNodeSelect)="onSelectTemplate($event)"
         [resetFilterOnHide]="true" [options]="reportTemplates" [filter]="true" placeholder="-- Standard template --"></p-treeSelect>
       <p-dropdown [filter]="true" [resetFilterOnHide]="true" class="mr-3" [styleClass]="'w-14rem flex-none'" 
-        optionLabel="name" optionValue="id" [options]="[]" appendTo="body" placeholder="-- Custom template --" [showClear]="false">
+        (onChange)="onSelectTemplate($event, true)" [filterBy]="'code,templateName'" optionLabel="label" [options]="customTemplates" 
+        appendTo="body" placeholder="-- Custom template --" [showClear]="false">
       </p-dropdown>
-      <button [disabled]="!selectedReportTemplate" (click)="applyReportTemplate()"
+      <button [disabled]="!isSelectedTemplate" (click)="applyReportTemplate()"
         pButton pRipple label="Update" icon="pi pi-file-edit" class="p-button mr-3"></button>
-      <button pButton pRipple label="Save Custom Report" icon="pi pi-save" class="p-button mr-3"></button>
+      <button pButton pRipple label="Save Custom Report" icon="pi pi-save" class="p-button mr-3" (click)="onSaveCustomReport()"></button>
     </div>
     <div class="col-2 p-0">
       <i class="pi font-bold text-4xl float-right cursor-pointer" [ngClass]="{'pi-angle-up' : isShowTemplate, 'pi-angle-down': !isShowTemplate}" 
@@ -26,3 +27,5 @@
   <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
 </p-dialog>
 <print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
+<key-images [(visible)]="visibleKeyImages" [caseStudyId]="caseStudyId"></key-images>
+<save-custom-report [(visible)]="visibleSaveCustomReport" [report]="customReport"></save-custom-report>

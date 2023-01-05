@@ -12,11 +12,13 @@
       </p-tabPanel>
     </p-tabView>
     <div class="absolute top-0 right-0 flex">
-      <p-treeSelect class="mr-3" appendTo="body" [(ngModel)]="selectedReportTemplate" [resetFilterOnHide]="true" [options]="reportTemplates" [filter]="true" placeholder="-- Standard template --"></p-treeSelect>
+      <p-treeSelect class="mr-3" appendTo="body" [(ngModel)]="selectedReportTemplate" (onNodeSelect)="onSelectTemplate($event)"
+        [resetFilterOnHide]="true" [options]="reportTemplates" [filter]="true" placeholder="-- Standard template --"></p-treeSelect>
       <p-dropdown [filter]="true" [resetFilterOnHide]="true" class="mr-3" [styleClass]="'w-14rem flex-none'" 
-        optionLabel="name" optionValue="id" [options]="[]" appendTo="body" placeholder="-- Custom template --" [showClear]="false">
+        (onChange)="onSelectTemplate($event, true)" [filterBy]="'code,templateName'" optionLabel="label" [options]="customTemplates" 
+        appendTo="body" placeholder="-- Custom template --" [showClear]="false">
       </p-dropdown>
-      <button [disabled]="!selectedReportTemplate" (click)="applyReportTemplate()"
+      <button [disabled]="!isSelectedTemplate" (click)="applyReportTemplate()"
         pButton pRipple label="Update" icon="pi pi-file-edit" class="p-button mr-3"></button>
     </div>
 

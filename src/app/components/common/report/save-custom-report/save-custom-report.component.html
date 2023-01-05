@@ -1,0 +1,23 @@
+<p-dialog [(visible)]="visible" [style]="{width: '450px'}" [header]="'Save Custom Report Template'" [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <form [formGroup]="templateForm">
+      <div class="field">
+        <label for="name"><span class="text-red-500">*</span>Template Name</label>
+        <input type="text" pInputText formControlName="templateName" required autofocus/>
+        <div class="m-error" *ngIf="templateForm.controls['templateName'].invalid && templateForm.controls['templateName'].dirty">*Vui lòng nhập tên mẫu báo cáo
+        </div>
+      </div>
+      <div class="field">
+        <label for="name"><span class="text-red-500">*</span>Code</label>
+        <input type="text" pInputText formControlName="code" required autofocus/>
+        <div class="m-error" *ngIf="templateForm.controls['code'].invalid && templateForm.controls['code'].dirty">*Vui lòng nhập mã mẫu báo cáo
+        </div>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600 " (click)="visible=false"></button>
+    <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+  </ng-template>
+</p-dialog>

@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TabViewModule } from 'primeng/tabview';
 import { KeyImagesModule } from '../key-images/key-images.module';
 import { TreeSelectModule } from 'primeng/treeselect';
+import { SaveCustomReportComponent } from './save-custom-report/save-custom-report.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { TreeSelectModule } from 'primeng/treeselect';
     ReportDialogComponent,
     ReportEditorComponent,
     ReportActionsComponent,
-    PrintPreviewPopupComponent
+    PrintPreviewPopupComponent,
+    SaveCustomReportComponent
   ],
   imports: [
     CommonModule,
@@ -30,6 +33,7 @@ import { TreeSelectModule } from 'primeng/treeselect';
     ReactiveFormsModule,
     DialogModule,
     ListboxModule,
+    InputTextModule,
     TabViewModule,
     TreeSelectModule,
     ButtonModule,

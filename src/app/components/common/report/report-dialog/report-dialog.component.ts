@@ -17,6 +17,7 @@ export class ReportDialogComponent implements OnInit {
   @Input() set visible(value: boolean) {
     this._visible = value;
     this.visibleChange.emit(value);
+    this.isSelectedTemplate = false;
   }
   get visible() {
     return this._visible;
@@ -37,26 +38,17 @@ export class ReportDialogComponent implements OnInit {
   reports: any[] = [];
   activeReportTab = 0;
   visiblePrintPreview = false;
+  visibleSaveCustomReport = false;
 
-  _disableEditor = true;
-  set disableEditor(value: boolean) {
-    this._disableEditor = value;
-    if (!value) {
-      this.currentReport = JSON.stringify(this.reports[this.activeReportTab]);
-    }
-  }
-  get disableEditor() {
-    return this._disableEditor;
-  }
-
-  currentReport: any = {};
-
+  disableEditor = true;
+  
   reportStates:any = {};
 
   @ViewChildren("reportEditor") private reportEditors!: QueryList<ReportEditorComponent>;
 
   visibleKeyImages = false;
 
+  customTemplates: any[] = [];
   reportTemplates: TreeNode[] = [];
   selectedReportTemplate: any = null;
   currentTemplate: any = {
@@ -66,6 +58,14 @@ export class ReportDialogComponent implements OnInit {
     recommendation: '',
     consultation: '',
   };
+  customReport = {
+    microbodyDescribe: '',
+    diagnose: '',
+    discuss: '',
+    recommendation: '',
+    consultation: '',
+  };
+  isSelectedTemplate = false;
 
   isSmallScreen = true;
   minusHeight = 240; //px
@@ -102,6 +102,7 @@ export class ReportDialogComponent implements OnInit {
     this.setEditorHeight();
 
     this.getReportTemplates();
+    this.getCustomTemplates();
   }
 
   ngOnInit(): void {
@@ -114,7 +115,7 @@ export class ReportDialogComponent implements OnInit {
     } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
       this.visiblePrintPreview = true;
     } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
-      this.reports[this.activeReportTab] = JSON.parse(this.currentReport);
+      this.getReports();
       this.disableEditor = true;
     } else if (event.action == Constants.REPORT_ACTIONS.ADD) {
       this.addReportTab();
@@ -223,17 +224,40 @@ export class ReportDialogComponent implements OnInit {
     this.disableEditor = true;
   }
 
-  onSelectTemplate(event: any) {
-    this.currentTemplate = event.node.data;
+  onSelectTemplate(event: any, isCustom=false) {
+    this.currentTemplate = isCustom ? event.value : event.node.data;
+    this.isSelectedTemplate = true;
+  }
+
+  onSaveCustomReport() {
+    this.customReport.microbodyDescribe = this.reports[this.activeReportTab].microbodyDescribe,
+    this.customReport.diagnose = this.reports[this.activeReportTab].diagnose,
+    this.customReport.discuss = this.reports[this.activeReportTab].discuss,
+    this.customReport.recommendation = this.reports[this.activeReportTab].recommendation,
+    this.customReport.consultation = this.reports[this.activeReportTab].consultation,
+    this.visibleSaveCustomReport = true;
   }
   
   applyReportTemplate() {
     if (this.reportEditors) {
       let reportEditor = this.reportEditors.find(e => e.reportTabIndex == this.activeReportTab);
       if (reportEditor) {
-        reportEditor.checkReport(this.selectedReportTemplate.data);
+        reportEditor.checkReport(this.currentTemplate);
       }
     }
+  }
+  
+  getCustomTemplates() {
+    this.reportTemplateService.getCustomTemplates().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.customTemplates = res.jsonData;
+          this.customTemplates.forEach(t => {
+            t.label = t.code + ' - ' + t.templateName;
+          });
+        }
+      }
+    });
   }
 
   getReportTemplates() {
