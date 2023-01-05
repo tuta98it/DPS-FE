@@ -11,7 +11,7 @@ import { SharedCasestudyService } from 'src/app/services/shared-casestudy.servic
 })
 export class ShareStudyComponent implements OnInit {
   sharedToken: string = '';
-  canShowViewer: boolean|null = null;
+  canShowViewer: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,13 +40,13 @@ export class ShareStudyComponent implements OnInit {
     this.sharedCasestudyService.getCaseStudyByToken(this.sharedToken).subscribe({
       next: (res) => {
         if (res.isValid) {
-          console.log(res);
+          console.log('getCaseStudyByToken response: ', res);
           this.canShowViewer = true;
 
-          //sample info
+          //study info
           let caseStudy = {
-            caseStudyId: 'sharing',
-            patientsName: 'Test BN',
+            caseStudyId: res.jsonData.caseStudyId,
+            patientsName: res.jsonData.patientsName,
             createdTime: '20221212T001818',
           }
           this.openViewer(caseStudy);
