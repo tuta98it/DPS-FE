@@ -1,12 +1,17 @@
-.state-color-1 {
-  color: var(--orange-500);
-}
-.state-color-2 {
-  color: var(--green-600);
-}
-.state-color-3 {
-  color: var(--green-800);
-}
-.state-color-4 {
-  color: var(--green-900);
+:host ::ng-deep {
+  .state-color-1 {
+    color: var(--orange-500);
+  }
+  .state-color-2 {
+    color: var(--green-600);
+  }
+  .state-color-3 {
+    color: var(--green-800);
+  }
+  .state-color-4 {
+    color: var(--green-900);
+  }
+  .search-table tbody {
+    top: 90px !important;
+  }
 }

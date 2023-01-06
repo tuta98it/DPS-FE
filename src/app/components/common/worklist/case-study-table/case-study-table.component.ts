@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { IViewerTab } from 'src/app/models/viewer-tab';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
@@ -28,6 +29,12 @@ export class CaseStudyTableComponent implements OnInit {
   clickTimer: any;
 
   layoutConfig = '';
+  REPORT_STATES = Constants.REPORT_STATES;
+  REQUEST_TYPES = Constants.REQUEST_TYPES;
+  LAYOUT_CONFIG = Constants.LAYOUT_CONFIG;
+  
+  searchData: any = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  @Output() onSearch = new EventEmitter<any>();
 
   constructor(
     private viewerState: ViewerStateService,
@@ -45,7 +52,7 @@ export class CaseStudyTableComponent implements OnInit {
       { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
       { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
-      { field: 'conclusion', header: 'Kết luận', width: '20rem' }
+      { field: 'conclusion', header: 'Kết luận', width: '19rem' }
     ];
     this.layoutConfig = this.configService.getConfig().layout;
   }

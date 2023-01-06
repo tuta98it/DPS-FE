@@ -1,49 +1,91 @@
-<p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
-  [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
-  selectionMode="single" [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy" 
-  dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand">
-  <ng-template pTemplate="header">
-    <tr class="text-blue-900">
-      <th class="flex flex-none bg-white" [style]="{'width':'50px'}">STT</th>
-      <th class="flex flex-none bg-white" [style]="{'width':'8rem'}">Trạng thái</th>
-      <th *ngFor="let col of cols" [style]="{'width':col.width}" pResizableColumn 
-        class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none">
-        {{ col.header }}
-      </th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData>
-    <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData" (click)="onRowSelect($event, rowData)"
-      (dblclick)="openViewer(rowData)"
-      [ngClass]="{'bg-grid': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
-        'surface-200':rowData['idx']==selectedCaseStudy['idx'],
-        'hover:surface-200 cursor-pointer':true}">
-      <td class="flex align-items-center justify-content-center flex-none" [style]="{'width':'50px'}">{{ rowData['idx'] }}</td>
-      <td class="flex align-items-center flex-none" [style]="{'width':'8rem'}">
-        <span class="flex align-items-center state-color-{{rowData['state']}}">
-          <img class="mr-1" src="assets/images/state-{{rowData['state']}}.png" alt="">
-          {{ rowData['stateLabel'] }}
-        </span>
-      </td>
-      <td *ngFor="let col of cols" [style]="{'width':col.width}" class="flex align-items-center overflow-hidden white-space-nowrap text-overflow-ellipsis flex-none"
-        [title]="rowData[col.field]">
-        {{ rowData[col.field] }}
-      </td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="loadingbody" let-columns="columns">
-    <tr style="height:40px">
-        <td [attr.colspan]="cols.length+2" class="text-center">
-          <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
+<div [ngClass]="{'search-table' : !isRelatedList && layoutConfig==LAYOUT_CONFIG.VT}">
+  <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
+    [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
+    selectionMode="single" [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy"
+    dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand">
+    <ng-template pTemplate="header">
+      <tr class="text-blue-900">
+        <th class="flex flex-none bg-white" [style]="{'width':'50px'}">STT</th>
+        <th class="flex flex-none bg-white" [style]="{'width':'10rem'}">Trạng thái</th>
+        <th *ngFor="let col of cols" [style]="{'width':col.width}" pResizableColumn 
+          class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none">
+          {{ col.header }}
+        </th>
+      </tr>
+      <tr *ngIf="!isRelatedList && layoutConfig==LAYOUT_CONFIG.VT">
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':'50px'}"></th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':'10rem'}">
+        <p-dropdown [(ngModel)]="searchData.status" (ngModelChange)="onSearch.emit(searchData)"
+          [options]="REPORT_STATES" optionLabel="label" optionValue="value" placeholder="Select"
+          appendTo="body" [showClear]="true" [style]="{'width':'9rem'}"></p-dropdown>
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[0].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[1].width}">
+          <input [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[2].width}">
+          <input [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[3].width}">
+          <input [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[4].width}">
+          <p-dropdown [(ngModel)]="searchData.requestType" (ngModelChange)="onSearch.emit(searchData)"
+           [options]="REQUEST_TYPES" optionLabel="label" optionValue="value"
+           placeholder="Select" appendTo="body" [showClear]="true" [style]="{'width':'9rem'}"></p-dropdown>
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[5].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[6].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[7].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[8].width}">
+          <input [(ngModel)]="searchData.conclusion" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[9].width}">
+          <input [(ngModel)]="searchData.conclusion" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData>
+      <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData" (click)="onRowSelect($event, rowData)"
+        (dblclick)="openViewer(rowData)"
+        [ngClass]="{'bg-grid': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
+          'surface-200':rowData['idx']==selectedCaseStudy['idx'],
+          'hover:surface-200 cursor-pointer':true}">
+        <td class="flex align-items-center justify-content-center flex-none" [style]="{'width':'50px'}">{{ rowData['idx'] }}</td>
+        <td class="flex align-items-center flex-none" [style]="{'width':'10rem'}">
+          <span class="flex align-items-center state-color-{{rowData['state']}}">
+            <img class="mr-1" src="assets/images/state-{{rowData['state']}}.png" alt="">
+            {{ rowData['stateLabel'] }}
+          </span>
         </td>
+        <td *ngFor="let col of cols" [style]="{'width':col.width}" class="flex align-items-center overflow-hidden white-space-nowrap text-overflow-ellipsis flex-none"
+          [title]="rowData[col.field]">
+          {{ rowData[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody" let-columns="columns">
+      <tr style="height:40px">
+          <td [attr.colspan]="cols.length+2" class="text-center">
+            <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
+          </td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="cols.length+2" class="justify-content-center">
+        Không có dữ liệu.
+      </td>
     </tr>
-</ng-template>
-<ng-template pTemplate="emptymessage" let-columns>
-  <tr>
-    <td [attr.colspan]="cols.length+2" class="justify-content-center">
-      Không có dữ liệu.
-    </td>
-  </tr>
-</ng-template>
-</p-table>
+  </ng-template>
+  </p-table>
+</div>
 <p-contextMenu #menu styleClass="w-16rem" [model]="actions"></p-contextMenu>

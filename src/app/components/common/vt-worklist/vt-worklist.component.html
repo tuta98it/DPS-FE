@@ -340,7 +340,7 @@
         <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
           <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
             (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
-            (onAction)="onCaseStudyAction($event)"></case-study-table>
+            (onSearch)="onSearch($event)" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
     </as-split-area>
