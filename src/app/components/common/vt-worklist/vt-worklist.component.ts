@@ -388,7 +388,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   search() {
     this.loading = true;
-    this.caseStudyService.search(this.searchData).subscribe({
+    this.caseStudyService.search({ ...this.searchData, isPrint: 10, isApprove: 10, hasSlide: 10, hasConclusion: 10 }).subscribe({
       next: (res) => {
         res.jsonData.data.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];

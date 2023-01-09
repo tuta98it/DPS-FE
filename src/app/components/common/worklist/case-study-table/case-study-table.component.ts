@@ -52,7 +52,7 @@ export class CaseStudyTableComponent implements OnInit {
       { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
       { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
-      { field: 'conclusion', header: 'Kết luận', width: '19rem' }
+      { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
     ];
     this.layoutConfig = this.configService.getConfig().layout;
   }
