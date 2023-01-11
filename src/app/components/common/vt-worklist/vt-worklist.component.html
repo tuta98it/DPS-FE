@@ -6,17 +6,17 @@
           <div class="card mx-3 mt-2 mb-0 flex-column">
             <div class="flex flex-row-reverse">
               <div class="w-auto">
-                <button [disabled]="creatingVisit || editingVisit" pButton pRipple label="Thêm" icon="pi pi-plus" class="p-button p-button-sm mr-2" 
+                <button [disabled]="creatingVisit || editingVisit" pButton pRipple label="Thêm" icon="pi pi-plus" class="p-button p-button-sm mr-2"
                   (click)="onCreateVisit()"></button>
                 <button [disabled]="!patientForm.value.id || creatingVisit || editingVisit" (click)="onEditVisit()"
                   pButton pRipple label="Sửa" icon="pi pi-pencil" class="p-button-outlined p-button-info p-button-sm mr-2"></button>
                 <button [disabled]="!(creatingVisit || editingVisit)" [loading]="saving" pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-outlined p-button-success p-button-sm mr-2" (click)="onSave()" ></button>
                 <button [disabled]="!(creatingVisit || editingVisit)" pButton pRipple label="Hủy" (click)="visibleConfirmCancel=true"
                   icon="pi pi-times" class="p-button-outlined p-button-danger  p-button-sm mr-2"></button>
-                <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state==REPORT_STATES[4].value" 
+                <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state==REPORT_STATES[4].value"
                   pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-outlined p-button-success p-button-sm mr-2"
                   (click)="onApprove()"></button>
-                <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value" 
+                <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value"
                   pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-outlined p-button-danger p-button-sm mr-2"
                   (click)="onUnapprove()"></button>
                 <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id" pButton pRipple label="In " icon="pi pi-print" class="p-button-outlined p-button-sm mr-2"
@@ -55,7 +55,7 @@
                     <div>Năm sinh<span class="text-red-500">*</span></div>
                   </div> -->
                   <div class="col-4 py-1 pr-0">
-                    <p-inputNumber [disabled]="!(creatingVisit || editingVisit)" formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="false" class="w-full" 
+                    <p-inputNumber [disabled]="!(creatingVisit || editingVisit)" formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="false" class="w-full"
                       [styleClass]="'w-full'" [inputStyleClass]="'flex-none w-full py-2 px-2'" [min]="1900" [max]="2100">
                     </p-inputNumber>
                   </div>
@@ -90,7 +90,7 @@
                     <div>Loại bệnh phẩm</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES" 
+                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES"
                       [styleClass]="'w-full'" placeholder="Loại bệnh phẩm" [showClear]="true">
                     </p-dropdown>
                   </div>
@@ -124,7 +124,7 @@
                     <div>Nơi gửi mẫu</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="sourceHospitalId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" 
+                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="sourceHospitalId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
                       optionLabel="name" optionValue="id" [options]="sourceHospitals" appendTo="body" placeholder="Nơi gửi mẫu" [showClear]="false">
                     </p-dropdown>
                   </div>
@@ -132,7 +132,7 @@
                     <div>BS chỉ định</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="modalityDoctorId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" 
+                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="modalityDoctorId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
                       optionLabel="name" optionValue="id" [options]="orderDoctors" appendTo="body" placeholder="BS chỉ định" [showClear]="false">
                     </p-dropdown>
                   </div>
@@ -155,7 +155,7 @@
                     <div>KTV xử lý</div>
                   </div>
                   <div class="col-8 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="technicianId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" 
+                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="technicianId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
                       optionLabel="name" optionValue="id" [options]="technicians" appendTo="body" placeholder="KTV xử lý" [showClear]="false">
                     </p-dropdown>
                   </div>
@@ -195,7 +195,7 @@
                     <div>BS đọc KQ</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" 
+                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
                       optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="Bác sĩ đọc kết quả" [showClear]="false">
                     </p-dropdown>
                   </div>
@@ -231,7 +231,7 @@
                 </span>
               </div>
               <div class="py-0 mt-2">
-                <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
+                <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight"
                   [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
               </div>
             </div>
@@ -253,9 +253,12 @@
                   <button #btnCamera pButton pRipple type="button" icon="pi pi-camera" class="btn-image flex-none text-2xl font-medium mr-2"
                     [ngClass]="{'p-button-outlined': !isShowLiveCam}" [loading]="uploadingKeyImage" title="Live camera"
                     (click)="isShowLiveCam=!isShowLiveCam" [disabled]="!patientForm.value.id"></button>
+                 <button #btnCameraSdk pButton pRipple type="button" icon="pi pi-camera" class="btn-image flex-none text-2xl font-medium mr-2"
+                    [ngClass]="'p-button-outlined'" title="Camera app"
+                    (click)="openCamApp()" [disabled]="!patientForm.value.id || !caseStudyForm.value.id"></button>
                   <button [disabled]="!patientForm.value.id" pButton pRipple icon="pi pi-paperclip" title="Chọn file ảnh"
                     class="p-button-outlined btn-image flex-none text-xl font-medium mr-2" (click)="onCreateKeyImage()"></button>
-                  <button [disabled]="!patientForm.value.id" pButton pRipple icon="fa-solid fa-microscope" 
+                  <button [disabled]="!patientForm.value.id" pButton pRipple icon="fa-solid fa-microscope"
                     title="Xem ảnh scan lam" class="p-button-outlined btn-image flex-none text-xl font-medium mr-2" (click)="openViewer()"></button>
                 </div>
               </div>
@@ -269,14 +272,14 @@
                       <i class="pi pi-camera text-6xl"></i>
                       <span class="mt-2">
                         Live camera
-                      </span> 
+                      </span>
                     </div>
                   </div>
                   <div *ngIf="loadingCamera && patientForm.value.id" class="w-full h-10rem flex flex-column justify-content-center align-items-center surface-300">
                     <i class="pi pi-spin pi-spinner text-xl"></i>
                     <span class="mt-2">
                       Loading
-                    </span> 
+                    </span>
                   </div>
                   <div *ngIf="!loadingCamera && selectedCameraId && patientForm.value.id" class="w-full h-full overflow-hidden cursor-pointer"
                     [ngClass]="{'fixed top-0 right-0 bottom-0 left-0 z-5 bg-black-alpha-90': isLiveCamFullScreen, 'relative': !isLiveCamFullScreen}">
@@ -295,7 +298,7 @@
                     class="key-images relative inline-block p-2 cursor-pointer">
                     <img (contextmenu)="$event.preventDefault();addPrintedKeyImage(img.id);" [src]="img.src" class="w-7rem h-7rem" style="object-fit: cover;">
                     <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
-                    <p-badge *ngIf="printedKeyImages.indexOf(img.id)>-1" [value]="printedKeyImages.indexOf(img.id)+1+''" 
+                    <p-badge *ngIf="printedKeyImages.indexOf(img.id)>-1" [value]="printedKeyImages.indexOf(img.id)+1+''"
                       (contextmenu)="$event.preventDefault();removePrintedKeyImage(img.id);" styleClass="printed-index absolute top-0 right-0"></p-badge>
                   </div>
                   <button pButton pRipple type="button" icon="fa-solid fa-expand" class="absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
@@ -305,7 +308,7 @@
                   <i class="pi pi-images text-xl"></i>
                   <span class="mt-2">
                     Key Images
-                  </span> 
+                  </span>
                 </div>
               </div>
             </div>
@@ -326,7 +329,7 @@
               [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
             <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
               [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
-            <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
+            <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status"
               placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
               optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
@@ -339,7 +342,7 @@
         </div>
         <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
           <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
-            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
+            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies"
             (onSearch)="onSearch($event)" (onAction)="onCaseStudyAction($event)"></case-study-table>
         </div>
       </div>
@@ -351,9 +354,9 @@
   (removePrintedKeyImage)="removePrintedKeyImage($event)" (addPrintedKeyImage)="addPrintedKeyImage($event)"></key-images>
 <upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
 <upload-key-image [(visible)]="visibleUploadKeyImage" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-key-image>
-<confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'" 
+<confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'"
   [cancelLabel]="'Đóng'" [confirmLabel]="'Ok'" (onConfirm)="cancelEdit()"></confirm-dialog>
-<confirm-dialog [(visible)]="visibleConfirmUnapprove" [confirmText]="'Xác nhận bỏ duyệt ca khám?'" 
+<confirm-dialog [(visible)]="visibleConfirmUnapprove" [confirmText]="'Xác nhận bỏ duyệt ca khám?'"
   [cancelLabel]="'Hủy'" [confirmLabel]="'Ok'" (onConfirm)="unapprove()"></confirm-dialog>
 <confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
 <print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reportForm.value.id" *ngIf="reportForm"></print-preview-popup>

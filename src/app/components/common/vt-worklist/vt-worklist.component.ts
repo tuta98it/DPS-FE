@@ -22,7 +22,7 @@ import { VisitService } from 'src/app/services/visit.service';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
-import { Constants, Roles } from 'src/app/shared/constants/constants';
+import { Constants, Roles, StorageKeys } from 'src/app/shared/constants/constants';
 import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
@@ -47,7 +47,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this._searchData = value;
     this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
     this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
-    
+
   }
   get searchData(): SearchCaseStudy {
     return this._searchData;
@@ -128,7 +128,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   keyImageUploadedPath = '';
   visibleUploadKeyImage = false;
   currentReportTemplate = '';
-  
+
   cameras: MenuItem[] = [];
   selectedCameraId = '';
   stream!: MediaStream;
@@ -228,8 +228,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           devices.forEach(
             device => {
               if (device.kind === 'videoinput') {
-                this.cameras.push({ 
-                  id: device.deviceId, 
+                this.cameras.push({
+                  id: device.deviceId,
                   label: device.label,
                   command: (event) => this.selectCamera(event.item.id),
                 });
@@ -243,7 +243,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           }
         })
         .catch(err => console.log(err))
-        .finally(() => { 
+        .finally(() => {
           this.cameras[0].visible = false;
           if (this.cameras.length == 2) {
             this.cameras[1].visible = true;
@@ -301,7 +301,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       this.notification.success('Đang tải file lên hệ thống');
     }
   }
-  
+
   preUploadKeyImage(imgBlob: any) {
     this.uploadingKeyImage = true;
     this.ref.detectChanges();
@@ -632,7 +632,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   onCancelSearch() {
     this.searchData = this.currentSearchData!;
   }
-  
+
   dragEnd(event: any) {
     this.setTableHeight(event.sizes[1]);
   }
@@ -798,7 +798,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
   getMarkTypes() {
     this.markTypeService.getAll().subscribe({
       next: (res) => {
@@ -855,5 +855,11 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       next: (res) => {
       }
     });
+  }
+
+  openCamApp(){
+    let token = localStorage.getItem(StorageKeys.TOKEN);
+    const url = `dpsimage://${this.caseStudyForm.value.id}-${this.patientForm.value.id}-${token}-${this.patientForm.value.patientsName}`;
+    window.open(url,"_blank");
   }
 }
