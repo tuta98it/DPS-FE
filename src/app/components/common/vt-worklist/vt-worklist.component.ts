@@ -388,11 +388,15 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   search() {
     this.loading = true;
-    this.caseStudyService.search({ ...this.searchData, isPrint: 10, isApprove: 10, hasSlide: 10, hasConclusion: 10 }).subscribe({
+    this.caseStudyService.search({ ...this.searchData }).subscribe({
       next: (res) => {
         res.jsonData.data.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
           r.requestTypeLabel = this.requestTypes[r.requestType];
+          let htmlChecked = '<i class="pi pi-check text-xl text-green-500 font-bold"></i>'
+          r.hasSlide = r.slideCount > 0 ? htmlChecked : '';
+          r.hasConclusion = (r.conclusion != null && r.conclusion != "") ? htmlChecked : '';
+          r.isApprove = r.state == Constants.REPORT_STATES[4].value ? htmlChecked : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;

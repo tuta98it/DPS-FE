@@ -13,6 +13,10 @@ export interface SearchCaseStudy {
   diagnose: string;
   specimensCode: string;
   sort: any[];
+  hasSlide?: number;
+  hasConclusion?: number;
+  isApprove?: number;
+  isPrint?: number;
 }
 export const INIT_SEARCH_CASE_STUDY : SearchCaseStudy = {
   patientName: '',
@@ -28,5 +32,9 @@ export const INIT_SEARCH_CASE_STUDY : SearchCaseStudy = {
   conclusion: '',
   diagnose: '',
   specimensCode: '',
-  sort: []
+  sort: [],
+  hasSlide: 10,
+  hasConclusion: 10,
+  isApprove: 10,
+  isPrint: 10,
 };

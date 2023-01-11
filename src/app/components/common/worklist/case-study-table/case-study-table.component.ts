@@ -24,7 +24,7 @@ export class CaseStudyTableComponent implements OnInit {
   @Output() onSelectCaseStudy = new EventEmitter<any>();
   actions!: MenuItem[];
   selectedCaseStudy: any = {};
-  cols: any[];
+  cols!: any[];
   @ViewChild('caseStudyTable') caseStudyTable!: Table;
   clickTimer: any;
 
@@ -32,6 +32,10 @@ export class CaseStudyTableComponent implements OnInit {
   REPORT_STATES = Constants.REPORT_STATES;
   REQUEST_TYPES = Constants.REQUEST_TYPES;
   LAYOUT_CONFIG = Constants.LAYOUT_CONFIG;
+  FILTER_STATES_1 = Constants.FILTER_STATES_1;
+  FILTER_STATES_2 = Constants.FILTER_STATES_2;
+  FILTER_STATES_3 = Constants.FILTER_STATES_3;
+  FILTER_STATES_4 = Constants.FILTER_STATES_4;
   
   searchData: any = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   @Output() onSearch = new EventEmitter<any>();
@@ -42,25 +46,42 @@ export class CaseStudyTableComponent implements OnInit {
     private viewerState: ViewerStateService,
     public configService: AppConfigService,
   ) {
-    this.cols = [
-      // { field: 'idx', header: 'STT', width: '5rem' },
-      // { field: 'state', header: 'Trạng thái', width: '8rem' },
-      { field: 'createdTime', header: 'Ngày lấy mẫu', width: '12rem' },
-      { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
-      { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
-      { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
-      { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
-      { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
-      { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
-      { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
-      { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
-      { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
-    ];
     this.layoutConfig = this.configService.getConfig().layout;
+    if (this.layoutConfig==Constants.LAYOUT_CONFIG.DEFAULT) {
+      this.cols = [
+        { field: 'createdTime', header: 'Ngày lấy mẫu', width: '12rem' },
+        { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
+        { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
+        { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
+        { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
+        { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
+        { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
+        { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
+        { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
+        { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
+      ];
+    } else if (this.layoutConfig==Constants.LAYOUT_CONFIG.VT) {
+      this.cols = [
+        { field: 'createdTime', header: 'Ngày lấy mẫu', width: '12rem' },
+        { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
+        { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
+        { field: 'hasSlide', header: 'Đã chụp', width: '10rem' },
+        { field: 'hasConclusion', header: 'Đã đọc', width: '10rem' },
+        { field: 'isApprove', header: 'Đã duyệt', width: '10rem' },
+        { field: 'isPrint', header: 'Đã in', width: '10rem' },
+        { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
+        { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
+        { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
+        { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
+        { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
+        { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
+        { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
+      ];
+    }
   }
 
   ngOnInit() {
-    this.isSearchTable = !this.isRelatedList && this.layoutConfig==this.LAYOUT_CONFIG.VT;
+    this.isSearchTable = !this.isRelatedList && this.layoutConfig==Constants.LAYOUT_CONFIG.VT;
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => this.openViewer(this.selectedCaseStudy) },
       { 
