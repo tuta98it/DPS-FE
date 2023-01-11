@@ -1,18 +1,24 @@
-<div [ngClass]="{'search-table' : !isRelatedList && layoutConfig==LAYOUT_CONFIG.VT}">
+<div [ngClass]="{'search-table' : isShowSearch}">
   <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
     [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
     selectionMode="single" [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy"
     dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand">
     <ng-template pTemplate="header">
       <tr class="text-blue-900">
-        <th class="flex flex-none bg-white" [style]="{'width':'50px'}">STT</th>
+        <th class="flex flex-none bg-white relative" [style]="{'width':'50px'}">
+          <ng-container *ngIf="isSearchTable">
+            <i class="pi pi-filter-fill cursor-pointer absolute left-0 ml-1" (click)="isShowSearch=!isShowSearch"
+              [ngClass]="{'text-primary' : isShowSearch}"></i>&nbsp;
+          </ng-container>
+          STT
+        </th>
         <th class="flex flex-none bg-white" [style]="{'width':'10rem'}">Trạng thái</th>
         <th *ngFor="let col of cols" [style]="{'width':col.width}" pResizableColumn 
           class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none">
           {{ col.header }}
         </th>
       </tr>
-      <tr *ngIf="!isRelatedList && layoutConfig==LAYOUT_CONFIG.VT">
+      <tr *ngIf="isShowSearch">
         <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':'50px'}"></th>
         <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':'10rem'}">
         <p-dropdown [(ngModel)]="searchData.status" (ngModelChange)="onSearch.emit(searchData)"

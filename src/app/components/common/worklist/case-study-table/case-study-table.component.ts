@@ -36,6 +36,8 @@ export class CaseStudyTableComponent implements OnInit {
   searchData: any = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   @Output() onSearch = new EventEmitter<any>();
 
+  isSearchTable = false;
+  isShowSearch = false;
   constructor(
     private viewerState: ViewerStateService,
     public configService: AppConfigService,
@@ -58,6 +60,7 @@ export class CaseStudyTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isSearchTable = !this.isRelatedList && this.layoutConfig==this.LAYOUT_CONFIG.VT;
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => this.openViewer(this.selectedCaseStudy) },
       { 
