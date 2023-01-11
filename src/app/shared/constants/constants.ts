@@ -79,6 +79,26 @@ export class Constants {
     {label: 'Đang duyệt', value: "3"},
     {label: 'Đã duyệt', value: "4"},
   ];
+  public static readonly FILTER_STATES_1 = [
+    {label: 'Tất cả', value: 10},
+    {label: 'Đã chụp', value: 1},
+    {label: 'Chưa chụp', value: 0}
+  ];
+  public static readonly FILTER_STATES_2 = [
+    {label: 'Tất cả', value: 10},
+    {label: 'Đã đọc', value: 1},
+    {label: 'Chưa đọc', value: 0}
+  ];
+  public static readonly FILTER_STATES_3 = [
+    {label: 'Tất cả', value: 10},
+    {label: 'Đã duyệt', value: 1},
+    {label: 'Chưa duyệt', value: 0}
+  ];
+  public static readonly FILTER_STATES_4 = [
+    {label: 'Tất cả', value: 10},
+    {label: 'Đã in', value: 1},
+    {label: 'Chưa in', value: 0}
+  ];
   public static readonly SHARED_PERIODS = [
     {label: '4 tiếng', value: 4},
     {label: '8 tiếng', value: 8},

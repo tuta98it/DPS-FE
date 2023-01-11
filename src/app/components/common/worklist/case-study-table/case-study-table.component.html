@@ -35,26 +35,46 @@
           <input [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
         </th>
         <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[3].width}">
-          <input [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+          <p-dropdown [(ngModel)]="searchData.hasSlide" (ngModelChange)="onSearch.emit(searchData)"
+            [options]="FILTER_STATES_1" optionLabel="label" optionValue="value"
+            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
         </th>
         <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[4].width}">
+          <p-dropdown [(ngModel)]="searchData.hasConclusion" (ngModelChange)="onSearch.emit(searchData)"
+            [options]="FILTER_STATES_2" optionLabel="label" optionValue="value"
+            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[5].width}">
+          <p-dropdown [(ngModel)]="searchData.isApprove" (ngModelChange)="onSearch.emit(searchData)"
+            [options]="FILTER_STATES_3" optionLabel="label" optionValue="value"
+            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[6].width}">
+          <p-dropdown [(ngModel)]="searchData.isPrint" (ngModelChange)="onSearch.emit(searchData)"
+            [options]="FILTER_STATES_4" optionLabel="label" optionValue="value"
+            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[7].width}">
+          <input [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[8].width}">
           <p-dropdown [(ngModel)]="searchData.requestType" (ngModelChange)="onSearch.emit(searchData)"
            [options]="REQUEST_TYPES" optionLabel="label" optionValue="value"
            placeholder="Select" appendTo="body" [showClear]="true" [style]="{'width':'9rem'}"></p-dropdown>
         </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[5].width}">
-          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[6].width}">
-          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[7].width}">
-          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[8].width}">
-          <input [(ngModel)]="searchData.conclusion" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
         <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[9].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[10].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[11].width}">
+          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[12].width}">
+          <input [(ngModel)]="searchData.diagnose" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
+        </th>
+        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[13].width}">
           <input [(ngModel)]="searchData.conclusion" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
         </th>
       </tr>
@@ -73,8 +93,7 @@
           </span>
         </td>
         <td *ngFor="let col of cols" [style]="{'width':col.width}" class="flex align-items-center overflow-hidden white-space-nowrap text-overflow-ellipsis flex-none"
-          [title]="rowData[col.field]">
-          {{ rowData[col.field] }}
+          [title]="rowData[col.field]" [innerHTML]="rowData[col.field]">
         </td>
       </tr>
     </ng-template>
