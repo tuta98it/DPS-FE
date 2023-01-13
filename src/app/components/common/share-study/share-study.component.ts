@@ -40,7 +40,7 @@ export class ShareStudyComponent implements OnInit {
     this.sharedCasestudyService.getCaseStudyByToken(this.sharedToken).subscribe({
       next: (res) => {
         if (res.isValid) {
-          console.log('getCaseStudyByToken: ', res);
+          console.log('getCaseStudyByToken response: ', res);
           this.canShowViewer = true;
 
           //study info

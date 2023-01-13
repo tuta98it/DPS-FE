@@ -324,7 +324,7 @@
                     <div id="openseadragonWindow">    
                     </div>
                     <div id="for-clinican">
-                        <div id="slide-method">Đây là tên một phương pháp nhuộm</div>
+                        <div id="slide-method">PP nhuộm</div>
                         <div class="list-key-image">
                             <!--<div class="image-container">
                                     <div class="image-box">
@@ -435,10 +435,13 @@
                     <hr class="clinical-no-need" />
 
                     <div class="clinical-no-need">
-                        <div class="panel-title">Key images <span id="lblKeyImageCount"></span></div>
+                        <div class="panel-title-tab tab-active" id="tab-keyimage" onclick="mscdps.showKeyImagePanel()">Key image <span id="lblKeyImageCount"></span></div>
+                        <div class="panel-title-tab" id="tab-annotation" onclick="mscdps.showAnnotationPanel()">Annotation <span id="lblAnnotationCount"></span></div>
                         <!--<div class="pull-right" title="Mở key-image slider"  style="cursor: pointer; margin-right: 10px"><i class="fas fa-eye"></i></div>-->
                     </div>
+                    <div class="clear-both"></div>
                     <div id="images-box" class="clinical-no-need"></div>
+                    <div id="annotations-box" class="clinical-no-need" style="display: none;"></div>
                 </div>
             </div>
 
@@ -516,32 +519,11 @@
                                    />
                         </div>
                     </div>
-<!--                     
-                    <script>
-                        var _slideSettingsWindow = {
-                            setActiveConstraintField: function (state) {
-                                if (!state)
-                                    $('.keyimage-constraint-field').attr('disabled', 'true');
-                                else
-                                    $('.keyimage-constraint-field').removeAttr('disabled');
-                            },
-                            clickCheckBox: function (elm) {
-                                $(elm).find('[type=checkbox]').click();
-                            },
-                            close: function (window) {
-                                window = window || $('#SlideSetting').data('kendoWindow');
-                                window.close();
-                            },
-                            stopPropagandation: function (e) {
-                                e.stopPropagation();
-                            }
-                        }
-                    </script> -->
                 </div>
                 
                 <div class="windows-footer">
                     <button class="btn btn-danger" onclick="mscdps.closeUserSettings()"><i class="fas fa-times"></i>&ensp;Hủy</button>
-                    <button id="btn_uploadFile" class="btn btn-success mg-left-10" onclick="mscdps.saveUserSettings()"><i class="fas fa-upload"></i>&ensp;Lưu</button>
+                    <button id="btn_saveSettings" class="btn btn-success mg-left-10" onclick="mscdps.saveUserSettings()"><i class="fas fa-save"></i>&ensp;Lưu</button>
                     <div class="mg-left-20"></div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import { AnnotationService } from 'src/app/services/annotation.service';
 import { IAuthModel, INIT_AUTH_MODEL } from 'src/app/models/auth-model';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
+import { UserSettingsService } from 'src/app/services/user-settings.service';
 
 @Component({
   selector: 'app-viewer',
@@ -38,7 +39,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     private caseStudyService: CaseStudyService,
     private annotationService: AnnotationService,
-    protected configService: AppConfigService
+    protected configService: AppConfigService,
+    protected userSettingsService: UserSettingsService
   ) { 
     this._currentTabsSubscription = this.viewerState.subscribeCurrentTabs( (tabs: IViewerTab[]) => {
       this.currentTabs = tabs;
@@ -72,6 +74,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     (<any>window).deleteKeyImage= this.deleteKeyImage.bind(this);
     (<any>window).getListAnnotations= this.getListAnnotations.bind(this);
     (<any>window).saveListAnnotations= this.saveListAnnotations.bind(this);
+    (<any>window).getUserSettings= this.getUserSettings.bind(this);
+    (<any>window).saveUserSettings= this.saveUserSettings.bind(this);
   }
 
   ngOnInit(): void {
@@ -259,5 +263,27 @@ export class ViewerComponent implements OnInit, OnDestroy {
     else {
 
     }
+  }
+
+  getUserSettings(callback: any) {
+    this.userSettingsService.getUserSettings().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    });
+  }
+
+  saveUserSettings(data: any, callback: any) {
+    this.userSettingsService.saveKeyImageSettings(data).subscribe({
+      next: (res) => {
+        // if (res.isValid) {
+          if(callback != undefined)
+            callback(res);
+        // }
+      }
+    });
   }
 }

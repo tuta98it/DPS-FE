@@ -8,6 +8,10 @@ body {
     overflow: hidden;
 }
 
+.clear-both {
+    clear: both;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -297,9 +301,28 @@ body {
     font-size: 16px;
     cursor: pointer;
     margin: 15px;
+    width: auto;
 }
 .panel-title span {
     font-size: 16px;
+}
+
+.panel-title-tab {
+    text-transform: uppercase;
+    color: var(--icon-color);
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 15px 5px 15px 15px;
+    width: auto;
+    float: left;
+}
+.panel-title-tab span {
+    font-size: 14px;
+}
+.tab-active {
+    color: var(--text-panel-title);
+    border-bottom: solid 2px var(--text-panel-title);
 }
 
 #tool-box img.selected {
@@ -629,6 +652,29 @@ canvas:focus,
     -webkit-user-drag: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+#annotations-box {
+    padding: 0 15px;
+}
+
+#annotations-box > div {
+    width: 100%;
+    text-align: left;
+    padding: 8px;
+    cursor: pointer;
+    margin-bottom: 7px;
+    position: relative;
+    color: var(--text-blue);
+}
+
+#annotations-box > div:hover {
+    background-color: #e7edfd;
+}
+
+#annotations-box .li-active {
+    background-color: #d8e2ff;
+    border-left: solid 1px var(--text-blue);
 }
 
 .highlight {
@@ -1152,5 +1198,9 @@ canvas:focus,
     .panel-title,
     .panel-title span {
         font-size: 14px;
+    }
+    .panel-title-tab,
+    .panel-title-tab span {
+        font-size: 12px;
     }
 }
