@@ -253,7 +253,7 @@
                   <button #btnCamera pButton pRipple type="button" icon="pi pi-camera" class="btn-image flex-none text-2xl font-medium mr-2"
                     [ngClass]="{'p-button-outlined': !isShowLiveCam}" [loading]="uploadingKeyImage" title="Live camera"
                     (click)="isShowLiveCam=!isShowLiveCam" [disabled]="!patientForm.value.id"></button>
-                 <button #btnCameraSdk pButton pRipple type="button" icon="pi pi-camera" class="btn-image flex-none text-2xl font-medium mr-2"
+                 <button #btnCameraSdk pButton pRipple type="button" icon="pi pi-desktop" class="btn-image flex-none text-2xl font-medium mr-2"
                     [ngClass]="'p-button-outlined'" title="Camera app"
                     (click)="openCamApp()" [disabled]="!patientForm.value.id || !caseStudyForm.value.id"></button>
                   <button [disabled]="!patientForm.value.id" pButton pRipple icon="pi pi-paperclip" title="Chọn file ảnh"
