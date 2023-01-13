@@ -22,7 +22,7 @@
         pButton pRipple label="Update" icon="pi pi-file-edit" class="p-button mr-3"></button>
     </div>
 
-    <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
+    <report-actions [disableActions]="!caseStudyId || caseStudyId==''" [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
   </div>
 </div>
 <print-preview-popup [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyId+''" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>

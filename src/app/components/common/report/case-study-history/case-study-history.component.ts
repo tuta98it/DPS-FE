@@ -94,7 +94,6 @@ export class CaseStudyHistoryComponent implements OnInit {
               this.users[d['username']] = d['username'];
             }
           });
-          console.log('getUsers', this.users)
         }
       }
     });

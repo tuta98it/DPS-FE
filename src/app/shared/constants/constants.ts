@@ -111,6 +111,10 @@ export class Constants {
     {label: '1 tháng', value: 720},
     {label: 'Vô thời hạn', value: -1},
   ];
+  public static readonly REPORT_EDITING_STATES = {
+    READING: 1,
+    APPROVING: 3,
+  };
 }
 export class StorageKeys {
   public static readonly TOKEN = 'dps-token';

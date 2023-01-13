@@ -24,7 +24,7 @@
       <report-editor [(isDisable)]="disableEditor" [reportForm]="report" [height]="editorHeight" #reportEditor></report-editor>
     </p-tabPanel>
   </p-tabView>
-  <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
+  <report-actions [disableActions]="!caseStudyId || caseStudyId==''" [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
 </p-dialog>
 <print-preview-popup [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyId+''" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
 <key-images [(visible)]="visibleKeyImages" [caseStudyId]="caseStudyId"></key-images>

@@ -13,6 +13,7 @@ export class ReportActionsComponent implements OnInit {
   @Output() onAction = new EventEmitter<any>();
   @Input() report: any = {};
   @Input() disableEditor = true;
+  @Input() disableActions = true;
 
   constructor(
     public userService: UserService,
