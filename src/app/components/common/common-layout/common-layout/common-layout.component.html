@@ -62,7 +62,7 @@
 <div *ngIf="layoutConfig==LAYOUT_CONFIG.VT" class="common-layout-container">
   <div class="h-full w-full">
     <vt-worklist #VTWorklist [ngClass]="{'hidden' : isShowViewer}"></vt-worklist>
-    <app-viewer [ngClass]="{'hidden' : !isShowViewer}"></app-viewer>
+    <app-viewer [ngClass]="{'hidden' : !isShowViewer}" class="absolute h-full w-full"></app-viewer>
   </div>
 </div>
 <app-notification [position]="'bottom-right'" [key]="'firebase'"></app-notification>
