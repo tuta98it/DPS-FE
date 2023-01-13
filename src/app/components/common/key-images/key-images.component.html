@@ -6,8 +6,10 @@
   </ng-template>
   <ng-template pTemplate="thumbnail" let-item>
     <ng-container *ngIf="!isNoImage">
-      <div class="grid grid-nogutter justify-content-center">
+      <div class="relative mr-2">
         <img [src]="item.src" width="80px" height="60px" class="block mr-1" style="object-fit: contain;"/>
+        <p-badge *ngIf="printedKeyImages.indexOf(item.id)>-1" [value]="printedKeyImages.indexOf(item.id)+1+''"
+          styleClass="printed-index absolute"></p-badge>
       </div>
     </ng-container>
   </ng-template>

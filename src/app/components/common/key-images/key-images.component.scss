@@ -1,10 +1,15 @@
 :host ::ng-deep .key-images-container {
   .p-galleria-thumbnail-item {
     visibility: unset !important;
+    overflow: unset;
   }
   .p-galleria-header {
     color: white;
     position: relative;
     top: -1.5rem;
+  }
+  .printed-index {
+    right: -7px;
+    top: 0;
   }
 } 
