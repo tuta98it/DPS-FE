@@ -397,6 +397,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           r.hasSlide = r.slideCount > 0 ? htmlChecked : '';
           r.hasConclusion = (r.conclusion != null && r.conclusion != "") ? htmlChecked : '';
           r.isApprove = r.state == Constants.REPORT_STATES[4].value ? htmlChecked : '';
+          r.isPrint = r.isPrint ? htmlChecked : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;

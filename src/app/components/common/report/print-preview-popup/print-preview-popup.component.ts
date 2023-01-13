@@ -34,6 +34,7 @@ export class PrintPreviewPopupComponent implements OnInit {
   get reportId() {
     return this._reportId;
   }
+  @Input() caseStudyId = '';
 
   lstPrintTemplates: any[];
   selectedTemplateId: any;
@@ -46,6 +47,8 @@ export class PrintPreviewPopupComponent implements OnInit {
   iframePreviewFunction: any = null;
   iframePrintFunction: any = null;
   iframeSavePdfFunction: any = null;
+
+  @Output() onPrint = new EventEmitter<any>();
 
   constructor(
     private printTemplateService: PrintTemplateService,
@@ -138,6 +141,13 @@ export class PrintPreviewPopupComponent implements OnInit {
 
   printReport(): void {
     if(this.iframePrintFunction != null) {
+      this.caseStudyService.markAsPrinted(this.caseStudyId).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            this.onPrint.emit();
+          }
+        }
+      });
       //A4 for now
       //TODO: choose paper size from form info or user input
       this.iframePrintFunction('210mm', '297mm', '0', '/html/print-template'); 

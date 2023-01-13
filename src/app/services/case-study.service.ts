@@ -51,6 +51,10 @@ export class CaseStudyService extends BaseService {
     return this.post(`${this.url}/PrintKeyImages`, data);
   }
 
+  markAsPrinted(studyId: string) {
+    return this.get(`${this.url}/Print/${studyId}`);
+  }
+
   //for shared token
   getCaseStudyInfoByToken(studyId: string, sharedToken: string) {
     return this.get(`${this.url}/${sharedToken}/InfoByToken`);
