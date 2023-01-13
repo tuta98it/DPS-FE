@@ -30,6 +30,7 @@ import { saveAs } from 'file-saver';
 import { OrderDoctorService } from 'src/app/services/order-doctor.service';
 import { TechnicianService } from 'src/app/services/technician.service';
 import { SourceHospitalService } from 'src/app/services/source-hospital.service';
+import customProtocolCheck from "custom-protocol-check";
 
 @Component({
   selector: 'vt-worklist',
@@ -215,6 +216,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this.search();
     this.initCamera();
     this.getMarkTypes();
+    this.checkCustomProtocol();
   }
 
   public ngOnDestroy(): void {
@@ -860,6 +862,18 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
       next: (res) => {
       }
     });
+  }
+
+  checkCustomProtocol(){
+    customProtocolCheck(
+        "dpsimagecheck://check",
+        () => {
+          console.log("Custom protocol not found.");
+        },
+        () => {
+          console.log("Custom protocol found and opened the file successfully.");
+        }, 5000
+      );
   }
 
   openCamApp(){
