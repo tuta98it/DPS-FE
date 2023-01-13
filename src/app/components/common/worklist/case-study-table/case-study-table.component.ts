@@ -6,6 +6,7 @@ import { IViewerTab } from 'src/app/models/viewer-tab';
 import { AppConfigService } from 'src/app/shared/app-config.service';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import { NotificationService } from 'src/app/shared/notification.service';
 @Component({
   selector: 'case-study-table',
   templateUrl: './case-study-table.component.html',
@@ -44,6 +45,7 @@ export class CaseStudyTableComponent implements OnInit {
   isShowSearch = false;
   constructor(
     private viewerState: ViewerStateService,
+    private notification: NotificationService,
     public configService: AppConfigService,
   ) {
     this.layoutConfig = this.configService.getConfig().layout;
@@ -134,15 +136,19 @@ export class CaseStudyTableComponent implements OnInit {
   }
 
   openViewer(caseStudy: any) {
-    // this.selectedCaseStudy = caseStudy;
-    // this.onSelectCaseStudy.emit(caseStudy);
-    clearTimeout(this.clickTimer);
-
-    let newTab: IViewerTab = {
-      caseStudyId: caseStudy.caseStudyId,
-      patientsName: caseStudy.patientsName,
-      createdTime: caseStudy.createdTime
+    if (caseStudy.slideCount) {
+      // this.selectedCaseStudy = caseStudy;
+      // this.onSelectCaseStudy.emit(caseStudy);
+      clearTimeout(this.clickTimer);
+  
+      let newTab: IViewerTab = {
+        caseStudyId: caseStudy.caseStudyId,
+        patientsName: caseStudy.patientsName,
+        createdTime: caseStudy.createdTime
+      }
+      this.viewerState.openTab(newTab);
+    } else {
+      this.notification.warn('Chưa có lam kính cho ca khám này')
     }
-    this.viewerState.openTab(newTab);
   }
 }

@@ -258,7 +258,7 @@
                     (click)="openCamApp()" [disabled]="!patientForm.value.id || !caseStudyForm.value.id"></button>
                   <button [disabled]="!patientForm.value.id" pButton pRipple icon="pi pi-paperclip" title="Chọn file ảnh"
                     class="p-button-outlined btn-image flex-none text-xl font-medium mr-2" (click)="onCreateKeyImage()"></button>
-                  <button [disabled]="!patientForm.value.id" pButton pRipple icon="fa-solid fa-microscope"
+                  <button [disabled]="!patientForm.value.id || !selectedCaseStudy.slideCount" pButton pRipple icon="fa-solid fa-microscope"
                     title="Xem ảnh scan lam" class="p-button-outlined btn-image flex-none text-xl font-medium mr-2" (click)="openViewer()"></button>
                 </div>
               </div>
