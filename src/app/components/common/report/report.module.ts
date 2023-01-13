@@ -16,6 +16,7 @@ import { KeyImagesModule } from '../key-images/key-images.module';
 import { TreeSelectModule } from 'primeng/treeselect';
 import { SaveCustomReportComponent } from './save-custom-report/save-custom-report.component';
 import { InputTextModule } from 'primeng/inputtext';
+import { CaseStudyHistoryComponent } from './case-study-history/case-study-history.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { InputTextModule } from 'primeng/inputtext';
     ReportEditorComponent,
     ReportActionsComponent,
     PrintPreviewPopupComponent,
-    SaveCustomReportComponent
+    SaveCustomReportComponent,
+    CaseStudyHistoryComponent
   ],
   imports: [
     CommonModule,

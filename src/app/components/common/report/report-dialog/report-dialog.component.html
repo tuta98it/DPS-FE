@@ -26,6 +26,7 @@
   </p-tabView>
   <report-actions [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
 </p-dialog>
-<print-preview-popup [(visible)]="visiblePrintPreview" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
+<print-preview-popup [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyId+''" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
 <key-images [(visible)]="visibleKeyImages" [caseStudyId]="caseStudyId"></key-images>
 <save-custom-report [(visible)]="visibleSaveCustomReport" [report]="customReport"></save-custom-report>
+<case-study-history [(visible)]="visibleHistory" [caseStudyId]="caseStudyId" ></case-study-history>

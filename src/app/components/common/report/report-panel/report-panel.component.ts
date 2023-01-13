@@ -45,6 +45,7 @@ export class ReportPanelComponent implements OnInit {
   reportStates:any = {};
 
   visibleKeyImages = false;
+  visibleHistory = false;
 
   isSelectedTemplate = false;
   currentTemplate: any = {
@@ -91,6 +92,8 @@ export class ReportPanelComponent implements OnInit {
       this.addReportTab();
     } else if (event.action == Constants.REPORT_ACTIONS.KEY_IMAGES) {
       this.visibleKeyImages = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.HISTORY) {
+      this.visibleHistory = true;
     } else if (event.action == Constants.REPORT_ACTIONS.APPROVE) {
       this.approveReport();
     } else if (event.action == Constants.REPORT_ACTIONS.UNAPPROVE) {

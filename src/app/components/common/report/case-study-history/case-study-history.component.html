@@ -1,0 +1,15 @@
+<p-dialog class="report-dialog-container" [(visible)]="visible" [style]="{width: '700px', height: '700px', 'max-height': '90%', 'max-width': '90%' }" 
+  [header]="header" [modal]="true">
+  <div class="mb-1" *ngFor="let log of logs;">
+    <div class="flex justify-content-between">
+      <div>
+        <span class="font-bold">{{log.info}}</span> <i> bởi </i> <span class="font-bold text-primary">{{log.fullname}}</span>
+        &nbsp;<i *ngIf="log.info=='Duyệt báo cáo'" class="text-blue-700 cursor-pointer underline" (click)="showContent($event)">Nội dung</i>
+      </div>
+      <div>{{log.time}}</div>
+    </div>
+    <div class="my-1 report-container hidden">
+      <report-editor [isDisable]="false" [isTemplate]="true" [isHistory]="true" [reportForm]="log"></report-editor>
+    </div>
+  </div>
+</p-dialog>

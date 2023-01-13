@@ -1,6 +1,6 @@
 <div class="report-editor-container">
   <div [style.height]="height?height+'px':'50%'" class="p-2 w-full overflow-auto block surface-border border-1" 
-    (dblclick)="checkReport()" [ngClass]="{'disable-editor' : isDisable}" [title]="isDisable ? 'Click đúp để sửa' : ''">
+    (dblclick)="checkReport()" [ngClass]="{'disable-editor' : isDisable || isHistory}" [title]="isDisable ? 'Click đúp để sửa' : ''">
     <div *ngIf="!isTemplate">
       <div><span class="inline-block w-6rem">Trạng thái</span>: <span class="font-semibold">{{reportForm.stateLabel ?? 'Đang đọc'}}</span></div>
       <div><span class="inline-block w-6rem">Bác sĩ đọc</span>: <span class="font-semibold">{{reportForm.readDoctor}}</span></div>

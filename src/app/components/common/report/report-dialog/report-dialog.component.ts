@@ -82,6 +82,8 @@ export class ReportDialogComponent implements OnInit {
     return this._isShowTemplate;
   }
 
+  visibleHistory = false;
+
   constructor(
     private reportService: ReportService,
     private notification: NotificationService,
@@ -121,6 +123,8 @@ export class ReportDialogComponent implements OnInit {
       this.addReportTab();
     } else if (event.action == Constants.REPORT_ACTIONS.KEY_IMAGES) {
       this.visibleKeyImages = true;
+    } else if (event.action == Constants.REPORT_ACTIONS.HISTORY) {
+      this.visibleHistory = true;
     } else if (event.action == Constants.REPORT_ACTIONS.APPROVE) {
       this.approveReport();
     } else if (event.action == Constants.REPORT_ACTIONS.UNAPPROVE) {
