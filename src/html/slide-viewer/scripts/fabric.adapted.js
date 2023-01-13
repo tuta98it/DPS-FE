@@ -16964,6 +16964,7 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
             if (!this.commonRender(ctx, noTransform)) {
                 return;
             }
+            ctx.lineWidth = this.strokeWidth;
             this._renderFill(ctx);
             this._renderStroke(ctx);
         },
@@ -17075,6 +17076,10 @@ fabric.util.object.extend(fabric.Object.prototype, /** @lends fabric.Object.prot
                 return;
             }
             ctx.closePath();
+            // console.log('Polygon strokeWidth: ' + this.strokeWidth);
+            // console.log('stroke: ' + this.stroke);
+            ctx.lineWidth = this.strokeWidth;
+            // ctx.stroke();
             this._renderFill(ctx);
             this._renderStroke(ctx);
         },
