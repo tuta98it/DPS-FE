@@ -126,11 +126,13 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   
   search() {
     this.loading = true;
+    let datePipe = new DatePipe('en-US');
     this.caseStudyService.search(this.searchData).subscribe({
       next: (res) => {
         res.jsonData.data.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
           r.requestTypeLabel = this.requestTypes[r.requestType];
+          r.specimensDate = r.specimensDate ? datePipe.transform(r.specimensDate, 'dd/MM/yyyy') : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;

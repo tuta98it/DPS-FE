@@ -390,6 +390,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
 
   search() {
     this.loading = true;
+    let datePipe = new DatePipe('en-US');
     this.caseStudyService.search({ ...this.searchData }).subscribe({
       next: (res) => {
         res.jsonData.data.forEach((r: any) => {
@@ -400,6 +401,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           r.hasConclusion = (r.conclusion != null && r.conclusion != "") ? htmlChecked : '';
           r.isApprove = r.state == Constants.REPORT_STATES[4].value ? htmlChecked : '';
           r.isPrint = r.isPrint ? htmlChecked : '';
+          r.specimensDate = r.specimensDate ? datePipe.transform(r.specimensDate, 'dd/MM/yyyy') : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;
