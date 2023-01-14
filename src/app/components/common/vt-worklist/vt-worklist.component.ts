@@ -23,7 +23,6 @@ import { AppConfigService } from 'src/app/shared/app-config.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 import { ViewerStateService } from 'src/app/shared/app-state/viewer-state.service';
 import { Constants, Roles, StorageKeys } from 'src/app/shared/constants/constants';
-import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 import { CaseStudyTableComponent } from '../worklist/case-study-table/case-study-table.component';
 import { saveAs } from 'file-saver';
@@ -577,9 +576,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             this.reportForm.patchValue({
               id: res.jsonData[0].id,
               caseStudyId: res.jsonData[0].caseStudyId,
-              microbodyDescribe: Utils.extractContent(res.jsonData[0].microbodyDescribe),
-              consultation: Utils.extractContent(res.jsonData[0].consultation),
-              diagnose: Utils.extractContent(res.jsonData[0].diagnose),
+              microbodyDescribe: res.jsonData[0].microbodyDescribe,
+              consultation: res.jsonData[0].consultation,
+              diagnose: res.jsonData[0].diagnose,
               readDoctor: res.jsonData[0].readDoctorId,
               state: res.jsonData[0].state,
             });
@@ -801,9 +800,9 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     if (id) {
       let reportTemplate = this.reportTemplates.find(t => t.id == id);
       if (reportTemplate) {
-        this.reportForm.controls['microbodyDescribe'].setValue(Utils.extractContent(reportTemplate.microbodyDescrible));
-        this.reportForm.controls['consultation'].setValue(Utils.extractContent(reportTemplate.consultation));
-        this.reportForm.controls['diagnose'].setValue(Utils.extractContent(reportTemplate.diagnose));
+        this.reportForm.controls['microbodyDescribe'].setValue(reportTemplate.microbodyDescrible);
+        this.reportForm.controls['consultation'].setValue(reportTemplate.consultation);
+        this.reportForm.controls['diagnose'].setValue(reportTemplate.diagnose);
       }
     }
   }

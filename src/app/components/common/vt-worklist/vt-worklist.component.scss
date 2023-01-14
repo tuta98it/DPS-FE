@@ -29,4 +29,10 @@
   p-calendar.p-calendar-clearable .p-calendar-clear-icon {
     right: 1.5rem;
   }
+  [contenteditable] {
+    outline: 0px solid transparent !important;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    overflow: auto;
+  }
 }

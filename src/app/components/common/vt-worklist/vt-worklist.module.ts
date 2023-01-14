@@ -16,6 +16,7 @@ import { ReportModule } from '../report/report.module';
 import { UploadKeyImageComponent } from './upload-key-image/upload-key-image.component';
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { BadgeModule } from 'primeng/badge';
+import { NgsContenteditableModule } from '@ng-stack/contenteditable';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BadgeModule } from 'primeng/badge';
     FormsModule,
     InputTextModule,
     BadgeModule,
+    NgsContenteditableModule,
     CalendarModule,
     GalleriaModule,
     ConfirmDialogModule,
