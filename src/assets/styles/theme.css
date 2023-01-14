@@ -6270,7 +6270,9 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 .p-button.p-button-danger:enabled:focus {
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #f7a2a2, 0 1px 2px 0 black;
 }
-
+.p-button:disabled {
+  color: DimGrey !important;
+}
 .p-datatable{
   border: 1px solid #dee2e6;
   border-radius: 3px;
