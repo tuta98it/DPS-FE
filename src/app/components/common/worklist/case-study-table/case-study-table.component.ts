@@ -38,11 +38,12 @@ export class CaseStudyTableComponent implements OnInit {
   FILTER_STATES_3 = Constants.FILTER_STATES_3;
   FILTER_STATES_4 = Constants.FILTER_STATES_4;
   
-  searchData: any = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+  @Input() searchData: SearchCaseStudy = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
   @Output() onSearch = new EventEmitter<any>();
 
   isSearchTable = false;
   isShowSearch = false;
+
   constructor(
     private viewerState: ViewerStateService,
     private notification: NotificationService,
