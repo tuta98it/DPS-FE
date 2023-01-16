@@ -132,7 +132,7 @@ export class WorklistComponent implements OnInit, AfterViewInit {
         res.jsonData.data.forEach((r: any) => {
           r.stateLabel = this.reportStates[r.state];
           r.requestTypeLabel = this.requestTypes[r.requestType];
-          r.specimensDate = r.specimensDate ? datePipe.transform(r.specimensDate, 'dd/MM/yyyy') : '';
+          r.createdDate = r.createdDate ? datePipe.transform(r.createdDate, 'hh:mm dd/MM/yyyy') : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;

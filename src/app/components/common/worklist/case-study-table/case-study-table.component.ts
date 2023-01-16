@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { OverlayPanel } from 'primeng/overlaypanel';
 import { Table } from 'primeng/table';
 import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { IViewerTab } from 'src/app/models/viewer-tab';
@@ -44,6 +45,8 @@ export class CaseStudyTableComponent implements OnInit {
   isSearchTable = false;
   isShowSearch = false;
 
+  @ViewChild("sltDateRange") sltDateRange!: OverlayPanel;
+
   constructor(
     private viewerState: ViewerStateService,
     private notification: NotificationService,
@@ -52,10 +55,10 @@ export class CaseStudyTableComponent implements OnInit {
     this.layoutConfig = this.configService.getConfig().layout;
     if (this.layoutConfig==Constants.LAYOUT_CONFIG.DEFAULT) {
       this.cols = [
-        { field: 'createdTime', header: 'Ngày tạo', width: '12rem' },
+        { field: 'createdDate', header: 'Ngày tạo', width: '12rem' },
         { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
         { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
-        { field: 'specimensDate', header: 'Ngày lấy mẫu', width: '10rem' },
+        { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
         { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
         { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
         { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
@@ -66,14 +69,14 @@ export class CaseStudyTableComponent implements OnInit {
       ];
     } else if (this.layoutConfig==Constants.LAYOUT_CONFIG.VT) {
       this.cols = [
-        { field: 'createdTime', header: 'Ngày tạo', width: '12rem' },
+        { field: 'createdDate', header: 'Ngày tạo', width: '12rem' },
         { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
         { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
         { field: 'hasSlide', header: 'Đã chụp', width: '10rem' },
         { field: 'hasConclusion', header: 'Đã đọc', width: '10rem' },
         { field: 'isApprove', header: 'Đã duyệt', width: '10rem' },
         { field: 'isPrint', header: 'Đã in', width: '10rem' },
-        { field: 'specimensDate', header: 'Ngày lấy mẫu', width: '10rem' },
+        { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
         { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
         { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
         { field: 'slideCount', header: 'Số lam kính', width: '8rem' },

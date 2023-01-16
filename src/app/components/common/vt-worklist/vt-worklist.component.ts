@@ -47,7 +47,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
     this._searchData = value;
     this.searchData.from = this.searchData.from ? new Date(this.searchData.from) : '';
     this.searchData.to = this.searchData.to ? new Date(this.searchData.to) : '';
-
   }
   get searchData(): SearchCaseStudy {
     return this._searchData;
@@ -400,7 +399,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
           r.hasConclusion = (r.conclusion != null && r.conclusion != "") ? htmlChecked : '';
           r.isApprove = r.state == Constants.REPORT_STATES[4].value ? htmlChecked : '';
           r.isPrint = r.isPrint ? htmlChecked : '';
-          r.specimensDate = r.specimensDate ? datePipe.transform(r.specimensDate, 'dd/MM/yyyy') : '';
+          r.createdDate = r.createdDate ? datePipe.transform(r.createdDate, 'hh:mm dd/MM/yyyy') : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;
@@ -483,7 +482,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             ...res.jsonData.caseStudy,
             createTime: new Date(res.jsonData.caseStudy.createdTime),
             specimensDate: res.jsonData.caseStudy.specimensDate ?
-              new Date(res.jsonData.caseStudy.specimensDate) : null,
+              new Date(res.jsonData.caseStudy.specimensDate) : '',
           });
           this.reportForm.patchValue(res.jsonData.report);
           this.selectedCaseStudy = {
@@ -560,7 +559,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
             ...res.jsonData,
             createTime: new Date(res.jsonData.createdTime),
             specimensDate: res.jsonData.specimensDate ?
-              new Date(res.jsonData.specimensDate) : null,
+              new Date(res.jsonData.specimensDate) : '',
           });
           this.printedKeyImages = res.jsonData.printKeyImages ?? [];
         }
