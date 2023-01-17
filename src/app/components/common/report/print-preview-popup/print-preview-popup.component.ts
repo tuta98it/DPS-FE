@@ -39,14 +39,14 @@ export class PrintPreviewPopupComponent implements OnInit {
   lstPrintTemplates: any[];
   selectedTemplateId: any;
 
-  lstCommonInfos: any = null;
+  private lstCommonInfos: any = null;
 
-  isIframeReady: boolean = false;
-  isWaiting4Show: boolean = false;
+  private isIframeReady: boolean = false;
+  private isWaiting4Show: boolean = false;
 
-  iframePreviewFunction: any = null;
-  iframePrintFunction: any = null;
-  iframeSavePdfFunction: any = null;
+  private iframePreviewFunction: any = null;
+  private iframePrintFunction: any = null;
+  private iframeSavePdfFunction: any = null;
 
   @Output() onPrint = new EventEmitter<any>();
 
@@ -66,6 +66,7 @@ export class PrintPreviewPopupComponent implements OnInit {
   ///////////////////////////////////////////////////////
   // popup utilities
   onShow(): void {
+    console.log('onShow');
     this.getAllTemplates();
     this.getReportInfo();
   }
@@ -88,10 +89,11 @@ export class PrintPreviewPopupComponent implements OnInit {
           // console.log(res.jsonData);
           this.lstCommonInfos = {};
           Object.assign(this.lstCommonInfos, res.jsonData);
-          if(this.isIframeReady && this.isWaiting4Show) {
-            this.isWaiting4Show = false;
-            this.showPreview(this.selectedTemplateId);
-          }
+          console.log(this.lstCommonInfos);
+          // if(this.isIframeReady && this.isWaiting4Show) {
+          //   this.isWaiting4Show = false;
+          //   this.showPreview(this.selectedTemplateId);
+          // }
         }
       }
     });
@@ -101,12 +103,13 @@ export class PrintPreviewPopupComponent implements OnInit {
     this.printTemplateService.searchForms('', 1, 50).subscribe({
       next: (res) => {
         if (res.isValid) {
+          console.log('getAllTemplates here');
           this.lstPrintTemplates = res.jsonData.data;
           if(this.lstPrintTemplates.length > 0) {
             this.selectedTemplateId = this.lstPrintTemplates[0].id;
-            if(this.isIframeReady && this.lstCommonInfos != null)
-              this.showPreview(this.selectedTemplateId);
-            else
+            // if(this.isIframeReady && this.lstCommonInfos != null)
+            //   this.showPreview(this.selectedTemplateId);
+            // else
               this.isWaiting4Show = true;
           }
         }
@@ -124,7 +127,8 @@ export class PrintPreviewPopupComponent implements OnInit {
     this.printTemplateService.getFormData(templateId).subscribe({
       next: (res) => {
         if (res.isValid) {
-          console.log('form:', res.jsonData);
+          // console.log('form:', res.jsonData);
+          // console.log(this.iframePreviewFunction);
           if(this.iframePreviewFunction != null)
             this.showPrintTemplate(res.jsonData);
           else {
@@ -159,7 +163,7 @@ export class PrintPreviewPopupComponent implements OnInit {
   }
 
   printReport2Pdf(): void {
-    if(this.iframeSavePdfFunction != null) {
+    if(this.iframeSavePdfFunction != null && this.lstCommonInfos != null) {
       var patientName = (this.lstCommonInfos.patientsName != undefined && this.lstCommonInfos.patientsName != "") ? this.lstCommonInfos.patientsName : "dps-report";
       this.iframeSavePdfFunction(patientName, '210mm', '297mm', '0', '/html/print-template');
     }
@@ -188,7 +192,25 @@ export class PrintPreviewPopupComponent implements OnInit {
     this.iframeSavePdfFunction = savePdfCallback;
     this.isIframeReady = true;
     if(this.isWaiting4Show && this.lstCommonInfos != null) {
+      console.log('here');
       this.isWaiting4Show = false;
+      this.showPreview(this.selectedTemplateId);
+    }
+    else {
+      var _self = this;
+      setTimeout(function(){
+        _self.check2ShowPreview();
+      }, 500);
+    }
+  }
+
+  check2ShowPreview() {
+    console.log('check2ShowPreview');
+    // console.log(this.iframePreviewFunction);
+    // console.log(this.isIframeReady);
+    // console.log(this.lstCommonInfos);
+    // console.log(this.selectedTemplateId);
+    if(this.isIframeReady && this.lstCommonInfos != null && this.selectedTemplateId != undefined && this.iframePreviewFunction != null) {
       this.showPreview(this.selectedTemplateId);
     }
   }

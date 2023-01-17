@@ -270,4 +270,8 @@ export class ReportPanelComponent implements OnInit {
       }
     }
   }
+
+  onReportPrinted() {
+    
+  }
 }
