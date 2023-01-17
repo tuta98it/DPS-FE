@@ -25,6 +25,6 @@
     <report-actions [disableActions]="!caseStudyId || caseStudyId==''" [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
   </div>
 </div>
-<print-preview-popup [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyId+''" [reportId]="reports[activeReportTab]?.id ?? ''"></print-preview-popup>
+<print-preview-popup [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyId+''" [reportId]="reports[activeReportTab]?.id ?? ''" (onPrint)="onReportPrinted" *ngIf="caseStudyId!=''"></print-preview-popup>
 <key-images [(visible)]="visibleKeyImages" [caseStudyId]="caseStudyId"></key-images>
 <case-study-history [(visible)]="visibleHistory" [caseStudyId]="caseStudyId" ></case-study-history>
