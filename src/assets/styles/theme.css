@@ -6272,6 +6272,8 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
 }
 .p-button:disabled {
   color: DimGrey !important;
+  background: none;
+  border-color: DimGrey !important;
 }
 .p-datatable{
   border: 1px solid #dee2e6;

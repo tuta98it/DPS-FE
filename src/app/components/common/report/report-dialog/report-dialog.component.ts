@@ -230,9 +230,8 @@ export class ReportDialogComponent implements OnInit {
     this.addDraftReport();
     setTimeout(() => {
       this.activeReportTab = this.reports.length - 1;
-      this.disableEditor = false;
+      this.disableEditor = true;
     }, 300);
-    this.disableEditor = true;
   }
 
   onSelectTemplate(event: any, isCustom=false) {

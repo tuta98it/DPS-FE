@@ -17,11 +17,11 @@
     </div>
   </div>
   <div class="my-2">
-    <report-editor [caseStudyId]="caseStudyId+''" [isDisable]="false" [isTemplate]="true" [reportForm]="currentTemplate" [height]="templateHeight"></report-editor>
+    <report-editor [isDisable]="false" [isTemplate]="true" [reportForm]="currentTemplate" [height]="templateHeight"></report-editor>
   </div>
   <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true">
     <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
-      <report-editor [(isDisable)]="disableEditor" [reportForm]="report" [height]="editorHeight" #reportEditor></report-editor>
+      <report-editor [(isDisable)]="disableEditor" [caseStudyId]="caseStudyId+''" [reportTabIndex]="i" [reportForm]="report" [height]="editorHeight" #reportEditor></report-editor>
     </p-tabPanel>
   </p-tabView>
   <report-actions [disableActions]="!caseStudyId || caseStudyId==''" [report]="reports[activeReportTab]" [disableEditor]="disableEditor" (onAction)="onReportAction($event)"></report-actions>
