@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -29,14 +29,12 @@ import { saveAs } from 'file-saver';
 import { OrderDoctorService } from 'src/app/services/order-doctor.service';
 import { TechnicianService } from 'src/app/services/technician.service';
 import { SourceHospitalService } from 'src/app/services/source-hospital.service';
-import customProtocolCheck from "custom-protocol-check";
-
 @Component({
   selector: 'vt-worklist',
   templateUrl: './vt-worklist.component.html',
   styleUrls: ['./vt-worklist.component.scss']
 })
-export class VTWorklistComponent implements OnInit, OnDestroy {
+export class VTWorklistComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
   caseStudies: any = [];
   totalCaseStudies = 0;
   loading = false;
@@ -210,10 +208,16 @@ export class VTWorklistComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.setTableHeight(this.INIT_WORKLIST_HEIGHT);
-    this.search();
     this.initCamera();
     this.getMarkTypes();
+  }
+
+  ngAfterViewInit() {
+    this.search();
+  }
+
+  ngAfterContentInit() {
+    this.setTableHeight(this.INIT_WORKLIST_HEIGHT);
   }
 
   public ngOnDestroy(): void {

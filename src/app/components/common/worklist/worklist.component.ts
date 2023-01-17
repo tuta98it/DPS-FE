@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
@@ -13,7 +13,7 @@ import { CaseStudyTableComponent } from './case-study-table/case-study-table.com
   templateUrl: './worklist.component.html',
   styleUrls: ['./worklist.component.scss']
 })
-export class WorklistComponent implements OnInit, AfterViewInit {
+export class WorklistComponent implements OnInit, AfterViewInit, AfterContentInit {
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   LAYOUT = Constants.LAYOUT;
   _searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
@@ -109,13 +109,17 @@ export class WorklistComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.setTableHeight(33.33, 33.33);
+    
+  }
+  
+  ngAfterViewInit() {
     this.search();
   }
-  ngAfterViewInit() {
+
+  ngAfterContentInit() {
+    this.setTableHeight(33.33, 33.33);
     this.toggleRelated();
     this.toggleRelated();
-    // setTimeout(() => this.toggleRelated(), 500);
   }
 
   openReportDialog() {
