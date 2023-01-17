@@ -8,7 +8,7 @@
   <div *ngIf="caseStudyId!=''" class="w-full h-full px-3 relative">
     <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true" [styleClass]="'bg-white'">
       <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
-        <report-editor [reportTabIndex]="i" [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
+        <report-editor [caseStudyId]="caseStudyId+''" [reportTabIndex]="i" [(isDisable)]="disableEditor" [reportForm]="report" [height]="height-minusHeight" #reportEditor></report-editor>
       </p-tabPanel>
     </p-tabView>
     <div class="absolute top-0 right-0 flex">

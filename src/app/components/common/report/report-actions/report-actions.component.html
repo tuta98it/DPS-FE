@@ -4,7 +4,7 @@
       (click)="emitAction(REPORT_ACTIONS.DISCARD)"></button>
     <button [disabled]="disableActions || disableEditor" pButton pRipple label="Lưu" icon="pi pi-save" class="flex-none p-button-outlined p-button-success p-button-sm mr-2"
       (click)="emitAction(REPORT_ACTIONS.SAVE)"></button>
-    <button [disabled]="disableActions || !disableEditor" pButton pRipple label="Duyệt" icon="pi pi-check" class="flex-none p-button-outlined p-button-success p-button-sm mr-2"
+    <button [disabled]="disableActions" pButton pRipple label="Duyệt" icon="pi pi-check" class="flex-none p-button-outlined p-button-success p-button-sm mr-2"
       (click)="emitAction(REPORT_ACTIONS.APPROVE)"></button>
     <button [disabled]="disableActions || !disableEditor" pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="flex-none p-button-outlined p-button-danger p-button-sm mr-2"
       (click)="emitAction(REPORT_ACTIONS.UNAPPROVE)"></button>

@@ -186,19 +186,19 @@ export class ReportDialogComponent implements OnInit {
 
 
   approveReport() {
-    if (this.reports[this.activeReportTab].id != '') {
-      this.reportService.approveReport(this.reports[this.activeReportTab]).subscribe({
-        next: (res) => {
-          if (res.isValid) {
-            this.getReports();
-            this.notification.success('Duyệt báo cáo thành công');
-            this.disableEditor = true;
-          }
+    this.reportService.approveReport(this.reports[this.activeReportTab]).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.getReports();
+          this.notification.success('Duyệt báo cáo thành công');
+          this.disableEditor = true;
         }
-      });
-    } else {
-      this.notification.error('Báo cáo chưa được lưu');
-    }
+      }
+    });
+    // if (this.reports[this.activeReportTab].id != '') {
+    // } else {
+    //   this.notification.error('Báo cáo chưa được lưu');
+    // }
   }
 
   unapproveReport() {

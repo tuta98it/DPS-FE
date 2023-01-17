@@ -34,10 +34,10 @@ export class ReportEditorComponent implements OnInit {
 
   @Input() isTemplate = false;
   @Input() isHistory = false;
+  @Input() caseStudyId = '';
 
   constructor(
-    private reportService: ReportService,
-    private authState: AuthStateService
+    private reportService: ReportService
   ) { 
     this.fields = [
       { key: 'microbodyDescribe', label: 'Mô tả vi thể', value: '' },
@@ -71,6 +71,16 @@ export class ReportEditorComponent implements OnInit {
         });
       } else {
         this.isDisable = false;
+        if (template) {
+          this.applyTemplate(template);
+        }
+        this.reportService.create({ ...this.reportForm, caseStudyId: this.caseStudyId }).subscribe({
+          next: (res) => {
+            if (res.isValid) {
+              this.reportForm['id'] = res.jsonData.id;
+            }
+          }
+        });
       }
     }
   } 

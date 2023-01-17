@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="my-2">
-    <report-editor [isDisable]="false" [isTemplate]="true" [reportForm]="currentTemplate" [height]="templateHeight"></report-editor>
+    <report-editor [caseStudyId]="caseStudyId+''" [isDisable]="false" [isTemplate]="true" [reportForm]="currentTemplate" [height]="templateHeight"></report-editor>
   </div>
   <p-tabView [(activeIndex)]="activeReportTab" [scrollable]="true">
     <p-tabPanel *ngFor="let report of reports; let i = index" [header]="'Report #'+(i+1)" leftIcon="pi pi-book">
