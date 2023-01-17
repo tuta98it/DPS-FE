@@ -117,8 +117,7 @@ export class ReportDialogComponent implements OnInit {
     } else if (event.action == Constants.REPORT_ACTIONS.PRINT) {
       this.visiblePrintPreview = true;
     } else if (event.action == Constants.REPORT_ACTIONS.DISCARD) {
-      this.getReports();
-      this.disableEditor = true;
+      this.discardReport();
     } else if (event.action == Constants.REPORT_ACTIONS.ADD) {
       this.addReportTab();
     } else if (event.action == Constants.REPORT_ACTIONS.KEY_IMAGES) {
@@ -142,7 +141,7 @@ export class ReportDialogComponent implements OnInit {
           });
           this.reports = res.jsonData;
         } else {
-          this.addDraftReport();
+          this.addReportTab();
         }
       }
     });
@@ -195,10 +194,18 @@ export class ReportDialogComponent implements OnInit {
         }
       }
     });
-    // if (this.reports[this.activeReportTab].id != '') {
-    // } else {
-    //   this.notification.error('Báo cáo chưa được lưu');
-    // }
+  }
+
+  discardReport() {
+    this.reportService.discard(this.reports[this.activeReportTab].id).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.getReports();
+          this.disableEditor = true;
+          this.activeReportTab = 0;
+        }
+      }
+    });
   }
 
   unapproveReport() {
@@ -224,7 +231,7 @@ export class ReportDialogComponent implements OnInit {
     setTimeout(() => {
       this.activeReportTab = this.reports.length - 1;
       this.disableEditor = false;
-    }, 100);
+    }, 300);
     this.disableEditor = true;
   }
 
