@@ -6,7 +6,7 @@
     <ng-template pTemplate="header">
       <tr class="text-blue-900">
         <th class="flex flex-none bg-white relative" [style]="{'width':'50px'}">
-          <ng-container *ngIf="isSearchTable">
+          <ng-container *ngIf="!isRelatedList">
             <i class="pi pi-filter-fill cursor-pointer absolute left-0 ml-1" (click)="isShowSearch=!isShowSearch"
               [ngClass]="{'text-primary' : isShowSearch}"></i>&nbsp;
           </ng-container>
@@ -19,66 +19,7 @@
         </th>
       </tr>
       <tr *ngIf="isShowSearch">
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':'50px'}"></th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':'10rem'}">
-        <p-dropdown [(ngModel)]="searchData.status" (ngModelChange)="onSearch.emit(searchData)"
-          [options]="REPORT_STATES" optionLabel="label" optionValue="value" placeholder="Select"
-          appendTo="body" [showClear]="true" [style]="{'width':'9rem'}"></p-dropdown>
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[0].width}">
-          <input [value]="(searchData.from?(searchData.from | date:'dd/MM/yyyy'):'') + '-' + 
-            (searchData.to?(searchData.to | date:'dd/MM/yyyy'):'')" (click)="sltDateRange.toggle($event)"
-            readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[1].width}">
-          <input [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[2].width}">
-          <input [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[3].width}">
-          <p-dropdown [(ngModel)]="searchData.hasSlide" (ngModelChange)="onSearch.emit(searchData)"
-            [options]="FILTER_STATES_1" optionLabel="label" optionValue="value"
-            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[4].width}">
-          <p-dropdown [(ngModel)]="searchData.hasConclusion" (ngModelChange)="onSearch.emit(searchData)"
-            [options]="FILTER_STATES_2" optionLabel="label" optionValue="value"
-            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[5].width}">
-          <p-dropdown [(ngModel)]="searchData.isApprove" (ngModelChange)="onSearch.emit(searchData)"
-            [options]="FILTER_STATES_3" optionLabel="label" optionValue="value"
-            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[6].width}">
-          <p-dropdown [(ngModel)]="searchData.isPrint" (ngModelChange)="onSearch.emit(searchData)"
-            [options]="FILTER_STATES_4" optionLabel="label" optionValue="value"
-            appendTo="body" [showClear]="false" [style]="{'width':'9rem'}"></p-dropdown>
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[7].width}">
-          <input [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[8].width}">
-          <p-dropdown [(ngModel)]="searchData.requestType" (ngModelChange)="onSearch.emit(searchData)"
-           [options]="REQUEST_TYPES" optionLabel="label" optionValue="value"
-           placeholder="Select" appendTo="body" [showClear]="true" [style]="{'width':'9rem'}"></p-dropdown>
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[9].width}">
-          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[10].width}">
-          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[11].width}">
-          <input readonly pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[12].width}">
-          <input [(ngModel)]="searchData.diagnose" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
-        <th class="flex flex-none bg-white py-0 pr-0" [style]="{'width':cols[13].width}">
-          <input [(ngModel)]="searchData.conclusion" (keydown.enter)="onSearch.emit(searchData)" pInputText type="text" class="w-full p-inputtext-sm text-base" />
-        </th>
+        <study-table-search [layoutConfig]="layoutConfig" [searchData]="searchData" (onSearch)="onSearch.emit($event)" class="flex"></study-table-search>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
@@ -116,11 +57,3 @@
   </p-table>
 </div>
 <p-contextMenu #menu styleClass="w-16rem" [model]="actions"></p-contextMenu>
-<p-overlayPanel #sltDateRange [showCloseIcon]="false" [appendTo]="'body'">
-  <ng-template pTemplate>
-    <p-calendar placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" (ngModelChange)="onSearch.emit(searchData)" [showButtonBar]="true" [showClear]="true"
-      [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
-    <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch.emit(searchData)" [showButtonBar]="true" [showClear]="true"
-      [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
-  </ng-template>
-</p-overlayPanel>

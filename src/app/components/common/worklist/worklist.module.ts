@@ -29,6 +29,7 @@ import { AngularSplitModule } from 'angular-split';
 import { SharedCaseStudyComponent } from './shared-case-study/shared-case-study.component';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { StudyTableSearchComponent } from './case-study-table/study-table-search/study-table-search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     PatientInfoComponent,
     SearchCaseStudyComponent,
     UploadSlideComponent,
-    SharedCaseStudyComponent
+    SharedCaseStudyComponent,
+    StudyTableSearchComponent
   ],
   imports: [
     SplitterModule,

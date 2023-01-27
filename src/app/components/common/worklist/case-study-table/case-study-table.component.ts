@@ -53,43 +53,30 @@ export class CaseStudyTableComponent implements OnInit {
     public configService: AppConfigService,
   ) {
     this.layoutConfig = this.configService.getConfig().layout;
-    if (this.layoutConfig==Constants.LAYOUT_CONFIG.DEFAULT) {
-      this.cols = [
-        { field: 'createdDate', header: 'Ngày tạo', width: '12rem' },
-        { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
-        { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
-        { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
-        { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
-        { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
-        { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
-        { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
-        { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
-        { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
-        { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
-      ];
-    } else if (this.layoutConfig==Constants.LAYOUT_CONFIG.VT) {
-      this.cols = [
-        { field: 'createdDate', header: 'Ngày tạo', width: '12rem' },
-        { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
-        { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
+    this.cols = [
+      { field: 'createdDate', header: 'Ngày tạo', width: '12rem' },
+      { field: 'patientsName', header: 'Tên bệnh nhân', width: '12rem' },
+      { field: 'patientCode', header: 'Mã bệnh nhân', width: '10rem' },
+      { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
+      { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
+      { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
+      { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
+      { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
+      { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
+      { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
+      { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
+    ];
+    if (this.layoutConfig==Constants.LAYOUT_CONFIG.VT) {
+      this.cols.splice(3, 0, ...[
         { field: 'hasSlide', header: 'Đã chụp', width: '10rem' },
         { field: 'hasConclusion', header: 'Đã đọc', width: '10rem' },
         { field: 'isApprove', header: 'Đã duyệt', width: '10rem' },
         { field: 'isPrint', header: 'Đã in', width: '10rem' },
-        { field: 'createdTime', header: 'Ngày lấy mẫu', width: '10rem' },
-        { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
-        { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
-        { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
-        { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
-        { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
-        { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
-        { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
-      ];
+      ]);
     }
   }
 
   ngOnInit() {
-    this.isSearchTable = !this.isRelatedList && this.layoutConfig==Constants.LAYOUT_CONFIG.VT;
     this.actions = [
       { label: 'Mở SlideViewer', icon: 'pi pi-fw pi-external-link', command: () => this.openViewer(this.selectedCaseStudy) },
       { 
