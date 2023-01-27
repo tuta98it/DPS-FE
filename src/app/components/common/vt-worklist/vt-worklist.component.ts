@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -34,7 +34,7 @@ import { SourceHospitalService } from 'src/app/services/source-hospital.service'
   templateUrl: './vt-worklist.component.html',
   styleUrls: ['./vt-worklist.component.scss']
 })
-export class VTWorklistComponent implements OnInit, OnDestroy, AfterViewInit, AfterContentInit {
+export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit {
   caseStudies: any = [];
   totalCaseStudies = 0;
   loading = false;
@@ -189,6 +189,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterViewInit, Af
       this.reportStates[r.value] = r.label;
     });
     this.searchData = JSON.parse(JSON.stringify(this.INIT_SEARCH_CASE_STUDY));
+    this.searchData.page = 0;
     this.isSmallScreen = window.innerWidth < 1600;
     if(!this.isSmallScreen) {
       this.INIT_WORKLIST_HEIGHT = 35;
@@ -210,10 +211,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterViewInit, Af
   ngOnInit(): void {
     this.initCamera();
     this.getMarkTypes();
-  }
-
-  ngAfterViewInit() {
-    this.search();
   }
 
   ngAfterContentInit() {

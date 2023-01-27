@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { AfterContentInit, AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { INIT_SEARCH_CASE_STUDY, SearchCaseStudy } from 'src/app/models/search-case-study';
 import { CaseStudyService } from 'src/app/services/case-study.service';
@@ -13,7 +13,7 @@ import { CaseStudyTableComponent } from './case-study-table/case-study-table.com
   templateUrl: './worklist.component.html',
   styleUrls: ['./worklist.component.scss']
 })
-export class WorklistComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class WorklistComponent implements OnInit, AfterContentInit {
   INIT_SEARCH_CASE_STUDY = INIT_SEARCH_CASE_STUDY;
   LAYOUT = Constants.LAYOUT;
   _searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
@@ -105,15 +105,12 @@ export class WorklistComponent implements OnInit, AfterViewInit, AfterContentIni
       this.reportStates[r.value] = r.label;
     });
     this.searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
+    this.searchData.page = 0;
     this.isSmallScreen = window.innerWidth < 1600;
   }
 
   ngOnInit(): void {
     
-  }
-  
-  ngAfterViewInit() {
-    this.search();
   }
 
   ngAfterContentInit() {
