@@ -1,4 +1,4 @@
-<div class="h-full w-full">
+<div class="h-full w-full worklist-container">
   <as-split class="h-full" direction="vertical" (dragEnd)="onResizeEnd($event)">
     <as-split-area [size]="panelSizes[0]" [minSize]="5">
       <div class="grid w-full m-0">
@@ -10,19 +10,14 @@
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-10': !isSmallScreen, 'pb-1 pt-2': true}">
           <div class="flex justify-content-end">
             <input pInputText type="text" placeholder="Tên bệnh nhân" title="Tên bệnh nhân"
-              class="text-base w-14rem p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
-            <ng-container *ngIf="!isSmallScreen && selectedLayout==LAYOUT.FULL">
-              <input pInputText type="text" placeholder="Mã bệnh nhân" title="Mã bệnh nhân"
-                class="text-base w-14rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.patientCode" (keydown.enter)="onSearch(searchData)" />
-              <input pInputText type="text" placeholder="Mã bệnh phẩm" title="Mã bệnh phẩm"
-                class="text-base w-14rem sm:hidden xl:inline-block p-inputtext-sm mr-2 border-round-3xl pl-4" [(ngModel)]="searchData.specimensCode" (keydown.enter)="onSearch(searchData)" />
-              <p-dropdown [options]="REQUEST_TYPES" [(ngModel)]="searchData.requestType" 
-                placeholder="Loại yêu cầu" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-                optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl sm:hidden xl:flex w-14rem pl-3"></p-dropdown>
-            </ng-container>
+              class="text-base w-12rem p-inputtext-sm mr-2 border-round-3xl pl-3" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
+            <p-calendar [showClear]="true" [showButtonBar]="true" placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" (ngModelChange)="onSearch(searchData)" 
+              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 border-round-3xl w-12rem pl-3"></p-calendar>
+            <p-calendar [showClear]="true" [showButtonBar]="true" placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)"
+              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 border-round-3xl w-12rem pl-3"></p-calendar>
             <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
               placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem pl-3"></p-dropdown>
+              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-12rem pl-2"></p-dropdown>
             <button pButton pRipple type="button" icon="pi pi-search-plus" class="flex-none text-xl p-button-info font-bold p-button-rounded"
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
