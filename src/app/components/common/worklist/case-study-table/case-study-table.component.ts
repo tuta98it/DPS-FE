@@ -61,7 +61,7 @@ export class CaseStudyTableComponent implements OnInit {
       { field: 'specimensCode', header: 'Mã bệnh phẩm', width: '10rem' },
       { field: 'requestTypeLabel', header: 'Loại yêu cầu', width: '10rem' },
       { field: 'slideCount', header: 'Số lam kính', width: '8rem' },
-      { field: 'bodyPart', header: 'Vị trí lấy', width: '10rem' },
+      { field: 'bodyPart', header: 'Vị trí lấy mẫu', width: '10rem' },
       { field: 'sourceHospital', header: 'Nơi gửi', width: '15rem' },
       { field: 'clinicalDiagnosis', header: 'Chẩn đoán', width: '15rem' },
       { field: 'conclusion', header: 'Kết luận', width: '18.5rem' }
