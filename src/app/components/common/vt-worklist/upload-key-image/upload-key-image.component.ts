@@ -69,7 +69,7 @@ export class UploadKeyImageComponent implements OnInit {
     this.uploadForm = this.fb.group({
       createTime: [new Date(), [Validators.required]],
       markerType: ['', [Validators.required]],
-      title: ['', [Validators.required]],
+      title: [''],
       note: [''],
     });
 
@@ -135,7 +135,7 @@ export class UploadKeyImageComponent implements OnInit {
     let uploadKeyImageData : IUploadKeyImageData = {
       createKeyImage: true,
       isPrintKeyImage: this.isPrintKeyImage,
-      keyImageTitle: this.uploadForm.value.title,
+      keyImageTitle: this.uploadForm.value.title ?? '',
       keyImageNote: this.uploadForm.value.note ?? '',
     }
     this.uploadService.upload(this.file, uploadSlideData, uploadKeyImageData);

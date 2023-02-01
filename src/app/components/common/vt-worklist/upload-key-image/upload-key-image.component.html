@@ -23,13 +23,10 @@
           </div>
         </div>
         <div class="col-3 px-0">
-          <span class="text-red-500">*</span>Tiêu đề:
+          Tiêu đề:
         </div>
         <div class="field col-9 p-0">
-          <input formControlName="title" pInputText type="text" class="w-full text-base" placeholder="Tiêu đề*">
-          <div class="m-error" *ngIf="uploadForm.controls['title'].invalid && uploadForm.controls['title'].dirty">
-            *Tiêu đề không được để trống
-          </div>
+          <input formControlName="title" pInputText type="text" class="w-full text-base" placeholder="Tiêu đề">
         </div>
         <div class="col-3 px-0">
           Ghi chú:
