@@ -17,6 +17,7 @@ import { UploadKeyImageComponent } from './upload-key-image/upload-key-image.com
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { BadgeModule } from 'primeng/badge';
 import { NgsContenteditableModule } from '@ng-stack/contenteditable';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NgsContenteditableModule } from '@ng-stack/contenteditable';
     AngularSplitModule,
     WorklistModule,
     ReactiveFormsModule,
+    TableModule,
     FormsModule,
     InputTextModule,
     BadgeModule,

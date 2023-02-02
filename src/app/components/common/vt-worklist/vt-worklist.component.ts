@@ -399,7 +399,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
           r.hasConclusion = (r.conclusion != null && r.conclusion != "") ? htmlChecked : '';
           r.isApprove = r.state == Constants.REPORT_STATES[4].value ? htmlChecked : '';
           r.isPrint = r.isPrint ? htmlChecked : '';
-          r.createdDate = r.createdDate ? datePipe.transform(r.createdDate, 'hh:mm dd/MM/yyyy') : '';
+          r.createdDate = r.createdDate ? datePipe.transform(r.createdDate, 'HH:mm dd/MM/yyyy') : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
         this.totalCaseStudies = res.jsonData.total;
@@ -458,12 +458,12 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
 
   saveVisit(isApprove=false) {
     this.saving = true;
-    let state = parseInt(Constants.REPORT_STATES[2].value)
+    let state = parseInt(Constants.REPORT_STATES[2].value);
     if (isApprove || this.reportForm.value.state == Constants.REPORT_STATES[4].value) {
-      state = parseInt(Constants.REPORT_STATES[4].value)
+      state = parseInt(Constants.REPORT_STATES[4].value);
     }
     let payload = {
-      caseStudy: { ...this.caseStudyForm.value, isDirty: this.isDirty.caseStudyForm, },
+      caseStudy: { ...this.caseStudyForm.value, isDirty: this.isDirty.caseStudyForm || isApprove, state: state },
       patient: { ...this.patientForm.value, isDirty: this.isDirty.patientForm, patientType: Constants.PATIENT_TYPES[1].value },
       report: { ...this.reportForm.value, isDirty: this.isDirty.reportForm || isApprove, state: state}
     }
@@ -528,6 +528,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
         if (res.isValid) {
           this.notification.success('Bỏ duyệt ca khám thành công');
           // this.onEditVisit();
+          this.onSearch(this.searchData);
           this.reportForm.controls['state'].setValue(Constants.REPORT_STATES[2].value);
         }
       }
@@ -600,6 +601,20 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
               i.src = `${this.FILE_URL}/${i.imagePath}`;
             });
             this.keyImages = res.jsonData;
+          }
+        }
+      });
+    }
+  }
+
+  getPrintedKeyImages() {
+    let caseStudyId = this.selectedCaseStudy.caseStudyId ?
+      new String(this.selectedCaseStudy.caseStudyId) : this.caseStudyForm.value.id;
+    if (caseStudyId) {
+      this.caseStudyService.getById(caseStudyId).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            this.printedKeyImages = res.jsonData.printKeyImages ?? [];
           }
         }
       });

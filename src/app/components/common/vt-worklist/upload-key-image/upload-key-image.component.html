@@ -34,14 +34,38 @@
         <div class="field col-9 p-0">
           <input formControlName="note" pInputText type="text" class="w-full text-base" placeholder="Ghi chú">
         </div>
-        <div class="col-9 px-0 pt-0">
-          <input pInputText readonly="true" type="text" class="w-full text-base" [value]="fileName" placeholder="*Chưa chọn file">
+        <div class="col-9 p-0 flex align-items-center">
+          <span class="text-lg font-medium">Số file đã chọn: {{uploadFiles.length}}</span>
         </div>
-        <div #uploadSlideContainer class="col-3 pr-0 pt-0">
+        <div #uploadSlideContainer class="col-3 p-0">
           <span class="relative overflow-hidden block">
             <span class="w-full h-3rem flex justify-content-center align-items-center bg-primary border-round-md text-base">Chọn file</span>
-            <input id="dps-upload-slide" type="file" class="absolute top-0 right-0 bottom-0 left-0 m-0 p-0 opacity-0 " (change)="onUpload($event)"> 
+            <input id="dps-upload-slide" type="file" multiple accept="image/*" class="absolute top-0 right-0 bottom-0 left-0 m-0 p-0 opacity-0 " (change)="onUpload($event)" > 
           </span>
+        </div>
+        <div class="my-3 w-full">
+          <p-table [value]="uploadFiles" styleClass="p-datatable-sm p-datatable-gridlines">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="w-1">STT</th>
+                <th class="w-7">Tên file</th>
+                <th class="w-3">File size</th>
+                <th class="w-1"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+              <tr>
+                <td>{{rowIndex+1}}</td>
+                <td>{{item['name']}}</td>
+                <td>{{item['size']}}</td>
+                <td>
+                  <div class="flex mx-1">
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning p-button-xs" (click)="removeUploadFile(rowIndex)"></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
       </div>
     </div>

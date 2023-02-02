@@ -8,6 +8,7 @@ import { MarkTypeService } from 'src/app/services/mark-type.service';
 import { SlideUploadService } from 'src/app/services/slide-upload.service';
 import { AuthStateService } from 'src/app/shared/app-state/auth-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
+import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
 
 @Component({
@@ -48,8 +49,6 @@ export class UploadKeyImageComponent implements OnInit {
 
   uploadForm: FormGroup;
   markTypes: any[] = [];
-  fileName = '';
-  file: any = null;
   @ViewChild("uploadSlideContainer") uploadSlideContainer!: ElementRef;
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
@@ -57,6 +56,9 @@ export class UploadKeyImageComponent implements OnInit {
   uploading = false;
 
   isPrintKeyImage = true;
+
+  uploadFiles: any[] = [];
+  filesInQueue = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -84,11 +86,14 @@ export class UploadKeyImageComponent implements OnInit {
 
   onSave() {
     if (this.uploadForm.valid) {
-      if (!this.fileName) {
+      if (!this.uploadFiles.length) {
         this.notification.error('Vui lòng chọn file');
       } else {
         this.notification.success('Đang tải file lên hệ thống');
-        this.preUpload();
+        this.filesInQueue = this.uploadFiles.length;
+        this.uploadFiles.forEach((f: any) => {
+          this.preUpload(f.file);
+        });
       }
     } else {
       Object.values(this.uploadForm.controls).forEach((control) => {
@@ -100,9 +105,13 @@ export class UploadKeyImageComponent implements OnInit {
     }
   }
 
-  preUpload() {
+  removeUploadFile(fileIndex: number) {
+    this.uploadFiles.splice(fileIndex, 1);
+  }
+
+  preUpload(file: any) {
     this.uploading = true;
-    let ext = this.fileName.slice(this.fileName.lastIndexOf("."));
+    let ext = file.name.slice(file.name.lastIndexOf("."));
     if (ext != '') {
       ext = ext.toLocaleLowerCase();
     }
@@ -110,19 +119,22 @@ export class UploadKeyImageComponent implements OnInit {
     this.uploadService.preUpload(uploadId + ext).subscribe({
       next: (res) => {
         if (res.d.isValid) {
-          this.upload(uploadId, res.d.jsonData);
+          this.upload(file, uploadId, res.d.jsonData);
         }
       }
     }).add(() => {
-      this.visible = false;
-      this.uploading = false;
+      this.filesInQueue -= 1;
+      if (this.filesInQueue == 0) {
+        this.visible = false;
+        this.uploading = false;
+      }
     });
   }
 
-  upload(uploadId:string, newFileName: string) {
+  upload(file: any, uploadId:string, newFileName: string) {
     let uploadSlideData = INIT_UPLOAD_SLIDE_DATA;
     uploadSlideData.uploadId = uploadId;
-    uploadSlideData.fileName = this.fileName;
+    uploadSlideData.fileName = file.name;
     uploadSlideData.newFileName = newFileName;
     uploadSlideData.patientName = this.patientName;
     uploadSlideData.caseStudyId = this.caseStudyId.toString();
@@ -138,16 +150,14 @@ export class UploadKeyImageComponent implements OnInit {
       keyImageTitle: this.uploadForm.value.title ?? '',
       keyImageNote: this.uploadForm.value.note ?? '',
     }
-    this.uploadService.upload(this.file, uploadSlideData, uploadKeyImageData);
-    this.resetUploadForm();
+    this.uploadService.upload(file, uploadSlideData, uploadKeyImageData);
   }
 
   resetUploadForm() {
     this.uploadForm.reset();
     this.uploadForm.controls['createTime'].setValue(new Date());
     this.uploadForm.markAsPristine();
-    this.file = null;
-    this.fileName = '';
+    this.uploadFiles = [];
   }
 
   getMarkTypes() {
@@ -162,10 +172,12 @@ export class UploadKeyImageComponent implements OnInit {
 
   onUpload(event: any) {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');
-    if (inputUpload.files.length > 0) {
-      this.file = inputUpload.files[0];
-      this.fileName = this.file.name;
+    for (let i=0; i<inputUpload.files.length; ++i) {
+      this.uploadFiles.push({ 
+        file: new File([inputUpload.files[i]], inputUpload.files[i].name, { type: inputUpload.files[i].type }),
+        name: inputUpload.files[i].name,
+        size: Utils.humanFileSize(inputUpload.files[i].size)
+      });
     }
-    // inputUpload.value = null;
   }
 }

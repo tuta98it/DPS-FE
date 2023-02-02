@@ -65,7 +65,6 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
 
   onFirebaseMessage(message: any) {
     if (message) {
-      // this.getKeyImagesTrigger += 1;
       this.notification.firebase(message.data.title, message.data.message);
       let fileData = JSON.parse(message.data.otherInfo);
       let uploadId = fileData.OriginFileName.split('.')[0];
@@ -77,6 +76,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
           this.worklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
         } else if (this.layoutConfig == this.LAYOUT_CONFIG.VT) {
           this.VTWorklist.getKeyImages();
+          this.VTWorklist.getPrintedKeyImages();
           setTimeout(() => {
             this.VTWorklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
           }, 100);
