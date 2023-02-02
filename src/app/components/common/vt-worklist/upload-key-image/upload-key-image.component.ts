@@ -59,6 +59,9 @@ export class UploadKeyImageComponent implements OnInit {
 
   uploadFiles: any[] = [];
   filesInQueue = 0;
+  duplicatedFiles: any[] = [];
+  visibleConfirmDuplicatedFile = false;
+  textConfirmDuplicatedFile = '';
 
   constructor(
     private fb: FormBuilder,
@@ -173,11 +176,35 @@ export class UploadKeyImageComponent implements OnInit {
   onUpload(event: any) {
     let inputUpload = this.uploadSlideContainer.nativeElement.querySelector('#dps-upload-slide');
     for (let i=0; i<inputUpload.files.length; ++i) {
-      this.uploadFiles.push({ 
+      let newUploadFile = { 
         file: new File([inputUpload.files[i]], inputUpload.files[i].name, { type: inputUpload.files[i].type }),
         name: inputUpload.files[i].name,
         size: Utils.humanFileSize(inputUpload.files[i].size)
-      });
+      }
+      if (this.isDuplicatedFile(inputUpload.files[i].name)) {
+        this.duplicatedFiles.push(newUploadFile);
+      } else {
+        this.uploadFiles.push(newUploadFile);
+      }
     }
+    inputUpload.value = null;
+  }
+
+  // confirmDuplicatedFile() {
+  //   this.textConfirmDuplicatedFile = `Đã tồn tại file <b>${this.currentDuplicatedFile.name}</b>. Bạn có muốn giữ lại file này?`;
+  //   this.visibleConfirmDuplicatedFile = true;
+  // }
+
+  keepDuplicatedFile(fileIndex: number) {
+    this.uploadFiles.push(this.duplicatedFiles[fileIndex]);
+    this.removeDuplicatedFile(fileIndex);
+  }
+
+  removeDuplicatedFile(fileIndex: number) {
+    this.duplicatedFiles.splice(fileIndex, 1);
+  }
+
+  isDuplicatedFile(fileName: string) {
+    return this.uploadFiles.some(file => file.name == fileName);
   }
 }

@@ -19,6 +19,7 @@ export class ConfirmDialogComponent implements OnInit {
   @Input() confirmText = '';
   @Input() confirmLabel = 'Xóa';
   @Input() cancelLabel = 'Hủy';
+  @Input() closable = true;
   @Output() onConfirm = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<any>();
 

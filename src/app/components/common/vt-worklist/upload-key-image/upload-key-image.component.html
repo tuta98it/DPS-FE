@@ -1,5 +1,5 @@
 <p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '700px'}" [header]="header" [modal]="true"
-  class="p-fluid">
+  [closeOnEscape]="false" class="p-fluid">
   <ng-template pTemplate="content">
     <div class="patient-info-container overflow-auto">
       <div class="grid mx-0 p-1" [formGroup]="uploadForm">
@@ -74,5 +74,19 @@
     <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-sm p-button-danger"
       (click)="visible=false"></button>
     <button [loading]="uploading" pButton pRipple label="Tải lên" icon="pi pi-upload" class="p-button-sm p-button-success" (click)="onSave()"></button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog *ngFor="let file of duplicatedFiles; let i = index; " [visible]="true" header="File đã tồn tại" [modal]="true" [style]="{width:'500px'}" [closable]="false">
+  <div class="flex align-items-center justify-content-begin">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+    <span>
+      Bạn đã chọn file <b>{{file.name}}</b> trước đó. Bạn có muốn giữ lại file này?
+    </span>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button pRipple icon="pi pi-times" styleClass="p-button-text p-button-sm p-button-danger" [label]="'Xóa'"
+      (click)="removeDuplicatedFile(i)"></p-button>
+    <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm" [label]="'Giữ lại'" (click)="keepDuplicatedFile(i)"></button>
   </ng-template>
 </p-dialog>
