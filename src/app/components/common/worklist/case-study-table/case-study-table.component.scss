@@ -12,14 +12,14 @@
     color: var(--green-900);
   }
   .search-table tbody {
-    top: 90px !important;
+    top: 80px !important;
   }
 }
 
 @media screen and (max-width: 1600px) {
   :host ::ng-deep {
     .search-table tbody {
-      top: 82px !important;
+      top: 72px !important;
     }
   }
 }
@@ -27,7 +27,7 @@
 @media screen and (max-width: 1200px) {
   :host ::ng-deep {
     .search-table tbody {
-      top: 76px !important;
+      top: 66px !important;
     }
   }
 }

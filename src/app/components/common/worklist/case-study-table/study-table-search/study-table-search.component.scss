@@ -1,0 +1,10 @@
+:host ::ng-deep .study-table-search-container {
+  .p-dropdown-label {
+    padding-left: 0;
+    padding-right: 0;
+    line-height: 12px;
+  }
+  .p-dropdown-clear-icon {
+    right: 1.5rem !important;
+  }
+}

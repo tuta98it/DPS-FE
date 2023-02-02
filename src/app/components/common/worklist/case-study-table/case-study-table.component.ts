@@ -68,10 +68,10 @@ export class CaseStudyTableComponent implements OnInit {
     ];
     if (this.layoutConfig==Constants.LAYOUT_CONFIG.VT) {
       this.cols.splice(3, 0, ...[
-        { field: 'hasSlide', header: 'Đã chụp', width: '10rem' },
-        { field: 'hasConclusion', header: 'Đã đọc', width: '10rem' },
-        { field: 'isApprove', header: 'Đã duyệt', width: '10rem' },
-        { field: 'isPrint', header: 'Đã in', width: '10rem' },
+        { field: 'hasSlide', header: 'Đã chụp', width: '7rem' },
+        { field: 'hasConclusion', header: 'Đã đọc', width: '7rem' },
+        { field: 'isApprove', header: 'Đã duyệt', width: '7rem' },
+        { field: 'isPrint', header: 'Đã in', width: '7rem' },
       ]);
     }
   }

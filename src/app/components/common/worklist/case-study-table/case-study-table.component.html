@@ -18,8 +18,8 @@
           {{ col.header }}
         </th>
       </tr>
-      <tr *ngIf="isShowSearch">
-        <study-table-search [layoutConfig]="layoutConfig" [searchData]="searchData" (onSearch)="onSearch.emit($event)" class="flex"></study-table-search>
+      <tr *ngIf="isShowSearch" style="height:35px">
+        <study-table-search [layoutConfig]="layoutConfig" [searchData]="searchData" (onSearch)="onSearch.emit($event)"></study-table-search>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData>
