@@ -125,7 +125,11 @@ export class CaseStudyTableComponent implements OnInit {
   }
 
   resetScrollTop() {
-    this.caseStudyTable.resetScrollTop();
+    this.caseStudyTable.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   openViewer(caseStudy: any) {
