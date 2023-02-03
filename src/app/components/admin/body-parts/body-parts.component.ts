@@ -89,6 +89,7 @@ export class BodyPartsComponent implements OnInit {
       next: (res) => {
         if (res.isValid) {
           this.notification.success('Cập nhật trạng thái thành công', '');
+          this.search();
         }
       }
     });

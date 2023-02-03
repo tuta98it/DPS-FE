@@ -83,7 +83,7 @@ export class AdminMenuComponent implements OnInit {
           {
             label: 'Quản lý danh mục',
             icon: 'pi pi-fw pi-align-justify',
-            // visible: this.currentUser.userTypes?.includes(Roles.MANAGE_CATEGORY),
+            visible: this.currentUser.userTypes?.includes(Roles.MANAGE_CATEGORY),
             items: [
               {
                 label: 'BS chỉ định',

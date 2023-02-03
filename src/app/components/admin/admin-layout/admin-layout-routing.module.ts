@@ -71,8 +71,8 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							import('../body-parts/body-parts.module').then(
 								(m) => m.BodyPartsModule
 							),
-						// canActivate: [AuthGuard],
-						// data: { role: Roles.MANAGE_CATEGORY },
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'mark-types',
@@ -80,8 +80,8 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							import('../mark-types/mark-types.module').then(
 								(m) => m.MarkTypesModule
 							),
-						// canActivate: [AuthGuard],
-						// data: { role: Roles.MANAGE_CATEGORY },
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'source-hospital',
@@ -89,8 +89,8 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							import('../source-hospital/source-hospital.module').then(
 								(m) => m.SourceHospitalModule
 							),
-						// canActivate: [AuthGuard],
-						// data: { role: Roles.MANAGE_CATEGORY },
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'order-doctor',
@@ -98,8 +98,8 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							import('../order-doctor/order-doctor.module').then(
 								(m) => m.OrderDoctorModule
 							),
-						// canActivate: [AuthGuard],
-						// data: { role: Roles.MANAGE_CATEGORY },
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'sample-processing',
@@ -107,8 +107,8 @@ import { AdminLayoutComponent } from './admin.layout.component';
 							import('../sample-processing/sample-processing.module').then(
 								(m) => m.SampleProcessingModule
 							),
-						// canActivate: [AuthGuard],
-						// data: { role: Roles.MANAGE_CATEGORY },
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'admin-dashboard',
