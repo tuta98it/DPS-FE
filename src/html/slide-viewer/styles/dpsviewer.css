@@ -656,9 +656,10 @@ canvas:focus,
 
 #annotations-box {
     padding: 0 15px;
+    height: calc(100vh - 240px);
 }
 
-#annotations-box > div {
+#annotations-box #anno-list > div {
     width: 100%;
     text-align: left;
     padding: 8px;
@@ -668,13 +669,30 @@ canvas:focus,
     color: var(--text-blue);
 }
 
-#annotations-box > div:hover {
+#annotations-box #anno-list > div:hover {
     background-color: #e7edfd;
 }
 
-#annotations-box .li-active {
+#annotations-box #anno-list .li-active {
     background-color: #d8e2ff;
     border-left: solid 1px var(--text-blue);
+}
+#annotations-box #anno-list {
+    height: 95%;
+    overflow-y: scroll;
+}
+#annotations-box #anno-paginator {
+    position: absolute;
+    bottom: 0;
+    right: 6px;
+}
+#annotations-box #anno-paginator a {
+    text-decoration: underline;
+    cursor: pointer;
+}
+#annotations-box #anno-paginator .page-active {
+    color: var(--text-div-title-note);
+    text-decoration:none;
 }
 
 .highlight {

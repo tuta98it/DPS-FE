@@ -251,6 +251,42 @@
                         </g>
                         </svg>
                 </div>
+                <div class="separator"></div>
+                <div title="Upload file XML" class="tool-btn flashing clinical-no-need" id="tool_uploadXml" onclick="mscdps.uploadXml()">
+                    <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                        width="24" height="24" viewBox="0 0 512.000000 512.000000"
+                        preserveAspectRatio="xMidYMid meet">
+                        <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none" class="stroke">
+                            <path d="M374 5105 c-34 -7 -85 -25 -115 -40 -69 -35 -169 -135 -203 -204 -58
+                            -114 -56 -2 -56 -2301 0 -2299 -2 -2187 56 -2301 34 -69 134 -169 203 -203
+                            104 -53 136 -56 764 -56 l577 0 0 160 0 160 -589 2 c-578 3 -590 3 -617 24
+                            -15 11 -37 33 -48 48 l-21 27 0 2139 0 2139 21 27 c11 15 33 37 48 48 27 21
+                            33 21 1256 24 l1229 2 3 -357 3 -358 26 -56 c33 -71 87 -125 158 -158 l56 -26
+                            358 -3 357 -3 0 -239 0 -240 160 0 160 0 0 335 c0 266 -3 342 -14 368 -18 41
+                            -1012 1033 -1049 1047 -46 16 -2644 12 -2723 -5z"/>
+                            <path d="M1728 3667 c-161 -155 -337 -324 -390 -377 l-97 -95 104 -108 104
+                            -108 153 147 c84 82 179 173 212 204 l58 55 -6 -447 -6 -448 148 0 149 0 6
+                            242 c4 133 7 335 7 450 0 114 3 208 8 208 4 0 104 -90 222 -200 l215 -199 102
+                            107 c56 59 102 109 102 112 0 3 -180 170 -399 372 l-399 367 -293 -282z"/>
+                            <path d="M1520 1950 l0 -160 110 0 110 0 120 -240 120 -240 -120 -240 -120
+                            -240 -110 0 -110 0 0 -160 0 -160 175 0 c254 0 244 -7 385 279 41 83 77 151
+                            80 151 3 0 39 -68 80 -151 141 -286 131 -279 385 -279 l175 0 0 160 0 160
+                            -110 0 -110 0 -120 240 -120 240 120 240 120 240 110 0 110 0 0 160 0 160
+                            -175 0 c-254 0 -244 7 -385 -279 -41 -83 -77 -151 -80 -151 -3 0 -39 68 -80
+                            151 -141 286 -131 279 -385 279 l-175 0 0 -160z"/>
+                            <path d="M3052 2093 c-18 -9 -45 -32 -60 -51 l-27 -35 -3 -749 -2 -748 160 0
+                            160 0 0 527 0 527 118 -116 c90 -90 127 -119 160 -129 75 -22 110 -4 245 129
+                            l117 116 0 -527 0 -527 160 0 160 0 0 733 c0 700 -1 734 -20 774 -20 46 -64
+                            79 -117 89 -68 13 -98 -8 -305 -214 l-198 -196 -197 196 c-109 108 -211 201
+                            -226 207 -40 15 -87 13 -125 -6z"/>
+                            <path d="M4402 1361 c3 -739 3 -750 24 -777 11 -15 33 -37 48 -48 26 -20 42
+                            -21 337 -24 l309 -3 0 161 0 160 -200 0 -200 0 0 640 0 640 -160 0 -160 0 2
+                            -749z"/>
+                            <path d="M5090 1120 c0 -136 2 -160 15 -160 13 0 15 24 15 160 0 136 -2 160
+                            -15 160 -13 0 -15 -24 -15 -160z"/>
+                        </g>
+                    </svg>
+                </div>
     
                 <!--<hr class="clinical-no-need"/>-->
     
@@ -436,12 +472,15 @@
 
                     <div class="clinical-no-need">
                         <div class="panel-title-tab tab-active" id="tab-keyimage" onclick="mscdps.showKeyImagePanel()">Key image <span id="lblKeyImageCount"></span></div>
-                        <div class="panel-title-tab" id="tab-annotation" onclick="mscdps.showAnnotationPanel()">Annotation <span id="lblAnnotationCount"></span></div>
+                        <div class="panel-title-tab" id="tab-annotation" onclick="mscdps.showAnnotationPanel()">Anno <span id="lblAnnotationCount"></span></div>
                         <!--<div class="pull-right" title="Mở key-image slider"  style="cursor: pointer; margin-right: 10px"><i class="fas fa-eye"></i></div>-->
                     </div>
                     <div class="clear-both"></div>
                     <div id="images-box" class="clinical-no-need"></div>
-                    <div id="annotations-box" class="clinical-no-need" style="display: none;"></div>
+                    <div id="annotations-box" class="clinical-no-need" style="display: none;">
+                        <div id="anno-list"></div>
+                        <div id="anno-paginator" style="display: none;"></div>
+                    </div>
                 </div>
             </div>
 
@@ -495,7 +534,7 @@
 
             <div id="dlgSlideSettings" style="display: none;">
                 <div class="windows-content">
-                    <div class="pd-bottom-10" onclick="mscdps.clickChildCheckBox(this)">
+                    <div class="pd-bottom-10">
                         <input id="keyimage-use-constraint" type="checkbox" 
                                onchange="mscdps.setActiveConstraintField(this.checked)"
                                /> <span>Sử dụng tỉ lệ cho key image</span>
@@ -590,6 +629,31 @@
                     <ul>
                         <li>Nhấn <b>K</b> để chụp nhanh key image</li>
                     </ul>
+                </div>
+            </div>
+
+            <div id="dlgUploadXml" style="display: none;">
+                <div class="windows-content">
+                    <div class="flex-row pd-bottom-10">
+                        <div style="width: 80px;">
+                            Chọn file:
+                        </div>
+                        <div>
+                            <input id="txtXmlFile" type="file" class="bordered-input pd-left-10" />
+                        </div>
+                    </div>
+                    <div class="flex-row pd-bottom-10" style="padding-left: 80px;">
+                        <div>
+                            <img src="styles/images/loading.gif" id="imgLoadingXml" width="32" style="display: none;" />
+                        </div>
+                        <div style="padding-left: 20px;">
+                            <div id="lblLoadingXmlInfo" style="padding-top: 8px;display: none;">Loading..</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="windows-footer">
+                    <button id="btnOpenXml" class="btn btn-success"><i class="fas fa-upload"></i>&ensp;Open file</button>
+                    <div class="mg-left-20"></div>
                 </div>
             </div>
         </div>
