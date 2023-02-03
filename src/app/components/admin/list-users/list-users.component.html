@@ -26,20 +26,19 @@
         [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)"
         [totalRecords]="total" [dataKey]="'id'" [loading]="loading">
       </m-table>
-        <!-- <div>test</div> -->
       <ng-template #customHeaderTemplate>
         <th *ngFor="let col of cols; let i = index" [style.minWidth]="col['width']">{{col['header']}}</th>
-        <th style="min-width: 5rem" class="text-center">Enable</th>
-        <th style="min-width: 3rem"></th>
+        <th style="min-width: 5rem" class="text-center" pFrozenColumn alignFrozen="right">Enable</th>
+        <th style="min-width: 3rem" pFrozenColumn alignFrozen="right"></th>
       </ng-template>
       <ng-template #customBodyTemplate let-rowData>
         <td [style.minWidth]="col.width" *ngFor="let col of cols;">
           {{rowData[col['field']]}}
         </td>
-        <td class="text-center" [style.minWidth]="'5rem'">
+        <td class="text-center" [style.minWidth]="'5rem'" pFrozenColumn alignFrozen="right">
           <p-inputSwitch [(ngModel)]="rowData.enable" (onChange)="onChangeEnable(rowData)"></p-inputSwitch>
         </td>
-        <td [style.minWidth]="'3rem'" class="text-center">
+        <td [style.minWidth]="'3rem'" class="text-center" pFrozenColumn alignFrozen="right">
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-xs"
             (click)="onEditUser(rowData)"></button>
         </td>

@@ -17,20 +17,19 @@
       </span> 
       <m-table [isLazyLoad]="false" [items]="groups" [dataKey]="'id'" [loading]="loading" [customBodyTemplate]="customBodyTemplate" 
         [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)">
-        <!-- <div>test</div> -->
       </m-table>
       <ng-template #customHeaderTemplate>
-        <th [style.minWidth]="'3rem'" class="text-center"></th>
-        <th [style.minWidth]="'15rem'">GroupId</th>
-        <th [style.minWidth]="'12rem'">Tên nhóm</th>
+        <th [style.minWidth]="'3rem'" class="text-center sticky" [style.left]="'3rem'"></th>
+        <th [style.minWidth]="'15rem'" class="sticky" [style.left]="'6rem'">GroupId</th>
+        <th [style.minWidth]="'12rem'" class="sticky" [style.left]="'21rem'">Tên nhóm</th>
         <th *ngFor="let role of roles; let i = index" [style.minWidth]="'5rem'">{{role.name}}</th>
       </ng-template>
       <ng-template #customBodyTemplate let-rowData>
-        <td [style.minWidth]="'3rem'" class="text-center">
+        <td [style.minWidth]="'3rem'" class="text-center " pFrozenColumn alignFrozen="left">
           <i class="pi pi-save text-xl text-green-500 pt-1 cursor-pointer" (click)="updateGroupRoles(rowData)"></i>
         </td>
-        <td [style.minWidth]="'15rem'">{{rowData['id']}}</td>
-        <td [style.minWidth]="'12rem'">{{rowData['name']}}</td>
+        <td [style.minWidth]="'15rem'" pFrozenColumn alignFrozen="left">{{rowData['id']}}</td>
+        <td [style.minWidth]="'12rem'" pFrozenColumn alignFrozen="left">{{rowData['name']}}</td>
         <td *ngFor="let role of roles; let i = index" class="text-center" [style.minWidth]="'5rem'">
           <input type="checkbox" [(ngModel)]="rowData.checkedRoles[i]" class="inline-block w-1rem h-1rem cursor-pointer">
         </td>

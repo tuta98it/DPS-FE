@@ -5,17 +5,17 @@
   [scrollable]="true" [scrollHeight]="'calc(100vh - ' + calcHeight + 'px)'">
   <ng-template pTemplate="header">
     <tr>
-      <th style="min-width: 3rem" class="text-center">STT</th>
+      <th style="min-width: 3rem" class="text-center" pFrozenColumn alignFrozen="left">STT</th>
       <ng-template #defaultHeaderTemplate>
         <th *ngFor="let col of cols; let i = index" [style.minWidth]="col['width'] || '12rem'">{{col['header']}}</th>
-        <th [style.minWidth]="'8rem'"></th>
+        <th [style.minWidth]="'8rem'" pFrozenColumn alignFrozen="right"></th>
       </ng-template>
       <ng-container *ngTemplateOutlet="customHeaderTemplate ? customHeaderTemplate : defaultHeaderTemplate;"></ng-container>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData">
-      <td class="text-center" style="min-width: 3rem">
+      <td class="text-center" style="min-width: 3rem" pFrozenColumn alignFrozen="left">
         {{rowIndex+1}}
       </td>
       <ng-template #defaultTemplate>

@@ -10,7 +10,6 @@ import { DialogModule } from 'primeng/dialog';
 import { TableModule } from 'primeng/table';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
-import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogModule } from 'src/app/shared/components/confirm-dialog/confirm-dialog.module';
 import { ListGroupOfUsersComponent } from './list-group-of-users/list-group-of-users.component';
 import { AutoCompleteModule } from 'primeng/autocomplete';

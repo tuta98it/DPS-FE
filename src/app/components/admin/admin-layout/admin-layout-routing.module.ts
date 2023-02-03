@@ -18,7 +18,7 @@ import { AdminLayoutComponent } from './admin.layout.component';
 								(m) => m.ListUsersModule
 							),
 						canActivate: [AuthGuard],
-						data: { role: Roles.MANGAGE_USER },
+						data: { role: Roles.MANAGE_USER },
 					},
 					{
 						path: 'user-roles',
@@ -27,7 +27,7 @@ import { AdminLayoutComponent } from './admin.layout.component';
 								(m) => m.UserRolesModule
 							),
 						canActivate: [AuthGuard],
-						data: { role: Roles.MANGAGE_USER },
+						data: { role: Roles.MANAGE_USER },
 					},
 					{
 						path: 'user-groups',
@@ -36,7 +36,7 @@ import { AdminLayoutComponent } from './admin.layout.component';
 								(m) => m.UserGroupsModule
 							),
 						canActivate: [AuthGuard],
-						data: { role: Roles.MANGAGE_GROUP },
+						data: { role: Roles.MANAGE_GROUP },
 					},
 					{
 						path: 'group-roles',
@@ -45,7 +45,7 @@ import { AdminLayoutComponent } from './admin.layout.component';
 								(m) => m.GroupRolesModule
 							),
 						canActivate: [AuthGuard],
-						data: { role: Roles.MANGAGE_GROUP },
+						data: { role: Roles.MANAGE_GROUP },
 					},
 					{
 						path: 'print-templates',
@@ -65,42 +65,50 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						canActivate: [AuthGuard],
 						data: { role: Roles.MANAGE_TEMPLATE },
 					},
-					// {
-					// 	path: 'order-doctor',
-					// 	loadChildren: () =>
-					// 		import('../print-templates/print-templates.module').then(
-					// 			(m) => m.PrintTemplatesModule
-					// 		),
-					// 	canActivate: [AuthGuard],
-					// 	data: { role: Roles.MANAGE_MARKTYPE },
-					// },
+					{
+						path: 'body-parts',
+						loadChildren: () =>
+							import('../body-parts/body-parts.module').then(
+								(m) => m.BodyPartsModule
+							),
+						// canActivate: [AuthGuard],
+						// data: { role: Roles.MANAGE_CATEGORY },
+					},
 					{
 						path: 'mark-types',
 						loadChildren: () =>
 							import('../mark-types/mark-types.module').then(
 								(m) => m.MarkTypesModule
 							),
+						// canActivate: [AuthGuard],
+						// data: { role: Roles.MANAGE_CATEGORY },
 					},
-                    {
+					{
 						path: 'source-hospital',
 						loadChildren: () =>
 							import('../source-hospital/source-hospital.module').then(
 								(m) => m.SourceHospitalModule
 							),
+						// canActivate: [AuthGuard],
+						// data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'order-doctor',
 						loadChildren: () =>
 							import('../order-doctor/order-doctor.module').then(
-								(m) => m. OrderDoctorModule
+								(m) => m.OrderDoctorModule
 							),
+						// canActivate: [AuthGuard],
+						// data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'sample-processing',
-						loadChildren: () => 
+						loadChildren: () =>
 							import('../sample-processing/sample-processing.module').then(
 								(m) => m.SampleProcessingModule
 							),
+						// canActivate: [AuthGuard],
+						// data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
 						path: 'admin-dashboard',

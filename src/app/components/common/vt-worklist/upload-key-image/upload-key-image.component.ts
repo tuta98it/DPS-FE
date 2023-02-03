@@ -95,7 +95,9 @@ export class UploadKeyImageComponent implements OnInit {
         this.notification.success('Đang tải file lên hệ thống');
         this.filesInQueue = this.uploadFiles.length;
         this.uploadFiles.forEach((f: any) => {
-          this.preUpload(f.file);
+          setTimeout(() => {
+            this.preUpload(f.file);
+          }, 2000);
         });
       }
     } else {
@@ -189,11 +191,6 @@ export class UploadKeyImageComponent implements OnInit {
     }
     inputUpload.value = null;
   }
-
-  // confirmDuplicatedFile() {
-  //   this.textConfirmDuplicatedFile = `Đã tồn tại file <b>${this.currentDuplicatedFile.name}</b>. Bạn có muốn giữ lại file này?`;
-  //   this.visibleConfirmDuplicatedFile = true;
-  // }
 
   keepDuplicatedFile(fileIndex: number) {
     this.uploadFiles.push(this.duplicatedFiles[fileIndex]);

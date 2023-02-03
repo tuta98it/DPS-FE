@@ -17,9 +17,9 @@ export class UserService extends BaseService {
     return this.post(`${this.url}/Register`,payload);
   }
   updateDisable(id: any): Observable<any> {
-    return this.get(`${this.url}/Disable/${id}`, id);
+    return this.get(`${this.url}/Disable/${id}`);
   }
   addUsername(payload: any): Observable<any> {
-    return this.post(`${this.url}/Username`,payload);
+    return this.post(`${this.url}/Username`, payload);
   }
 }

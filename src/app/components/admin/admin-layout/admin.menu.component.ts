@@ -32,7 +32,7 @@ export class AdminMenuComponent implements OnInit {
           {
             label: 'Quản lý user',
             icon: 'pi pi-fw pi-user',
-            visible: this.currentUser.userTypes?.includes(Roles.MANGAGE_USER),
+            visible: this.currentUser.userTypes?.includes(Roles.MANAGE_USER),
             items: [
               {
                 label: 'Danh sách user',
@@ -49,7 +49,7 @@ export class AdminMenuComponent implements OnInit {
           {
             label: 'Quản lý group',
             icon: 'pi pi-fw pi-users',
-            visible: this.currentUser.userTypes?.includes(Roles.MANGAGE_GROUP),
+            visible: this.currentUser.userTypes?.includes(Roles.MANAGE_GROUP),
             items: [
               {
                 label: 'Danh sách group',
@@ -83,12 +83,17 @@ export class AdminMenuComponent implements OnInit {
           {
             label: 'Quản lý danh mục',
             icon: 'pi pi-fw pi-align-justify',
-            visible: this.currentUser.userTypes?.includes(Roles.MANAGE_MARKTYPE),
+            // visible: this.currentUser.userTypes?.includes(Roles.MANAGE_CATEGORY),
             items: [
               {
                 label: 'BS chỉ định',
-                icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-user-plus',
                 routerLink: ['/admin/order-doctor'],
+              },
+              {
+                label: 'Vị trí lấy mẫu',
+                icon: 'pi pi-fw pi-heart',
+                routerLink: ['/admin/body-parts'],
               },
               {
                 label: 'Phương pháp nhuộm',
@@ -101,8 +106,8 @@ export class AdminMenuComponent implements OnInit {
                 routerLink: ['/admin/sample-processing'],
               },
               {
-                label: 'Danh mục nơi gửi mẫu',
-                icon: 'pi pi-fw pi-align-justify',
+                label: 'Nơi gửi mẫu',
+                icon: 'pi-fw fa-regular fa-hospital',
                 routerLink: ['/admin/source-hospital'],
               }
             ]

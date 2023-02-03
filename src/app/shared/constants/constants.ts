@@ -137,9 +137,9 @@ export class Roles {
   public static readonly REQUEST_REMOTE_READ = "Yêu cầu đọc từ xa";
   public static readonly ASSIGN = "Assign";
   public static readonly MANAGE_BRANCH = "Quản lý branch";
-  public static readonly MANGAGE_USER = "Quản lý user";
-  public static readonly MANGAGE_GROUP = "Quản lý group user";
-  public static readonly MANGAGE_CATEGORY = "Quản lý danh mục";
+  public static readonly MANAGE_USER = "Quản lý user";
+  public static readonly MANAGE_GROUP = "Quản lý group user";
+  public static readonly MANAGE_CATEGORY = "Quản lý danh mục";
   public static readonly MANAGE_TEMPLATE = "Quản lý mẫu báo cáo / mẫu in";
   public static readonly MANAGE_MARKTYPE = "Quản lý phương pháp nhuộm";
   public static readonly MANAGE_CS_STATUS = "Quản lý trạng trái ca chụp";

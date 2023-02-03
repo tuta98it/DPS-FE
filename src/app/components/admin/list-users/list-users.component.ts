@@ -81,7 +81,7 @@ export class ListUsersComponent implements OnInit {
       username: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.minLength(6)]],
       repass: [null, [Validators.required, this.confirmationValidator]],
-      hisCode:[null],
+      hisCode: [null],
     });
     this.usersFormEdit = this.fb.group({
       id: [null],
@@ -92,7 +92,7 @@ export class ListUsersComponent implements OnInit {
       password: [null, [Validators.required]],
       disable: [null],
       enable: [null],
-      hisCode:[null],
+      hisCode: [null],
     })
     this.accountForm = this.fb.group({
       username: [null, [Validators.required]],
@@ -149,6 +149,7 @@ export class ListUsersComponent implements OnInit {
     this.searchData.take = data.rows;
     this.search();
   }
+
   onCreatUser() {
     this.usersForm.patchValue({
       id: 0,
@@ -158,12 +159,13 @@ export class ListUsersComponent implements OnInit {
       username: '',
       password: '',
       repass: '',
-      hisCode:'',
+      hisCode: '',
     });
     this.isVisibleUserDialog = true;
     this.isEditUser = false;
     this.userDialogHeader = 'Thêm tài khoản mới';
   }
+
   onCreateAccount() {
     this.accountForm.patchValue({
       username: ''
@@ -171,6 +173,7 @@ export class ListUsersComponent implements OnInit {
     this.isVisibleAddAccountDialog = true;
     this.isEditUser = false;
   }
+
   onEditUser(item: any) {
     this.usersFormEdit.patchValue({
       id: item.id,
@@ -185,6 +188,7 @@ export class ListUsersComponent implements OnInit {
     this.isEditUser = true;
     this.userDialogHeader = 'Sửa thông tin tài khoản';
   }
+
   saveItem() {
     if (this.usersForm.valid && !this.isEditUser) {
       this.createUser();
@@ -197,6 +201,7 @@ export class ListUsersComponent implements OnInit {
       });
     }
   }
+
   saveAccount() {
     if (this.accountForm.valid && !this.isEditUser) {
       this.createAccount();
@@ -209,6 +214,7 @@ export class ListUsersComponent implements OnInit {
       });
     }
   }
+
   saveItemEdit() {
     if (this.usersFormEdit.valid && this.isEditUser) {
       this.updateUser();
@@ -221,6 +227,7 @@ export class ListUsersComponent implements OnInit {
       });
     }
   }
+
   createUser() {
     const formValue = this.usersForm.value;
     const payload = {
@@ -240,6 +247,7 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
+
   createAccount() {
     const formValue = this.accountForm.value;
     const payload = {
@@ -255,6 +263,7 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
+
   updateUser() {
     const formEditValue = this.usersFormEdit.value;
     const payloadEdit = {
@@ -279,18 +288,19 @@ export class ListUsersComponent implements OnInit {
 
   onChangeEnable(item: any) {
     if (!item.enable) {
-        this.disabledUserId = item.id;
-        this.textConfirmDisableUser = `Xác nhận Disable tài khoản này <b>${item.username}?`;
-        this.confirmLabelDisable = "Disable";
-        this.isVisibleDisableUserDialog = true;
+      this.disabledUserId = item.id;
+      this.textConfirmDisableUser = `Xác nhận Disable tài khoản <b>${item.username} - ${item.fullname}</b>?`;
+      this.confirmLabelDisable = "Disable";
+      this.isVisibleDisableUserDialog = true;
     }
     else {
-        this.disabledUserId = item.id;
-        this.textConfirmEnableUser = `Xác nhận Enable tài khoản này <b>${item.username}?`;
-        this.confirmLabelEnable = "Enable";
-        this.isVisibleEnableUserDialog = true;
+      this.disabledUserId = item.id;
+      this.textConfirmEnableUser = `Xác nhận Enable tài khoản <b>${item.username} - ${item.fullname}</b>?`;
+      this.confirmLabelEnable = "Enable";
+      this.isVisibleEnableUserDialog = true;
     }
   }
+
   disableUser() {
     this.userService.updateDisable(this.disabledUserId).subscribe({
       next: (res) => {
@@ -302,9 +312,11 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
+
   cancelDisable() {
     this.search();
   }
+
   enableUser() {
     this.userService.updateDisable(this.disabledUserId).subscribe({
       next: (res) => {
@@ -316,14 +328,16 @@ export class ListUsersComponent implements OnInit {
       }
     });
   }
+
   cancelEnable() {
     this.search();
   }
+
   selectUser(user: any) {
     this.selectedUser = user;
   }
-  openListGroups(){
-    this.isVisibleListGroups=true;
-  }
 
+  openListGroups() {
+    this.isVisibleListGroups = true;
+  }
 }
