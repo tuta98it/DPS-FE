@@ -76,6 +76,7 @@ export class ViewerComponent implements OnInit, OnDestroy {
     (<any>window).saveListAnnotations= this.saveListAnnotations.bind(this);
     (<any>window).getUserSettings= this.getUserSettings.bind(this);
     (<any>window).saveUserSettings= this.saveUserSettings.bind(this);
+    (<any>window).getViewerConfig= this.getViewerConfig.bind(this);
   }
 
   ngOnInit(): void {
@@ -285,5 +286,11 @@ export class ViewerComponent implements OnInit, OnDestroy {
         // }
       }
     });
+  }
+
+  getViewerConfig(callback: any) {
+    let cfg = this.configService.getConfig().viewerConfig;
+    if(callback != undefined)
+      callback(cfg);
   }
 }

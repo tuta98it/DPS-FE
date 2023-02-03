@@ -13,6 +13,8 @@ export class AppConfig {
     content: string,
     author: string
   };
+  viewerConfig: any;
+  
   constructor() {
     this.api = {
       baseUrl: '',
@@ -28,5 +30,6 @@ export class AppConfig {
       content: '',
       author: ''
     };
+    this.viewerConfig = {};
   }
 }

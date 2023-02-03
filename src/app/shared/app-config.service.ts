@@ -53,6 +53,7 @@ export class AppConfigService {
     this.config.sharedUrl = `https://${data.domain}/${data.sharedUrl}`;
     this.config.layout = data.layout;
     this.config.slogan = data.slogan;
+    Object.assign(this.config.viewerConfig, data.viewerConfig);
   };
 
   private errorHandler(error: HttpErrorResponse) {
