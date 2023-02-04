@@ -17,6 +17,8 @@ import { TreeSelectModule } from 'primeng/treeselect';
 import { SaveCustomReportComponent } from './save-custom-report/save-custom-report.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { CaseStudyHistoryComponent } from './case-study-history/case-study-history.component';
+import { ExportMultipleReportsComponent } from './export-multiple-reports/export-multiple-reports.component';
+import { CaseStudyTableModule } from '../worklist/case-study-table/case-study-table.module';
 
 @NgModule({
   declarations: [
@@ -26,10 +28,12 @@ import { CaseStudyHistoryComponent } from './case-study-history/case-study-histo
     ReportActionsComponent,
     PrintPreviewPopupComponent,
     SaveCustomReportComponent,
-    CaseStudyHistoryComponent
+    CaseStudyHistoryComponent,
+    ExportMultipleReportsComponent
   ],
   imports: [
     CommonModule,
+    CaseStudyTableModule,
     NgsContenteditableModule,
     FormsModule,
     ReactiveFormsModule,
@@ -47,7 +51,8 @@ import { CaseStudyHistoryComponent } from './case-study-history/case-study-histo
     ReportDialogComponent,
     ReportEditorComponent,
     ReportActionsComponent,
-    PrintPreviewPopupComponent
+    PrintPreviewPopupComponent,
+    ExportMultipleReportsComponent
   ],
 })
 export class ReportModule { }

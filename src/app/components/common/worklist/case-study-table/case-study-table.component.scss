@@ -14,12 +14,18 @@
   .search-table tbody {
     top: 80px !important;
   }
+  .not-search-table tbody {
+    top: 45px !important;
+  }
 }
 
 @media screen and (max-width: 1600px) {
   :host ::ng-deep {
     .search-table tbody {
       top: 72px !important;
+    }
+    .not-search-table tbody {
+      top: 37px !important;
     }
   }
 }
@@ -28,6 +34,9 @@
   :host ::ng-deep {
     .search-table tbody {
       top: 66px !important;
+    }
+    .not-search-table tbody {
+      top: 31px !important;
     }
   }
 }

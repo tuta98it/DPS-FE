@@ -320,7 +320,7 @@
       <div class="grid w-full m-0">
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-3': !isSmallScreen, 'pb-1': true}">
           <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
-            <ng-container>DS kết quả giải phẫu bệnh:</ng-container> {{totalCaseStudies}} kết quả
+            DS kết quả giải phẫu bệnh: {{totalCaseStudies}} kết quả
           </span>
         </div>
         <div [ngClass]="{'col-6' : isSmallScreen, 'col-9': !isSmallScreen, 'pb-1': true}">
@@ -336,7 +336,8 @@
               (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
             <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-search mr-2 flex-none text-2xl p-button-danger font-bold p-button-rounded"
               (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
-            
+            <button pButton pRipple type="button" icon="pi pi-print" class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
+              (click)="visibleExportMultipleReports=true" title="In/Xuất kết quả hàng loạt"></button>
             <button pButton pRipple type="button" icon="pi pi-download" class="btn-search flex-none text-xl font-bold p-button-rounded"
               [loading]="loadingExport" (click)="exportReport()" title="Xuất báo cáo"></button>
           </div>
@@ -363,3 +364,4 @@
 <print-preview-popup (onPrint)="onSearch(searchData)" [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyForm.value.id" [reportId]="reportForm.value.id" *ngIf="reportForm"></print-preview-popup>
 <p-contextMenu [target]="btnCamera" styleClass="w-16rem white-space-nowrap" [model]="cameras"></p-contextMenu>
 <shared-case-study [(visible)]="visibleSharedCaseStudy" [caseStudyId]="sharedCaseStudyId"></shared-case-study>
+<export-multiple-reports [(visible)]="visibleExportMultipleReports"></export-multiple-reports>

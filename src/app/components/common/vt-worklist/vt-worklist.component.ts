@@ -159,6 +159,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   technicians: any[] = [];
   sourceHospitals: any[] = [];
 
+  visibleExportMultipleReports = false;
+  
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,

@@ -1,0 +1,32 @@
+<p-dialog [(visible)]="visible" [style]="{width: '1600px', height: '1000px', 'max-height': '90%', 'max-width': '90%' }"
+  header="In/Xuất kết quả hàng loạt" [modal]="true" class="p-fluid export-multiple-reports">
+  <ng-template pTemplate="content">
+    <div class="grid w-full m-0">
+      <div class="pb-1 col-8 p-0">
+        <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
+          Kết quả lọc: {{totalCaseStudies}} ca khám
+        </span>
+      </div>
+      <div class="pb-1 col-4 p-0">
+        <div class="flex justify-content-end">
+          <button pButton pRipple [label]="isShowSearch ? 'Ẩn lọc' : 'Hiển thị lọc'" icon="pi pi-search" 
+            class="p-button-outlined p-button-sm w-auto mr-2 border-none focus:border-none" (click)="isShowSearch=!isShowSearch"></button>
+        </div>
+      </div>
+      <div class="col-12 p-0 w-full flex-auto mt-1">
+        <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
+          (onLazyLoad)="onLazyLoad($event)" [caseStudies]="caseStudies" [(isShowSearch)]="isShowSearch"
+          [searchData]="searchData" (onSearch)="onSearch($event)"></case-study-table>
+      </div>
+    </div>
+    <div class="flex justify-content-end mt-2 footer">
+      <div class="mr-2 flex align-items-center">Mẫu in kết quả: </div>
+      <p-dropdown [options]="listPrintTemplates" [(ngModel)]="selectedTemplateId"
+        placeholder="Mẫu in kết quả" optionLabel="name" optionValue="id" [showClear]="false" styleClass="mr-2 w-14rem"></p-dropdown>
+      <button pButton pRipple [label]="'Xuất PDF'" icon="pi pi-file-pdf" 
+        class="p-button-outlined p-button-sm w-auto mr-2"></button>
+      <button pButton pRipple [label]="'In'" icon="pi pi-file-pdf" 
+        class="p-button-outlined p-button-sm w-auto mr-2"></button>
+    </div>
+  </ng-template>
+</p-dialog>

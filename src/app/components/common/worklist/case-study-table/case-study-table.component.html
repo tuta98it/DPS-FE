@@ -1,4 +1,4 @@
-<div [ngClass]="{'search-table' : isShowSearch}">
+<div [ngClass]="{'search-table' : isShowSearch, 'not-search-table': !isShowSearch}">
   <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
     [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
     selectionMode="single" [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy"

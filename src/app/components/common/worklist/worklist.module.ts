@@ -30,17 +30,16 @@ import { SharedCaseStudyComponent } from './shared-case-study/shared-case-study.
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { StudyTableSearchComponent } from './case-study-table/study-table-search/study-table-search.component';
+import { CaseStudyTableModule } from './case-study-table/case-study-table.module';
 
 @NgModule({
   declarations: [
     WorklistComponent,
-    CaseStudyTableComponent,
     CaseStudyInfoComponent,
     PatientInfoComponent,
     SearchCaseStudyComponent,
     UploadSlideComponent,
     SharedCaseStudyComponent,
-    StudyTableSearchComponent
   ],
   imports: [
     SplitterModule,
@@ -61,6 +60,7 @@ import { StudyTableSearchComponent } from './case-study-table/study-table-search
     RadioButtonModule,
     OverlayPanelModule,
     ReportModule,
+    CaseStudyTableModule,
     TooltipModule,
     ConfirmDialogModule,
     AngularSplitModule,
@@ -70,7 +70,6 @@ import { StudyTableSearchComponent } from './case-study-table/study-table-search
   ],
   exports: [
     WorklistComponent,
-    CaseStudyTableComponent,
     UploadSlideComponent,
     SearchCaseStudyComponent,
     SharedCaseStudyComponent

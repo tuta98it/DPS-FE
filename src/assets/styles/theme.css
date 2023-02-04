@@ -1602,7 +1602,9 @@ p-radiobutton.ng-dirty.ng-invalid > .p-radiobutton > .p-radiobutton-box {
 .p-rating:not(.p-disabled):not(.p-readonly) .p-rating-icon.p-rating-cancel:hover {
   color: #e73d3e;
 }
-
+.p-button {
+  box-shadow: none !important;
+}
 .p-selectbutton .p-button {
   background: #ffffff;
   border: 1px solid #ced4da;

@@ -8,3 +8,13 @@
     right: 1.5rem !important;
   }
 }
+
+@media screen and (max-width: 1200px) {
+  :host ::ng-deep .study-table-search-container{
+    input.p-inputtext {
+      padding-top: 0;
+      padding-bottom: 0;
+      height: 31px;
+    }
+  }
+}

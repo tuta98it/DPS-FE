@@ -18,6 +18,7 @@ import { ContextMenuModule } from 'primeng/contextmenu';
 import { BadgeModule } from 'primeng/badge';
 import { NgsContenteditableModule } from '@ng-stack/contenteditable';
 import { TableModule } from 'primeng/table';
+import { CaseStudyTableModule } from '../worklist/case-study-table/case-study-table.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { TableModule } from 'primeng/table';
     InputNumberModule,
     KeyImagesModule,
     ReportModule,
+    CaseStudyTableModule,
     CommonModule,
   ],
   exports: [

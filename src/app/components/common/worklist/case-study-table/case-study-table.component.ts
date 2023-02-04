@@ -43,8 +43,17 @@ export class CaseStudyTableComponent implements OnInit {
   @Output() onSearch = new EventEmitter<any>();
 
   isSearchTable = false;
-  isShowSearch = false;
-
+  
+  _isShowSearch = false;
+  @Input() set isShowSearch(value: boolean) {
+    this._isShowSearch = value;
+    this.isShowSearchChange.emit(value);
+  }
+  get isShowSearch() {
+    return this._isShowSearch;
+  }
+  @Output() isShowSearchChange = new EventEmitter<any>();
+  
   @ViewChild("sltDateRange") sltDateRange!: OverlayPanel;
 
   constructor(
