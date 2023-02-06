@@ -21,6 +21,7 @@ export class ExportMultipleReportsComponent implements OnInit {
     } else {
       this.searchData = JSON.parse(JSON.stringify(INIT_SEARCH_CASE_STUDY));
       this.caseStudies = [];
+      this.skipLazyLoad = true;
     }
     this.visibleChange.emit(value);
   }
@@ -29,7 +30,6 @@ export class ExportMultipleReportsComponent implements OnInit {
   }
   @Output() visibleChange = new EventEmitter<any>();
 
-  totalCaseStudies = 0;
   loading = false;
   lastMaxStart = -1;
 
@@ -54,6 +54,7 @@ export class ExportMultipleReportsComponent implements OnInit {
 
   listPrintTemplates: any[] = [];
   selectedTemplateId: any;
+  skipLazyLoad = true;
 
   @ViewChild('caseStudyTable') caseStudyTable!: CaseStudyTableComponent;
 
@@ -93,7 +94,6 @@ export class ExportMultipleReportsComponent implements OnInit {
           r.createdDate = r.createdDate ? datePipe.transform(r.createdDate, 'HH:mm dd/MM/yyyy') : '';
         });
         this.caseStudies = [...this.caseStudies, ...res.jsonData.data];
-        this.totalCaseStudies = res.jsonData.total;
       }
     }).add(() => {
       this.loading = false;
@@ -124,10 +124,14 @@ export class ExportMultipleReportsComponent implements OnInit {
   }
 
   onLazyLoad(event:any) {
-    if (this.lastMaxStart < event.first && !this.loading) {
-      this.lastMaxStart = event.first;
-      this.searchData.page += 1;
-      this.search();
+    if (!this.skipLazyLoad) {
+      if (this.lastMaxStart < event.first && !this.loading) {
+        this.lastMaxStart = event.first;
+        this.searchData.page += 1;
+        this.search();
+      }
+    } else {
+      this.skipLazyLoad = false;
     }
   }
 

@@ -4,7 +4,7 @@
     <div class="grid w-full m-0">
       <div class="pb-1 col-8 p-0">
         <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
-          Kết quả lọc: {{totalCaseStudies}} ca khám
+          Kết quả lọc: {{caseStudies.length}} ca khám
         </span>
       </div>
       <div class="pb-1 col-4 p-0">
@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="col-12 p-0 w-full flex-auto mt-1">
-        <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
+        <case-study-table #caseStudyTable [rows]="caseStudies.length" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
           (onLazyLoad)="onLazyLoad($event)" [caseStudies]="caseStudies" [(isShowSearch)]="isShowSearch"
           [searchData]="searchData" (onSearch)="onSearch($event)"></case-study-table>
       </div>
