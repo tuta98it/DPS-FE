@@ -414,11 +414,12 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   onSelectCaseStudy(data: any) {
     if (!(this.editingVisit || this.creatingVisit)) {
       this.selectedCaseStudy = data;
+      this.getCaseStudy();
+      this.getKeyImages();
+      this.getPrintedKeyImages();
       this.getCaseStudyOfPatient();
       this.getPatient();
-      this.getCaseStudy();
       this.getCaseStudyReports();
-      this.getKeyImages();
     } else {
       this.notification.warn('Bạn đang nhập dữ liệu', 'Vui lòng Lưu hoặc Hủy trước khi chuyển sang ca bệnh khác');
     }
@@ -564,7 +565,6 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
             specimensDate: res.jsonData.specimensDate ?
               new Date(res.jsonData.specimensDate) : '',
           });
-          this.printedKeyImages = res.jsonData.printKeyImages ?? [];
         }
       }
     });
@@ -613,10 +613,10 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     let caseStudyId = this.selectedCaseStudy.caseStudyId ?
       new String(this.selectedCaseStudy.caseStudyId) : this.caseStudyForm.value.id;
     if (caseStudyId) {
-      this.caseStudyService.getById(caseStudyId).subscribe({
+      this.caseStudyService.getPrintedKeyImages(caseStudyId).subscribe({
         next: (res) => {
           if (res.isValid) {
-            this.printedKeyImages = res.jsonData.printKeyImages ?? [];
+            this.printedKeyImages = res.jsonData ?? [];
           }
         }
       });

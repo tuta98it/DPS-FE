@@ -79,7 +79,7 @@ export class CommonLayoutComponent implements OnInit, OnDestroy {
           this.VTWorklist.getPrintedKeyImages();
           setTimeout(() => {
             this.VTWorklist.onCaseStudyAction({ action: Constants.CASE_STUDY_ACTIONS.REFRESH });
-          }, 100);
+          }, 500);
         }
       }
     }

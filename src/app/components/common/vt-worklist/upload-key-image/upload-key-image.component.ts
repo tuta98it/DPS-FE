@@ -95,9 +95,7 @@ export class UploadKeyImageComponent implements OnInit {
         this.notification.success('Đang tải file lên hệ thống');
         this.filesInQueue = this.uploadFiles.length;
         this.uploadFiles.forEach((f: any) => {
-          setTimeout(() => {
-            this.preUpload(f.file);
-          }, 2000);
+          this.preUpload(f.file);
         });
       }
     } else {

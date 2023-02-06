@@ -34,6 +34,10 @@ export class CaseStudyService extends BaseService {
   getListSlideOfCaseStudy(studyId: string) {
     return this.get(`${this.listSlideUrl}/${studyId}`);
   }
+  
+  getPrintedKeyImages(studyId: string) {
+    return this.get(`${this.url}/PrintKeyImage/${studyId}`);
+  }
 
   getListKeyImageOfSlide(slideId: string) {
     return this.get(`${this.listKeyImageUrl}/${slideId}`);
