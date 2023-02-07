@@ -203,19 +203,23 @@
                     <div>Mô tả vi thể</div>
                   </div>
                   <div class="col-10 py-1 pr-0">
-                    <p class="w-full h-4rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="microbodyDescribe"></p>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Hội chẩn</div>
-                  </div>
-                  <div class="col-10 py-1 pr-0">
-                    <p class="w-full h-4rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="consultation"></p>
+                    <p class="w-full h-5rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="microbodyDescribe"></p>
                   </div>
                   <div class="col-2 py-1 pr-0 flex align-items-center">
                     <div>Kết luận</div>
                   </div>
                   <div class="col-10 py-1 pr-0">
-                    <p class="w-full h-4rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="diagnose"></p>
+                    <p class="w-full h-5rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="diagnose"></p>
+                  </div>
+                  <div (click)="isShowConsultation=!isShowConsultation" class="col-2 py-1 pr-0 flex align-items-center cursor-pointer ">
+                    <div>
+                      Hội chẩn<i [ngClass]="{'pi-angle-down': isShowConsultation, 'pi-angle-right' : !isShowConsultation }"
+                        class="pi text-lg relative" style="top: 2px"></i>
+                    </div>
+                  </div>
+                  <div class="col-10 py-1 pr-0">
+                    <p [ngClass]="{'h-5rem': isShowConsultation, 'hidden' : !isShowConsultation }"
+                      class="w-full py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="consultation"></p>
                   </div>
                 </div>
               </div>

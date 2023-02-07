@@ -161,6 +161,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
 
   visibleExportMultipleReports = false;
   
+  isShowConsultation = false;
+
   constructor(
     private fb: FormBuilder,
     private patientService: PatientService,
@@ -584,6 +586,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
               readDoctor: res.jsonData[0].readDoctorId,
               state: res.jsonData[0].state,
             });
+            this.isShowConsultation = res.jsonData[0].consultation ? true : false;
           } else {
             this.reportForm.reset(INIT_REPORT);
           }
