@@ -22,11 +22,37 @@
     <div class="flex justify-content-end mt-2 footer">
       <div class="mr-2 flex align-items-center">Mẫu in kết quả: </div>
       <p-dropdown [options]="listPrintTemplates" [(ngModel)]="selectedTemplateId"
-        placeholder="Mẫu in kết quả" optionLabel="name" optionValue="id" [showClear]="false" styleClass="mr-2 w-14rem"></p-dropdown>
+        placeholder="Mẫu in kết quả" optionLabel="name" optionValue="id" [showClear]="false" 
+        styleClass="mr-2 w-14rem" (change)="onPrintTemplateChanged()"></p-dropdown>
       <button pButton pRipple [label]="'Xuất PDF'" icon="pi pi-file-pdf" 
-        class="p-button-outlined p-button-sm w-auto mr-2"></button>
+        class="p-button-outlined p-button-sm w-auto mr-2" (click)="printPdfAll()" 
+        [disabled]="isPrinting || selectedTemplateInfo == null"></button>
       <button pButton pRipple [label]="'In'" icon="pi pi-file-pdf" 
-        class="p-button-outlined p-button-sm w-auto mr-2"></button>
+        class="p-button-outlined p-button-sm w-auto mr-2" (click)="printAll()" 
+        [disabled]="isPrinting || selectedTemplateInfo == null"></button>
     </div>
+    <div [ngClass]="isPrinting ? '' : 'hidden'" class="absolute" style="top:65px; left:0; bottom:0;right:0;">
+      <div class="w-full h-full flex justify-content-center align-content-center" style="background-color: #eeeeee60;">
+        <div style="width:3rem; height:3rem; margin:auto;">
+          <i class="pi pi-spin pi-spinner" style="font-size: 3rem"></i>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
+<div class="absolute" style="top:-2000px; left:0; width: 210mm; height: 297mm;">
+  <iframe src="/html/print-template/print-viewer.html?registerFunc=multiReportPrintCallbacks&completedFunc=onPrintCompleted" class="iframe-printpreview" id="iframe-multireport-preview" >
+  </iframe>
+</div>
+<p-dialog [(visible)]="isVisibleAlertDialog" [modal]="true" [style]="{width:'500px'}">
+  <p-header [ngStyle] = "{'color':'#dc3545'}">
+    Cảnh báo
+  </p-header>
+  <div class="flex align-items-center justify-content-begin">
+    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem;background-color: yellow;"></i>
+    <span [innerHTML]="sAlertMessage" class="text-xl"></span>
+  </div>
+  <ng-template pTemplate="footer">
+    <button pButton pRipple icon="pi pi-check" class="p-button-text p-button-sm p-button-danger" label="OK" (click)="isVisibleAlertDialog = false"></button>
   </ng-template>
 </p-dialog>

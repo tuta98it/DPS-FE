@@ -29,12 +29,13 @@
                 mscform.printForm('main-form', paperWidth, paperHeight, paperMargin, pathToFormFolder);
             };
 
-            var doSavePdfCallback = function save2Pdf(filename, paperWidth, paperHeight, paperMargin, pathToFormFolder) {
-                mscform.save2Pdf('main-form', filename, paperWidth, paperHeight, paperMargin, pathToFormFolder);
+            var doSavePdfCallback = function save2Pdf(filename, isBlob = false, blobCallbackFunction = undefined) {
+                mscform.save2Pdf('main-form', filename, isBlob, blobCallbackFunction);
             };
 
             $(document).ready(function () {
-                parent.registerShowPrint(previewCallback, doPrintCallback, doSavePdfCallback);
+                // parent.registerShowPrint(previewCallback, doPrintCallback, doSavePdfCallback);
+                mscform.registerPrintCallbacks(previewCallback, doPrintCallback, doSavePdfCallback);
             });
         </script>
     </head>
