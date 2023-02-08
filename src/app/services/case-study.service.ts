@@ -31,6 +31,10 @@ export class CaseStudyService extends BaseService {
     return this.get(`${this.url}/Report/${reportId}`);
   }
 
+  getListReportIdsByFilter(filterData: any) {
+    return this.post(`${this.url}/GetReportIds`, filterData);
+  }
+
   getListSlideOfCaseStudy(studyId: string) {
     return this.get(`${this.listSlideUrl}/${studyId}`);
   }

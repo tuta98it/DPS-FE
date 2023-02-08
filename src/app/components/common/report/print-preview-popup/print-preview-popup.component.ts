@@ -186,7 +186,7 @@ export class PrintPreviewPopupComponent implements OnInit {
    * commonInfoData: array of common info values
    */
   registerShowPrint(previewCallback:any, printCallback: any, savePdfCallback: any) {
-    console.log('isIframeReady before: ' + this.isIframeReady);
+    console.log('registerShowPrint, isIframeReady before: ' + this.isIframeReady);
     this.iframePreviewFunction = previewCallback;
     this.iframePrintFunction = printCallback;
     this.iframeSavePdfFunction = savePdfCallback;
