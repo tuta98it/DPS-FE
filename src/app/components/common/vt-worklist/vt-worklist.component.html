@@ -186,10 +186,18 @@
                     <div>Code</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" (onChange)="setReportTemplate($event)"
+                    <!-- <p-dropdown [disabled]="!(creatingVisit || editingVisit)" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" (onChange)="setReportTemplate($event)"
                       [filterBy]="'code,templateName'" optionLabel="label" optionValue="id" [options]="reportTemplates" appendTo="body" placeholder="Chọn mẫu báo cáo" [showClear]="true"
                       [(ngModel)]="currentReportTemplate" [ngModelOptions]="{standalone: true}">
-                    </p-dropdown>
+                    </p-dropdown> -->
+                    <input [readOnly]="!(creatingVisit || editingVisit)" (keydown.enter)="onSetReportTemplate($event)"
+                      pInputText type="text" placeholder="Code" class= "py-2 px-2 w-full" />
+                    <p-overlayPanel #sltTemplate [showCloseIcon]="false" styleClass="slt-template-panel">
+                      <ng-template pTemplate>
+                        <p-listbox [options]="filteredTemplates" [listStyle]="{'max-height':'250px'}" (onChange)="setReportTemplate($event.value)"
+                          styleClass="w-15rem" optionLabel="code" emptyFilterMessage="Không tìm thấy kết quả"></p-listbox>
+                      </ng-template>
+                    </p-overlayPanel>
                   </div>
                   <div class="col-2 py-1 pr-0 flex align-items-center">
                     <div>BS đọc KQ</div>

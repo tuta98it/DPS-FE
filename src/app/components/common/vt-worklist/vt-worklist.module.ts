@@ -19,6 +19,8 @@ import { BadgeModule } from 'primeng/badge';
 import { NgsContenteditableModule } from '@ng-stack/contenteditable';
 import { TableModule } from 'primeng/table';
 import { CaseStudyTableModule } from '../worklist/case-study-table/case-study-table.module';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ListboxModule } from 'primeng/listbox';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { CaseStudyTableModule } from '../worklist/case-study-table/case-study-ta
     ContextMenuModule,
     DialogModule,
     InputNumberModule,
+    OverlayPanelModule,
+    ListboxModule,
     KeyImagesModule,
     ReportModule,
     CaseStudyTableModule,

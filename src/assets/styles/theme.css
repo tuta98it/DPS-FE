@@ -4471,6 +4471,10 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border: 0 none;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  margin-top: 0 !important;
+}
+.p-overlaypanel.slt-template-panel .p-overlaypanel-content {
+  padding: 0 !important;
 }
 .p-overlaypanel .p-overlaypanel-content {
   padding: 1.25rem;
@@ -4490,7 +4494,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   background: #0d9455;
   color: #ffffff;
 }
-.p-overlaypanel:after {
+/* .p-overlaypanel:after {
   border: solid transparent;
   border-color: rgba(255, 255, 255, 0);
   border-bottom-color: #ffffff;
@@ -4499,7 +4503,7 @@ p-treeselect.p-treeselect-clearable .p-treeselect-clear-icon {
   border: solid transparent;
   border-color: rgba(255, 255, 255, 0);
   border-bottom-color: #f2f2f2;
-}
+} */
 .p-overlaypanel.p-overlaypanel-flipped:after {
   border-top-color: #ffffff;
 }

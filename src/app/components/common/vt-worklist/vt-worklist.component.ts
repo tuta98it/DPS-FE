@@ -29,6 +29,7 @@ import { saveAs } from 'file-saver';
 import { OrderDoctorService } from 'src/app/services/order-doctor.service';
 import { TechnicianService } from 'src/app/services/technician.service';
 import { SourceHospitalService } from 'src/app/services/source-hospital.service';
+import { OverlayPanel } from 'primeng/overlaypanel';
 @Component({
   selector: 'vt-worklist',
   templateUrl: './vt-worklist.component.html',
@@ -162,6 +163,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   visibleExportMultipleReports = false;
   
   isShowConsultation = false;
+  filteredTemplates: any[] = [];
+  @ViewChild("sltTemplate") sltTemplate!: OverlayPanel;
 
   constructor(
     private fb: FormBuilder,
@@ -814,16 +817,25 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     });
   }
 
-  setReportTemplate(event:any) {
-    let id = event.value;
-    if (id) {
-      let reportTemplate = this.reportTemplates.find(t => t.id == id);
-      if (reportTemplate) {
-        this.reportForm.controls['microbodyDescribe'].setValue(reportTemplate.microbodyDescrible);
-        this.reportForm.controls['consultation'].setValue(reportTemplate.consultation);
-        this.reportForm.controls['diagnose'].setValue(reportTemplate.diagnose);
-      }
+  onSetReportTemplate(event: any) {
+    let code = event.target.value.toLowerCase();
+    this.filteredTemplates = this.reportTemplates.filter(t => t.code && t.code.toLowerCase().includes(code));
+    if (this.filteredTemplates.length == 1) {
+      this.setReportTemplate(this.filteredTemplates[0]);
+    } else {
+      this.sltTemplate.show(event);
     }
+  }
+
+  setReportTemplate(reportTemplate:any) {
+    if (reportTemplate) {
+      this.reportForm.controls['microbodyDescribe'].setValue(reportTemplate.microbodyDescrible);
+      this.reportForm.controls['consultation'].setValue(reportTemplate.consultation);
+      this.reportForm.controls['diagnose'].setValue(reportTemplate.diagnose);
+    }
+    this.isShowConsultation = this.reportForm.controls['consultation'].value ? true : false;
+    this.filteredTemplates = [];
+    this.sltTemplate.hide();
   }
 
   getMarkTypes() {
