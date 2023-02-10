@@ -198,7 +198,8 @@ export class ExportMultipleReportsComponent implements OnInit {
       return;
 
     this.isPrinting = true;
-    console.log(this.caseStudies);
+    this.sHtmlContent = '';
+    // console.log(this.caseStudies);
 
     this.curPrintingIdx = 0;
     this.printedReportCount = 0;
