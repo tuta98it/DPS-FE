@@ -125,7 +125,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   @ViewChild("liveCam") liveCam!: ElementRef;
   keyImageUploadedPath = '';
   visibleUploadKeyImage = false;
-  currentReportTemplate = '';
+  currentReportTemplate: any = '';
+  currentTemplateCode = '';
 
   cameras: MenuItem[] = [];
   selectedCameraId = '';
@@ -434,7 +435,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     this.creatingVisit = true;
     this.resetInfo();
     this.reportForm.controls['readDoctor'].setValue(this.currentUser.userId);
-    this.currentReportTemplate = '';
+    this.currentReportTemplate = null;
   }
 
   onEditVisit() {
@@ -449,7 +450,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
         report: JSON.stringify(this.reportForm.value),
       };
     }
-    this.currentReportTemplate = '';
+    this.currentReportTemplate = null;
   }
 
   checkDirty() {
@@ -829,6 +830,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
 
   setReportTemplate(reportTemplate:any) {
     if (reportTemplate) {
+      this.currentReportTemplate = reportTemplate;
+      this.currentTemplateCode = reportTemplate.code;
       this.reportForm.controls['microbodyDescribe'].setValue(reportTemplate.microbodyDescrible);
       this.reportForm.controls['consultation'].setValue(reportTemplate.consultation);
       this.reportForm.controls['diagnose'].setValue(reportTemplate.diagnose);
