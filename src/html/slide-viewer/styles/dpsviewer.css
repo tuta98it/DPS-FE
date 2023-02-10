@@ -164,6 +164,7 @@ body {
     height: 32px;
     padding: 0px 20px;
     box-sizing: border-box;
+    border: 1px solid var(--border-tool-bar);
 }
 
 .windows-footer .btn-success {
@@ -656,7 +657,7 @@ canvas:focus,
 
 #annotations-box {
     padding: 0 15px;
-    height: calc(100vh - 240px);
+    height: calc(100vh - 275px);
 }
 
 #annotations-box #anno-list > div {
@@ -678,13 +679,13 @@ canvas:focus,
     border-left: solid 1px var(--text-blue);
 }
 #annotations-box #anno-list {
-    height: 95%;
+    height: 98%;
     overflow-y: scroll;
 }
 #annotations-box #anno-paginator {
     position: absolute;
-    bottom: 0;
-    right: 6px;
+    bottom: 6px;
+    right: 32px;
 }
 #annotations-box #anno-paginator a {
     text-decoration: underline;

@@ -77,6 +77,8 @@ export class ViewerComponent implements OnInit, OnDestroy {
     (<any>window).getUserSettings= this.getUserSettings.bind(this);
     (<any>window).saveUserSettings= this.saveUserSettings.bind(this);
     (<any>window).getViewerConfig= this.getViewerConfig.bind(this);
+    (<any>window).uploadFileXml= this.uploadFileXml.bind(this);
+    (<any>window).getAnnotationsInsideBounds= this.getAnnotationsInsideBounds.bind(this);
   }
 
   ngOnInit(): void {
@@ -292,5 +294,40 @@ export class ViewerComponent implements OnInit, OnDestroy {
     let cfg = this.configService.getConfig().viewerConfig;
     if(callback != undefined)
       callback(cfg);
+  }
+
+  uploadFileXml(slideId:any, fileInput:any, callback: any) {
+    console.log('uploadFileXml, slideId: ' + slideId);
+    console.log(fileInput);
+    if(!this.isUseToken) {
+      let file = new Blob([fileInput], { type: fileInput.type })
+      const formData: FormData = new FormData();
+      formData.append('FormFile', file, fileInput.name);
+      formData.append('SlideId', slideId);
+      // console.log(formData);
+
+      this.annotationService.UploadXmlFileBySlide(formData).subscribe({
+        next: (res) => {
+          if (res.isValid) {
+            if(callback != undefined)
+              callback(res.jsonData);
+          }
+        }
+      });
+    }
+    else {
+
+    }
+  }
+
+  getAnnotationsInsideBounds(slideId: any, bounds: any, callback: any) {
+    this.annotationService.getAnnotationsInsideBounds(slideId, bounds).subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          if(callback != undefined)
+            callback(res.jsonData);
+        }
+      }
+    });
   }
 }
