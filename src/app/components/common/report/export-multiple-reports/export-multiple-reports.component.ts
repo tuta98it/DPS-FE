@@ -148,6 +148,7 @@ export class ExportMultipleReportsComponent implements OnInit {
           this.listPrintTemplates = res.jsonData.data;
           if(this.listPrintTemplates.length > 0) {
             this.selectedTemplateId = this.listPrintTemplates[0].id;
+            // console.log('getAllTemplates, ' + this.selectedTemplateId);
             this.getTemplateInfo();
           }
         }
@@ -166,7 +167,8 @@ export class ExportMultipleReportsComponent implements OnInit {
     });
   }
 
-  onPrintTemplateChanged() {
+  onPrintTemplateChanged(event: any) {
+    // console.log('onPrintTemplateChanged, ' + this.selectedTemplateId + ', event.value: ' + event.value);
     this.selectedTemplateInfo = null;
     this.getTemplateInfo();
   }

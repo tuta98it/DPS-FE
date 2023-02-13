@@ -23,7 +23,7 @@
       <div class="mr-2 flex align-items-center">Mẫu in kết quả: </div>
       <p-dropdown [options]="listPrintTemplates" [(ngModel)]="selectedTemplateId"
         placeholder="Mẫu in kết quả" optionLabel="name" optionValue="id" [showClear]="false" 
-        styleClass="mr-2 w-14rem" (change)="onPrintTemplateChanged()"></p-dropdown>
+        styleClass="mr-2 w-14rem" (onChange)="onPrintTemplateChanged($event)"></p-dropdown>
       <button pButton pRipple [label]="'Xuất PDF'" icon="pi pi-file-pdf" 
         class="p-button-outlined p-button-sm w-auto mr-2" (click)="printPdfAll()" 
         [disabled]="isPrinting || selectedTemplateInfo == null"></button>
