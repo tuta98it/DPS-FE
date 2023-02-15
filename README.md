@@ -75,3 +75,18 @@ https://www.primefaces.org/primeflex/margin
 # Icons:
   - PrimeIcons 6: https://www.primefaces.org/primeng-v14/icons
   - FontAwesome 6: https://fontawesome.com/v6/search
+
+# Build code:
+- Sử dụng lệnh cd để di chuyển đến thư mục chứa mã nguồn Angular.
+        cd /path/to/your/angular/app
+- Sử dụng lệnh ng build để build ứng dụng . Theo mặc định, ứng dụng sẽ được build vào thư mục dist/.
+        ng build
+
+# Upcode test:
+- Trong thư mục dist/dps-fe/assets/config/copies sẽ chứa 3 file config ứng với 3 site ở server:
+    - dpsdemo.json - dpsdemo.pmr.vn
+    - dpstest2.json - dpstest2-fe
+    - vt-test.json - dps-fe-vt
+- Cả 3 site đều chung mã nguồn nhưng sau khi upcode lên server cần thay đổi nội dung file dist/dps-fe/assets/config/production.json ứng với các site.
+- Ip server : 192.168.18.89.
+
