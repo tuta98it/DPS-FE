@@ -30,6 +30,8 @@ import { OrderDoctorService } from 'src/app/services/order-doctor.service';
 import { TechnicianService } from 'src/app/services/technician.service';
 import { SourceHospitalService } from 'src/app/services/source-hospital.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
+import { BodyPartService } from 'src/app/services/body-part.service';
+
 @Component({
   selector: 'vt-worklist',
   templateUrl: './vt-worklist.component.html',
@@ -109,6 +111,8 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   saving = false;
   doctors: any[] = [];
   reportTemplates: any[] = [];
+  bodyParts: any = [];
+
 
   protected _authSubscription: Subscription;
   currentUser = INIT_AUTH_MODEL;
@@ -162,7 +166,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   sourceHospitals: any[] = [];
 
   visibleExportMultipleReports = false;
-  
+
   isShowConsultation = false;
   filteredTemplates: any[] = [];
   @ViewChild("sltTemplate") sltTemplate!: OverlayPanel;
@@ -186,6 +190,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     private reportTemplateService: ReportTemplateService,
     private notification: NotificationService,
     private ref: ChangeDetectorRef,
+    private bodyPartService: BodyPartService,
   ) {
     this._authSubscription = this.authState.subscribe((m: IAuthModel) => {
       this.currentUser = m;
@@ -209,6 +214,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     this.getOrderDoctors();
     this.getSourceHospitals();
     this.getReportTemplates();
+    this.getBodyParts();
     this.cameras = [
       { id: '', label: 'Đang kết nối thiết bị', visible: true },
       { id: '', label: 'Không tìm thấy thiết bị thiết bị', visible: false },
@@ -367,7 +373,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     this.caseStudyForm = this.fb.group({
       id: [''],
       patientId: ['', [Validators.required]],
-      bodyPart: [''],
+      bodyPartId: [''],
       clinicalDiagnosis: [''],
       requestType: [''],
       description: [''],
@@ -773,6 +779,16 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
         }
       }
     });
+  }
+
+  getBodyParts() {
+    this.bodyPartService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.bodyParts = res.jsonData;
+        }
+      },
+    })
   }
 
   getOrderDoctors() {

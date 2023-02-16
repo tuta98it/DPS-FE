@@ -1,10 +1,10 @@
-<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '700px'}" [header]="header" [modal]="true" class="p-fluid" 
+<p-dialog [(visible)]="visible" [contentStyleClass]="'pb-0'" [style]="{width: '700px'}" [header]="header" [modal]="true" class="p-fluid"
   [closable]="false" [closeOnEscape]="false">
   <ng-template pTemplate="content">
     <div class="case-study-info-container overflow-auto">
       <div class="grid mx-0 pt-2 mb-0 px-1">
         <div class="col-9 pl-0 pr-2 pb-0">
-          <p-autoComplete [(ngModel)]="selectedPatient" [showEmptyMessage]="true" [suggestions]="filteredPatients" 
+          <p-autoComplete [(ngModel)]="selectedPatient" [showEmptyMessage]="true" [suggestions]="filteredPatients"
             [showClear]="true" (onClear)="onClearPatient" [placeholder]="'Nhập tên bệnh nhân'" (onSelect)="onSelectPatient(selectedPatient)"
             (completeMethod)="filterPatient($event)" field="patientsName" [minLength]="1" inputStyleClass="p-inputtext-sm text-base"></p-autoComplete>
         </div>
@@ -33,7 +33,8 @@
           <input formControlName="visitCode" pInputText type="text" placeholder="Mã ca khám" class="w-full p-inputtext-sm text-base" />
         </div>
         <div class="col-6 pt-0 pl-0 pr-2">
-          <input formControlName="bodyPart" pInputText type="text" placeholder="Nhập vị trí lấy bệnh phẩm" class="w-full p-inputtext-sm text-base" />
+            <p-dropdown formControlName="bodyPartId" [options]="bodyParts" placeholder="Nhập vị trí lấy bệnh phẩm" optionLabel="name" optionValue="id" [showClear]="true"></p-dropdown>
+          <!-- <input formControlName="bodyPart" pInputText type="text" placeholder="Nhập vị trí lấy bệnh phẩm" class="w-full p-inputtext-sm text-base" /> -->
         </div>
         <div class="col-6 pt-0 pr-0 pl-2">
           <p-dropdown formControlName="requestType" [options]="REQUEST_TYPES" placeholder="Loại yêu cầu" optionLabel="label" optionValue="value" [showClear]="true"></p-dropdown>

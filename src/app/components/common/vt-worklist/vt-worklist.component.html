@@ -98,7 +98,10 @@
                     <div>Vị trí lấy mẫu</div>
                   </div>
                   <div class="col-4 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy mẫu" class="w-full py-2 px-2" />
+                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="bodyPartId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
+                      optionLabel="name" optionValue="id" [options]="bodyParts" appendTo="body" placeholder="Vị trí lấy mẫu" [showClear]="false">
+                    </p-dropdown>
+                    <!-- <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy mẫu" class="w-full py-2 px-2" /> -->
                   </div>
                   <div class="col-2 py-1 pr-0 flex align-items-center">
                     <div>Số lượng mẫu</div>
@@ -235,7 +238,7 @@
                     </div>
                   </div>
                   <div class="col-10 py-1 pr-0">
-                    <p [ngClass]="{'h-5rem': isShowConsultation, 'hidden' : !isShowConsultation }" 
+                    <p [ngClass]="{'h-5rem': isShowConsultation, 'hidden' : !isShowConsultation }"
                       class="w-full py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="consultation"></p>
                   </div>
                 </div>

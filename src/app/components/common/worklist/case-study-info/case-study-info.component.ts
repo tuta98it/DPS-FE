@@ -8,6 +8,7 @@ import { PatientService } from 'src/app/services/patient.service';
 import { NotificationStateService } from 'src/app/shared/app-state/notification-state.service';
 import { Constants } from 'src/app/shared/constants/constants';
 import { NotificationService } from 'src/app/shared/notification.service';
+import { BodyPartService } from 'src/app/services/body-part.service';
 
 import moment from 'moment';
 @Component({
@@ -58,6 +59,7 @@ export class CaseStudyInfoComponent implements OnInit, OnDestroy {
   isVisiblePatientInfo = false;
   genders:any = {};
   caseStudyForm: FormGroup;
+  bodyParts: any = [];
 
   visibleConfirmCancel = false;
   textConfirmCancel = '';
@@ -80,14 +82,15 @@ export class CaseStudyInfoComponent implements OnInit, OnDestroy {
     private caseStudyService: CaseStudyService,
     private notificationState: NotificationStateService,
     private fb: FormBuilder,
-  ) { 
+    private bodyPartService: BodyPartService,
+  ) {
     Constants.GENDERS.forEach((r: any) => {
       this.genders[r.value] = r.label;
     });
     this.caseStudyForm = this.fb.group({
       id: [''],
       patientId: ['', [Validators.required]],
-      bodyPart: [''],
+      bodyPartId: [''],
       clinicalDiagnosis: [''],
       requestType: [''],
       description: [''],
@@ -102,12 +105,13 @@ export class CaseStudyInfoComponent implements OnInit, OnDestroy {
       this.slideNotifications = notifications;
       this.filterSlideFiles();
     });
+    this.getBodyParts();
   }
 
   ngOnInit(): void {
-    
+
   }
- 
+
   public ngOnDestroy(): void {
     this._notificationsSubscription.unsubscribe();
   }
@@ -229,6 +233,16 @@ export class CaseStudyInfoComponent implements OnInit, OnDestroy {
     });
   }
 
+  getBodyParts() {
+    this.bodyPartService.getAll().subscribe({
+      next: (res) => {
+        if (res.isValid) {
+          this.bodyParts = res.jsonData;
+        }
+      },
+    })
+  }
+
   filterPatient(data: any) {
     let payload = {
       skip: 0,
@@ -265,7 +279,7 @@ export class CaseStudyInfoComponent implements OnInit, OnDestroy {
 
   onCancel() {
     if (this.isDirty()) {
-      this.textConfirmCancel = 
+      this.textConfirmCancel =
       `Đóng cửa sổ sẽ làm mất các nội dung chưa được lưu, bao gồm:<br/>
       Thông tin ca thăm khám<br/>
       Các lam kính vừa tải lên`
