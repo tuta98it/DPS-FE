@@ -111,6 +111,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   saving = false;
   doctors: any[] = [];
   reportTemplates: any[] = [];
+  reportTemplateConsultation='';
   bodyParts: any = [];
 
 
@@ -835,6 +836,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   }
 
   onSetReportTemplate(event: any) {
+    if(!this.creatingVisit && !this.editingVisit) return;
     let code = event.target.value.toLowerCase();
     this.filteredTemplates = this.reportTemplates.filter(t => t.code && t.code.toLowerCase().includes(code));
     if (this.filteredTemplates.length == 1) {
@@ -848,8 +850,17 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     if (reportTemplate) {
       this.currentReportTemplate = reportTemplate;
       this.currentTemplateCode = reportTemplate.code;
+      if(this.reportTemplateConsultation){
+        let formData=this.reportForm.controls['consultation'].value;
+        let replaceString=formData.replace(this.reportTemplateConsultation,reportTemplate.consultation);
+        this.reportForm.controls['consultation'].setValue(replaceString);
+        }
+        else{
+            this.reportForm.controls['consultation'].setValue(reportTemplate.consultation + this.reportForm.controls['consultation'].value);
+        }
+      this.reportTemplateConsultation=reportTemplate.consultation;
       this.reportForm.controls['microbodyDescribe'].setValue(reportTemplate.microbodyDescrible);
-      this.reportForm.controls['consultation'].setValue(reportTemplate.consultation);
+
       this.reportForm.controls['diagnose'].setValue(reportTemplate.diagnose);
     }
     this.isShowConsultation = this.reportForm.controls['consultation'].value ? true : false;
