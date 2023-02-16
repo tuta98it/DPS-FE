@@ -12,11 +12,14 @@
         <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="styles/jquery-confirm.css" />
         <link rel="stylesheet" type="text/css" href="styles/mscform.css" />
+        <link rel="stylesheet" href="styles/fontawesome-free-6.3.0-web/css/all.css" />
 
         <script src="scripts/jquery.min.js" type="text/javascript"></script>
         <script src="scripts/jquery-ui.min.js" type="text/javascript"></script>
         <script src="scripts/jquery-resizable.js" type="text/javascript"></script>
         <script src="scripts/jquery-confirm.js" type="text/javascript"></script>
+        <script type="text/javascript" src="styles/fontawesome-free-6.3.0-web/js/all.min.js"></script>
+
         <script src="build/mscform.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
@@ -46,6 +49,23 @@
                 showDialog();
                 mscform.showFormPrinting('preview-content');
             }
+            var isShowDivNewElem = false;
+            function toggleAddNewElement() {
+                console.log('toggleAddNewElement');
+                isShowDivNewElem = !isShowDivNewElem;
+                if(isShowDivNewElem) {
+                    console.log('here');
+                    $('#divNewElement').show();
+                    let btnPos = $("#btnAddElement").offset();
+                    $('#divNewElement').css({ top: (btnPos.top + 28) + 'px', left: (btnPos.left + 16) + 'px' })
+                }
+                else {
+                    $('#divNewElement').hide();
+                }
+            }
+            function hideElemContextMenu() {
+                $('#divElemContextMenu').hide();
+            }
         </script>
     </head>
     <body>
@@ -55,8 +75,8 @@
             </div>
         </div>
         <div class="rightCol">
-            <div style="padding: 4px 0 6px;">
-                <span style="font-weight: bold;">Form info</span>
+            <div class="box-title">
+                <span>Form info</span>
             </div>
             <div class="row">
                 <span>Tên form:</span>
@@ -72,133 +92,269 @@
                     <input type="number" id="txtPriority" style="width:80px;" />
                 </div>
             </div>
-            <div class="row">
-                <div class="col-btn" onclick="mscform.saveForm();">Lưu form</div>
+            <div class="row-flex">
+                <a class="toolbar-btn toolbar-btn-large toolbar-btn-main" onclick="mscform.saveForm();" title="Lưu form">
+                    <i class="fa-regular fa-save"></i>&nbsp;Lưu form
+                </a>
+                <a class="toolbar-btn" onclick="previewCurrent();" title="Preview form">
+                    <i class="fa-regular fa-eye"></i>
+                </a>
+                <a onclick="printingCurrent();" class="toolbar-btn" title="Print form">
+                    <i class="fa-solid fa-print"></i>
+                </a>
             </div>
-            <div>
-                <a onclick="previewCurrent();">Preview form</a>
+            <div class="row-flex">
+                <a class="toolbar-btn toolbar-btn-large" onclick="mscform.addNewPanel();" title="Add new panel" id="btnAddPanel">
+                    <i class="fa-solid fa-plus"></i>&nbsp;Panel
+                </a>
+                <a class="toolbar-btn toolbar-btn-large toolbar-btn-red" onclick="mscform.deleteSelectingPanel();" title="Delete selecting panel">
+                    <i class="fa-regular fa-trash-can"></i>&nbsp;Delete panel
+                </a>
             </div>
-            <div>
-                <a onclick="printingCurrent();">Print form</a>
+            <div class="row-flex">
+                <a class="toolbar-btn toolbar-btn-large" onclick="toggleAddNewElement();" title="Add new element" id="btnAddElement">
+                    <i class="fa-solid fa-plus"></i>&nbsp;Element
+                </a>
+                <a class="toolbar-btn toolbar-btn-large toolbar-btn-red" onclick="mscform.deleteSelectingItems();" title="Delete selecting element">
+                    <i class="fa-regular fa-trash-can"></i>&nbsp;Delete
+                </a>
             </div>
-            <div class="separator"></div>
-            <div style="padding: 4px 0 6px;">
-                <span style="font-weight: bold;">Add new element</span>
+            <div class="row-flex panel-tab-list">
+                <div class="panel-title-tab tab-active" id="tabElement" onclick="mscform.showElementPanel()">Elements</div>
+                <div class="panel-title-tab" id="tabContainer" onclick="mscform.showContainerPanel()">Container</div>
             </div>
-            <div class="col-half">
-                <a onclick="mscform.addNewLabel();">Label</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.addNewImage();">Image</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.addNewCommonInfo();">Common Info</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.addNewImageData();">Image common info</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.addNewTextbox();">Input textbox</a>
-            </div>
-            <div class="clear"></div>
-            <div>
-                <a onclick="mscform.deleteSelectingItems();" style="color:crimson;">Delete selecting item</a>
-            </div>
-            <div class="separator"></div>
-            <div class="col-half">
-                <a onclick="mscform.alignLeft();">Align left</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.alignRight();">Align right</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.alignTop();">Align top</a>
-            </div>
-            <div class="col-half">
-                <a onclick="mscform.alignBottom();">Align bottom</a>
-            </div>
-            <div class="separator"></div>
-            <div style="padding: 4px 0 6px;">
-                <span style="font-weight: bold;">Element styles</span>
-            </div>
-            <div>
-                <a onclick="mscform.styleLeft();">Left</a>&nbsp;&nbsp;
-                <a onclick="mscform.styleCenter();">Center</a>&nbsp;&nbsp;
-                <a onclick="mscform.styleRight();">Right</a>
-            </div>
-            <div>
-                <a onclick="mscform.styleBold();">Bold</a>&nbsp;&nbsp;
-                <a onclick="mscform.styleNotBold();">Not bold</a>
-            </div>
-            <div>
-                <a onclick="mscform.styleItalic();">Italic</a>&nbsp;&nbsp;
-                <a onclick="mscform.styleNotItalic();">Not italic</a>
-            </div>
-            <div>
-                <a onclick="mscform.styleUnderline();">Underline</a>&nbsp;&nbsp;
-                <a onclick="mscform.styleNotUnderline();">Not underline</a>
-            </div>
-            <div>
-                <a onclick="mscform.styleUppercase();">Uppercase</a>&nbsp;&nbsp;
-                <a onclick="mscform.styleNotUppercase();">Not uppercase</a>
-            </div>
-            <div style="height: 8px;"></div>
-            <div class="row">
-                <div class="col-half">
-                    <span>Font size:</span>
+            <div id="contentElement" class="panel-content">
+                <div class="box-title">
+                    <span>Arrange elements</span>
                 </div>
-                <div class="col-half">
-                    <input type="number" id="txtFontSize" style="width:50px;" />
+                <div class="row-flex">
+                    <a class="toolbar-btn" onclick="mscform.alignLeft();" title="Align left">
+                        <i class="fa-solid fa-arrows-up-to-line" style="transform: rotate(-90deg);"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.alignRight();" title="Align right">
+                        <i class="fa-solid fa-arrows-up-to-line" style="transform: rotate(90deg);"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.alignTop();" title="Align top">
+                        <i class="fa-solid fa-arrows-up-to-line"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.alignBottom();" title="Align bottom">
+                        <i class="fa-solid fa-arrows-down-to-line"></i>
+                    </a>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-half">
-                    <span>Font family:</span>
-                </div>
-                <div class="col-half">
-                    <input type="text" id="txtFontFamily" style="width:100%;" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-half">
-                    <span>Padding:</span>
-                </div>
-                <div class="col-half">
-                    <input type="text" id="txtPaddingVert" style="width:40px;" />&nbsp;x&nbsp;
-                    <input type="text" id="txtPaddingHorz" style="width:40px;" />
-                </div>
-            </div>
-            <div id="divElementData" style="display: none;">
                 <div class="separator"></div>
-                <div style="padding: 4px 0 6px;">
-                    <span style="font-weight: bold;">Element data</span>
+                <div class="box-title">
+                    <span>Element styles</span>
+                </div>
+                <div class="row-flex">
+                    <a class="toolbar-btn" onclick="mscform.styleLeft();" title="Text align left">
+                        <i class="fa-solid fa-align-left"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.styleCenter();" title="Text align center">
+                        <i class="fa-solid fa-align-center"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.styleRight();" title="Text align right">
+                        <i class="fa-solid fa-align-right"></i>
+                    </a>
+                </div>
+                <div class="row-flex">
+                    <a class="toolbar-btn" onclick="mscform.toggleBold();" title="Text bold" id="btnToggleBold">
+                        <i class="fa-solid fa-bold"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.toggleItalic();" title="Text italic" id="btnToggleItalic">
+                        <i class="fa-solid fa-italic"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.toggleUnderline();" title="Text underline" id="btnToggleUnderline">
+                        <i class="fa-solid fa-underline"></i>
+                    </a>
+                    <a class="toolbar-btn" onclick="mscform.toggleUppercase();" title="Text uppercase" id="btnToggleUppercase">
+                        <i class="fa-solid fa-a"></i>
+                    </a>
+                </div>
+                <!-- <div>
+                    <a onclick="mscform.styleBold();">Bold</a>&nbsp;&nbsp;
+                    <a onclick="mscform.styleNotBold();">Not bold</a>
                 </div>
                 <div>
-                    Observation Type:<br/>
-                    <select id="selectOTs" style="width:160px;"></select>
+                    <a onclick="mscform.styleItalic();">Italic</a>&nbsp;&nbsp;
+                    <a onclick="mscform.styleNotItalic();">Not italic</a>
                 </div>
                 <div>
-                    Common Info:<br/>
-                    <select id="selectCommonInfos" style="width:160px;"></select>
+                    <a onclick="mscform.styleUnderline();">Underline</a>&nbsp;&nbsp;
+                    <a onclick="mscform.styleNotUnderline();">Not underline</a>
+                </div>
+                <div>
+                    <a onclick="mscform.styleUppercase();">Uppercase</a>&nbsp;&nbsp;
+                    <a onclick="mscform.styleNotUppercase();">Not uppercase</a>
+                </div> -->
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Font size:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="number" id="txtFontSize" style="width:50px;" />
+                    </div>
+                </div>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Font family:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="text" id="txtFontFamily" style="width:100%;" />
+                    </div>
+                </div>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Padding (px):</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="text" id="txtPaddingVert" style="width:40px;" />&nbsp;x&nbsp;
+                        <input type="text" id="txtPaddingHorz" style="width:40px;" />
+                    </div>
+                </div>
+                <div id="divElementData" style="display: none;">
+                    <div class="separator"></div>
+                    <div class="box-title">
+                        <span>Element data</span>
+                    </div>
+                    <div>
+                        Observation Type:<br/>
+                        <select id="selectOTs" style="width:160px;"></select>
+                    </div>
+                    <div>
+                        Common Info:<br/>
+                        <select id="selectCommonInfos" style="width:160px;"></select>
+                    </div>
+                </div>
+                <div id="divImageOption" style="display: none;">
+                    <div class="separator"></div>
+                    <div class="box-title">
+                        <span>Image option</span>
+                    </div>
+                    <div>
+                        Size option:<br/>
+                        <select id="selectImageOptions" style="width:160px;"></select>
+                    </div>
+                    <div>
+                        Image URL:<br/>
+                        <input type="text" id="txtImageUrl" style="width:160px;" />
+                    </div>
+                    <div>
+                        Upload image:<br/>
+                        <input type="file" id="fileImage" name="fileImage" title="Choose file" />
+                        <a onclick="mscform.uploadImageFile();">Save</a>
+                    </div>
                 </div>
             </div>
-            <div id="divImageOption" style="display: none;">
+            <div id="contentContainer" class="panel-content" style="display: none;">
+                <div class="box-title">
+                    <span>Page</span>
+                </div>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Width x Height (px):</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="text" id="txtPageWidth" style="width:40px;" />&nbsp;x&nbsp;
+                        <input type="text" id="txtPageHeight" style="width:40px;" />
+                    </div>
+                </div>
                 <div class="separator"></div>
-                <div style="padding: 4px 0 6px;">
-                    <span style="font-weight: bold;">Image option</span>
+                <div class="box-title">
+                    <span>Panel</span>
                 </div>
-                <div>
-                    Size option:<br/>
-                    <select id="selectImageOptions" style="width:160px;"></select>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Layout type:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="radio" name="radContainerType" id="radContainerTypeFix" value="fix" />&nbsp;&nbsp;Fix height
+                        <br/>
+                        <input type="radio" name="radContainerType" id="radContainerTypeAuto" value="auto" checked />&nbsp;&nbsp;Auto expand
+                    </div>
                 </div>
-                <div>
-                    Image URL:<br/>
-                    <input type="text" id="txtImageUrl" style="width:160px;" />
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Height/Min height:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="text" id="txtContainerHeight" style="width:60px;" />
+                    </div>
                 </div>
-                <div>
-                    Upload image:<br/>
-                    <input type="file" id="fileImage" name="fileImage" title="Choose file" />
-                    <a onclick="mscform.uploadImageFile();">Save</a>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Padding bottom:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="text" id="txtContainerPaddingBottom" style="width:60px;" />
+                    </div>
+                </div>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Position:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="radio" name="radContainerPosition" value="relative" id="radContainerPositionRelative" checked />&nbsp;&nbsp;Relative
+                        <br/>
+                        <input type="radio" name="radContainerPosition" value="absolute" id="radContainerPositionAbsolute" />&nbsp;&nbsp;Absolute
+                    </div>
+                </div>
+                <div class="row-flex box-detail" id="divContainerAbsolute" style="display: none;">
+                    <div class="col-half">
+                        
+                    </div>
+                    <div class="col-half">
+                        Left: <input type="text" id="txtContainerLeft" style="width:60px;" />&nbsp;&nbsp;
+                        Top: <input type="text" id="txtContainerTop" style="width:60px;" />
+                        <br/>
+                        Right: <input type="text" id="txtContainerRight" style="width:60px;" />&nbsp;&nbsp;
+                        Bottom: <input type="text" id="txtContainerBottom" style="width:60px;" />
+                    </div>
+                </div>
+                <div class="row-flex">
+                    <div class="col-half">
+                        <span>Show condition:</span>
+                    </div>
+                    <div class="col-half">
+                        <input type="radio" name="radVisibleCondition" value="0" id="radVisibleCondition0" checked />&nbsp;&nbsp;Always show
+                        <br/>
+                        <input type="radio" name="radVisibleCondition" value="1" id="radVisibleCondition1" />&nbsp;&nbsp;Content not empty
+                    </div>
+                </div>
+                <div class="row-flex box-detail" id="divConditionContent" style="display: none;">
+                    <div class="col-3">
+                        
+                    </div>
+                    <div class="col-9">
+                        Common info field:<br/>
+                        <select id="selectConditionCommonInfos" style="width:100%;"></select>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="divNewElement" style="display: none;" class="context-popup">
+                <div class="row">
+                    <a onclick="toggleAddNewElement();mscform.addNewLabel();">Label</a>
+                </div>
+                <div class="row">
+                    <a onclick="toggleAddNewElement();mscform.addNewImage();">Image</a>
+                </div>
+                <div class="row">
+                    <a onclick="toggleAddNewElement();mscform.addNewCommonInfo();">Common Info</a>
+                </div>
+                <div class="row">
+                    <a onclick="toggleAddNewElement();mscform.addNewImageData();">Image common info</a>
+                </div>
+                <div class="row">
+                    <a onclick="toggleAddNewElement();mscform.addNewTextbox();">Input textbox</a>
+                </div>
+            </div>
+
+            <div id="divElemContextMenu" style="display: none;" class="context-popup">
+                <div class="row">
+                    <a onclick="hideElemContextMenu();mscform.move2Panel();">Move to panel</a>
+                </div>
+                <div class="row">
+                    <a onclick="hideElemContextMenu();mscform.deleteSelectingItems();">Delete Element</a>
                 </div>
             </div>
         </div>

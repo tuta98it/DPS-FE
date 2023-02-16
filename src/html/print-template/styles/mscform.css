@@ -50,16 +50,22 @@ div {
     margin-bottom: 8px;
     clear: both;
 }
+.rightCol .box-title {
+    padding: 4px 0 6px;
+}
+.rightCol .box-title span {
+    font-weight: bold;
+}
 .rightCol .row {
     width: 100%;
     margin: 6px 0;
     clear: both;
 }
-.rightCol .col-half {
+.rightCol .row .col-half {
     float: left;
     width: 50%;
 }
-.rightCol .col-half span {
+.rightCol .row .col-half span {
     margin-top: 4px;
     display: block;
 }
@@ -71,6 +77,101 @@ div {
 }
 .rightCol .col-btn:hover {
     background-color: skyblue;
+}
+.rightCol .row-flex {
+    width: 100%;
+    margin: 8px 0;
+    clear: both;
+    display: flex;
+    flex-direction: row;
+}
+.rightCol .row-flex .col-3 {
+    width: 25%;
+}
+.rightCol .row-flex .col-9 {
+    width: 75%;
+}
+.rightCol .row-flex .col-half {
+    width: 50%;
+}
+.rightCol .row-flex .col-half span {
+    margin-top: 4px;
+    display: block;
+}
+.rightCol .toolbar-btn {
+    display: block;
+    width: 26px;
+    height: 26px;
+    padding: 4px;
+    margin-right: 6px;
+    background-color: #fffdfd;
+    border: solid 1px #33333380;
+    font-size: 13px;
+    color: #333333;
+    text-align: center;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.rightCol .toolbar-btn:hover {
+    background-color: skyblue;
+}
+.rightCol .toolbar-btn-large {
+    width: 100px;
+}
+.rightCol .toolbar-btn-2x {
+    width: 150px;
+}
+.rightCol .toolbar-btn-main {
+    background-color:lavender;
+}
+.rightCol .toolbar-btn-red {
+    color:red !important;
+    border: solid 1px #dd000080;
+}
+.rightCol .box-detail {
+    background-color: #d4d4d4;
+    padding: 8px;
+}
+.context-popup {
+    position: absolute;
+    width: 160px;
+    height: auto;
+    background-color: #ededed;
+    border-right: solid 1px #d0d0d0;
+    border-bottom: solid 1px #a0a0a0;
+    border-left: solid 1px #f2f2f2;
+    padding: 4px 8px;
+    z-index: 800;
+}
+.context-popup a {
+    display: block;
+    width: 100%;
+    padding: 4px 0;
+    cursor: pointer;
+}
+.context-popup a:hover {
+    background-color: lavender;
+}
+.panel-tab-list {
+    border-bottom: solid 1px #33333380;
+}
+.panel-title-tab {
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 8px 8px 0 0;
+    padding: 6px 8px 2px 8px;
+    width: auto;
+    float: left;
+}
+.panel-title-tab span {
+    font-size: 14px;
+}
+.tab-active {
+    color: #3089ff;
+    border-bottom: solid 2px #3089ff;
+    background: #e0e0e0;
 }
 
 #main-form {
@@ -197,18 +298,21 @@ div {
     left: 0;
     padding: 2px;
     overflow: hidden;
+    user-select: none;
 }
 .form-label {
     display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     background: transparent;
+    user-select: none;
 }
 .form-common-info {
     display: block;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    height: auto;
+    /*overflow: hidden;*/
+    user-select: none;
 }
 .form-image-stretch {
     width: 100%;
@@ -224,4 +328,19 @@ div {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+.form-panel {
+    border: dashed 1px #969696;
+}
+.panel-active {
+    border: dashed 1px #dc143c;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+.panel-dragover {
+    border: dashed 2px #f26641;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
