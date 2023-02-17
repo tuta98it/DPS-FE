@@ -504,6 +504,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
           this.selectedCaseStudy = {
             caseStudyId: res.jsonData.caseStudy.id
           };
+          this.currentTemplateCode='';
         }
       }
     }).add(() => {
@@ -520,6 +521,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     this.keyImages = [];
     this.relatedCaseStudies = [];
     this.totalRelated = 0;
+    this.currentTemplateCode='';
   }
 
   cancelEdit() {
@@ -850,17 +852,13 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     if (reportTemplate) {
       this.currentReportTemplate = reportTemplate;
       this.currentTemplateCode = reportTemplate.code;
-      if(this.reportTemplateConsultation){
-        let formData=this.reportForm.controls['consultation'].value;
-        let replaceString=formData.replace(this.reportTemplateConsultation,reportTemplate.consultation);
-        this.reportForm.controls['consultation'].setValue(replaceString);
-        }
-        else{
-            this.reportForm.controls['consultation'].setValue(reportTemplate.consultation + this.reportForm.controls['consultation'].value);
-        }
-      this.reportTemplateConsultation=reportTemplate.consultation;
+      const consultationControl = this.reportForm.controls['consultation'];
+      const currentValue = consultationControl.value;
+      if (reportTemplate.consultation == null) reportTemplate.consultation = '';
+      const updatedValue = currentValue ? currentValue.replace(this.reportTemplateConsultation, reportTemplate.consultation) : currentValue + reportTemplate.consultation;
+      consultationControl.setValue(updatedValue);
+      this.reportTemplateConsultation = reportTemplate.consultation;
       this.reportForm.controls['microbodyDescribe'].setValue(reportTemplate.microbodyDescrible);
-
       this.reportForm.controls['diagnose'].setValue(reportTemplate.diagnose);
     }
     this.isShowConsultation = this.reportForm.controls['consultation'].value ? true : false;

@@ -37,9 +37,9 @@
               <i  class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
                Đang import dữ liệu.Vui lòng chờ!
             </span>
-            <ul *ngIf="uploadedFiles.length">
+            <!-- <ul *ngIf="uploadedFiles.length">
               <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
-            </ul>
+            </ul> -->
           </ng-template>
         </p-fileUpload>
       </ng-template>
@@ -81,13 +81,13 @@
     </div>
     <div class="grid">
       <div class="col-2 text-lg align-items-center flex">
-        Chẩn đoán:
+        Kết luận:
       </div>
       <div class="col-10">
         <p-editor [(ngModel)]="currentTemplate.diagnose" [style]="{'height':'250px'}"></p-editor>
       </div>
     </div>
-    <div class="grid">
+    <div class="grid" *ngIf="useExtendReportFields">
       <div class="col-2 text-lg align-items-center flex">
         Bàn luận:
       </div>
@@ -95,7 +95,7 @@
         <p-editor [(ngModel)]="currentTemplate.discuss" [style]="{'height':'250px'}"></p-editor>
       </div>
     </div>
-    <div class="grid">
+    <div class="grid" *ngIf="useExtendReportFields">
       <div class="col-2 text-lg align-items-center flex">
         Khuyến nghị:
       </div>
@@ -103,7 +103,7 @@
         <p-editor [(ngModel)]="currentTemplate.recommendation" [style]="{'height':'250px'}"></p-editor>
       </div>
     </div>
-    <div class="grid">
+    <div class="grid" *ngIf="useExtendReportFields">
       <div class="col-2 text-lg align-items-center flex">
         Hội chẩn:
       </div>
@@ -124,18 +124,19 @@
     <ng-template pTemplate="content">
         <div class="grid">
             <div class="col-6 ">
+                <p-fieldset legend="DS mẫu báo cáo đã upload">
+                    <p-tree [value]="listTemplateReportsUpload" [draggableNodes]="true" [droppableNodes]="true" droppableScope="tree2" draggableScope="tree1"></p-tree>
+                </p-fieldset>
+
+            </div>
+            <div class="col-6 ">
                 <p-fieldset legend="DS mẫu báo cáo hiện tại">
                     <p-tree [value]="listTemplateReportsCurrent" [draggableNodes]="true" [droppableNodes]="true" droppableScope="tree1" draggableScope="tree2"></p-tree>
                 </p-fieldset>
 
 
             </div>
-            <div class="col-6 ">
-                <p-fieldset legend="DS mẫu báo cáo đã upload">
-                    <p-tree [value]="listTemplateReportsUpload" [draggableNodes]="true" [droppableNodes]="true" droppableScope="tree2" draggableScope="tree1"></p-tree>
-                </p-fieldset>
 
-            </div>
         </div>
     </ng-template>
 

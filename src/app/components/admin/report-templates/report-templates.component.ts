@@ -20,6 +20,7 @@ export class ReportTemplatesComponent implements OnInit {
   isExporting = false;
   isImporting = false;
   isVisibleDragDropReport = false;
+  useExtendReportFields = false;
 
   deleting = false;
   text = '';
@@ -41,6 +42,7 @@ export class ReportTemplatesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+    // this.reportTemplates=this.reportTemplateService.data.data
   }
 
   getAll() {
@@ -55,6 +57,7 @@ export class ReportTemplatesComponent implements OnInit {
               res.jsonData,
               this.reportTemplates
             );
+            this.reportTemplates.forEach((el)=>{el.draggable=false})
           }
         },
       })
@@ -193,29 +196,29 @@ export class ReportTemplatesComponent implements OnInit {
     if (resData) {
       for (let i = 0; i < resData.length; ++i) {
         let newNode: TreeNode = {
-          label: resData[i].templateName,
-          key: resData[i].templateId,
-          data: {
-            templateId: resData[i].templateId,
-            templateName: resData[i].templateName,
-            code: resData[i].code,
-            templateExtName: resData[i].templateExtName,
-            hasChild: resData[i].hasChild,
-            parentName: resData[i].parentName,
-            parentId: resData[i].parentId,
-            microbodyDescribe: resData[i].microbodyDescrible,
-            diagnose: resData[i].diagnose,
-            discuss: resData[i].discuss,
-            recommendation: resData[i].recommendation,
-            consultation: resData[i].consultaion,
-          },
-          children: [],
+          label: resData[i].TemplateName,
+          key: `${new Date().getTime()}`,
+        //   data: {
+        //     templateId: resData[i].templateId,
+        //     templateName: resData[i].templateName,
+        //     code: resData[i].code,
+        //     templateExtName: resData[i].templateExtName,
+        //     hasChild: resData[i].hasChild,
+        //     parentName: resData[i].parentName,
+        //     parentId: resData[i].parentId,
+        //     microbodyDescribe: resData[i].microbodyDescrible,
+        //     diagnose: resData[i].diagnose,
+        //     discuss: resData[i].discuss,
+        //     recommendation: resData[i].recommendation,
+        //     consultation: resData[i].consultaion,
+        //   },
+        //   children: [],
         };
         this.extractReportTemplates(resData[i].child, newNode.children);
         extractedData?.push(newNode);
       }
     }
-    this.reportTemplatesDefault = JSON.parse(JSON.stringify(extractedData));
+    // this.reportTemplatesDefault = JSON.parse(JSON.stringify(extractedData));
   }
 
   deExtractReportTemplates(treeData: any[], jsonData: any[] | undefined) {
@@ -246,6 +249,8 @@ export class ReportTemplatesComponent implements OnInit {
     }
   }
   onNodeDrop(data: any) {
+    console.log(data);
+
     this.isVisibleDragDropReports = true;
 
     // console.log(this.jsonData);
@@ -284,6 +289,19 @@ export class ReportTemplatesComponent implements OnInit {
     this.isVisibleDragDropReports = false;
   }
   myUploader(event: { files: any }) {
+    const file = event.files[0];
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = () => {
+        let data = JSON.parse(reader.result as string);
+        console.log(data);
+
+        this.extractReportTemplates(data, this.listTemplateReportsUpload);
+        console.log(this.listTemplateReportsUpload);
+
+        this.isVisibleImportReportDialog = true;
+    };
+    return;
     let formData = new FormData();
     formData.append('files', event.files[0]);
     this.isImporting = true;
