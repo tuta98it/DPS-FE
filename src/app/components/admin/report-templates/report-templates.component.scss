@@ -1,0 +1,11 @@
+::ng-deep.p-fileupload-row {
+
+    div:first-child,
+    div:nth-child(3) {
+        display: none;
+    }
+
+    div:nth-child(2) {
+        width: 50%;
+    }
+}
