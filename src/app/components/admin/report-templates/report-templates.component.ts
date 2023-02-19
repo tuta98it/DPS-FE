@@ -307,26 +307,27 @@ export class ReportTemplatesComponent implements OnInit {
     }
     onNodeDrop(event: any) {
         console.log(event);
-        if (this.reportTemplates.length != this.reportTemplatesDefault) {
+        if (this.reportTemplates.length != this.reportTemplatesDefault.length) {
             this.reportTemplates = JSON.parse(
                 JSON.stringify(this.reportTemplatesDefault)
             );
             this.notification.warn('Không thể thực hiện hành động này', '');
         }
-        if (
+        else if (
             event.dragNode.parent.key != event.dropNode.key &&
             !event.dropNode.isTemplate
         ) {
             this.isVisibleDragDropReports = true;
         }
-
+        else{this.confirmSaveReports()}
         if (this.validateDrop) {
             if (true) {
                 event.accept();
+                this.confirmSaveReports()
             }
         }
 
-        // console.log(this.jsonData);
+
     }
 
     confirmSaveReports() {
@@ -347,6 +348,7 @@ export class ReportTemplatesComponent implements OnInit {
                     } else {
                         this.notification.success('Có lỗi xảy ra', '');
                     }
+                    this.getAll()
                 },
                 error: (error) => {
                     this.notification.error('Có lỗi xảy ra', '');
@@ -376,7 +378,7 @@ export class ReportTemplatesComponent implements OnInit {
                 data,
                 this.listTemplateReportsUpload
             );
-            // console.log(this.listTemplateReportsUpload);
+            console.log(this.listTemplateReportsUpload);
             this.listTemplateReportsCurrent = JSON.parse(
                 JSON.stringify(this.reportTemplates)
             );
@@ -394,6 +396,8 @@ export class ReportTemplatesComponent implements OnInit {
             this.listTemplateReportsCurrent,
             payloadUpload
         );
+        console.log(payloadUpload);
+
         this.reportTemplateService
             .updateAll({ jsonData: payloadUpload })
             .subscribe({
@@ -401,9 +405,11 @@ export class ReportTemplatesComponent implements OnInit {
                     if (res.isValid) {
                         // this.getAll();
                         this.notification.success('Cập nhật thành công', '');
+                        this.isVisibleImportReportDialog = false;
                     } else {
                         this.notification.success('Có lỗi xảy ra', '');
                     }
+                    this.getAll()
                 },
                 error: (error) => {
                     this.notification.error('Có lỗi xảy ra', '');

@@ -115,7 +115,7 @@
 </div>
 <confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete"
     (onConfirm)="deleteReportTemplate()"></confirm-dialog>
-<confirm-dialog [(visible)]="isVisibleDragDropReports" confirmText="Việc này sẽ làm thay đổi <b>vị trí lấy mẫu </b> của mẫu báo cáo!" confirmLabel="Xác nhận"
+<confirm-dialog [(visible)]="isVisibleDragDropReports" confirmText="Việc này sẽ làm thay đổi <b class='text-red-600'>vị trí lấy mẫu </b> của mẫu báo cáo!" confirmLabel="Xác nhận"
     (onClose)="cancelSaveReports()" (onConfirm)="confirmSaveReports()"
     (onCancel)="cancelSaveReports()"></confirm-dialog>
 
