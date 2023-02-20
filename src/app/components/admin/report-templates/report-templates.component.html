@@ -1,8 +1,9 @@
 <div class="grid card admin-content p-0">
   <div class="col-2 text-center">
-    <h5>Danh sách mẫu báo cáo </h5>
+    <h5>Danh sách mẫu báo cáo <i *ngIf="!isExpanse" class="pi pi-angle-double-right" title="Mở rộng tất cả" (click)="toggleExpanse()"></i>
+        <i *ngIf="isExpanse" title="Thu gọn tất cả" class="pi pi-angle-double-left" (click)="toggleExpanse()"></i></h5>
     <span *ngIf="loading">
-      <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
+      <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem" ></i>
       Loading...
     </span>
     <p-tree class="text-left" *ngIf="!loading" [selectionMode]="'single'" [value]="reportTemplates"
@@ -22,7 +23,7 @@
 
           <button [loading]="deleting" [disabled]="!currentTemplate.templateId" pButton pRipple label="Xóa"
             icon="pi pi-trash" (click)="onDeleteItem()" class=" p-button-outlined p-button-danger p-button-sm mr-2"></button>
-          <button [loading]="saving" [disabled]="!currentTemplate.templateId" pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save"
+          <button [loading]="saving" [disabled]="false" pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save"
             class=" p-button-outlined p-button-sm mr-2" (click)="onSaveTemplate()"></button>
           <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm "
             (click)="resetTemplate()"></button>

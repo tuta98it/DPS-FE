@@ -5,6 +5,7 @@ import { ReportTemplateService } from 'src/app/services/report-template.service'
 import { Constants } from 'src/app/shared/constants/constants';
 import Utils from 'src/app/shared/helpers/utils';
 import { NotificationService } from 'src/app/shared/notification.service';
+import stringify from 'json-stringify-safe';
 
 @Component({
     selector: 'app-report-templates',
@@ -22,6 +23,7 @@ export class ReportTemplatesComponent implements OnInit {
     isVisibleDragDropReport = false;
     useExtendReportFields = false;
     validateDrop = false;
+    isExpanse = false;
 
     deleting = false;
     text = '';
@@ -48,6 +50,7 @@ export class ReportTemplatesComponent implements OnInit {
 
     getAll() {
         this.loading = true;
+        this.isExpanse = false;
         this.reportTemplates = [];
         this.reportTemplateService
             .getAll()
@@ -58,10 +61,10 @@ export class ReportTemplatesComponent implements OnInit {
                             res.jsonData,
                             this.reportTemplates
                         );
-                        this.reportTemplates.forEach((el: any) => {
-                            el.styleClassstyleClass = 'bodyPart';
-                            el.style = 'font-weight:500; font-size:16px';
-                        });
+                        // this.reportTemplates.forEach((el: any) => {
+
+                        //     el.style = 'font-style: italic; font-weight: bold';
+                        // });
 
                         // console.log(this.reportTemplates);
                         this.reportTemplatesDefault = JSON.parse(
@@ -76,7 +79,7 @@ export class ReportTemplatesComponent implements OnInit {
     }
 
     selectTemplate(event: any) {
-        console.log(event);
+        // console.log(event);
 
         this.selectedParent = null;
         this.currentTemplate = JSON.parse(JSON.stringify(INIT_REPORT_TEMPLATE));
@@ -86,7 +89,7 @@ export class ReportTemplatesComponent implements OnInit {
         this.currentTemplate.isFirstChild = !event.node.parent.isTemplate
             ? true
             : false;
-        console.log('currentTemplate', this.currentTemplate);
+        // console.log('currentTemplate', this.currentTemplate);
         if (event.node.data.parentId != Constants.OBJECT_ID_EMPTY) {
             this.selectedParent = {};
             this.selectedParent.key = event.node.data.parentId;
@@ -102,6 +105,7 @@ export class ReportTemplatesComponent implements OnInit {
         this.currentTemplate.parentId = this.selectedParent
             ? this.selectedParent.key
             : Constants.OBJECT_ID_EMPTY;
+        this.currentTemplate.isFirstChild = !this.selectedParent.isTemplate;
         this.reportTemplateService
             .create(this.currentTemplate)
             .subscribe({
@@ -218,6 +222,9 @@ export class ReportTemplatesComponent implements OnInit {
                     label: resData[i].templateName,
                     key: resData[i].templateId,
                     draggable: !!resData[i]?.isTemplate,
+                    style: !resData[i].isTemplate
+                        ? 'color: #203d83; font-weight: 600'
+                        : 'color:#495057; font-weight: normal',
                     isTemplate: resData[i].isTemplate,
                     data: {
                         templateId: resData[i].templateId,
@@ -283,7 +290,7 @@ export class ReportTemplatesComponent implements OnInit {
     deExtractReportTemplates(treeData: any[], jsonData: any[] | undefined) {
         if (treeData.length > 0) {
             for (let i = 0; i < treeData.length; ++i) {
-                console.log(treeData[i]);
+                // console.log(treeData[i]);
 
                 let newNode = {
                     templateId: treeData[i].data.templateId,
@@ -311,7 +318,7 @@ export class ReportTemplatesComponent implements OnInit {
         }
     }
     onNodeDrop(event: any) {
-        console.log(event);
+        // console.log(event);
         if (this.reportTemplates.length != this.reportTemplatesDefault.length) {
             this.reportTemplates = JSON.parse(
                 JSON.stringify(this.reportTemplatesDefault)
@@ -339,7 +346,7 @@ export class ReportTemplatesComponent implements OnInit {
             this.reportTemplates,
             this.payloadUpdateReport
         );
-        console.log(this.payloadUpdateReport);
+        // console.log(this.payloadUpdateReport);
         this.loading = true;
         this.reportTemplateService
             .updateAll({ jsonData: this.payloadUpdateReport })
@@ -369,27 +376,29 @@ export class ReportTemplatesComponent implements OnInit {
         this.isVisibleDragDropReports = false;
     }
     myUploader(event: { files: any }) {
-        this.listTemplateReportsUpload = [];
-        const file = event.files[0];
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => {
-            let data = JSON.parse(reader.result as string);
-            console.log(data);
+        setTimeout(() => {
+            this.listTemplateReportsUpload = [];
+            const file = event.files[0];
+            const reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = () => {
+                let data = JSON.parse(reader.result as string);
+                // console.log(data);
 
-            this.extractReportTemplatesFromFile(
-                data,
-                this.listTemplateReportsUpload
-            );
-            console.log(this.listTemplateReportsUpload);
-            this.listTemplateReportsCurrent = JSON.parse(
-                JSON.stringify(this.reportTemplates)
-            );
-            console.log(this.listTemplateReportsCurrent);
+                this.extractReportTemplatesFromFile(
+                    data,
+                    this.listTemplateReportsUpload
+                );
+                // console.log(this.listTemplateReportsUpload);
+                this.listTemplateReportsCurrent = JSON.parse(
+                    stringify(this.reportTemplates)
+                );
+                // console.log(this.listTemplateReportsCurrent);
 
-            this.isVisibleImportReportDialog = true;
-        };
-        return;
+                this.isVisibleImportReportDialog = true;
+            };
+            return;
+        }, 1000);
     }
     saveListReport() {
         let payloadUpload: any[] = [];
@@ -399,7 +408,7 @@ export class ReportTemplatesComponent implements OnInit {
             this.listTemplateReportsCurrent,
             payloadUpload
         );
-        console.log(payloadUpload);
+        // console.log(payloadUpload);
 
         this.reportTemplateService
             .updateAll({ jsonData: payloadUpload })
@@ -422,5 +431,21 @@ export class ReportTemplatesComponent implements OnInit {
                 this.loading = false;
                 this.isVisibleDragDropReports = false;
             });
+    }
+
+    toggleExpanse() {
+        this.isExpanse = !this.isExpanse;
+        this.reportTemplates.forEach((node) => {
+            this.expandRecursive(node, this.isExpanse);
+        });
+    }
+
+    expandRecursive(node: TreeNode, isExpand: boolean) {
+        node.expanded = isExpand;
+        if (node.children) {
+            node.children.forEach((childNode) => {
+                this.expandRecursive(childNode, isExpand);
+            });
+        }
     }
 }
