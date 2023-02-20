@@ -12,7 +12,7 @@ import { NotificationService } from 'src/app/shared/notification.service';
     styleUrls: ['./report-templates.component.scss'],
 })
 export class ReportTemplatesComponent implements OnInit {
-    reportTemplates: TreeNode[] = [];
+    reportTemplates = [];
     uploadedFiles: any[] = [];
     isVisibleImportReportDialog = false;
     loading = false;
@@ -26,7 +26,7 @@ export class ReportTemplatesComponent implements OnInit {
     deleting = false;
     text = '';
     currentTemplate = JSON.parse(JSON.stringify(INIT_REPORT_TEMPLATE));
-    selectedParent: TreeNode | null = null;
+    selectedParent: any = null;
     isVisibleDeleteItemDialog = false;
     textConfirmDelete = '';
     jsonData = [];
@@ -58,6 +58,11 @@ export class ReportTemplatesComponent implements OnInit {
                             res.jsonData,
                             this.reportTemplates
                         );
+                        this.reportTemplates.forEach((el: any) => {
+                            el.styleClassstyleClass = 'bodyPart';
+                            el.style = 'font-weight:500; font-size:16px';
+                        });
+
                         // console.log(this.reportTemplates);
                         this.reportTemplatesDefault = JSON.parse(
                             JSON.stringify(this.reportTemplates)
@@ -244,7 +249,7 @@ export class ReportTemplatesComponent implements OnInit {
     ) {
         if (resData) {
             for (let i = 0; i < resData.length; ++i) {
-                let newNode: TreeNode = {
+                let newNode = {
                     label: resData[i].TemplateName,
                     key: resData[i].TemplateId,
                     isTemplate: resData[i].IsTemplate,
@@ -312,22 +317,20 @@ export class ReportTemplatesComponent implements OnInit {
                 JSON.stringify(this.reportTemplatesDefault)
             );
             this.notification.warn('Không thể thực hiện hành động này', '');
-        }
-        else if (
+        } else if (
             event.dragNode.parent.key != event.dropNode.key &&
             !event.dropNode.isTemplate
         ) {
             this.isVisibleDragDropReports = true;
+        } else {
+            this.confirmSaveReports();
         }
-        else{this.confirmSaveReports()}
         if (this.validateDrop) {
             if (true) {
                 event.accept();
-                this.confirmSaveReports()
+                this.confirmSaveReports();
             }
         }
-
-
     }
 
     confirmSaveReports() {
@@ -348,7 +351,7 @@ export class ReportTemplatesComponent implements OnInit {
                     } else {
                         this.notification.success('Có lỗi xảy ra', '');
                     }
-                    this.getAll()
+                    this.getAll();
                 },
                 error: (error) => {
                     this.notification.error('Có lỗi xảy ra', '');
@@ -409,7 +412,7 @@ export class ReportTemplatesComponent implements OnInit {
                     } else {
                         this.notification.success('Có lỗi xảy ra', '');
                     }
-                    this.getAll()
+                    this.getAll();
                 },
                 error: (error) => {
                     this.notification.error('Có lỗi xảy ra', '');
