@@ -113,6 +113,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
   reportTemplates: any[] = [];
   reportTemplateConsultation='';
   bodyParts: any = [];
+  detailPatint: any = {};
 
 
   protected _authSubscription: Subscription;
@@ -755,11 +756,23 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
     this.patientService.getById(this.selectedCaseStudy.patientId).subscribe({
       next: (res) => {
         if (res.isValid) {
+            this.detailPatint = res.jsonData;
+            console.log(this.detailPatint);
           this.patientForm.patchValue(res.jsonData);
         }
       }
     });
   }
+    toTextSex(patientsSex: any){
+        switch (patientsSex) {
+            case 0:
+                return 'Nữ';
+            case 1:
+                return 'Nam';
+            default:
+                return;
+        }
+    };
 
   getDoctors() {
     let payload = {
@@ -789,6 +802,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
       next: (res) => {
         if (res.isValid) {
           this.bodyParts = res.jsonData;
+          console.warn(res.jsonData);
         }
       },
     })
