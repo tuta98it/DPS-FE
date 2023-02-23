@@ -109,7 +109,12 @@ export class AdminMenuComponent implements OnInit {
                 label: 'Nơi gửi mẫu',
                 icon: 'pi-fw fa-regular fa-hospital',
                 routerLink: ['/admin/source-hospital'],
-              }
+              },
+              {
+                label: 'DS label gán nhãn',
+                icon: 'pi pi-fw pi-bookmark',
+                routerLink: ['/admin/list-labels'],
+              },
             ]
           },
         ]

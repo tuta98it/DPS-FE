@@ -1,0 +1,195 @@
+<div class="grid">
+    <div class="col-12 p-0">
+        <div class="card admin-content m-0">
+            <div class="my-2 flex justify-content-between flex-wrap">
+                <span class="block p-input-icon-left"> </span>
+                <div class="flex justify-content-end flex-wrap">
+                    <button
+                        pButton
+                        pRipple
+                        label="Thêm mới"
+                        icon="pi pi-plus"
+                        class="p-button-success p-button-sm"
+                        (click)="onCreateItem()"
+                    ></button>
+                </div>
+            </div>
+
+            <m-table
+                [isLazyLoad]="false"
+                [cols]="cols"
+                [items]="listLabels"
+                (selectRow)="selectLabel($event)"
+                [customBodyTemplate]="customBodyTemplate"
+                [customHeaderTemplate]="customHeaderTemplate"
+                [calcHeight]="215"
+                [dataKey]="'id'"
+                [loading]="loading"
+            >
+            </m-table>
+            <ng-template #customHeaderTemplate>
+                <th
+                    *ngFor="let col of cols; let i = index"
+                    [style.minWidth]="col['width']"
+                >
+                    {{ col["header"] }}
+                </th>
+                <th style="min-width: 3rem" pFrozenColumn alignFrozen="right">
+                    Màu nhãn
+                </th>
+                <th
+                    style="min-width: 5rem"
+                    class="text-center"
+                    pFrozenColumn
+                    alignFrozen="right"
+                >
+                    Enable
+                </th>
+                <th
+                    style="min-width: 3rem"
+                    pFrozenColumn
+                    alignFrozen="right"
+                ></th>
+            </ng-template>
+            <ng-template #customBodyTemplate let-rowData>
+                <td [style.minWidth]="col.width" *ngFor="let col of cols">
+                    {{ rowData[col["field"]] }}
+                </td>
+                <td [style.minWidth]="'5rem'" pFrozenColumn alignFrozen="right">
+                    <p-chip
+                        label="Tên nhãn"
+                        icon="pi pi-bookmark"
+                        [style]="{ 'background-color': rowData.color }"
+                    ></p-chip>
+                </td>
+                <td
+                    class="text-center"
+                    [style.minWidth]="'5rem'"
+                    pFrozenColumn
+                    alignFrozen="right"
+                >
+                    <p-inputSwitch
+                        [(ngModel)]="!rowData.disable"
+                        (onChange)="toggle(rowData)"
+                    ></p-inputSwitch>
+                </td>
+                <td
+                    [style.minWidth]="'3rem'"
+                    class="text-center"
+                    pFrozenColumn
+                    alignFrozen="right"
+                >
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-pencil"
+                        class="p-button-rounded p-button-success p-button-xs"
+                        (click)="onEditItem(rowData)"
+                    ></button>
+                </td>
+            </ng-template>
+        </div>
+
+        <p-dialog
+            [(visible)]="isVisibleLabelDialog"
+            [style]="{ width: '450px' }"
+            [header]="listLabelDialogHeader"
+            [modal]="true"
+            class="p-fluid"
+        >
+            <ng-template pTemplate="content">
+                <form [formGroup]="labelForm">
+                    <div class="field">
+                        <label for="name"
+                            ><span class="text-red-500">*</span>Tên nhãn</label
+                        >
+                        <input
+                            type="text"
+                            pInputText
+                            id="name"
+                            formControlName="name"
+                            required
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                labelForm.controls['name'].invalid &&
+                                labelForm.controls['name'].dirty
+                            "
+                        >
+                            *Tên nhãn không được để trống
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="color"
+                            ><span class="text-red-500">*</span>Màu nhãn</label
+                        >
+                        <input
+                            type="color"
+                            formControlName="color"
+                            id="color"
+                            required
+                            class="ml-5"
+                        />
+                        <!-- <p-colorPicker formControlName="color"  [baseZIndex]="10000000" appendTo="body"></p-colorPicker>
+              <p-colorPicker [(ngModel)]="color2" [inline]="true"></p-colorPicker> -->
+                        <!-- <textarea id="color" pInputText formControlName="color" rows="3"></textarea> -->
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                labelForm.controls['color'].invalid &&
+                                labelForm.controls['color'].dirty
+                            "
+                        >
+                            *Màu nhãn không được để trống
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="priority"><span></span>Độ ưu tiên</label>
+                        <textarea
+                            id="priority"
+                            pInputText
+                            formControlName="priority"
+                            rows="3"
+                        ></textarea>
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                labelForm.controls['priority'].invalid &&
+                                labelForm.controls['priority'].dirty
+                            "
+                        >
+                            *Độ ưu tiên không được để trống
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Đóng"
+                    icon="pi pi-times"
+                    class="p-button-text text-red-600"
+                    (click)="isVisibleLabelDialog = false"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Lưu"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    (click)="saveItem()"
+                ></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+
+<confirm-dialog
+    [(visible)]="isVisibleDeleteItemDialog"
+    [confirmText]="textConfirmDelete"
+    (onConfirm)="deleteLabel()"
+></confirm-dialog>

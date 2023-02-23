@@ -111,6 +111,15 @@ import { AdminLayoutComponent } from './admin.layout.component';
 						data: { role: Roles.MANAGE_CATEGORY },
 					},
 					{
+						path: 'list-labels',
+						loadChildren: () =>
+							import('../list-labels/list-labels.module').then(
+								(m) => m.ListLabelsModule
+							),
+						canActivate: [AuthGuard],
+						data: { role: Roles.MANAGE_CATEGORY },
+					},
+					{
 						path: 'admin-dashboard',
 						loadChildren: () =>
 							import('../admin-dashboard/admin-dashboard.module').then(
