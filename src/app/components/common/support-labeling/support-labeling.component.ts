@@ -30,7 +30,6 @@ export class SupportLabelingComponent implements OnInit {
     selectedCaseStudy: any;
 
     constructor(
-        private fb: FormBuilder,
         private notification: NotificationService,
         private caseStudyService: CaseStudyService,
         private authState: AuthStateService
@@ -46,6 +45,7 @@ export class SupportLabelingComponent implements OnInit {
                 });
             }
         });
+        this.processFilter(this.readingMode);
     }
 
     ngOnInit() {
@@ -76,15 +76,7 @@ export class SupportLabelingComponent implements OnInit {
     }
 
     filterReadingModeChange(data: any) {
-        if (data.value === 2) {
-            this.searchData.labelStatus = 1;
-            this.filterLabelStatusDisplay = this.filterLabelStatus.filter(
-                (el) => el.value === 0 || el.value === 1
-            );
-        } else {
-            this.searchData.labelStatus = 0;
-            this.filterLabelStatusDisplay = this.filterLabelStatus;
-        }
+        this.processFilter(data.value);
         this.getList();
     }
     filterLabelStatusChange(data: any) {
@@ -94,5 +86,18 @@ export class SupportLabelingComponent implements OnInit {
         this.searchData.skip = data.first;
         this.searchData.take = data.rows;
         this.getList();
+    }
+    processFilter(data: any) {
+        if (data === 2) {
+            this.searchData.labelStatus = 1;
+            this.filterLabelStatusDisplay = this.filterLabelStatus.filter(
+                (el) => el.value === 5 || el.value === 1 || el.value === 4
+            );
+        } else {
+            this.searchData.labelStatus = 0;
+            this.filterLabelStatusDisplay = this.filterLabelStatus.filter(
+                (el) => el.value === 0 || el.value === 1
+            );
+        }
     }
 }
