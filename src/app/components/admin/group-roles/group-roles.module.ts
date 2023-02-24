@@ -12,18 +12,17 @@ import { MTableModule } from 'src/app/shared/components/m-table/m-table.module';
 
 
 @NgModule({
-  declarations: [
-    GroupRolesComponent
-  ],
-  imports: [
-    MTableModule,
-    TableModule,
-    InputTextModule,
-    RippleModule,
-    ButtonModule,
-    FormsModule,
-    CommonModule,
-    GroupRolesRoutingModule
-  ]
+    declarations: [GroupRolesComponent],
+    imports: [
+        MTableModule,
+        TableModule,
+        InputTextModule,
+        RippleModule,
+        ButtonModule,
+        FormsModule,
+        CommonModule,
+        GroupRolesRoutingModule,
+        ButtonModule,
+    ],
 })
-export class GroupRolesModule { }
+export class GroupRolesModule {}

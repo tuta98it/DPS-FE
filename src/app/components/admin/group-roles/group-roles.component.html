@@ -14,8 +14,9 @@
       </div>
       <span class="font-italic">
         *Lưu ý: Sau khi sửa, ấn <i class="pi pi-save text-xl text-green-500 pt-1 cursor-pointer"></i> để cập nhật.
-      </span> 
-      <m-table [isLazyLoad]="false" [items]="groups" [dataKey]="'id'" [loading]="loading" [customBodyTemplate]="customBodyTemplate" 
+    </span>
+    <m-table [isLazyLoad]="false" [items]="groups" [dataKey]="'id'" [loading]="loading"
+        [customBodyTemplate]="customBodyTemplate" (selectRow)="selectItem($event)"
         [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)">
       </m-table>
       <ng-template #customHeaderTemplate>
@@ -26,7 +27,9 @@
       </ng-template>
       <ng-template #customBodyTemplate let-rowData>
         <td [style.minWidth]="'3rem'" class="text-center " pFrozenColumn alignFrozen="left">
-          <i class="pi pi-save text-xl text-green-500 pt-1 cursor-pointer" (click)="updateGroupRoles(rowData)"></i>
+        <p-button icon="pi pi-save" (click)="updateGroupRoles(rowData)" [disabled]="rowData.id != selectRow?.id"
+            class="p-button-sm"></p-button>
+
         </td>
         <td [style.minWidth]="'15rem'" pFrozenColumn alignFrozen="left">{{rowData['id']}}</td>
         <td [style.minWidth]="'12rem'" pFrozenColumn alignFrozen="left">{{rowData['name']}}</td>
