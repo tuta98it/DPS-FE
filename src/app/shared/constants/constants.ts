@@ -115,6 +115,14 @@ export class Constants {
     READING: 1,
     APPROVING: 3,
   };
+  public static readonly LABEL_STATUS =[
+    { label: 'Chưa gán nhãn', value: 0 },
+    { label: 'Đã gán nhãn', value: 1 },
+    { label: 'Đã gán nhãn 1', value: 2 },
+    { label: 'Đã gán nhãn 2', value: 3 },
+    { label: 'Không duyệt nhãn', value: 4 },
+    { label: 'Đã duyệt nhãn', value: 5 },
+];
 }
 export class StorageKeys {
   public static readonly TOKEN = 'dps-token';

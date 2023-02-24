@@ -1,1 +1,47 @@
-<p>support-labeling works!</p>
+<div class="grid">
+    <div class="col-12 p-0">
+        <div class="card admin-content m-0">
+            <div class="my-3 flex  flex-wrap">
+                <span class="mr-3 flex align-items-center font-bold">Chế độ dọc:</span>
+                <p-dropdown [options]="filterReadingModeDisplay" [(ngModel)]="readingMode" optionLabel="label"
+                    optionValue="value" (onChange)="filterReadingModeChange($event)"
+                    [style]="{'width':'9rem'}"></p-dropdown>
+                <span class="mr-3 ml-6 flex align-items-center font-bold">Trạng thái:</span>
+                <p-dropdown [options]="filterLabelStatusDisplay" [(ngModel)]="searchData.labelStatus"
+                    optionLabel="label" optionValue="value" (onChange)="filterLabelStatusChange($event)"
+                    [style]="{'width':'12rem'}"></p-dropdown>
+            </div>
+
+            <m-table [isLazyLoad]="false" [items]="lstCaseStudy" [dataKey]="'id'" [loading]="loading"
+                [totalRecords]="total" (onPageChange)="onPageChange($event)" [take]="searchData.take"
+                (selectRow)="selectCaseStudy($event)" [customBodyTemplate]="customBodyTemplate"
+                [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="240">
+            </m-table>
+
+            <ng-template #customHeaderTemplate>
+                <th [style.minWidth]="'3rem'" class="text-center sticky" [style.left]="'3rem'">Id</th>
+
+                <th [style.minWidth]="'15rem'" class="sticky" [style.left]="'6rem'">Tên bệnh nhân</th>
+                <th>Mã bệnh nhân</th>
+                <th>Ngày lấy mẫu</th>
+                <th>Số lam kính</th>
+                <th [style.minWidth]="'5rem'" class="sticky" [style.left]="'21rem'">Trạng thái</th>
+                <th>BS đã gán nhãn</th>
+                <th>Nhãn đã được duyệt</th>
+
+            </ng-template>
+            <ng-template #customBodyTemplate let-rowData>
+
+                <td [style.minWidth]="'3rem'" pFrozenColumn alignFrozen="left">{{rowData['id']}}</td>
+
+                <td [style.minWidth]="'12rem'" pFrozenColumn alignFrozen="left">{{rowData['patientName']}}</td>
+                <td [style.minWidth]="'12rem'">{{rowData['patientCode']}}</td>
+                <td>{{rowData['createdTime']| date:'dd/MM/yyyy'}}</td>
+                <td>{{rowData['slideCount']}}</td>
+                <td [innerHTML]="rowData['labelStatus'] | labelStatus : false"></td>
+                <td>{{rowData['labeledUsers'].join()}}</td>
+                <td>{{rowData['labeledApproveUsers'].join()}}</td>
+
+
+            </ng-template>
+        </div>

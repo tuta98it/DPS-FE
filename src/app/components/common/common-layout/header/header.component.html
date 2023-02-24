@@ -1,4 +1,4 @@
-<div [ngClass]="{'absolute': isShowViewer===true}" style="width:100%;top:0;z-index: 10;height:4rem;" 
+<div [ngClass]="{'absolute': isShowViewer===true}" style="width:100%;top:0;z-index: 10;height:4rem;"
     [@openClose]="isOpen ? 'open' : 'close'"
     (mouseenter) ="onHover()" (mouseleave) ="onLeave()" >
 <div class="flex justify-content-between bg-white px-3 align-items-center header-container">
@@ -10,11 +10,17 @@
   <div class="flex">
     <ul class="flex actions align-items-center mr-4">
       <ng-container *ngIf="selectedLayout==LAYOUT.FULL">
-        <li *ngIf="!isShowViewer" class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer" 
+        <li *ngIf="!isShowViewer"
+            class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer"
+          title="Ẩn/hiện ds ca gán nhán" (click)="toggleShowSupportLabeling.emit()">
+          <i class="pi pi-bookmark-fill text-2xl text-500" ></i>
+        </li>
+        <li *ngIf="!isShowViewer" class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer"
           title="Xem slide" (click)="isShowViewerChange.emit(true)">
           <i class="fa-solid fa-circle-arrow-right text-2xl text-500"></i>
         </li>
-        <li *ngIf="isShowViewer" class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer" 
+        <li *ngIf="isShowViewer"
+            class="i-action flex align-items-center justify-content-center hover:surface-200 cursor-pointer"
           (click)="isShowViewerChange.emit(false)">
           <i class="fa-solid fa-circle-arrow-left text-2xl text-500"></i>
         </li>

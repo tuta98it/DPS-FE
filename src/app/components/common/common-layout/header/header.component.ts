@@ -66,9 +66,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
       }
   }
-  
+
   // @Input() isShowViewer = false;
   @Output() isShowViewerChange = new EventEmitter<any>();
+  @Output() toggleShowSupportLabeling = new EventEmitter<any>();
   visibleNotificationPanel = false;
 
   //for open in absolute mode (in viewer)
@@ -78,7 +79,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     public configService: AppConfigService,
     private authState: AuthStateService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.profileMenuItems = [
       {

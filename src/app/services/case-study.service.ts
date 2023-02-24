@@ -38,7 +38,7 @@ export class CaseStudyService extends BaseService {
   getListSlideOfCaseStudy(studyId: string) {
     return this.get(`${this.listSlideUrl}/${studyId}`);
   }
-  
+
   getPrintedKeyImages(studyId: string) {
     return this.get(`${this.url}/PrintKeyImage/${studyId}`);
   }
@@ -69,5 +69,11 @@ export class CaseStudyService extends BaseService {
   }
   getListKeyImageOfSlideByToken(slideId: string, sharedToken: string) {
     return this.get(`${this.listKeyImageUrl}/Share/${sharedToken}/${slideId}`);
+  }
+
+  //labelPOST
+
+   getListCaseStudyLabel(payload:any) {
+    return this.post(`${this.url}/Label`,payload);
   }
 }

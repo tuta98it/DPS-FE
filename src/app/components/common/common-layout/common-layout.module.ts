@@ -20,6 +20,7 @@ import { ClickStopPropagationDirective } from 'src/app/shared/directives/click-s
 import { ClickOutsideDirective } from 'src/app/shared/directives/click-outside.directive';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ShareStudyComponent } from '../share-study/share-study.component';
+import { SupportLabelingModule } from '../support-labeling/support-labeling.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ShareStudyComponent } from '../share-study/share-study.component';
     ViewerModule,
     RouterModule,
     CommonLayoutRoutingModule,
-    NotificationModule
+    NotificationModule,
+    SupportLabelingModule
   ]
 })
 export class CommonLayoutModule { }
