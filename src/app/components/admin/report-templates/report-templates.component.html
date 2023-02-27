@@ -8,7 +8,7 @@
     </span>
     <p-tree class="text-left" *ngIf="!loading" [selectionMode]="'single'" [value]="reportTemplates"
       [emptyMessage]="'Không có mẫu báo cáo'" (onNodeSelect)="selectTemplate($event)" [draggableNodes]="true"
-      (onNodeDrop)="onNodeDrop($event)" [droppableNodes]="true" draggableScope="self" droppableScope="self"  [validateDrop]="validateDrop"></p-tree>
+      (onNodeDrop)="onNodeDrop($event)" [droppableNodes]="true" draggableScope="self" droppableScope="self"  [validateDrop]="validateDrop" scrollHeight="calc(80vh)"></p-tree>
   </div>
   <div class="col-10">
     <div class="grid">

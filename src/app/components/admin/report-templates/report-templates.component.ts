@@ -13,7 +13,7 @@ import stringify from 'json-stringify-safe';
     styleUrls: ['./report-templates.component.scss'],
 })
 export class ReportTemplatesComponent implements OnInit {
-    reportTemplates = [];
+    reportTemplates: any = [];
     uploadedFiles: any[] = [];
     isVisibleImportReportDialog = false;
     loading = false;
@@ -51,15 +51,15 @@ export class ReportTemplatesComponent implements OnInit {
     getAll() {
         this.loading = true;
         this.isExpanse = false;
-        this.reportTemplates = [];
+        // this.reportTemplates = [];
         this.reportTemplateService
             .getAll()
             .subscribe({
                 next: (res) => {
                     if (res.isValid) {
-                        this.extractReportTemplates(
+                        this.reportTemplates = this.extractReportTemplates(
                             res.jsonData,
-                            this.reportTemplates
+                            []
                         );
                         // this.reportTemplates.forEach((el: any) => {
 
@@ -185,7 +185,7 @@ export class ReportTemplatesComponent implements OnInit {
     updateReportTemplates(resData: any[]) {
         this.loading = true;
         this.reportTemplates = [];
-        this.extractReportTemplates(resData, this.reportTemplates);
+        this.reportTemplates = this.extractReportTemplates(resData, []);
         this.loading = false;
     }
 
@@ -223,8 +223,8 @@ export class ReportTemplatesComponent implements OnInit {
                     key: resData[i].templateId,
                     draggable: !!resData[i]?.isTemplate,
                     style: !resData[i].isTemplate
-                        ? 'color: #203d83; font-weight: 600'
-                        : 'color:#495057; font-weight: normal',
+                        ? 'font-weight: 600; background: #ECF2FF;border-radius:10px;padding:10px'
+                        : 'color:#495057; font-weight: normal; background:white !important;border-radius:10px;padding:10px',
                     isTemplate: resData[i].isTemplate,
                     data: {
                         templateId: resData[i].templateId,
@@ -247,7 +247,7 @@ export class ReportTemplatesComponent implements OnInit {
                 extractedData?.push(newNode);
             }
         }
-        // this.reportTemplatesDefault = JSON.parse(JSON.stringify(extractedData));
+        return extractedData;
     }
 
     extractReportTemplatesFromFile(
@@ -435,7 +435,7 @@ export class ReportTemplatesComponent implements OnInit {
 
     toggleExpanse() {
         this.isExpanse = !this.isExpanse;
-        this.reportTemplates.forEach((node) => {
+        this.reportTemplates.forEach((node: any) => {
             this.expandRecursive(node, this.isExpanse);
         });
     }
