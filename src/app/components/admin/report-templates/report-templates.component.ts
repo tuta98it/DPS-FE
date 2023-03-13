@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TreeNode } from 'primeng/api';
 import { INIT_REPORT_TEMPLATE } from 'src/app/models/report-template';
 import { ReportTemplateService } from 'src/app/services/report-template.service';
 import { Constants } from 'src/app/shared/constants/constants';
@@ -218,7 +217,7 @@ export class ReportTemplatesComponent implements OnInit {
     extractReportTemplates(resData: any[], extractedData: any[] | undefined) {
         if (resData) {
             for (let i = 0; i < resData.length; ++i) {
-                let newNode: TreeNode = {
+                let newNode = {
                     label: resData[i].templateName,
                     key: resData[i].templateId,
                     draggable: !!resData[i]?.isTemplate,
@@ -440,10 +439,10 @@ export class ReportTemplatesComponent implements OnInit {
         });
     }
 
-    expandRecursive(node: TreeNode, isExpand: boolean) {
+    expandRecursive(node:any, isExpand: boolean) {
         node.expanded = isExpand;
         if (node.children) {
-            node.children.forEach((childNode) => {
+            node.children.forEach((childNode:any) => {
                 this.expandRecursive(childNode, isExpand);
             });
         }

@@ -1,173 +1,426 @@
 <div class="grid">
-  <div class="col-12 p-0">
-    <div class="card admin-content m-0">
-      <div class="my-2 flex justify-content-between flex-wrap">
-        <span class="block p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" placeholder="Tìm kiếm theo tên hoặc tài khoản"
-            class="inline-block lg:w-17rem sm:w-auto p-inputtext-sm" [(ngModel)]="searchData.keyword"
-            (keydown.enter)="search()" />
-          <button pButton pRipple icon="pi pi-search" class="p-button-primary mr-2 ml-2 p-button-sm"
-            (click)="search()"></button>
-          <button pButton pRipple icon="pi pi-times" class="p-button-secondary p-button-sm"
-            (click)="resetSearch()"></button>
-        </span>
-        <div class="flex justify-content-end flex-wrap">
-          <button [disabled]="!selectedUser.id" pButton pRipple label="Danh sách group" icon="pi pi-users"
-            class="p-button-help mr-2 p-button-sm" (click)="openListGroups()"></button>
-          <button pButton pRipple label="Thêm thành viên" icon="pi pi-plus" class="mr-2 p-button-success p-button-sm"
-            (click)="onCreateAccount()"></button>
-          <button pButton pRipple label="Tạo tài khoản" icon="pi pi-plus" class="p-button-success p-button-sm"
-            (click)="onCreatUser()"></button>
+    <div class="col-12 p-0">
+        <div class="card admin-content m-0">
+            <div class="my-2 flex justify-content-between flex-wrap">
+                <div class="block p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        placeholder="Tìm kiếm theo tên hoặc tài khoản"
+                        class="inline-block lg:w-17rem sm:w-auto p-inputtext-sm"
+                        [(ngModel)]="searchData.keyword"
+                        (keydown.enter)="search()"
+                    />
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-search"
+                        class="p-button-primary mr-2 ml-2 p-button-sm"
+                        (click)="search()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-times"
+                        class="p-button-secondary p-button-sm"
+                        (click)="resetSearch()"
+                    ></button>
+                </div>
+                <div class="flex justify-content-end flex-wrap">
+                    <button
+                        [disabled]="!selectedUser.id"
+                        pButton
+                        pRipple
+                        label="Danh sách group"
+                        icon="pi pi-users"
+                        class="p-button-help mr-2 p-button-sm"
+                        (click)="openListGroups()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Thêm thành viên"
+                        icon="pi pi-plus"
+                        class="mr-2 p-button-success p-button-sm"
+                        (click)="onCreateAccount()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Tạo tài khoản"
+                        icon="pi pi-plus"
+                        class="p-button-success p-button-sm"
+                        (click)="onCreatUser()"
+                    ></button>
+                </div>
+            </div>
+            <m-table
+                [isLazyLoad]="true"
+                [cols]="cols"
+                [items]="users"
+                [take]="searchData.take"
+                (selectRow)="selectUser($event)"
+                [customHeaderTemplate]="customHeaderTemplate"
+                [customBodyTemplate]="customBodyTemplate"
+                [calcHeight]="215"
+                (onPageChange)="onPageChange($event)"
+                [totalRecords]="total"
+                [dataKey]="'id'"
+                [loading]="loading"
+            >
+            </m-table>
+            <ng-template #customHeaderTemplate>
+                <th
+                    *ngFor="let col of cols; let i = index"
+                    [style.minWidth]="col['width']"
+                >
+                    {{ col["header"] }}
+                </th>
+                <th
+                    style="min-width: 5rem"
+                    class="text-center"
+                    pFrozenColumn
+                    alignFrozen="right"
+                    class="flex justify-content-center"
+                >
+                    Enable
+                </th>
+                <th
+                    style="min-width: 3rem"
+                    pFrozenColumn
+                    alignFrozen="right"
+                ></th>
+            </ng-template>
+            <ng-template #customBodyTemplate let-rowData>
+                <td [style.minWidth]="col.width" *ngFor="let col of cols">
+                    {{ rowData[col["field"]] }}
+                </td>
+                <td
+                    class="text-center flex justify-content-center"
+                    [style.minWidth]="'5rem'"
+                    pFrozenColumn
+                    alignFrozen="right"
+                >
+                    <p-inputSwitch
+                        [(ngModel)]="rowData.enable"
+                        (onChange)="onChangeEnable(rowData)"
+                    ></p-inputSwitch>
+                </td>
+                <td
+                    [style.minWidth]="'3rem'"
+                    pFrozenColumn
+                    alignFrozen="right"
+                    class="text-center flex justify-content-center"
+                >
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-pencil"
+                        class="p-button-rounded p-button-success p-button-xs"
+                        (click)="onEditUser(rowData)"
+                    ></button>
+                </td>
+            </ng-template>
         </div>
-      </div>
-      <m-table [isLazyLoad]="true" [cols]="cols" [items]="users" [take]="searchData.take"
-        (selectRow)="selectUser($event)" [customBodyTemplate]="customBodyTemplate"
-        [customHeaderTemplate]="customHeaderTemplate" [calcHeight]="215" (onPageChange)="onPageChange($event)"
-        [totalRecords]="total" [dataKey]="'id'" [loading]="loading">
-      </m-table>
-      <ng-template #customHeaderTemplate>
-        <th *ngFor="let col of cols; let i = index" [style.minWidth]="col['width']">{{col['header']}}</th>
-        <th style="min-width: 5rem" class="text-center" pFrozenColumn alignFrozen="right">Enable</th>
-        <th style="min-width: 3rem" pFrozenColumn alignFrozen="right"></th>
-      </ng-template>
-      <ng-template #customBodyTemplate let-rowData>
-        <td [style.minWidth]="col.width" *ngFor="let col of cols;">
-          {{rowData[col['field']]}}
-        </td>
-        <td class="text-center" [style.minWidth]="'5rem'" pFrozenColumn alignFrozen="right">
-          <p-inputSwitch [(ngModel)]="rowData.enable" (onChange)="onChangeEnable(rowData)"></p-inputSwitch>
-        </td>
-        <td [style.minWidth]="'3rem'" class="text-center" pFrozenColumn alignFrozen="right">
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-xs"
-            (click)="onEditUser(rowData)"></button>
-        </td>
-      </ng-template>
+        <!-- thêm user -->
+        <p-dialog
+            [(visible)]="isVisibleUserDialog"
+            [style]="{ width: '450px' }"
+            [header]="userDialogHeader"
+            [modal]="true"
+            class="p-fluid"
+        >
+            <ng-template pTemplate="content">
+                <form [formGroup]="usersForm">
+                    <div class="field">
+                        <label><strong>Họ và tên</strong></label>
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="Họ và tên..."
+                            formControlName="fullName"
+                            required
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                usersForm.controls['fullName'].invalid &&
+                                usersForm.controls['fullName'].dirty
+                            "
+                        >
+                            *Họ và tên không được để trống
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label><strong>Số điện thoại</strong></label>
+                        <input
+                            type="tel"
+                            pInputText
+                            placeholder="Số điện thoại"
+                            formControlName="phoneNo"
+                            autofocus
+                        />
+                    </div>
+                    <div class="field">
+                        <label><strong>Email</strong></label>
+                        <input
+                            type="email"
+                            pInputText
+                            placeholder="Email..."
+                            formControlName="email"
+                            required
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                usersForm.controls['email'].invalid &&
+                                usersForm.controls['email'].dirty
+                            "
+                        >
+                            *Email không được để trống
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label><strong>Tên đăng nhập</strong></label>
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="Tên đăng nhập..."
+                            formControlName="username"
+                            required
+                            autocomplete="new-username"
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                usersForm.controls['username'].invalid &&
+                                usersForm.controls['username'].dirty
+                            "
+                        >
+                            *Tên đăng nhập không được để trống
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label><strong>Mật khẩu</strong></label>
+                        <input
+                            type="password"
+                            pInputText
+                            placeholder="Mật khẩu..."
+                            formControlName="password"
+                            required
+                            autofocus
+                            autocomplete="new-password"
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                usersForm.controls['password'].invalid &&
+                                usersForm.controls['password'].dirty
+                            "
+                        >
+                            *Mật khẩu không được để trống và từ 6 ký tự trở lên
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label><strong>Nhập lại mật khẩu</strong></label>
+                        <input
+                            type="password"
+                            pInputText
+                            placeholder="Nhập lại mật khẩu..."
+                            formControlName="repass"
+                            required
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                usersForm.controls['repass'].invalid &&
+                                usersForm.controls['repass'].dirty &&
+                                usersForm.controls['repass'].hasError('confirm')
+                            "
+                        >
+                            *Nhập lại mật khẩu không đúng
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Đóng"
+                    icon="pi pi-times"
+                    class="p-button-text text-red-600"
+                    (click)="isVisibleUserDialog = false"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Lưu"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    (click)="saveItem()"
+                ></button>
+            </ng-template>
+        </p-dialog>
+        <!-- sửa thông tin user -->
+        <p-dialog
+            [(visible)]="isVisibleUserEdit"
+            [style]="{ width: '450px' }"
+            [header]="userDialogHeader"
+            [modal]="true"
+            class="p-fluid"
+        >
+            <ng-template pTemplate="content">
+                <form [formGroup]="usersFormEdit">
+                    <div class="field">
+                        <label><strong>Họ và tên</strong></label>
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="Họ và tên..."
+                            formControlName="fullname"
+                            autofocus
+                        />
+                    </div>
+                    <div class="field">
+                        <label><strong>Số điện thoại</strong></label>
+                        <input
+                            type="tel"
+                            pInputText
+                            placeholder="Số điện thoại"
+                            formControlName="phoneNo"
+                            autofocus
+                        />
+                    </div>
+                    <div class="field">
+                        <label><strong>Email</strong></label>
+                        <input
+                            type="email"
+                            pInputText
+                            placeholder="Email..."
+                            formControlName="email"
+                            required
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                usersFormEdit.controls['email'].invalid &&
+                                usersFormEdit.controls['email'].dirty
+                            "
+                        >
+                            <i>*Mail không được để trống</i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label><strong>His code</strong></label>
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="His code"
+                            formControlName="hisCode"
+                            autofocus
+                        />
+                    </div>
+                </form>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Đóng"
+                    icon="pi pi-times"
+                    class="p-button-text text-red-600"
+                    (click)="isVisibleUserEdit = false"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Lưu"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    (click)="saveItemEdit()"
+                ></button>
+            </ng-template>
+        </p-dialog>
+        <!-- confirm disable -->
+        <confirm-dialog
+            [(visible)]="isVisibleDisableUserDialog"
+            [confirmText]="textConfirmDisableUser"
+            [confirmLabel]="confirmLabelDisable"
+            (onClose)="cancelDisable()"
+            (onConfirm)="disableUser()"
+            (onCancel)="cancelDisable()"
+        ></confirm-dialog>
+        <!-- confirm enable -->
+        <confirm-dialog
+            [(visible)]="isVisibleEnableUserDialog"
+            [confirmText]="textConfirmEnableUser"
+            [confirmLabel]="confirmLabelEnable"
+            (onClose)="cancelEnable()"
+            (onConfirm)="enableUser()"
+            (onCancel)="cancelEnable()"
+        ></confirm-dialog>
+        <!-- Danh sách group trong DS user -->
+        <list-group-of-users
+            [(visible)]="isVisibleListGroups"
+            [userId]="selectedUser.id"
+        ></list-group-of-users>
+
+        <p-dialog
+            [(visible)]="isVisibleAddAccountDialog"
+            [style]="{ width: '450px' }"
+            header="Thêm thành viên"
+            [modal]="true"
+            class="p-fluid"
+        >
+            <ng-template pTemplate="content">
+                <form [formGroup]="accountForm">
+                    <div class="field">
+                        <label>Tên đăng nhập</label>
+                        <input
+                            type="text"
+                            pInputText
+                            formControlName="username"
+                            required
+                            autofocus
+                        />
+                        <div
+                            class="m-error"
+                            *ngIf="
+                                accountForm.controls['username'].invalid &&
+                                accountForm.controls['username'].dirty
+                            "
+                        >
+                            *Tên đăng nhập không được để trống
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Đóng"
+                    icon="pi pi-times"
+                    class="p-button-text text-red-600"
+                    (click)="isVisibleAddAccountDialog = false"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Lưu"
+                    icon="pi pi-check"
+                    class="p-button-text"
+                    (click)="saveAccount()"
+                ></button>
+            </ng-template>
+        </p-dialog>
     </div>
-<!-- thêm user -->
-    <p-dialog [(visible)]="isVisibleUserDialog" [style]="{width: '450px'}" [header]="userDialogHeader" [modal]="true"
-      class="p-fluid">
-      <ng-template pTemplate="content">
-        <form [formGroup]="usersForm">
-          <div class="field">
-            <label><strong>Họ và tên</strong></label>
-            <input type="text" pInputText placeholder="Họ và tên..." formControlName="fullName" required autofocus />
-            <div class="m-error" *ngIf="usersForm.controls['fullName'].invalid && usersForm.controls['fullName'].dirty">
-              *Họ và tên không được để trống
-            </div>
-          </div>
-          <div class="field">
-            <label><strong>Số điện thoại</strong></label>
-            <input type="tel" pInputText placeholder="Số điện thoại" formControlName="phoneNo" autofocus />
-          </div>
-          <div class="field">
-            <label><strong>Email</strong></label>
-            <input type="email" pInputText placeholder="Email..." formControlName="email" required autofocus />
-            <div class="m-error" *ngIf="usersForm.controls['email'].invalid && usersForm.controls['email'].dirty">
-              *Email không được để trống
-              </div>
-            </div>
-          <div class="field">
-            <label><strong>Tên đăng nhập</strong></label>
-            <input type="text" pInputText placeholder="Tên đăng nhập..." formControlName="username" required
-              autocomplete="new-username" autofocus />
-            <div class="m-error" *ngIf="usersForm.controls['username'].invalid && usersForm.controls['username'].dirty">
-              *Tên đăng nhập không được để trống
-              </div>
-            </div>
-          <div class="field">
-            <label><strong>Mật khẩu</strong></label>
-            <input type="password" pInputText placeholder="Mật khẩu..." formControlName="password" required autofocus autocomplete="new-password" />
-            <div class="m-error" *ngIf="usersForm.controls['password'].invalid && usersForm.controls['password'].dirty">
-              *Mật khẩu không được để trống và từ 6 ký tự trở lên
-              </div>
-            </div>
-          <div class="field">
-            <label><strong>Nhập lại mật khẩu</strong></label>
-            <input type="password" pInputText placeholder="Nhập lại mật khẩu..." formControlName="repass" required
-              autofocus />
-            <div class="m-error" *ngIf="usersForm.controls['repass'].invalid &&
-              usersForm.controls['repass'].dirty && usersForm.controls['repass'].hasError('confirm')">
-              *Nhập lại mật khẩu không đúng
-            </div>
-          </div>
-        </form>
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
-          (click)="isVisibleUserDialog=false"></button>
-        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItem()"></button>
-      </ng-template>
-    </p-dialog>
-<!-- sửa thông tin user -->
-    <p-dialog [(visible)]="isVisibleUserEdit" [style]="{width: '450px'}" [header]="userDialogHeader" [modal]="true"
-      class="p-fluid">
-      <ng-template pTemplate="content">
-        <form [formGroup]="usersFormEdit">
-          <div class="field">
-            <label><strong>Họ và tên</strong></label>
-            <input type="text" pInputText placeholder="Họ và tên..." formControlName="fullname" autofocus />
-          </div>
-          <div class="field">
-            <label><strong>Số điện thoại</strong></label>
-            <input type="tel" pInputText placeholder="Số điện thoại" formControlName="phoneNo" autofocus />
-          </div>
-          <div class="field">
-            <label><strong>Email</strong></label>
-            <input type="email" pInputText placeholder="Email..." formControlName="email" required autofocus />
-            <div class="m-error"
-              *ngIf="usersFormEdit.controls['email'].invalid && usersFormEdit.controls['email'].dirty">
-              <i>*Mail không được để trống</i>
-            </div>
-          </div>
-          <div class="field">
-            <label><strong>His code</strong></label>
-            <input type="text" pInputText placeholder="His code" formControlName="hisCode" autofocus />
-          </div>
-        </form>
-      </ng-template>
-      <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
-          (click)="isVisibleUserEdit=false"></button>
-        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveItemEdit()"></button>
-      </ng-template>
-    </p-dialog>
-<!-- confirm disable -->
-    <confirm-dialog [(visible)]="isVisibleDisableUserDialog" [confirmText]="textConfirmDisableUser"
-      [confirmLabel]="confirmLabelDisable" (onClose)="cancelDisable()" (onConfirm)="disableUser()"
-      (onCancel)="cancelDisable()"></confirm-dialog>
-<!-- confirm enable -->
-    <confirm-dialog [(visible)]="isVisibleEnableUserDialog" [confirmText]="textConfirmEnableUser"
-        [confirmLabel]="confirmLabelEnable" (onClose)="cancelEnable()" (onConfirm)="enableUser()"
-        (onCancel)="cancelEnable()"></confirm-dialog>
-<!-- Danh sách group trong DS user -->
-    <list-group-of-users [(visible)]="isVisibleListGroups" [userId]="selectedUser.id"></list-group-of-users>
-
-    <p-dialog [(visible)]="isVisibleAddAccountDialog" [style]="{width: '450px'}" header="Thêm thành viên" [modal]="true"
-      class="p-fluid">
-  <ng-template pTemplate="content">
-        <form [formGroup]="accountForm">
-      <div class="field">
-            <label>Tên đăng nhập</label>
-            <input type="text" pInputText formControlName="username" required autofocus />
-            <div class="m-error"
-              *ngIf="accountForm.controls['username'].invalid && accountForm.controls['username'].dirty">*Tên đăng nhập
-              không được để trống</div>
-      </div>
-    </form>
-  </ng-template>
-
-  <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text text-red-600"
-          (click)="isVisibleAddAccountDialog=false"></button>
-        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text" (click)="saveAccount()"></button>
-  </ng-template>
-    </p-dialog>
-
-  </div>
 </div>
-
-
-
-
-

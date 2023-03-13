@@ -1,150 +1,272 @@
 <div class="grid card admin-content p-0">
-  <div class="col-2 text-center">
-    <h5>Danh sách mẫu báo cáo <i *ngIf="!isExpanse" class="pi pi-angle-double-right" title="Mở rộng tất cả" (click)="toggleExpanse()"></i>
-        <i *ngIf="isExpanse" title="Thu gọn tất cả" class="pi pi-angle-double-left" (click)="toggleExpanse()"></i></h5>
-    <span *ngIf="loading">
-      <i *ngIf="loading" class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem" ></i>
-      Loading...
-    </span>
-    <p-tree class="text-left" *ngIf="!loading" [selectionMode]="'single'" [value]="reportTemplates"
-      [emptyMessage]="'Không có mẫu báo cáo'" (onNodeSelect)="selectTemplate($event)" [draggableNodes]="true"
-      (onNodeDrop)="onNodeDrop($event)" [droppableNodes]="true" draggableScope="self" droppableScope="self"  [validateDrop]="validateDrop" scrollHeight="calc(80vh)"></p-tree>
-  </div>
-  <div class="col-10">
-    <div class="grid">
-      <div class="col-12 my-2 flex justify-content-between flex-wrap">
-        <span class="block p-input-icon-left">
+    <div class="col-2 text-center">
+        <h5>
+            Danh sách mẫu báo cáo
+            <i
+                *ngIf="!isExpanse"
+                class="pi pi-angle-double-right"
+                title="Mở rộng tất cả"
+                (click)="toggleExpanse()"
+            ></i>
+            <i
+                *ngIf="isExpanse"
+                title="Thu gọn tất cả"
+                class="pi pi-angle-double-left"
+                (click)="toggleExpanse()"
+            ></i>
+        </h5>
+        <span *ngIf="loading">
+            <i
+                *ngIf="loading"
+                class="pi pi-spin pi-spinner mr-1"
+                style="font-size: 1rem"
+            ></i>
+            Loading...
         </span>
-        <div class="flex justify-content-end flex-wrap">
-          <button [disabled]="loading" pButton pRipple label="Import" icon="pi pi-upload"
-            class="p-button-info  p-button-outlined p-button-sm mr-2" (click)="op.toggle($event)"></button>
-          <button pButton pRipple label="Export" icon="pi pi-download" class="p-button-help  p-button-outlined p-button-sm mr-2"
-            (click)="export()" [loading]="isExporting"></button>
-
-          <button [loading]="deleting" [disabled]="!currentTemplate.templateId" pButton pRipple label="Xóa"
-            icon="pi pi-trash" (click)="onDeleteItem()" class=" p-button-outlined p-button-danger p-button-sm mr-2"></button>
-          <button [loading]="saving" [disabled]="false" pButton pRipple label="Lưu mẫu báo cáo" icon="pi pi-save"
-            class=" p-button-outlined p-button-sm mr-2" (click)="onSaveTemplate()"></button>
-          <button pButton pRipple label="Tạo mới" icon="pi pi-plus" class="p-button-success p-button-sm "
-            (click)="resetTemplate()"></button>
-        </div>
-      </div>
+        <p-tree
+            class="text-left"
+            *ngIf="!loading"
+            [selectionMode]="'single'"
+            [value]="reportTemplates"
+            [emptyMessage]="'Không có mẫu báo cáo'"
+            (onNodeSelect)="selectTemplate($event)"
+            [draggableNodes]="true"
+            (onNodeDrop)="onNodeDrop($event)"
+            [droppableNodes]="true"
+            draggableScope="self"
+            droppableScope="self"
+            [validateDrop]="validateDrop"
+            scrollHeight="calc(80vh)"
+        ></p-tree>
     </div>
-    <p-overlayPanel #op>
-      <ng-template pTemplate>
-        <p-fileUpload name="demo[]" [customUpload]="true" (uploadHandler)="myUploader($event)" accept=".json">
-          <ng-template pTemplate="content">
-            <span *ngIf="isImporting">
-              <i  class="pi pi-spin pi-spinner mr-1" style="font-size: 1rem"></i>
-               Đang import dữ liệu.Vui lòng chờ!
-            </span>
-            <!-- <ul *ngIf="uploadedFiles.length">
+    <div class="col-10">
+        <div class="grid">
+            <div class="col-12 my-2 flex justify-content-between flex-wrap">
+                <span class="block p-input-icon-left"> </span>
+                <div class="flex justify-content-end flex-wrap">
+                    <button
+                        [disabled]="loading"
+                        pButton
+                        pRipple
+                        label="Import"
+                        icon="pi pi-upload"
+                        class="p-button-info p-button-outlined p-button-sm mr-2"
+                        (click)="op.toggle($event)"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Export"
+                        icon="pi pi-download"
+                        class="p-button-help p-button-outlined p-button-sm mr-2"
+                        (click)="export()"
+                        [loading]="isExporting"
+                    ></button>
+
+                    <button
+                        [loading]="deleting"
+                        [disabled]="!currentTemplate.templateId"
+                        pButton
+                        pRipple
+                        label="Xóa"
+                        icon="pi pi-trash"
+                        (click)="onDeleteItem()"
+                        class="p-button-outlined p-button-danger p-button-sm mr-2"
+                    ></button>
+                    <button
+                        [loading]="saving"
+                        [disabled]="false"
+                        pButton
+                        pRipple
+                        label="Lưu mẫu báo cáo"
+                        icon="pi pi-save"
+                        class="p-button-outlined p-button-sm mr-2"
+                        (click)="onSaveTemplate()"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Tạo mới"
+                        icon="pi pi-plus"
+                        class="p-button-success p-button-sm"
+                        (click)="resetTemplate()"
+                    ></button>
+                </div>
+            </div>
+        </div>
+        <p-overlayPanel #op>
+            <ng-template pTemplate>
+                <p-fileUpload
+                    name="demo[]"
+                    [customUpload]="true"
+                    (uploadHandler)="myUploader($event)"
+                    accept=".json"
+                >
+                    <ng-template pTemplate="content">
+                        <span *ngIf="isImporting">
+                            <i
+                                class="pi pi-spin pi-spinner mr-1"
+                                style="font-size: 1rem"
+                            ></i>
+                            Đang import dữ liệu.Vui lòng chờ!
+                        </span>
+                        <!-- <ul *ngIf="uploadedFiles.length">
               <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
             </ul> -->
-          </ng-template>
-        </p-fileUpload>
-      </ng-template>
-    </p-overlayPanel>
-    <div class="grid">
-      <div class="col-2 text-lg align-items-center flex">
-        <span class="text-red-500">*</span> Tên:
-      </div>
-      <div class="col-10">
-        <input [(ngModel)]="currentTemplate.templateName" pInputText type="text" placeholder="Tên mẫu báo cáo"
-          class="w-full p-inputtext-sm text-base" />
-      </div>
+                    </ng-template>
+                </p-fileUpload>
+            </ng-template>
+        </p-overlayPanel>
+        <div class="grid">
+            <div class="col-2 text-lg align-items-center flex">
+                <span class="text-red-500">*</span> Tên:
+            </div>
+            <div class="col-10">
+                <input
+                    [(ngModel)]="currentTemplate.templateName"
+                    pInputText
+                    type="text"
+                    placeholder="Tên mẫu báo cáo"
+                    class="w-full p-inputtext-sm text-base"
+                />
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-2 text-lg align-items-center flex">Code:</div>
+            <div class="col-10">
+                <input
+                    [(ngModel)]="currentTemplate.code"
+                    pInputText
+                    type="text"
+                    placeholder="Code"
+                    class="w-full p-inputtext-sm text-base"
+                />
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-2 text-lg align-items-center flex">Parent:</div>
+            <div class="col-10">
+                <p-treeSelect
+                    [options]="reportTemplates"
+                    [(ngModel)]="selectedParent"
+                    placeholder="Select parent"
+                    [showClear]="true"
+                    class="w-full"
+                ></p-treeSelect>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-2 text-lg align-items-center flex">
+                Mô tả vi thể:
+            </div>
+            <div class="col-10">
+                <p-editor
+                    [(ngModel)]="currentTemplate.microbodyDescribe"
+                    [style]="{ height: '250px' }"
+                ></p-editor>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-2 text-lg align-items-center flex">Kết luận:</div>
+            <div class="col-10">
+                <p-editor
+                    [(ngModel)]="currentTemplate.diagnose"
+                    [style]="{ height: '250px' }"
+                ></p-editor>
+            </div>
+        </div>
+        <div class="grid" *ngIf="useExtendReportFields">
+            <div class="col-2 text-lg align-items-center flex">Bàn luận:</div>
+            <div class="col-10">
+                <p-editor
+                    [(ngModel)]="currentTemplate.discuss"
+                    [style]="{ height: '250px' }"
+                ></p-editor>
+            </div>
+        </div>
+        <div class="grid" *ngIf="useExtendReportFields">
+            <div class="col-2 text-lg align-items-center flex">
+                Khuyến nghị:
+            </div>
+            <div class="col-10">
+                <p-editor
+                    [(ngModel)]="currentTemplate.recommendation"
+                    [style]="{ height: '250px' }"
+                ></p-editor>
+            </div>
+        </div>
+        <div class="grid" *ngIf="useExtendReportFields">
+            <div class="col-2 text-lg align-items-center flex">Hội chẩn:</div>
+            <div class="col-10">
+                <p-editor
+                    [(ngModel)]="currentTemplate.consultation"
+                    [style]="{ height: '250px' }"
+                ></p-editor>
+            </div>
+        </div>
     </div>
-    <div class="grid">
-      <div class="col-2 text-lg align-items-center flex">
-        Code:
-      </div>
-      <div class="col-10">
-        <input [(ngModel)]="currentTemplate.code" pInputText type="text" placeholder="Code"
-          class="w-full p-inputtext-sm text-base" />
-      </div>
-    </div>
-    <div class="grid">
-      <div class="col-2 text-lg align-items-center flex">
-        Parent:
-      </div>
-      <div class="col-10">
-        <p-treeSelect [options]="reportTemplates" [(ngModel)]="selectedParent" placeholder="Select parent"
-          [showClear]="true" class="w-full"></p-treeSelect>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="col-2 text-lg align-items-center flex">
-        Mô tả vi thể:
-      </div>
-      <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.microbodyDescribe" [style]="{'height':'250px'}"></p-editor>
-      </div>
-    </div>
-    <div class="grid">
-      <div class="col-2 text-lg align-items-center flex">
-        Kết luận:
-      </div>
-      <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.diagnose" [style]="{'height':'250px'}"></p-editor>
-      </div>
-    </div>
-    <div class="grid" *ngIf="useExtendReportFields">
-      <div class="col-2 text-lg align-items-center flex">
-        Bàn luận:
-      </div>
-      <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.discuss" [style]="{'height':'250px'}"></p-editor>
-      </div>
-    </div>
-    <div class="grid" *ngIf="useExtendReportFields">
-      <div class="col-2 text-lg align-items-center flex">
-        Khuyến nghị:
-      </div>
-      <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.recommendation" [style]="{'height':'250px'}"></p-editor>
-      </div>
-    </div>
-    <div class="grid" *ngIf="useExtendReportFields">
-      <div class="col-2 text-lg align-items-center flex">
-        Hội chẩn:
-      </div>
-      <div class="col-10">
-        <p-editor [(ngModel)]="currentTemplate.consultation" [style]="{'height':'250px'}"></p-editor>
-      </div>
-    </div>
-  </div>
 </div>
-<confirm-dialog [(visible)]="isVisibleDeleteItemDialog" [confirmText]="textConfirmDelete"
-    (onConfirm)="deleteReportTemplate()"></confirm-dialog>
-<confirm-dialog [(visible)]="isVisibleDragDropReports" confirmText="Việc này sẽ làm thay đổi <b class='text-red-600'>vị trí lấy mẫu </b> của mẫu báo cáo!" confirmLabel="Xác nhận"
-    (onClose)="cancelSaveReports()" (onConfirm)="confirmSaveReports()"
-    (onCancel)="cancelSaveReports()"></confirm-dialog>
+<confirm-dialog
+    [(visible)]="isVisibleDeleteItemDialog"
+    [confirmText]="textConfirmDelete"
+    (onConfirm)="deleteReportTemplate()"
+></confirm-dialog>
+<confirm-dialog
+    [(visible)]="isVisibleDragDropReports"
+    confirmText="Việc này sẽ làm thay đổi <b class='text-red-600'>vị trí lấy mẫu </b> của mẫu báo cáo!"
+    confirmLabel="Xác nhận"
+    (onClose)="cancelSaveReports()"
+    (onConfirm)="confirmSaveReports()"
+    (onCancel)="cancelSaveReports()"
+></confirm-dialog>
 
-<p-dialog [(visible)]="isVisibleImportReportDialog" [style]="{width: '700px'}" [header]="''" [modal]="true"
-    class="p-fluid">
+<p-dialog
+    [(visible)]="isVisibleImportReportDialog"
+    [style]="{ width: '700px' }"
+    [header]="''"
+    [modal]="true"
+    class="p-fluid"
+>
     <ng-template pTemplate="content">
         <div class="grid">
-            <div class="col-6 ">
+            <div class="col-6">
                 <p-fieldset legend="DS mẫu báo cáo đã upload">
-                    <p-tree [value]="listTemplateReportsUpload" [draggableNodes]="true"  droppableScope="tree2" draggableScope="tree1"></p-tree>
+                    <p-tree
+                        [value]="listTemplateReportsUpload"
+                        [draggableNodes]="true"
+                        droppableScope="tree2"
+                        draggableScope="tree1"
+                    ></p-tree>
                 </p-fieldset>
-
             </div>
-            <div class="col-6 ">
+            <div class="col-6">
                 <p-fieldset legend="DS mẫu báo cáo hiện tại">
-                    <p-tree [value]="listTemplateReportsCurrent"  [droppableNodes]="true" droppableScope="tree1" ></p-tree>
+                    <p-tree
+                        [value]="listTemplateReportsCurrent"
+                        [droppableNodes]="true"
+                        droppableScope="tree1"
+                    ></p-tree>
                 </p-fieldset>
-
-
             </div>
-
         </div>
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <button pButton pRipple label="Đóng" icon="pi pi-times" class="p-button-text"
-            (click)="isVisibleImportReportDialog=false"></button>
-        <button pButton pRipple label="Lưu" icon="pi pi-check" class="p-button-text"
-            (click)="saveListReport()"></button>
+        <button
+            pButton
+            pRipple
+            label="Đóng"
+            icon="pi pi-times"
+            class="p-button-text"
+            (click)="isVisibleImportReportDialog = false"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Lưu"
+            icon="pi pi-check"
+            class="p-button-text"
+            (click)="saveListReport()"
+        ></button>
     </ng-template>
 </p-dialog>
