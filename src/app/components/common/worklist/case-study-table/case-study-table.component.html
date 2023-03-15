@@ -1,59 +1,161 @@
-<div [ngClass]="{'search-table' : isShowSearch, 'not-search-table': !isShowSearch}">
-  <p-table #caseStudyTable [columns]="cols" [value]="caseStudies" [scrollable]="true" [scrollHeight]="tableHeight+'px'" [loading]="loading" [virtualScrollItemSize]="40"
-    [lazy]="true" (onLazyLoad)="onLazyLoad.emit($event)" [virtualScroll]="true" responsiveLayout="scroll" [rowHover]="true"
-    selectionMode="single" [contextMenu]="menu" [(contextMenuSelection)]="selectedCaseStudy"
-    dataKey="caseStudyId" [resizableColumns]="true" columnResizeMode="expand">
-    <ng-template pTemplate="header">
-      <tr class="text-blue-900">
-        <th class="flex flex-none bg-white relative" [style]="{'width':'50px'}">
-          <ng-container *ngIf="!isRelatedList">
-            <i class="pi pi-filter-fill cursor-pointer absolute left-0 ml-1" (click)="isShowSearch=!isShowSearch"
-              [ngClass]="{'text-primary' : isShowSearch}"></i>&nbsp;
-          </ng-container>
-          STT
-        </th>
-        <th class="flex flex-none bg-white" [style]="{'width':'10rem'}">Trạng thái</th>
-        <th *ngFor="let col of cols" [style]="{'width':col.width}" pResizableColumn 
-          class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none">
-          {{ col.header }}
-        </th>
-      </tr>
-      <tr *ngIf="isShowSearch" style="height:35px">
-        <study-table-search [layoutConfig]="layoutConfig" [searchData]="searchData" (onSearch)="onSearch.emit($event)"></study-table-search>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rowData>
-      <tr style="height:40px" [pContextMenuRow]="rowData" [pSelectableRow]="rowData" (click)="onRowSelect($event, rowData)"
-        (dblclick)="openViewer(rowData)"
-        [ngClass]="{'bg-grid': rowData['slideCount']>0 && rowData['idx']!=selectedCaseStudy['idx'], 
-          'surface-200':rowData['idx']==selectedCaseStudy['idx'],
-          'hover:surface-200 cursor-pointer':true}">
-        <td class="flex align-items-center justify-content-center flex-none" [style]="{'width':'50px'}">{{ rowData['idx'] }}</td>
-        <td class="flex align-items-center flex-none" [style]="{'width':'10rem'}">
-          <span class="flex align-items-center state-color-{{rowData['state']}}">
-            <img class="mr-1" src="assets/images/state-{{rowData['state']}}.png" alt="">
-            {{ rowData['stateLabel'] }}
-          </span>
-        </td>
-        <td *ngFor="let col of cols" [style]="{'width':col.width}" class="flex align-items-center overflow-hidden white-space-nowrap text-overflow-ellipsis flex-none"
-          [title]="rowData[col.field]" [innerHTML]="rowData[col.field]">
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="loadingbody" let-columns="columns">
-      <tr style="height:40px">
-          <td [attr.colspan]="cols.length+2" class="text-center">
-            <p-skeleton [ngStyle]="{'width': '100%'}"></p-skeleton>
-          </td>
-      </tr>
-  </ng-template>
-  <ng-template pTemplate="emptymessage" let-columns>
-    <tr>
-      <td [attr.colspan]="cols.length+2" class="justify-content-center">
-        Không có dữ liệu.
-      </td>
-    </tr>
-  </ng-template>
-  </p-table>
+<div
+    [ngClass]="{
+        'search-table': isShowSearch,
+        'not-search-table': !isShowSearch
+    }"
+>
+    <!-- (sortFunction)="customSort($event)" [customSort]="true" -->
+    <p-table
+        #caseStudyTable
+        [columns]="cols"
+        [value]="caseStudies"
+        [scrollable]="true"
+        [scrollHeight]="tableHeight + 'px'"
+        [loading]="loading"
+        [virtualScrollItemSize]="40"
+        [lazy]="true"
+        (onLazyLoad)="onLazyLoad.emit($event)"
+        [virtualScroll]="true"
+        responsiveLayout="scroll"
+        [rowHover]="true"
+        selectionMode="single"
+        [contextMenu]="menu"
+        [(contextMenuSelection)]="selectedCaseStudy"
+        dataKey="caseStudyId"
+        [resizableColumns]="true"
+        columnResizeMode="expand"
+    >
+        <!-- Start template header -->
+        <ng-template pTemplate="header">
+            <tr class="text-blue-900">
+                <th
+                    class="flex flex-none bg-white relative"
+                    [style]="{ width: '50px' }"
+                >
+                    <ng-container *ngIf="!isRelatedList">
+                        <i
+                            class="pi pi-filter-fill cursor-pointer absolute left-0 ml-1"
+                            (click)="isShowSearch = !isShowSearch"
+                            [ngClass]="{ 'text-primary': isShowSearch }"
+                        ></i
+                        >&nbsp;
+                    </ng-container>
+                    STT
+                </th>
+                <th
+                    class="flex flex-none bg-white"
+                    [style]="{ width: '10rem' }"
+                >
+                    Trạng thái
+                </th>
+
+
+
+                <!-- Start: Các cột tiêu đề từ Ngày tạo đến Kết luận-->
+                <th
+                    *ngFor="let col of cols"
+                    [pSortableColumn]="col.field"
+                    [style]="{ width: col.width }"
+                    pResizableColumn
+                    class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none"
+
+                    (click)="customSort(col)"
+                >
+                    {{ col.header }}
+
+                    <!-- Icon Sort -->
+                    <p-sortIcon
+                        *ngIf="col.isExSort"
+                        [field]="col.field"
+                    ></p-sortIcon>
+                </th>
+                <!-- End: Các cột tiêu đề từ Ngày tạo đến Kết luận-->
+
+
+            </tr>
+            <tr *ngIf="isShowSearch" style="height: 35px">
+                <study-table-search
+                    [layoutConfig]="layoutConfig"
+                    [searchData]="searchData"
+                    (onSearch)="onSearch.emit($event)"
+                ></study-table-search>
+            </tr>
+        </ng-template>
+        <!-- End template header -->
+
+        <!-- Start template body -->
+        <!-- Thế sắp xếp lại thì toàn bộ các row trong table sẽ thay đổi thứ tự và hệ thống sẽ tự động cấp nhập mới -->
+        <ng-template pTemplate="body" let-rowData>
+            <tr
+                style="height: 40px"
+                [pContextMenuRow]="rowData"
+                [pSelectableRow]="rowData"
+                (click)="onRowSelect($event, rowData)"
+                (dblclick)="openViewer(rowData)"
+                [ngClass]="{
+                    'bg-grid':
+                        rowData['slideCount'] > 0 &&
+                        rowData['idx'] != selectedCaseStudy['idx'],
+                    'surface-200': rowData['idx'] == selectedCaseStudy['idx'],
+                    'hover:surface-200 cursor-pointer': true
+                }"
+            >
+                <td
+                    class="flex align-items-center justify-content-center flex-none"
+                    [style]="{ width: '50px' }"
+                >
+                    {{ rowData["idx"] }}
+                </td>
+                <td
+                    class="flex align-items-center flex-none"
+                    [style]="{ width: '10rem' }"
+                >
+                    <span
+                        class="flex align-items-center state-color-{{
+                            rowData['state']
+                        }}"
+                    >
+                        <img
+                            class="mr-1"
+                            src="assets/images/state-{{ rowData['state'] }}.png"
+                            alt=""
+                        />
+                        {{ rowData["stateLabel"] }}
+                    </span>
+                </td>
+
+                <!-- Dữ liệu cần được sắp xếp -->
+                <!-- Sắp xếp theo thứ tự các colume trong này -->
+                <td
+                    *ngFor="let col of cols"
+                    [style]="{ width: col.width }"
+                    class="flex align-items-center overflow-hidden white-space-nowrap text-overflow-ellipsis flex-none"
+                    [title]="rowData[col.field]"
+                    [innerHTML]="rowData[col.field]"
+                ></td>
+
+            </tr>
+        </ng-template>
+        <!-- End template body -->
+
+        <ng-template pTemplate="loadingbody" let-columns="columns">
+            <tr style="height: 40px">
+                <td [attr.colspan]="cols.length + 2" class="text-center">
+                    <p-skeleton [ngStyle]="{ width: '100%' }"></p-skeleton>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+                <td
+                    [attr.colspan]="cols.length + 2"
+                    class="justify-content-center"
+                >
+                    Không có dữ liệu.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
 </div>
 <p-contextMenu #menu styleClass="w-16rem" [model]="actions"></p-contextMenu>

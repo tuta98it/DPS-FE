@@ -31,7 +31,7 @@ import { TechnicianService } from 'src/app/services/technician.service';
 import { SourceHospitalService } from 'src/app/services/source-hospital.service';
 import { OverlayPanel } from 'primeng/overlaypanel';
 import { BodyPartService } from 'src/app/services/body-part.service';
-
+import { SortEvent } from 'primeng/api';
 @Component({
   selector: 'vt-worklist',
   templateUrl: './vt-worklist.component.html',

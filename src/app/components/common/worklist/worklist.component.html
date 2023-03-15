@@ -1,74 +1,224 @@
 <div class="h-full w-full worklist-container">
-  <as-split class="h-full" direction="vertical" (dragEnd)="onResizeEnd($event)">
-    <as-split-area [size]="panelSizes[0]" [minSize]="5">
-      <div class="grid w-full m-0">
-        <div [ngClass]="{'col-6' : isSmallScreen, 'col-2': !isSmallScreen, 'pb-1 pt-2': true}">
-          <span class="block sm:text-lg xl:text-xl font-bold text-primary-color pt-2">
-            <ng-container *ngIf="selectedLayout==LAYOUT.FULL">Danh sách ca khám:</ng-container> {{totalCaseStudies}} kết quả
-          </span>
-        </div>
-        <div [ngClass]="{'col-6' : isSmallScreen, 'col-10': !isSmallScreen, 'pb-1 pt-2': true}">
-          <div class="flex justify-content-end">
-            <input pInputText type="text" placeholder="Tên bệnh nhân" title="Tên bệnh nhân"
-              class="text-base w-12rem p-inputtext-sm mr-2 border-round-3xl pl-3" [(ngModel)]="searchData.patientName" (keydown.enter)="onSearch(searchData)" />
-            <p-calendar [showClear]="true" [showButtonBar]="true" placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" (ngModelChange)="onSearch(searchData)" 
-              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 border-round-3xl w-12rem pl-3"></p-calendar>
-            <p-calendar [showClear]="true" [showButtonBar]="true" placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)"
-              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 border-round-3xl w-12rem pl-3"></p-calendar>
-            <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status" 
-              placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-12rem pl-2"></p-dropdown>
-            <button pButton pRipple type="button" icon="pi pi-search-plus" class="flex-none text-xl p-button-info font-bold p-button-rounded"
-              (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
-            <button pButton pRipple type="button" icon="pi pi-delete-left" class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
-              (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
-            <button [loading]="loadingExport" (click)="exportReport()"
-              pButton pRipple type="button" icon="pi pi-download" title="Xuất báo cáo" 
-              class="flex-none text-xl ml-2 font-bold p-button-rounded p-buton-primary"></button>
-            <button pButton pRipple label="Thêm ca bệnh" icon="pi pi-plus" class="flex-none xl:ml-4 sm:ml-2 p-button p-button-rounded"
-              (click)="onCreateCaseStudy()"></button>
-          </div>
-        </div>
-        <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
-          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
-            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies" 
-            [searchData]="searchData" (onSearch)="onSearch($event)" (onAction)="onCaseStudyAction($event)"></case-study-table>
-        </div>
-      </div>
-    </as-split-area>
-    <as-split-area [size]="panelSizes[1]" [minSize]="5">
-      <div class="grid w-full m-0 flex-none">
-        <div class="col-12 py-3 flex align-items-center">
-          <span class="sm:text-lg xl:text-xl font-bold text-primary-color">
-            Ca khám liên quan của bệnh nhân {{selectedCaseStudy.patientsName}}
-          </span>
-          <i class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer" (click)="toggleRelated()" ></i>
-        </div>
-        <div class="col-12 py-0 px-3 w-full flex-auto mt-0">
-          <case-study-table *ngIf="isShowRelated" [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight" 
-            [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
-        </div>
-      </div>
-    </as-split-area>
-    <as-split-area [size]="panelSizes[2]" [minSize]="5">
-      <div class="col-12 py-3 flex align-items-center">
-        <span class="sm:text-lg xl:text-xl font-bold text-primary-color">
-          Báo cáo của bệnh nhân <ng-container *ngIf="selectedCaseStudy?.patientId">{{selectedCaseStudy.patientsName}} - {{selectedCaseStudy.createdTime}}</ng-container> 
-        </span>
-        <img src="assets/images/icons/zoom.svg" class="block flex-none ml-auto cursor-pointer" style="height: 1.5rem;" alt="Mở rộng" title="Mở rộng"
-          (click)="openReportDialog()">
-      </div>
-      <div class="grid w-full m-0 flex-none">
-        <report-panel #reportPanel class="w-full" [(disableEditor)]="disableReport" [height]="reportPanelHeight" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-panel>
-      </div>
-    </as-split-area>
-  </as-split>
+    <as-split
+        class="h-full"
+        direction="vertical"
+        (dragEnd)="onResizeEnd($event)"
+    >
+        <as-split-area [size]="panelSizes[0]" [minSize]="5">
+            <div class="grid w-full m-0">
+                <div
+                    [ngClass]="{
+                        'col-6': isSmallScreen,
+                        'col-2': !isSmallScreen,
+                        'pb-1 pt-2': true
+                    }"
+                >
+                    <span
+                        class="block sm:text-lg xl:text-xl font-bold text-primary-color pt-2"
+                    >
+                        <ng-container *ngIf="selectedLayout == LAYOUT.FULL"
+                            >Danh sách ca khám:</ng-container
+                        >
+                        {{ totalCaseStudies }} kết quả
+                    </span>
+                </div>
+                <div
+                    [ngClass]="{
+                        'col-6': isSmallScreen,
+                        'col-10': !isSmallScreen,
+                        'pb-1 pt-2': true
+                    }"
+                >
+                    <div class="flex justify-content-end">
+                        <input
+                            pInputText
+                            type="text"
+                            placeholder="Tên bệnh nhân"
+                            title="Tên bệnh nhân"
+                            class="text-base w-12rem p-inputtext-sm mr-2 border-round-3xl pl-3"
+                            [(ngModel)]="searchData.patientName"
+                            (keydown.enter)="onSearch(searchData)"
+                        />
+                        <p-calendar
+                            [showClear]="true"
+                            [showButtonBar]="true"
+                            placeholder="Lọc từ ngày"
+                            [(ngModel)]="searchData.from"
+                            (ngModelChange)="onSearch(searchData)"
+                            [showIcon]="false"
+                            appendTo="body"
+                            [dateFormat]="'dd/mm/yy'"
+                            inputStyleClass="mr-2 border-round-3xl w-12rem pl-3"
+                        ></p-calendar>
+                        <p-calendar
+                            [showClear]="true"
+                            [showButtonBar]="true"
+                            placeholder="Lọc đến ngày"
+                            [(ngModel)]="searchData.to"
+                            (ngModelChange)="onSearch(searchData)"
+                            [showIcon]="false"
+                            appendTo="body"
+                            [dateFormat]="'dd/mm/yy'"
+                            inputStyleClass="mr-2 border-round-3xl w-12rem pl-3"
+                        ></p-calendar>
+                        <p-dropdown
+                            [options]="REPORT_STATES"
+                            [(ngModel)]="searchData.status"
+                            placeholder="Trạng thái"
+                            optionLabel="label"
+                            (ngModelChange)="onSearch(searchData)"
+                            optionValue="value"
+                            [showClear]="true"
+                            styleClass="mr-2 border-round-3xl w-12rem pl-2"
+                        ></p-dropdown>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-search-plus"
+                            class="flex-none text-xl p-button-info font-bold p-button-rounded"
+                            (click)="isVisibleSearchCaseStudy = true"
+                            title="Tìm kiếm nâng cao"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-delete-left"
+                            class="flex-none ml-2 text-2xl p-button-danger font-bold p-button-rounded"
+                            (click)="onSearch(INIT_SEARCH_CASE_STUDY)"
+                            title="Xóa lọc"
+                        ></button>
+                        <button
+                            [loading]="loadingExport"
+                            (click)="exportReport()"
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-download"
+                            title="Xuất báo cáo"
+                            class="flex-none text-xl ml-2 font-bold p-button-rounded p-buton-primary"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            label="Thêm ca bệnh"
+                            icon="pi pi-plus"
+                            class="flex-none xl:ml-4 sm:ml-2 p-button p-button-rounded"
+                            (click)="onCreateCaseStudy()"
+                        ></button>
+                    </div>
+                </div>
+                <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
+                    <case-study-table
+                        #caseStudyTable
+                        [rows]="totalCaseStudies"
+                        [loading]="loading"
+                        class="w-full"
+                        [tableHeight]="tableHeight"
+                        (onLazyLoad)="onLazyLoad($event)"
+                        (onSelectCaseStudy)="onSelectCaseStudy($event)"
+                        [caseStudies]="caseStudies"
+                        [searchData]="searchData"
+                        (onSearch)="onSearch($event)"
+                        (onAction)="onCaseStudyAction($event)"
+                    ></case-study-table>
+                </div>
+            </div>
+        </as-split-area>
+        <as-split-area [size]="panelSizes[1]" [minSize]="5">
+            <div class="grid w-full m-0 flex-none">
+                <div class="col-12 py-3 flex align-items-center">
+                    <span
+                        class="sm:text-lg xl:text-xl font-bold text-primary-color"
+                    >
+                        Ca khám liên quan của bệnh nhân
+                        {{ selectedCaseStudy.patientsName }}
+                    </span>
+                    <i
+                        class="fa-solid fa-expand sm:text-lg xl:text-2xl block flex-none ml-auto cursor-pointer"
+                        (click)="toggleRelated()"
+                    ></i>
+                </div>
+                <div class="col-12 py-0 px-3 w-full flex-auto mt-0">
+                    <case-study-table
+                        *ngIf="isShowRelated"
+                        [rows]="totalRelated"
+                        [loading]="loadingRelated"
+                        class="w-full"
+                        [isRelatedList]="true"
+                        [tableHeight]="relatedTableHeight"
+                        [caseStudies]="relatedCaseStudies"
+                        (onAction)="onCaseStudyAction($event)"
+                    ></case-study-table>
+                </div>
+            </div>
+        </as-split-area>
+        <as-split-area [size]="panelSizes[2]" [minSize]="5">
+            <div class="col-12 py-3 flex align-items-center">
+                <span
+                    class="sm:text-lg xl:text-xl font-bold text-primary-color"
+                >
+                    Báo cáo của bệnh nhân
+                    <ng-container *ngIf="selectedCaseStudy?.patientId"
+                        >{{ selectedCaseStudy.patientsName }} -
+                        {{ selectedCaseStudy.createdTime }}</ng-container
+                    >
+                </span>
+                <img
+                    src="assets/images/icons/zoom.svg"
+                    class="block flex-none ml-auto cursor-pointer"
+                    style="height: 1.5rem"
+                    alt="Mở rộng"
+                    title="Mở rộng"
+                    (click)="openReportDialog()"
+                />
+            </div>
+            <div class="grid w-full m-0 flex-none">
+                <report-panel
+                    #reportPanel
+                    class="w-full"
+                    [(disableEditor)]="disableReport"
+                    [height]="reportPanelHeight"
+                    [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"
+                ></report-panel>
+            </div>
+        </as-split-area>
+    </as-split>
 </div>
-<case-study-info [(visible)]="isVisibleCaseStudyInfo" [header]="caseStudyInfoHeader" [patientId]="selectedPatientId.toString()"
-  [caseStudyId]="updatedCaseStudyId" (onSaveCaseStudy)="onSearch(searchData)"></case-study-info>
-<search-case-study [searchData]="searchData" (onCancelSearch)="onCancelSearch()" [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
-<patient-info [(visible)]="isVisiblePatientInfo" [header]="'Sửa thông tin bệnh nhân'" [patientId]="selectedPatientId"></patient-info>
-<upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
-<confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
-<report-dialog [(visible)]="visibleReportDialog" [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"></report-dialog>
-<shared-case-study [(visible)]="visibleSharedCaseStudy" [caseStudyId]="sharedCaseStudyId"></shared-case-study>
+<case-study-info
+    [(visible)]="isVisibleCaseStudyInfo"
+    [header]="caseStudyInfoHeader"
+    [patientId]="selectedPatientId.toString()"
+    [caseStudyId]="updatedCaseStudyId"
+    (onSaveCaseStudy)="onSearch(searchData)"
+></case-study-info>
+<search-case-study
+    [searchData]="searchData"
+    (onCancelSearch)="onCancelSearch()"
+    [(visible)]="isVisibleSearchCaseStudy"
+    (onSearch)="onSearch($event)"
+></search-case-study>
+<patient-info
+    [(visible)]="isVisiblePatientInfo"
+    [header]="'Sửa thông tin bệnh nhân'"
+    [patientId]="selectedPatientId"
+></patient-info>
+<upload-slide
+    [(visible)]="isVisibleUploadSlide"
+    [patientName]="uploadPatientName"
+    [caseStudyId]="uploadedCaseStudyId"
+></upload-slide>
+<confirm-dialog
+    [(visible)]="isVisibleDeleteCase"
+    [confirmText]="textConfirmDeleteCase"
+    (onConfirm)="deleteCaseStudy()"
+></confirm-dialog>
+<report-dialog
+    [(visible)]="visibleReportDialog"
+    [caseStudyId]="selectedCaseStudy?.caseStudyId ?? ''"
+></report-dialog>
+<shared-case-study
+    [(visible)]="visibleSharedCaseStudy"
+    [caseStudyId]="sharedCaseStudyId"
+></shared-case-study>

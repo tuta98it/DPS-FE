@@ -1,413 +1,1174 @@
 <div class="vt-worklist-container h-full w-full">
-  <as-split direction="vertical" (dragEnd)="dragEnd($event)">
-    <as-split-area [size]="100-INIT_WORKLIST_HEIGHT">
-      <div class="worklist-form grid w-full m-0">
-        <div [ngClass]="{'col-10': isSmallScreen==true, 'col-9' : isSmallScreen==false }" class="p-0">
-          <div class="card mx-3 mt-2 mb-0 flex-column">
-            <div class="flex flex-row-reverse">
-              <div class="w-auto">
-                <button [disabled]="creatingVisit || editingVisit" pButton pRipple label="Thêm" icon="pi pi-plus" class="p-button p-button-sm mr-2"
-                  (click)="onCreateVisit()"></button>
-                <button [disabled]="!patientForm.value.id || creatingVisit || editingVisit" (click)="onEditVisit()"
-                  pButton pRipple label="Sửa" icon="pi pi-pencil" class="p-button-outlined p-button-info p-button-sm mr-2"></button>
-                <button [disabled]="!(creatingVisit || editingVisit)" [loading]="saving" pButton pRipple label="Lưu" icon="pi pi-save" class="p-button-outlined p-button-success p-button-sm mr-2" (click)="onSave()" ></button>
-                <button [disabled]="!(creatingVisit || editingVisit)" pButton pRipple label="Hủy" (click)="visibleConfirmCancel=true"
-                  icon="pi pi-times" class="p-button-outlined p-button-danger  p-button-sm mr-2"></button>
-                <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state==REPORT_STATES[4].value"
-                  pButton pRipple label="Duyệt" icon="pi pi-check" class="p-button-outlined p-button-success p-button-sm mr-2"
-                  (click)="onApprove()"></button>
-                <button [disabled]="creatingVisit || !reportForm.value.id || reportForm.value.state!=REPORT_STATES[4].value"
-                  pButton pRipple label="Bỏ duyệt" icon="pi pi-ban" class="p-button-outlined p-button-danger p-button-sm mr-2"
-                  (click)="onUnapprove()"></button>
-                <button [disabled]="creatingVisit || editingVisit || !reportForm.value.id" pButton pRipple label="In " icon="pi pi-print" class="p-button-outlined p-button-sm mr-2"
-                  (click)="visiblePrintPreview=true"></button>
-                </div>
-            </div>
-              <div *ngIf="detailPatint" class="grid h-10rem ">
-                  <div class="col-4">
-                      <div class="col-6">
-                          <label class="text-red-800 font-bold">Tên bệnh nhân*</label>
-                          <span class="col-2">{{detailPatint.patientsName}}</span>
-                      </div>
-                      <div class="col-6">
-                          <label class="font-bold">Năm Sinh:</label>
-                          <span class="col-4">{{detailPatint.yob}}</span>
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="col-6">
-                          <label class="font-bold">Mã bệnh nhân:</label>
-                          <span class="col-2">{{detailPatint.patientCode}}</span>
-                      </div>
-                      <div class="col-6">
-                          <label class="font-bold">Giới tính:</label>
-                          <span class="col-2">{{toTextSex(detailPatint.patientsSex)}}</span>
-                      </div>
-                  </div>
-              </div>
-            <div class="grid w-full m-0 flex-none">
-              <div class="col-5 p-0" [formGroup]="patientForm">
-                <div class="grid w-full m-0 flex-none">
-                  <div class="col-12 pt-3 pb-1 flex align-items-center">
-                    <span class="font-bold underline">
-                      1. Thông tin hành chính
-                    </span>
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Tên bệnh nhân<span class="text-red-500">*</span></div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="patientsName" pInputText type="text" placeholder="Tên bệnh nhân*" class="w-full py-2 px-2" />
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Mã bệnh nhân<span class="text-red-500">*</span></div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="patientCode" pInputText type="text" placeholder="Mã bệnh nhân*" class="w-full py-2 px-2" />
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Giới tính<span class="text-red-500">*</span></div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="patientsSex" optionLabel="label" optionValue="value"
-                      [styleClass]="'w-full'" [options]="GENDERS" placeholder="Giới tính*" [showClear]="true">
-                    </p-dropdown>
-                  </div>
-                  <!-- <div class="col-2 py-1 pr-0 flex align-items-center">
+    <as-split direction="vertical" (dragEnd)="dragEnd($event)">
+        <as-split-area [size]="100 - INIT_WORKLIST_HEIGHT">
+            <div class="worklist-form grid w-full m-0">
+                <div
+                    [ngClass]="{
+                        'col-10': isSmallScreen == true,
+                        'col-9': isSmallScreen == false
+                    }"
+                    class="p-0"
+                >
+                    <div class="card mx-3 mt-2 mb-0 flex-column">
+                        <div class="flex flex-row-reverse">
+                            <div class="w-auto">
+                                <button
+                                    [disabled]="creatingVisit || editingVisit"
+                                    pButton
+                                    pRipple
+                                    label="Thêm"
+                                    icon="pi pi-plus"
+                                    class="p-button p-button-sm mr-2"
+                                    (click)="onCreateVisit()"
+                                ></button>
+                                <button
+                                    [disabled]="
+                                        !patientForm.value.id ||
+                                        creatingVisit ||
+                                        editingVisit
+                                    "
+                                    (click)="onEditVisit()"
+                                    pButton
+                                    pRipple
+                                    label="Sửa"
+                                    icon="pi pi-pencil"
+                                    class="p-button-outlined p-button-info p-button-sm mr-2"
+                                ></button>
+                                <button
+                                    [disabled]="
+                                        !(creatingVisit || editingVisit)
+                                    "
+                                    [loading]="saving"
+                                    pButton
+                                    pRipple
+                                    label="Lưu"
+                                    icon="pi pi-save"
+                                    class="p-button-outlined p-button-success p-button-sm mr-2"
+                                    (click)="onSave()"
+                                ></button>
+                                <button
+                                    [disabled]="
+                                        !(creatingVisit || editingVisit)
+                                    "
+                                    pButton
+                                    pRipple
+                                    label="Hủy"
+                                    (click)="visibleConfirmCancel = true"
+                                    icon="pi pi-times"
+                                    class="p-button-outlined p-button-danger p-button-sm mr-2"
+                                ></button>
+                                <button
+                                    [disabled]="
+                                        creatingVisit ||
+                                        !reportForm.value.id ||
+                                        reportForm.value.state ==
+                                            REPORT_STATES[4].value
+                                    "
+                                    pButton
+                                    pRipple
+                                    label="Duyệt"
+                                    icon="pi pi-check"
+                                    class="p-button-outlined p-button-success p-button-sm mr-2"
+                                    (click)="onApprove()"
+                                ></button>
+                                <button
+                                    [disabled]="
+                                        creatingVisit ||
+                                        !reportForm.value.id ||
+                                        reportForm.value.state !=
+                                            REPORT_STATES[4].value
+                                    "
+                                    pButton
+                                    pRipple
+                                    label="Bỏ duyệt"
+                                    icon="pi pi-ban"
+                                    class="p-button-outlined p-button-danger p-button-sm mr-2"
+                                    (click)="onUnapprove()"
+                                ></button>
+                                <button
+                                    [disabled]="
+                                        creatingVisit ||
+                                        editingVisit ||
+                                        !reportForm.value.id
+                                    "
+                                    pButton
+                                    pRipple
+                                    label="In "
+                                    icon="pi pi-print"
+                                    class="p-button-outlined p-button-sm mr-2"
+                                    (click)="visiblePrintPreview = true"
+                                ></button>
+                            </div>
+                        </div>
+                        <div *ngIf="detailPatint" class="grid h-10rem">
+                            <div class="col-4">
+                                <div class="col-6">
+                                    <label class="text-red-800 font-bold"
+                                        >Tên bệnh nhân*</label
+                                    >
+                                    <span class="col-2">{{
+                                        detailPatint.patientsName
+                                    }}</span>
+                                </div>
+                                <div class="col-6">
+                                    <label class="font-bold">Năm Sinh:</label>
+                                    <span class="col-4">{{
+                                        detailPatint.yob
+                                    }}</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="col-6">
+                                    <label class="font-bold"
+                                        >Mã bệnh nhân:</label
+                                    >
+                                    <span class="col-2">{{
+                                        detailPatint.patientCode
+                                    }}</span>
+                                </div>
+                                <div class="col-6">
+                                    <label class="font-bold">Giới tính:</label>
+                                    <span class="col-2">{{
+                                        toTextSex(detailPatint.patientsSex)
+                                    }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid w-full m-0 flex-none">
+                            <div class="col-5 p-0" [formGroup]="patientForm">
+                                <div class="grid w-full m-0 flex-none">
+                                    <div
+                                        class="col-12 pt-3 pb-1 flex align-items-center"
+                                    >
+                                        <span class="font-bold underline">
+                                            1. Thông tin hành chính
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>
+                                            Tên bệnh nhân<span
+                                                class="text-red-500"
+                                                >*</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="patientsName"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Tên bệnh nhân*"
+                                            class="w-full py-2 px-2"
+                                        />
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>
+                                            Mã bệnh nhân<span
+                                                class="text-red-500"
+                                                >*</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="patientCode"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Mã bệnh nhân*"
+                                            class="w-full py-2 px-2"
+                                        />
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>
+                                            Giới tính<span class="text-red-500"
+                                                >*</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="patientsSex"
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            [styleClass]="'w-full'"
+                                            [options]="GENDERS"
+                                            placeholder="Giới tính*"
+                                            [showClear]="true"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                    <!-- <div class="col-2 py-1 pr-0 flex align-items-center">
                     <div>Năm sinh<span class="text-red-500">*</span></div>
                   </div> -->
-                  <div class="col-4 py-1 pr-0">
-                    <p-inputNumber [disabled]="!(creatingVisit || editingVisit)" formControlName="yob" placeholder="Năm sinh*" [useGrouping]="false" [showButtons]="false" class="w-full"
-                      [styleClass]="'w-full'" [inputStyleClass]="'flex-none w-full py-2 px-2'" [min]="1900" [max]="2100">
-                    </p-inputNumber>
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Địa chỉ</div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="address" pInputText type="text" placeholder="Địa chỉ" class="w-full py-2 px-2" />
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Email</div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="email" pInputText type="text" placeholder="Email" class="w-full py-2 px-2" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-7 p-0" [formGroup]="caseStudyForm">
-                <div class="grid w-full m-0 flex-none">
-                  <div class="col-12 pt-3 pb-1 flex align-items-center">
-                    <span class="font-bold underline">
-                      2. Thông tin bệnh phẩm
-                    </span>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Mã chỉ định</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="modalityCode" pInputText type="text" placeholder="Mã chỉ định" class="w-full py-2 px-2" />
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Loại bệnh phẩm</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="requestType" optionLabel="label" optionValue="value" [options]="REQUEST_TYPES"
-                      [styleClass]="'w-full'" placeholder="Loại bệnh phẩm" [showClear]="true">
-                    </p-dropdown>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Vị trí lấy mẫu</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="bodyPartId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
-                      optionLabel="name" optionValue="id" [options]="bodyParts" appendTo="body" placeholder="Vị trí lấy mẫu" [showClear]="false">
-                    </p-dropdown>
-                    <!-- <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy mẫu" class="w-full py-2 px-2" /> -->
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Số lượng mẫu</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="quantity" pInputText type="text" placeholder="Số lượng mẫu" class= "py-2 px-2 w-full" />
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Ngày lấy mẫu</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-calendar [disabled]="!(creatingVisit || editingVisit)" formControlName="createTime" placeholder="Ngày lấy mẫu" [showButtonBar]="true" [showClear]="true"
-                      styleClass="w-full" [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Ngày nhận</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-calendar [disabled]="!(creatingVisit || editingVisit)" formControlName="specimensDate" placeholder="Ngày nhận mẫu" [showButtonBar]="true" [showClear]="true" styleClass="w-full"
-                      [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass= "py-2 px-2"></p-calendar>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Nơi gửi mẫu</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="sourceHospitalId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
-                      optionLabel="name" optionValue="id" [options]="sourceHospitals" appendTo="body" placeholder="Nơi gửi mẫu" [showClear]="false">
-                    </p-dropdown>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>BS chỉ định</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="modalityDoctorId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
-                      optionLabel="name" optionValue="id" [options]="orderDoctors" appendTo="body" placeholder="BS chỉ định" [showClear]="false">
-                    </p-dropdown>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Chẩn đoán LS</div>
-                  </div>
-                  <div class="col-10 py-1 pr-0">
-                    <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="clinicalDiagnosis" pInputText type="text" placeholder="Chẩn đoán lâm sàng" class="w-full py-2 px-2" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-5 p-0" [formGroup]="caseStudyForm">
-                <div class="grid w-full m-0 flex-none">
-                  <div class="col-12 pt-3 pb-1 flex align-items-center">
-                    <span class="font-bold underline">
-                      3. Thông tin xử lý mẫu
-                    </span>
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>KTV xử lý</div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="technicianId" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
-                      optionLabel="name" optionValue="id" [options]="technicians" appendTo="body" placeholder="KTV xử lý" [showClear]="false">
-                    </p-dropdown>
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Mô tả đại thể</div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <p class="w-full h-6rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="description"></p>
-                  </div>
-                  <div class="col-4 py-1 pr-0 flex align-items-center">
-                    <div>Số lam kính</div>
-                  </div>
-                  <div class="col-8 py-1 pr-0">
-                    <p-inputNumber [disabled]="!(creatingVisit || editingVisit)" formControlName="numberOfSlideManual" placeholder="Số lam kính" [useGrouping]="false" [showButtons]="false" [inputStyleClass]="'flex-none w-8 py-2 px-2'"
-                      [min]="0">
-                    </p-inputNumber>
-                  </div>
-                </div>
-              </div>
-              <div class="col-7 p-0" [formGroup]="reportForm">
-                <div class="grid w-full m-0 flex-none">
-                  <div class="col-12 pt-3 pb-1 flex align-items-center">
-                    <span class="font-bold underline">
-                      4. Thông tin kết quả
-                    </span>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Code</div>
-                  </div>
-                  <div class="col-2 py-1 pr-0">
-                    <!-- <p-dropdown [disabled]="!(creatingVisit || editingVisit)" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" (onChange)="setReportTemplate($event)"
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-inputNumber
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="yob"
+                                            placeholder="Năm sinh*"
+                                            [useGrouping]="false"
+                                            [showButtons]="false"
+                                            class="w-full"
+                                            [styleClass]="'w-full'"
+                                            [inputStyleClass]="
+                                                'flex-none w-full py-2 px-2'
+                                            "
+                                            [min]="1900"
+                                            [max]="2100"
+                                        >
+                                        </p-inputNumber>
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Địa chỉ</div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="address"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Địa chỉ"
+                                            class="w-full py-2 px-2"
+                                        />
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Email</div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="email"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Email"
+                                            class="w-full py-2 px-2"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-7 p-0" [formGroup]="caseStudyForm">
+                                <div class="grid w-full m-0 flex-none">
+                                    <div
+                                        class="col-12 pt-3 pb-1 flex align-items-center"
+                                    >
+                                        <span class="font-bold underline">
+                                            2. Thông tin bệnh phẩm
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Mã chỉ định</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="modalityCode"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Mã chỉ định"
+                                            class="w-full py-2 px-2"
+                                        />
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Loại bệnh phẩm</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="requestType"
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            [options]="REQUEST_TYPES"
+                                            [styleClass]="'w-full'"
+                                            placeholder="Loại bệnh phẩm"
+                                            [showClear]="true"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Vị trí lấy mẫu</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="bodyPartId"
+                                            [filter]="true"
+                                            [resetFilterOnHide]="true"
+                                            [styleClass]="'w-full'"
+                                            optionLabel="name"
+                                            optionValue="id"
+                                            [options]="bodyParts"
+                                            appendTo="body"
+                                            placeholder="Vị trí lấy mẫu"
+                                            [showClear]="false"
+                                        >
+                                        </p-dropdown>
+                                        <!-- <input [readOnly]="!(creatingVisit || editingVisit)" formControlName="bodyPart" pInputText type="text" placeholder="Vị trí lấy mẫu" class="w-full py-2 px-2" /> -->
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Số lượng mẫu</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="quantity"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Số lượng mẫu"
+                                            class="py-2 px-2 w-full"
+                                        />
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Ngày lấy mẫu</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-calendar
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="createTime"
+                                            placeholder="Ngày lấy mẫu"
+                                            [showButtonBar]="true"
+                                            [showClear]="true"
+                                            styleClass="w-full"
+                                            [showIcon]="false"
+                                            appendTo="body"
+                                            [dateFormat]="'dd/mm/yy'"
+                                            inputStyleClass="py-2 px-2"
+                                        ></p-calendar>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Ngày nhận</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-calendar
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="specimensDate"
+                                            placeholder="Ngày nhận mẫu"
+                                            [showButtonBar]="true"
+                                            [showClear]="true"
+                                            styleClass="w-full"
+                                            [showIcon]="false"
+                                            appendTo="body"
+                                            [dateFormat]="'dd/mm/yy'"
+                                            inputStyleClass="py-2 px-2"
+                                        ></p-calendar>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Nơi gửi mẫu</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="sourceHospitalId"
+                                            [filter]="true"
+                                            [resetFilterOnHide]="true"
+                                            [styleClass]="'w-full'"
+                                            optionLabel="name"
+                                            optionValue="id"
+                                            [options]="sourceHospitals"
+                                            appendTo="body"
+                                            placeholder="Nơi gửi mẫu"
+                                            [showClear]="false"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>BS chỉ định</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="modalityDoctorId"
+                                            [filter]="true"
+                                            [resetFilterOnHide]="true"
+                                            [styleClass]="'w-full'"
+                                            optionLabel="name"
+                                            optionValue="id"
+                                            [options]="orderDoctors"
+                                            appendTo="body"
+                                            placeholder="BS chỉ định"
+                                            [showClear]="false"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Chẩn đoán LS</div>
+                                    </div>
+                                    <div class="col-10 py-1 pr-0">
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="clinicalDiagnosis"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Chẩn đoán lâm sàng"
+                                            class="w-full py-2 px-2"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5 p-0" [formGroup]="caseStudyForm">
+                                <div class="grid w-full m-0 flex-none">
+                                    <div
+                                        class="col-12 pt-3 pb-1 flex align-items-center"
+                                    >
+                                        <span class="font-bold underline">
+                                            3. Thông tin xử lý mẫu
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>KTV xử lý</div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="technicianId"
+                                            [filter]="true"
+                                            [resetFilterOnHide]="true"
+                                            [styleClass]="'w-full'"
+                                            optionLabel="name"
+                                            optionValue="id"
+                                            [options]="technicians"
+                                            appendTo="body"
+                                            placeholder="KTV xử lý"
+                                            [showClear]="false"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Mô tả đại thể</div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <p
+                                            class="w-full h-6rem py-2 px-2"
+                                            [editable]="
+                                                creatingVisit || editingVisit
+                                            "
+                                            propValueAccessor="innerHTML"
+                                            formControlName="description"
+                                        ></p>
+                                    </div>
+                                    <div
+                                        class="col-4 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Số lam kính</div>
+                                    </div>
+                                    <div class="col-8 py-1 pr-0">
+                                        <p-inputNumber
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="numberOfSlideManual"
+                                            placeholder="Số lam kính"
+                                            [useGrouping]="false"
+                                            [showButtons]="false"
+                                            [inputStyleClass]="
+                                                'flex-none w-8 py-2 px-2'
+                                            "
+                                            [min]="0"
+                                        >
+                                        </p-inputNumber>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-7 p-0" [formGroup]="reportForm">
+                                <div class="grid w-full m-0 flex-none">
+                                    <div
+                                        class="col-12 pt-3 pb-1 flex align-items-center"
+                                    >
+                                        <span class="font-bold underline">
+                                            4. Thông tin kết quả
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Code</div>
+                                    </div>
+                                    <div class="col-2 py-1 pr-0">
+                                        <!-- <p-dropdown [disabled]="!(creatingVisit || editingVisit)" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'" (onChange)="setReportTemplate($event)"
                       [filterBy]="'code,templateName'" optionLabel="label" optionValue="id" [options]="reportTemplates" appendTo="body" placeholder="Chọn mẫu báo cáo" [showClear]="true"
                       [(ngModel)]="currentReportTemplate" [ngModelOptions]="{standalone: true}">
                     </p-dropdown> -->
-                    <input [readOnly]="!(creatingVisit || editingVisit)" (keydown.enter)="onSetReportTemplate($event)"
-                      [ngModelOptions]="{standalone: true}" [(ngModel)]="currentTemplateCode" pInputText type="text" placeholder="Code" class= "py-2 px-2 w-full" />
-                    <p-overlayPanel #sltTemplate [showCloseIcon]="false" styleClass="slt-template-panel">
-                      <ng-template pTemplate>
-                        <p-listbox [options]="filteredTemplates" [listStyle]="{'max-height':'250px'}" (onChange)="setReportTemplate($event.value)"
-                        styleClass="w-15rem" optionLabel="code" emptyFilterMessage="Không tìm thấy kết quả"></p-listbox>
-                      </ng-template>
-                    </p-overlayPanel>
-                  </div>
-                  <div class="col-2 py-1 pr-0 pl-1 flex align-items-center">
-                    <div class="white-space-nowrap overflow-hidden text-overflow-ellipsis">{{currentReportTemplate?.templateName ?? ''}}</div>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>BS đọc KQ</div>
-                  </div>
-                  <div class="col-4 py-1 pr-0">
-                    <p-dropdown [disabled]="!(creatingVisit || editingVisit)" formControlName="readDoctor" [filter]="true" [resetFilterOnHide]="true" [styleClass]="'w-full'"
-                      optionLabel="fullname" optionValue="id" [options]="doctors" appendTo="body" placeholder="Bác sĩ đọc kết quả" [showClear]="false">
-                    </p-dropdown>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Mô tả vi thể</div>
-                  </div>
-                  <div class="col-10 py-1 pr-0">
-                    <p class="w-full h-5rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="microbodyDescribe"></p>
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div>Kết luận</div>
-                  </div>
-                  <div class="col-10 py-1 pr-0">
-                    <p class="w-full h-5rem py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="diagnose"></p>
-                  </div>
-                  <div (click)="isShowConsultation=!isShowConsultation" class="col-12 py-1 pr-0 font-semibold cursor-pointer hover:surface-200">
-                    <hr class="m-0 mb-1 font-semibold" />
-                    Hội chẩn <i [ngClass]="{'pi-angle-down': isShowConsultation, 'pi-angle-right' : !isShowConsultation }"
-                    class="pi text-lg relative" style="top: 2px"></i>
-                    <hr class="m-0 mt-1 font-semibold" />
-                  </div>
-                  <div class="col-2 py-1 pr-0 flex align-items-center">
-                    <div [ngClass]="{'flex': isShowConsultation, 'hidden' : !isShowConsultation }" class="align-items-center">
-                      &nbsp;&nbsp;Nội dung<br />
-                      &nbsp;&nbsp;hội chẩn
+                                        <input
+                                            [readOnly]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            (keydown.enter)="
+                                                onSetReportTemplate($event)
+                                            "
+                                            [ngModelOptions]="{
+                                                standalone: true
+                                            }"
+                                            [(ngModel)]="currentTemplateCode"
+                                            pInputText
+                                            type="text"
+                                            placeholder="Code"
+                                            class="py-2 px-2 w-full"
+                                        />
+                                        <p-overlayPanel
+                                            #sltTemplate
+                                            [showCloseIcon]="false"
+                                            styleClass="slt-template-panel"
+                                        >
+                                            <ng-template pTemplate>
+                                                <p-listbox
+                                                    [options]="
+                                                        filteredTemplates
+                                                    "
+                                                    [listStyle]="{
+                                                        'max-height': '250px'
+                                                    }"
+                                                    (onChange)="
+                                                        setReportTemplate(
+                                                            $event.value
+                                                        )
+                                                    "
+                                                    styleClass="w-15rem"
+                                                    optionLabel="code"
+                                                    emptyFilterMessage="Không tìm thấy kết quả"
+                                                ></p-listbox>
+                                            </ng-template>
+                                        </p-overlayPanel>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 pl-1 flex align-items-center"
+                                    >
+                                        <div
+                                            class="white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                                        >
+                                            {{
+                                                currentReportTemplate?.templateName ??
+                                                    ""
+                                            }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>BS đọc KQ</div>
+                                    </div>
+                                    <div class="col-4 py-1 pr-0">
+                                        <p-dropdown
+                                            [disabled]="
+                                                !(creatingVisit || editingVisit)
+                                            "
+                                            formControlName="readDoctor"
+                                            [filter]="true"
+                                            [resetFilterOnHide]="true"
+                                            [styleClass]="'w-full'"
+                                            optionLabel="fullname"
+                                            optionValue="id"
+                                            [options]="doctors"
+                                            appendTo="body"
+                                            placeholder="Bác sĩ đọc kết quả"
+                                            [showClear]="false"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Mô tả vi thể</div>
+                                    </div>
+                                    <div class="col-10 py-1 pr-0">
+                                        <p
+                                            class="w-full h-5rem py-2 px-2"
+                                            [editable]="
+                                                creatingVisit || editingVisit
+                                            "
+                                            propValueAccessor="innerHTML"
+                                            formControlName="microbodyDescribe"
+                                        ></p>
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div>Kết luận</div>
+                                    </div>
+                                    <div class="col-10 py-1 pr-0">
+                                        <p
+                                            class="w-full h-5rem py-2 px-2"
+                                            [editable]="
+                                                creatingVisit || editingVisit
+                                            "
+                                            propValueAccessor="innerHTML"
+                                            formControlName="diagnose"
+                                        ></p>
+                                    </div>
+                                    <div
+                                        (click)="
+                                            isShowConsultation =
+                                                !isShowConsultation
+                                        "
+                                        class="col-12 py-1 pr-0 font-semibold cursor-pointer hover:surface-200"
+                                    >
+                                        <hr class="m-0 mb-1 font-semibold" />
+                                        Hội chẩn
+                                        <i
+                                            [ngClass]="{
+                                                'pi-angle-down':
+                                                    isShowConsultation,
+                                                'pi-angle-right':
+                                                    !isShowConsultation
+                                            }"
+                                            class="pi text-lg relative"
+                                            style="top: 2px"
+                                        ></i>
+                                        <hr class="m-0 mt-1 font-semibold" />
+                                    </div>
+                                    <div
+                                        class="col-2 py-1 pr-0 flex align-items-center"
+                                    >
+                                        <div
+                                            [ngClass]="{
+                                                flex: isShowConsultation,
+                                                hidden: !isShowConsultation
+                                            }"
+                                            class="align-items-center"
+                                        >
+                                            &nbsp;&nbsp;Nội dung<br />
+                                            &nbsp;&nbsp;hội chẩn
+                                        </div>
+                                    </div>
+                                    <div class="col-10 py-1 pr-0">
+                                        <p
+                                            [ngClass]="{
+                                                'h-5rem': isShowConsultation,
+                                                hidden: !isShowConsultation
+                                            }"
+                                            class="w-full py-2 px-2"
+                                            [editable]="
+                                                creatingVisit || editingVisit
+                                            "
+                                            propValueAccessor="innerHTML"
+                                            formControlName="consultation"
+                                        ></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-10 py-1 pr-0">
-                    <p [ngClass]="{'h-5rem': isShowConsultation, 'hidden' : !isShowConsultation }"
-                      class="w-full py-2 px-2" [editable]="creatingVisit || editingVisit" propValueAccessor="innerHTML" formControlName="consultation"></p>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div [ngClass]="{'col-2': isSmallScreen==true, 'col-3' : isSmallScreen==false }" class="p-0">
-          <div class="card mr-3 mb-3 mt-2">
-            <div class="w-full m-0 flex-none">
-              <div class="flex align-items-center">
-                <span class="font-bold">
-                  Lịch sử kết quả
-                </span>
-              </div>
-              <div class="py-0 mt-2">
-                <case-study-table [rows]="totalRelated" [loading]="loadingRelated" class="w-full" [isRelatedList]="true" [tableHeight]="relatedTableHeight"
-                  [caseStudies]="relatedCaseStudies" (onAction)="onCaseStudyAction($event)"></case-study-table>
-              </div>
-            </div>
-          </div>
-          <div [ngClass]="{'h-28rem': isSmallScreen, 'h-29rem' : !isSmallScreen}" class="card mr-3 mt-3 pl-2 flex-grow-1 overflow-auto">
-            <div class="w-full m-0 flex-none">
-              <div class="px-2 flex align-items-center">
-                <span class="font-bold">
-                  Kết quả hình ảnh
-                </span>
-              </div>
-              <div class="grid px-2 mt-0">
-                <div *ngIf="!isSmallScreen" class="col-6 pb-0">
-                  <p-dropdown *ngIf="isShowLiveCam" optionLabel="name" optionValue="id" appendTo="body" [styleClass]="'w-full mb-2'"
-                    [(ngModel)]="selectedMarkType" [options]="markTypes" placeholder="Phương pháp nhuộm*" [showClear]="true">
-                  </p-dropdown>
-                </div>
-                <div [ngClass]="{'col-6': !isSmallScreen, 'col-12' : isSmallScreen}" class="py-1 px-2 mt-2 flex justify-content-end">
-                  <button #btnCamera pButton pRipple type="button" icon="pi pi-camera" class="btn-image flex-none text-2xl font-medium mr-2"
-                    [ngClass]="{'p-button-outlined': !isShowLiveCam}" [loading]="uploadingKeyImage" title="Live camera"
-                    (click)="isShowLiveCam=!isShowLiveCam" [disabled]="!patientForm.value.id"></button>
-                 <button #btnCameraSdk pButton pRipple type="button" icon="pi pi-desktop" class="btn-image flex-none text-2xl font-medium mr-2"
-                    [ngClass]="'p-button-outlined'" title="Camera app"
-                    (click)="openCamApp()" [disabled]="!patientForm.value.id || !caseStudyForm.value.id"></button>
-                  <button [disabled]="!patientForm.value.id" pButton pRipple icon="pi pi-paperclip" title="Chọn file ảnh"
-                    class="p-button-outlined btn-image flex-none text-xl font-medium mr-2" (click)="onCreateKeyImage()"></button>
-                  <button [disabled]="!patientForm.value.id || !selectedCaseStudy.slideCount" pButton pRipple icon="fa-solid fa-microscope"
-                    title="Xem ảnh scan lam" class="p-button-outlined btn-image flex-none text-xl font-medium mr-2" (click)="openViewer()"></button>
-                </div>
-              </div>
-              <div>
-                <div *ngIf="isShowLiveCam" class="col-12 py-1 px-2 mt-0">
-                  <p-dropdown *ngIf="isSmallScreen" optionLabel="name" optionValue="id" appendTo="body" [styleClass]="'w-full mb-2'"
-                    [(ngModel)]="selectedMarkType" [options]="markTypes" placeholder="Phương pháp nhuộm*" [showClear]="true">
-                  </p-dropdown>
-                  <div *ngIf="!selectedCameraId || !patientForm.value.id" class="w-full border-400 border-1 h-10rem overflow-auto">
-                    <div class="w-full h-full flex flex-column justify-content-center align-items-center surface-300">
-                      <i class="pi pi-camera text-6xl"></i>
-                      <span class="mt-2">
-                        Live camera
-                      </span>
+                <div
+                    [ngClass]="{
+                        'col-2': isSmallScreen == true,
+                        'col-3': isSmallScreen == false
+                    }"
+                    class="p-0"
+                >
+                    <div class="card mr-3 mb-3 mt-2">
+                        <div class="w-full m-0 flex-none">
+                            <div class="flex align-items-center">
+                                <span class="font-bold"> Lịch sử kết quả </span>
+                            </div>
+                            <div class="py-0 mt-2">
+                                <case-study-table
+                                    [rows]="totalRelated"
+                                    [loading]="loadingRelated"
+                                    class="w-full"
+                                    [isRelatedList]="true"
+                                    [tableHeight]="relatedTableHeight"
+                                    [caseStudies]="relatedCaseStudies"
+                                    (onAction)="onCaseStudyAction($event)"
+                                ></case-study-table>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div *ngIf="loadingCamera && patientForm.value.id" class="w-full h-10rem flex flex-column justify-content-center align-items-center surface-300">
-                    <i class="pi pi-spin pi-spinner text-xl"></i>
-                    <span class="mt-2">
-                      Loading
+                    <div
+                        [ngClass]="{
+                            'h-28rem': isSmallScreen,
+                            'h-29rem': !isSmallScreen
+                        }"
+                        class="card mr-3 mt-3 pl-2 flex-grow-1 overflow-auto"
+                    >
+                        <div class="w-full m-0 flex-none">
+                            <div class="px-2 flex align-items-center">
+                                <span class="font-bold">
+                                    Kết quả hình ảnh
+                                </span>
+                            </div>
+                            <div class="grid px-2 mt-0">
+                                <div *ngIf="!isSmallScreen" class="col-6 pb-0">
+                                    <p-dropdown
+                                        *ngIf="isShowLiveCam"
+                                        optionLabel="name"
+                                        optionValue="id"
+                                        appendTo="body"
+                                        [styleClass]="'w-full mb-2'"
+                                        [(ngModel)]="selectedMarkType"
+                                        [options]="markTypes"
+                                        placeholder="Phương pháp nhuộm*"
+                                        [showClear]="true"
+                                    >
+                                    </p-dropdown>
+                                </div>
+                                <div
+                                    [ngClass]="{
+                                        'col-6': !isSmallScreen,
+                                        'col-12': isSmallScreen
+                                    }"
+                                    class="py-1 px-2 mt-2 flex justify-content-end"
+                                >
+                                    <button
+                                        #btnCamera
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-camera"
+                                        class="btn-image flex-none text-2xl font-medium mr-2"
+                                        [ngClass]="{
+                                            'p-button-outlined': !isShowLiveCam
+                                        }"
+                                        [loading]="uploadingKeyImage"
+                                        title="Live camera"
+                                        (click)="isShowLiveCam = !isShowLiveCam"
+                                        [disabled]="!patientForm.value.id"
+                                    ></button>
+                                    <button
+                                        #btnCameraSdk
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="pi pi-desktop"
+                                        class="btn-image flex-none text-2xl font-medium mr-2"
+                                        [ngClass]="'p-button-outlined'"
+                                        title="Camera app"
+                                        (click)="openCamApp()"
+                                        [disabled]="
+                                            !patientForm.value.id ||
+                                            !caseStudyForm.value.id
+                                        "
+                                    ></button>
+                                    <button
+                                        [disabled]="!patientForm.value.id"
+                                        pButton
+                                        pRipple
+                                        icon="pi pi-paperclip"
+                                        title="Chọn file ảnh"
+                                        class="p-button-outlined btn-image flex-none text-xl font-medium mr-2"
+                                        (click)="onCreateKeyImage()"
+                                    ></button>
+                                    <button
+                                        [disabled]="
+                                            !patientForm.value.id ||
+                                            !selectedCaseStudy.slideCount
+                                        "
+                                        pButton
+                                        pRipple
+                                        icon="fa-solid fa-microscope"
+                                        title="Xem ảnh scan lam"
+                                        class="p-button-outlined btn-image flex-none text-xl font-medium mr-2"
+                                        (click)="openViewer()"
+                                    ></button>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    *ngIf="isShowLiveCam"
+                                    class="col-12 py-1 px-2 mt-0"
+                                >
+                                    <p-dropdown
+                                        *ngIf="isSmallScreen"
+                                        optionLabel="name"
+                                        optionValue="id"
+                                        appendTo="body"
+                                        [styleClass]="'w-full mb-2'"
+                                        [(ngModel)]="selectedMarkType"
+                                        [options]="markTypes"
+                                        placeholder="Phương pháp nhuộm*"
+                                        [showClear]="true"
+                                    >
+                                    </p-dropdown>
+                                    <div
+                                        *ngIf="
+                                            !selectedCameraId ||
+                                            !patientForm.value.id
+                                        "
+                                        class="w-full border-400 border-1 h-10rem overflow-auto"
+                                    >
+                                        <div
+                                            class="w-full h-full flex flex-column justify-content-center align-items-center surface-300"
+                                        >
+                                            <i
+                                                class="pi pi-camera text-6xl"
+                                            ></i>
+                                            <span class="mt-2">
+                                                Live camera
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            loadingCamera &&
+                                            patientForm.value.id
+                                        "
+                                        class="w-full h-10rem flex flex-column justify-content-center align-items-center surface-300"
+                                    >
+                                        <i
+                                            class="pi pi-spin pi-spinner text-xl"
+                                        ></i>
+                                        <span class="mt-2"> Loading </span>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            !loadingCamera &&
+                                            selectedCameraId &&
+                                            patientForm.value.id
+                                        "
+                                        class="w-full h-full overflow-hidden cursor-pointer"
+                                        [ngClass]="{
+                                            'fixed top-0 right-0 bottom-0 left-0 z-5 bg-black-alpha-90':
+                                                isLiveCamFullScreen,
+                                            relative: !isLiveCamFullScreen
+                                        }"
+                                    >
+                                        <video
+                                            (click)="captureImage($event)"
+                                            #liveCam
+                                            id="live-cam"
+                                            autoplay
+                                            width="100%"
+                                            height="100%"
+                                            [srcObject]="stream"
+                                        ></video>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            icon="fa-solid fa-expand"
+                                            class="text-white hover:surface-400 absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
+                                            *ngIf="!isLiveCamFullScreen"
+                                            (click)="isLiveCamFullScreen = true"
+                                            title="Toàn màn hình"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            type="button"
+                                            icon="pi pi-times"
+                                            class="text-white hover:surface-400 absolute top-0 right-0 p-button-outlined btn-image flex-none text-2xl font-bold border-none"
+                                            *ngIf="isLiveCamFullScreen"
+                                            (click)="
+                                                isLiveCamFullScreen = false
+                                            "
+                                            title="Thoát"
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="w-full px-2 mt-1">
+                                <div
+                                    *ngIf="keyImages.length > 0"
+                                    class="w-full py-2 px-1 border-400 border-1 relative"
+                                >
+                                    <div
+                                        *ngFor="
+                                            let img of keyImages;
+                                            let i = index
+                                        "
+                                        [title]="img.note ?? ''"
+                                        (click)="openKeyImage(i)"
+                                        class="key-images relative inline-block p-2 cursor-pointer"
+                                    >
+                                        <img
+                                            (contextmenu)="
+                                                $event.preventDefault();
+                                                addPrintedKeyImage(img.id)
+                                            "
+                                            [src]="img.src"
+                                            class="w-7rem h-7rem"
+                                            style="object-fit: cover"
+                                        />
+                                        <div
+                                            class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap"
+                                        >
+                                            {{
+                                                img.title ? img.title : "&nbsp;"
+                                            }}
+                                        </div>
+                                        <p-badge
+                                            *ngIf="
+                                                printedKeyImages.indexOf(
+                                                    img.id
+                                                ) > -1
+                                            "
+                                            [value]="
+                                                printedKeyImages.indexOf(
+                                                    img.id
+                                                ) +
+                                                1 +
+                                                ''
+                                            "
+                                            (contextmenu)="
+                                                $event.preventDefault();
+                                                removePrintedKeyImage(img.id)
+                                            "
+                                            styleClass="printed-index absolute top-0 right-0"
+                                        ></p-badge>
+                                    </div>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        type="button"
+                                        icon="fa-solid fa-expand"
+                                        class="absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
+                                        (click)="visibleKeyImages = true"
+                                        title="Xem key images"
+                                    ></button>
+                                </div>
+                                <div
+                                    *ngIf="keyImages.length == 0"
+                                    class="w-full h-15rem flex flex-column justify-content-center align-items-center surface-300"
+                                >
+                                    <i class="pi pi-images text-xl"></i>
+                                    <span class="mt-2"> Key Images </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </as-split-area>
+        <as-split-area
+            [size]="INIT_WORKLIST_HEIGHT"
+            [minSize]="INIT_WORKLIST_MIN"
+        >
+            <div class="grid w-full m-0">
+                <div
+                    [ngClass]="{
+                        'col-6': isSmallScreen,
+                        'col-3': !isSmallScreen,
+                        'pb-1': true
+                    }"
+                >
+                    <span
+                        class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2"
+                    >
+                        DS kết quả giải phẫu bệnh: {{ totalCaseStudies }} kết
+                        quả
                     </span>
-                  </div>
-                  <div *ngIf="!loadingCamera && selectedCameraId && patientForm.value.id" class="w-full h-full overflow-hidden cursor-pointer"
-                    [ngClass]="{'fixed top-0 right-0 bottom-0 left-0 z-5 bg-black-alpha-90': isLiveCamFullScreen, 'relative': !isLiveCamFullScreen}">
-                    <video (click)="captureImage($event)" #liveCam id="live-cam" autoplay width="100%" height="100%"
-                      [srcObject]="stream"></video>
-                    <button pButton pRipple type="button" icon="fa-solid fa-expand" class="text-white hover:surface-400 absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
-                      *ngIf="!isLiveCamFullScreen" (click)="isLiveCamFullScreen=true" title="Toàn màn hình"></button>
-                    <button pButton pRipple type="button" icon="pi pi-times" class="text-white hover:surface-400 absolute top-0 right-0 p-button-outlined btn-image flex-none text-2xl font-bold border-none"
-                      *ngIf="isLiveCamFullScreen" (click)="isLiveCamFullScreen=false" title="Thoát"></button>
-                  </div>
                 </div>
-              </div>
-              <div class="w-full px-2 mt-1">
-                <div *ngIf="keyImages.length>0" class="w-full py-2 px-1 border-400 border-1 relative">
-                  <div *ngFor="let img of keyImages; let i = index" [title]="img.note??''" (click)="openKeyImage(i)"
-                    class="key-images relative inline-block p-2 cursor-pointer">
-                    <img (contextmenu)="$event.preventDefault();addPrintedKeyImage(img.id);" [src]="img.src" class="w-7rem h-7rem" style="object-fit: cover;">
-                    <div class="w-7rem overflow-hidden text-overflow-ellipsis white-space-nowrap">{{img.title ? img.title : '&nbsp;'}}</div>
-                    <p-badge *ngIf="printedKeyImages.indexOf(img.id)>-1" [value]="printedKeyImages.indexOf(img.id)+1+''"
-                      (contextmenu)="$event.preventDefault();removePrintedKeyImage(img.id);" styleClass="printed-index absolute top-0 right-0"></p-badge>
-                  </div>
-                  <button pButton pRipple type="button" icon="fa-solid fa-expand" class="absolute top-0 right-0 p-button-outlined btn-image flex-none text-xl font-medium border-none"
-                    (click)="visibleKeyImages=true" title="Xem key images"></button>
+                <div
+                    [ngClass]="{
+                        'col-6': isSmallScreen,
+                        'col-9': !isSmallScreen,
+                        'pb-1': true
+                    }"
+                >
+                    <div class="flex justify-content-end">
+                        <p-calendar
+                            placeholder="Lọc từ ngày"
+                            [(ngModel)]="searchData.from"
+                            (ngModelChange)="onSearch(searchData)"
+                            [showButtonBar]="true"
+                            [showClear]="true"
+                            [showIcon]="false"
+                            appendTo="body"
+                            [dateFormat]="'dd/mm/yy'"
+                            inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"
+                        ></p-calendar>
+                        <p-calendar
+                            placeholder="Lọc đến ngày"
+                            [(ngModel)]="searchData.to"
+                            (ngModelChange)="onSearch(searchData)"
+                            [showButtonBar]="true"
+                            [showClear]="true"
+                            [showIcon]="false"
+                            appendTo="body"
+                            [dateFormat]="'dd/mm/yy'"
+                            inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"
+                        ></p-calendar>
+                        <p-dropdown
+                            [options]="REPORT_STATES"
+                            [(ngModel)]="searchData.status"
+                            placeholder="Trạng thái"
+                            optionLabel="label"
+                            (ngModelChange)="onSearch(searchData)"
+                            optionValue="value"
+                            [showClear]="true"
+                            styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"
+                        ></p-dropdown>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-search-plus"
+                            class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
+                            (click)="isVisibleSearchCaseStudy = true"
+                            title="Tìm kiếm nâng cao"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-delete-left"
+                            class="btn-search mr-2 flex-none text-2xl p-button-danger font-bold p-button-rounded"
+                            (click)="onSearch(INIT_SEARCH_CASE_STUDY)"
+                            title="Xóa lọc"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-print"
+                            class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
+                            (click)="visibleExportMultipleReports = true"
+                            title="In/Xuất kết quả hàng loạt"
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            type="button"
+                            icon="pi pi-download"
+                            class="btn-search flex-none text-xl font-bold p-button-rounded"
+                            [loading]="loadingExport"
+                            (click)="exportReport()"
+                            title="Xuất báo cáo"
+                        ></button>
+                    </div>
                 </div>
-                <div *ngIf="keyImages.length==0" class="w-full h-15rem flex flex-column justify-content-center align-items-center surface-300">
-                  <i class="pi pi-images text-xl"></i>
-                  <span class="mt-2">
-                    Key Images
-                  </span>
+                <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
+                    <case-study-table
+                        #caseStudyTable
+                        [rows]="totalCaseStudies"
+                        [loading]="loading"
+                        class="w-full"
+                        [tableHeight]="tableHeight"
+                        (onLazyLoad)="onLazyLoad($event)"
+                        (onSelectCaseStudy)="onSelectCaseStudy($event)"
+                        [caseStudies]="caseStudies"
+                        [searchData]="searchData"
+                        (onSearch)="onSearch($event)"
+                        (onAction)="onCaseStudyAction($event)"
+                    ></case-study-table>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </as-split-area>
-    <as-split-area [size]="INIT_WORKLIST_HEIGHT" [minSize]="INIT_WORKLIST_MIN">
-      <div class="grid w-full m-0">
-        <div [ngClass]="{'col-6' : isSmallScreen, 'col-3': !isSmallScreen, 'pb-1': true}">
-          <span class="block sm:text-lg xl:text-xl font-bold text-green-600 pt-2">
-            DS kết quả giải phẫu bệnh: {{totalCaseStudies}} kết quả
-          </span>
-        </div>
-        <div [ngClass]="{'col-6' : isSmallScreen, 'col-9': !isSmallScreen, 'pb-1': true}">
-          <div class="flex justify-content-end">
-            <p-calendar placeholder="Lọc từ ngày" [(ngModel)]="searchData.from" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
-              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
-            <p-calendar placeholder="Lọc đến ngày" [(ngModel)]="searchData.to" (ngModelChange)="onSearch(searchData)" [showButtonBar]="true" [showClear]="true"
-              [showIcon]="false" appendTo="body" [dateFormat]="'dd/mm/yy'" inputStyleClass="mr-2 pl-3 w-14rem border-round-3xl p-inputtext-sm"></p-calendar>
-            <p-dropdown [options]="REPORT_STATES" [(ngModel)]="searchData.status"
-              placeholder="Trạng thái" optionLabel="label" (ngModelChange)="onSearch(searchData)"
-              optionValue="value" [showClear]="true" styleClass="mr-2 border-round-3xl w-14rem px-2 p-inputtext-sm"></p-dropdown>
-            <button pButton pRipple type="button" icon="pi pi-search-plus" class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
-              (click)="isVisibleSearchCaseStudy=true" title="Tìm kiếm nâng cao"></button>
-            <button pButton pRipple type="button" icon="pi pi-delete-left" class="btn-search mr-2 flex-none text-2xl p-button-danger font-bold p-button-rounded"
-              (click)="onSearch(INIT_SEARCH_CASE_STUDY)" title="Xóa lọc"></button>
-            <button pButton pRipple type="button" icon="pi pi-print" class="btn-search mr-2 flex-none text-xl p-button-info font-bold p-button-rounded"
-              (click)="visibleExportMultipleReports=true" title="In/Xuất kết quả hàng loạt"></button>
-            <button pButton pRipple type="button" icon="pi pi-download" class="btn-search flex-none text-xl font-bold p-button-rounded"
-              [loading]="loadingExport" (click)="exportReport()" title="Xuất báo cáo"></button>
-          </div>
-        </div>
-        <div class="col-12 py-0 px-3 w-full flex-auto mt-1">
-          <case-study-table #caseStudyTable [rows]="totalCaseStudies" [loading]="loading" class="w-full" [tableHeight]="tableHeight"
-            (onLazyLoad)="onLazyLoad($event)" (onSelectCaseStudy)="onSelectCaseStudy($event)" [caseStudies]="caseStudies"
-            [searchData]="searchData" (onSearch)="onSearch($event)" (onAction)="onCaseStudyAction($event)"></case-study-table>
-        </div>
-      </div>
-    </as-split-area>
-  </as-split>
+        </as-split-area>
+    </as-split>
 </div>
-<search-case-study [searchData]="searchData" (onCancelSearch)="onCancelSearch()" [(visible)]="isVisibleSearchCaseStudy" (onSearch)="onSearch($event)"></search-case-study>
-<key-images [(visible)]="visibleKeyImages" [images]="keyImages" [activeIndex]="activeKeyImageIndex" [printedKeyImages]="printedKeyImages"
-  (removePrintedKeyImage)="removePrintedKeyImage($event)" (addPrintedKeyImage)="addPrintedKeyImage($event)"></key-images>
-<upload-slide [(visible)]="isVisibleUploadSlide" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-slide>
-<upload-key-image [(visible)]="visibleUploadKeyImage" [patientName]="uploadPatientName" [caseStudyId]="uploadedCaseStudyId"></upload-key-image>
-<confirm-dialog [(visible)]="visibleConfirmCancel" [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'"
-  [cancelLabel]="'Đóng'" [confirmLabel]="'Ok'" (onConfirm)="cancelEdit()"></confirm-dialog>
-<confirm-dialog [(visible)]="visibleConfirmUnapprove" [confirmText]="'Xác nhận bỏ duyệt ca khám?'"
-  [cancelLabel]="'Hủy'" [confirmLabel]="'Ok'" (onConfirm)="unapprove()"></confirm-dialog>
-<confirm-dialog [(visible)]="isVisibleDeleteCase" [confirmText]="textConfirmDeleteCase" (onConfirm)="deleteCaseStudy()"></confirm-dialog>
-<print-preview-popup (onPrint)="onSearch(searchData)" [(visible)]="visiblePrintPreview" [caseStudyId]="caseStudyForm.value.id" [reportId]="reportForm.value.id" *ngIf="reportForm"></print-preview-popup>
-<p-contextMenu [target]="btnCamera" styleClass="w-16rem white-space-nowrap" [model]="cameras"></p-contextMenu>
-<shared-case-study [(visible)]="visibleSharedCaseStudy" [caseStudyId]="sharedCaseStudyId"></shared-case-study>
-<export-multiple-reports [(visible)]="visibleExportMultipleReports"></export-multiple-reports>
+<search-case-study
+    [searchData]="searchData"
+    (onCancelSearch)="onCancelSearch()"
+    [(visible)]="isVisibleSearchCaseStudy"
+    (onSearch)="onSearch($event)"
+></search-case-study>
+<key-images
+    [(visible)]="visibleKeyImages"
+    [images]="keyImages"
+    [activeIndex]="activeKeyImageIndex"
+    [printedKeyImages]="printedKeyImages"
+    (removePrintedKeyImage)="removePrintedKeyImage($event)"
+    (addPrintedKeyImage)="addPrintedKeyImage($event)"
+></key-images>
+<upload-slide
+    [(visible)]="isVisibleUploadSlide"
+    [patientName]="uploadPatientName"
+    [caseStudyId]="uploadedCaseStudyId"
+></upload-slide>
+<upload-key-image
+    [(visible)]="visibleUploadKeyImage"
+    [patientName]="uploadPatientName"
+    [caseStudyId]="uploadedCaseStudyId"
+></upload-key-image>
+<confirm-dialog
+    [(visible)]="visibleConfirmCancel"
+    [confirmText]="'Bạn có chắc muốn hủy bỏ các thay đổi?'"
+    [cancelLabel]="'Đóng'"
+    [confirmLabel]="'Ok'"
+    (onConfirm)="cancelEdit()"
+></confirm-dialog>
+<confirm-dialog
+    [(visible)]="visibleConfirmUnapprove"
+    [confirmText]="'Xác nhận bỏ duyệt ca khám?'"
+    [cancelLabel]="'Hủy'"
+    [confirmLabel]="'Ok'"
+    (onConfirm)="unapprove()"
+></confirm-dialog>
+<confirm-dialog
+    [(visible)]="isVisibleDeleteCase"
+    [confirmText]="textConfirmDeleteCase"
+    (onConfirm)="deleteCaseStudy()"
+></confirm-dialog>
+<print-preview-popup
+    (onPrint)="onSearch(searchData)"
+    [(visible)]="visiblePrintPreview"
+    [caseStudyId]="caseStudyForm.value.id"
+    [reportId]="reportForm.value.id"
+    *ngIf="reportForm"
+></print-preview-popup>
+<p-contextMenu
+    [target]="btnCamera"
+    styleClass="w-16rem white-space-nowrap"
+    [model]="cameras"
+></p-contextMenu>
+<shared-case-study
+    [(visible)]="visibleSharedCaseStudy"
+    [caseStudyId]="sharedCaseStudyId"
+></shared-case-study>
+<export-multiple-reports
+    [(visible)]="visibleExportMultipleReports"
+></export-multiple-reports>

@@ -22,6 +22,8 @@ import { CaseStudyTableModule } from '../worklist/case-study-table/case-study-ta
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ListboxModule } from 'primeng/listbox';
 
+import { SortEvent } from 'primeng/api';
+
 @NgModule({
   declarations: [
     VTWorklistComponent,
@@ -48,7 +50,7 @@ import { ListboxModule } from 'primeng/listbox';
     KeyImagesModule,
     ReportModule,
     CaseStudyTableModule,
-    CommonModule,
+
   ],
   exports: [
     VTWorklistComponent
