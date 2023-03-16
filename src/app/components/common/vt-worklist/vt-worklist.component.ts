@@ -404,6 +404,7 @@ export class VTWorklistComponent implements OnInit, OnDestroy, AfterContentInit 
 
   search() {
     this.loading = true;
+    this.ref.detectChanges();
     let datePipe = new DatePipe('en-US');
     this.caseStudyService.search({ ...this.searchData }).subscribe({
       next: (res) => {

@@ -35,6 +35,8 @@ export class CaseStudyTableComponent implements OnInit {
     @Input() rows = 0;
     @Input() loading = false;
     @Input() isRelatedList = false;
+    // input searchData
+
     @Output() onLazyLoad = new EventEmitter<any>();
 
     @Output() onAction = new EventEmitter<any>();
@@ -298,13 +300,13 @@ export class CaseStudyTableComponent implements OnInit {
                 patientName: '',
                 patientCode: '',
                 requestType: '',
-                from: '',
-                to: '',
+                from: this.searchData.from,
+                to: this.searchData.to,
                 approveFrom: '',
                 approveTo: '',
                 page: 1,
                 pageSize: 50,
-                status: '',
+                status: this.searchData.status,
                 conclusion: '',
                 diagnose: '',
                 specimensCode: '',

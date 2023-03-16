@@ -49,8 +49,6 @@
                     Trạng thái
                 </th>
 
-
-
                 <!-- Start: Các cột tiêu đề từ Ngày tạo đến Kết luận-->
                 <th
                     *ngFor="let col of cols"
@@ -58,7 +56,6 @@
                     [style]="{ width: col.width }"
                     pResizableColumn
                     class="bg-white flex align-items-center overflow-hidden text-overflow-ellipsis flex-none"
-
                     (click)="customSort(col)"
                 >
                     {{ col.header }}
@@ -70,8 +67,6 @@
                     ></p-sortIcon>
                 </th>
                 <!-- End: Các cột tiêu đề từ Ngày tạo đến Kết luận-->
-
-
             </tr>
             <tr *ngIf="isShowSearch" style="height: 35px">
                 <study-table-search
@@ -133,7 +128,6 @@
                     [title]="rowData[col.field]"
                     [innerHTML]="rowData[col.field]"
                 ></td>
-
             </tr>
         </ng-template>
         <!-- End template body -->
